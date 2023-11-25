@@ -1,0 +1,7 @@
+{
+  "landing": {
+    "stepOneDescription": "Edit <<FILE_NAME>> to change this screen and then come back to see your edits.",
+    "testReduxTitle": "Test Redux and Persistence",
+    "testReduxDescription": "Click the button below to test Redux. Check if the state of the flag is kept when closing the app to verify persistence."
+  }
+}
