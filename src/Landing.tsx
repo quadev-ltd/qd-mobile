@@ -111,7 +111,7 @@ function Landing(): JSX.Element {
             </Text>
             <View style={styles.buttonContainer}>
               <Pressable
-                style={({ pressed }) => [
+                style={({ pressed }: { pressed: boolean }) => [
                   styles.button,
                   pressed && styles.buttonPressed
                 ]
