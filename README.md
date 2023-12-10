@@ -80,3 +80,11 @@ To learn more about React Native, take a look at the following resources:
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
 
+
+
+
+# TODO
+- firebase
+- react-native-config and environments
+- react-native-camera-vision
+- react-navigation

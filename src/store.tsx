@@ -12,12 +12,12 @@ import test from './test-slice';
 
 const middlewares: Middleware[] = [];
 
-if (__DEV__ && Platform.OS !== 'ios') {
-  // Execution needs to be synchronous
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const createDebugger = require('redux-flipper').default;
-  middlewares.push(createDebugger());
-}
+// if (__DEV__ && Platform.OS !== 'ios') {
+//   // Execution needs to be synchronous
+//   // eslint-disable-next-line @typescript-eslint/no-var-requires
+//   const createDebugger = require('redux-flipper').default;
+//   middlewares.push(createDebugger());
+// }
 
 
 const rootReducer = combineReducers({
