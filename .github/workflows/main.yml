@@ -1,0 +1,28 @@
+name: CI Workflow
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install --immutable
+        working-directory: app
+
+      - name: Lint
+        run: yarn lint
+        working-directory: app
+
+      - name: TypeScript compilation
+        run: yarn tsc
+        working-directory: app
+
+      - name: Run tests
+        run: yarn test
+        working-directory: app
