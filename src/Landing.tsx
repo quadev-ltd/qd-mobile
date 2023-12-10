@@ -63,8 +63,6 @@ function Landing(): JSX.Element {
   };
 
   const toggleFlag = () => dispatch(toggle())
-  const text = t('landing.stepOneDescription');
-  const stepOneDescription = text.split('<<FILE_NAME>>');
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -147,9 +145,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
   },
   button: {
     borderWidth: 2,
