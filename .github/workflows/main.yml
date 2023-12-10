@@ -13,16 +13,16 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
-        working-directory: app
+        working-directory: .
 
       - name: Lint
         run: yarn lint
-        working-directory: app
+        working-directory: .
 
       - name: TypeScript compilation
         run: yarn tsc
-        working-directory: app
+        working-directory: .
 
       - name: Run tests
         run: yarn test
-        working-directory: app
+        working-directory: .
