@@ -4,7 +4,6 @@ import {
   Middleware,
 } from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
-import { Platform } from 'react-native';
 import { Persistor, persistReducer, persistStore } from 'redux-persist';
 
 import { generateMMKVStorage } from './mmkv';

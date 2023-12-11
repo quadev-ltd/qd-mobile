@@ -2,13 +2,12 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "strict": true,
     "strictFunctionTypes": true,
-    "baseUrl": ".",
-    "paths": {
-      "appConfig": ["config"],
-      "src/*": ["src/*"],
-    }
   }
 }
