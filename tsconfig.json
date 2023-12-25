@@ -1,13 +1,15 @@
-// prettier-ignore
 {
-  "extends": "@react-native/typescript-config/tsconfig.json",
+  "extends": "@react-native/typescript-config/tsconfig.json",     /* Recommended React Native TSConfig base */
   "compilerOptions": {
-    "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "strict": true,
     "strictFunctionTypes": true,
-  }
+//    "baseUrl": ".",
+//    "paths": {
+//      "@/*": ["src/*"],
+//    },
+    "types": ["react-native", "jest", "@testing-library/react-native/extend-expect"],
+  },
+  "include": ["src", "jest.config.ts", "jest.setup.ts", "scripts"]
 }

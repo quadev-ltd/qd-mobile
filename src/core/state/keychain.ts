@@ -12,9 +12,8 @@ export type PersistKey = {
 export const getMMKVEncryptionKey: () => Promise<
   string | undefined
 > = async () => {
-  const existingCredentials = await Keychain.getInternetCredentials(
-    MMKV_ENCRYPTION_KEY
-  );
+  const existingCredentials =
+    await Keychain.getInternetCredentials(MMKV_ENCRYPTION_KEY);
   if (existingCredentials) {
     return existingCredentials.password;
   }
@@ -23,7 +22,7 @@ export const getMMKVEncryptionKey: () => Promise<
   const hasSetCredentials = await Keychain.setInternetCredentials(
     MMKV_ENCRYPTION_KEY,
     randomBytesStringToBase64,
-    randomBytesStringToBase64
+    randomBytesStringToBase64,
   );
   if (hasSetCredentials) {
     return randomBytesStringToBase64;

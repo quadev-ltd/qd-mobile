@@ -1,13 +1,12 @@
 import 'react-native';
-import React from 'react';
-import renderer from 'react-test-renderer';
+import { create } from 'react-test-renderer';
 
-import Landing from './Landing';
+import { Landing } from './Landing.tsx';
 
 // Mocking useDispatch and useSelector
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
-  useDispatch: jest.fn()
+  useDispatch: jest.fn(),
 }));
 jest.mock('react-i18next', () => ({
   useTranslation: jest.fn().mockImplementation(() => ({
@@ -20,5 +19,5 @@ jest.mock('react-i18next', () => ({
 // Note: test renderer must be required after react-native.
 
 it('renders correctly', () => {
-  renderer.create(<Landing />);
+  create(<Landing />);
 });
