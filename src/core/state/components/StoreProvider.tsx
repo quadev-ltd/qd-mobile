@@ -1,12 +1,10 @@
-import { Store } from '@reduxjs/toolkit';
-import React, { FC, useEffect, useState } from 'react';
+import { type Store } from '@reduxjs/toolkit';
+import { type FC, useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
-import { Persistor } from 'redux-persist';
+import { type Persistor } from 'redux-persist';
 
-import {
-  getMMKVEncryptionKey,
-} from './keychain';
-import { generateStore } from './store';
+import { getMMKVEncryptionKey } from '../keychain.ts';
+import { generateStore } from '../store.ts';
 
 interface StoreDetails {
   store: Store;
@@ -17,7 +15,9 @@ interface IProps {
 }
 
 export const StoreProvider: FC<IProps> = ({ children }) => {
-  const [storeDetails, setStoreDetails] = useState<StoreDetails | undefined>(undefined);
+  const [storeDetails, setStoreDetails] = useState<StoreDetails | undefined>(
+    undefined,
+  );
   const initMMKV = async () => {
     const mmkvEncryptionKey = await getMMKVEncryptionKey();
     if (mmkvEncryptionKey) {
@@ -26,7 +26,7 @@ export const StoreProvider: FC<IProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    initMMKV().catch((error) => {
+    initMMKV().catch(error => {
       console.error('There has been an error loading the store:', error);
       throw error;
     });
@@ -38,5 +38,3 @@ export const StoreProvider: FC<IProps> = ({ children }) => {
 
   return children(storeDetails);
 };
-
-export default StoreProvider;

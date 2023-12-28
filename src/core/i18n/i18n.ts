@@ -1,14 +1,19 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import { en } from '../translations';
+import { en } from './translations';
+
+export const defaultNS = 'translation';
+export const resources = {
+  en: {
+    translation: en,
+  },
+} as const;
 
 i18n.use(initReactI18next).init({
-  resources: {
-    en: {
-      translation: en,
-    },
-  },
+  defaultNS,
+  resources,
+  ns: [defaultNS],
   // Use localize library to get the device language
   // lng: RNLocalize.getLocales()[0].languageTag,
   lng: 'en',
@@ -18,4 +23,4 @@ i18n.use(initReactI18next).init({
   },
 });
 
-export default i18n;
+export { default as i18n } from 'i18next';

@@ -8,16 +8,14 @@ const initialState: TestSliceState = {
   isOn: false,
 };
 
-export const authSlice = createSlice({
-  name: 'auth',
+export const testSlice = createSlice({
+  name: 'test',
   initialState,
   reducers: {
-    toggle: (state) => {
+    toggle: state => {
       state.isOn = !state.isOn;
     },
   },
 });
 
-export default authSlice.reducer;
-
-export const { toggle } = authSlice.actions;
+export const { toggle } = testSlice.actions;

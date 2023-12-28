@@ -1,4 +1,3 @@
-import React from 'react';
 import type { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -18,16 +17,16 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from './store';
-import { toggle } from './test-slice';
+import { useAppDispatch, useAppSelector } from '../core/state/hooks.ts';
+import { type RootState } from '../core/state/store.ts';
+import { toggle } from '../core/state/test-slice.ts';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({ children, title }: SectionProps): JSX.Element {
+export function Section({ children, title }: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -53,16 +52,16 @@ function Section({ children, title }: SectionProps): JSX.Element {
   );
 }
 
-function Landing(): JSX.Element {
+export function Landing(): JSX.Element {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const flag = useSelector((state: RootState) => state.test.isOn);
+  const dispatch = useAppDispatch();
+  const flag = useAppSelector((state: RootState) => state.test.isOn);
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const toggleFlag = () => dispatch(toggle())
+  const toggleFlag = () => dispatch(toggle());
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -78,15 +77,13 @@ function Landing(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="QD Mobile">
-            <Text>
-              QuaDev Mobile App.
-            </Text>
+          <Section title={t('landing.appName')}>
+            <Text>{t('landing.appDescription')}</Text>
           </Section>
-          <Section title="See Your Changes">
+          <Section title={t('landing.instructionsTitle')}>
             <ReloadInstructions />
           </Section>
-          <Section title="Debug">
+          <Section title={t('landing.debugTitle')}>
             <DebugInstructions />
           </Section>
 
@@ -113,14 +110,17 @@ function Landing(): JSX.Element {
               <Pressable
                 style={({ pressed }: { pressed: boolean }) => [
                   styles.button,
-                  pressed && styles.buttonPressed
-                ]
-              }
-                onPress={toggleFlag}
-              >
-                <Text style={styles.buttonText}>Toggle flag</Text>
+                  pressed && styles.buttonPressed,
+                ]}
+                onPress={toggleFlag}>
+                <Text style={styles.buttonText}>{t('landing.flagTitle')}</Text>
               </Pressable>
-              <Text style={styles.sectionDescription}>Test flag is: <Text style={styles.bold}>{flag ? 'on' : 'off'}</Text></Text>
+              <Text style={styles.sectionDescription}>
+                {t('landing.flagTitle')}
+                <Text style={styles.bold}>
+                  {flag ? t('landing.flagOn') : t('landing.flagOff')}
+                </Text>
+              </Text>
             </View>
           </View>
 
@@ -172,5 +172,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default Landing;
