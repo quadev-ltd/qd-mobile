@@ -12,6 +12,9 @@
   "dependencies": {
     "@formatjs/intl-locale": "^3.4.3",
     "@formatjs/intl-pluralrules": "^5.2.10",
+    "@react-native-firebase/analytics": "^18.7.3",
+    "@react-native-firebase/app": "^18.7.3",
+    "@react-native-firebase/crashlytics": "^18.7.3",
     "@reduxjs/toolkit": "2.0.1",
     "base-64": "^1.0.0",
     "i18next": "^23.7.6",
