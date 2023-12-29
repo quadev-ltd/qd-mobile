@@ -85,10 +85,9 @@ To learn more about React Native, take a look at the following resources:
 
 # TODO
 - firebase
-  - crashlytics
   - app distribution
-  - analytics
   - authentication
+  - terraform
 - react-native-config and environments
   - zod
   - environments
