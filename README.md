@@ -81,9 +81,13 @@ To learn more about React Native, take a look at the following resources:
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
 
 
-
+# Docker image
+```shell
+docker build --platform=linux/amd64 --tag tavoargento/react-native-android:0.0.1 .
+```
 
 # TODO
+- Readme
 - firebase
   - crashlytics
   - app distribution
