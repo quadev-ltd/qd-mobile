@@ -74,5 +74,5 @@ yarn-error.log
 /coverage
 
 # firebase
-/google-services.json
-/GoogleService-Info.plist
+google-services.json
+GoogleService-Info.plist
