@@ -30,7 +30,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     container:
-      image: tavoargento/easydriver-react-native-android:0.0.1
+      image: reactnativecommunity/react-native-android
 
     steps:
       - uses: actions/checkout@v2
@@ -39,7 +39,7 @@ jobs:
       - name: Build Android App
         run: npx react-native run-android
 
-  build:
+  build-ios:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
