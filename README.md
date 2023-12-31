@@ -89,10 +89,9 @@ docker build --platform=linux/amd64 --tag tavoargento/react-native-android:0.0.1
 # TODO
 - Readme
 - firebase
-  - crashlytics
   - app distribution
-  - analytics
   - authentication
+  - terraform
 - react-native-config and environments
   - zod
   - environments
