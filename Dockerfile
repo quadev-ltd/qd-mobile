@@ -56,7 +56,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         # Dev dependencies required by linters
         jq \
         shellcheck \
-    && gem install bundler \
+    && gem install bundler -v 2.4.22 \
     && gem install fastlane -NV \
     && rm -rf /var/lib/apt/lists/*;
 
