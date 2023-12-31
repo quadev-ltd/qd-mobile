@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Build Android App
-        run: npx react-native run-android
+        run: cd android && ./gradlew assembleRelease
 
   build-ios:
     runs-on: macos-latest
