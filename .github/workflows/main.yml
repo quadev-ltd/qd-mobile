@@ -62,6 +62,11 @@ jobs:
       - name: Install dependencies
         run: |
           yarn install
+
+      - name: Temporary fix
+        run: |
+          PODSPEC_FILE="node_modules/react-native/third-party-podspecs/boost.podspec"
+          sed -i '' 's|https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.tar.bz2|https://sourceforge.net/projects/boost/files/boost/1.83.0/boost_1_83_0.tar.bz2|' "$PODSPEC_FILE"
       
       - name: Install CocoaPods
         run: |
