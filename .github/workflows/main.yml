@@ -34,8 +34,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Install dependencies
         run: yarn install
+
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/google-services.json
+
       - name: Build Android App
         run: cd android && ./gradlew assembleRelease
 
