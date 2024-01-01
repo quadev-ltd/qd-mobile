@@ -46,23 +46,33 @@ jobs:
 
   build-ios:
     runs-on: macos-latest
+    
     steps:
       - uses: actions/checkout@v2
+    
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '20'
+      
+      - name: Add firebase services file
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
+        
       - name: Install dependencies
         run: |
           yarn install
+      
       - name: Install CocoaPods
         run: |
           sudo gem install cocoapods
+      
       - name: Install Pods
         run: |
           cd ios
           pod cache clean --all
           pod install
+      
       - name: Build iOS App
         run: |
           npx react-native run-ios --no-packager
