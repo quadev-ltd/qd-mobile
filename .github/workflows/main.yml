@@ -74,6 +74,7 @@ jobs:
       
       - name: Install Pods
         run: |
+          cd ios
           pod cache clean --all
           rm -rf Podfile.lock
           pod repo update
