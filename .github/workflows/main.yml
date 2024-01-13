@@ -26,3 +26,76 @@ jobs:
       - name: Run tests
         run: yarn test
         working-directory: .
+
+  build-android:
+    runs-on: ubuntu-latest
+    container:
+      image: tavoargento/react-native-android-ci:0.0.1
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/google-services.json
+
+      - name: Build Android App
+        run: cd android && ./gradlew assembleRelease
+
+  build-ios:
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+    
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      
+      - name: Add firebase services file
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
+        
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+      
+      - name: Install Pods
+        run: |
+          cd ios
+          pod cache clean --all
+          rm -rf Podfile.lock
+          pod repo update
+          pod install
+
+      - name: Build iOS App
+        run: |
+          npx react-native run-ios --no-packager
+
+#  build-and-push-android-docker-image:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Check Out Repo
+#        uses: actions/checkout@v2
+#
+#      - name: Log in to Docker Hub
+#        uses: docker/login-action@v1
+#        with:
+#          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+#
+#      - name: Build and Push Docker image
+#        uses: docker/build-push-action@v2
+#        with:
+#          context: .
+#          file: ./Dockerfile
+#          push: true
+#          tags: tavoargento/react-native-android-ci:0.0.1

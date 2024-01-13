@@ -72,3 +72,7 @@ yarn-error.log
 
 # testing
 /coverage
+
+# firebase
+google-services.json
+GoogleService-Info.plist
