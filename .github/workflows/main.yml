@@ -39,7 +39,7 @@ jobs:
         run: yarn install
 
       - name: Decode google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
 
       - name: Decode .env.dev file
         run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
