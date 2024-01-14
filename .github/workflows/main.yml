@@ -41,8 +41,11 @@ jobs:
       - name: Decode google-services.json
         run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/google-services.json
 
+      - name: Decode .env.dev file
+        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+
       - name: Build Android App
-        run: cd android && ./gradlew assembleRelease
+        run: cd android && ./gradlew assembleDevelopmentDebug
 
   build-ios:
     runs-on: macos-latest
