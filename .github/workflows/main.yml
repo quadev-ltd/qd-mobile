@@ -60,7 +60,8 @@ jobs:
       
       - name: Add firebase services file
         run: |
-          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/dev/GoogleService-Info.plist
+          mkdir -p ./ios/QDMobile/firebase/dev
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
 
       - name: Decode .env.dev file
         run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
