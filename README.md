@@ -9,12 +9,14 @@ QuaDev Mobile App
   - Download the `google-services.json` file from the android app within the [Firebase Console](https://console.firebase.google.com/u/0/project/quadevapp/settings/general/ios:com.qdmobile)
   - Move it to:
     - Development: `/app/android/app/src/development/google-services.json`
+    - Production: `/app/android/app/src/production/google-services.json`
 
 ## For iOS
 - Set up Firebase
   - Download the `GoogleService-Info.plist` file from the android app within the [Firebase Console](https://console.firebase.google.com/u/0/project/quadevapp/settings/general/android:com.qdmobile)
   - Move it to:
-    - Development: `/Users/gustavofranco/Documents/qd-mobile/ios/QDMobile/GoogleService-Info.plist`
+    - Development: `/Users/gustavofranco/Documents/qd-mobile/ios/QDMobile/firebase/dev/GoogleService-Info.plist`
+    - Production: `/Users/gustavofranco/Documents/qd-mobile/ios/QDMobile/firebase/prod/GoogleService-Info.plist`
 
 # Quickstart
 
