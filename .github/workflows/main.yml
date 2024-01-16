@@ -39,10 +39,13 @@ jobs:
         run: yarn install
 
       - name: Decode google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
+
+      - name: Decode .env.dev file
+        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
 
       - name: Build Android App
-        run: cd android && ./gradlew assembleRelease
+        run: cd android && ./gradlew assembleDevelopmentDebug
 
   build-ios:
     runs-on: macos-latest
@@ -70,9 +73,6 @@ jobs:
       - name: Install Pods
         run: |
           cd ios
-          pod cache clean --all
-          rm -rf Podfile.lock
-          pod repo update
           pod install
 
       - name: Build iOS App
