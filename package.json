@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "react-native run-android --mode=developmentDebug",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
@@ -21,12 +21,14 @@
     "react": "18.2.0",
     "react-i18next": "^13.5.0",
     "react-native": "0.73.1",
+    "react-native-config": "^1.5.1",
     "react-native-flipper": "^0.212.0",
     "react-native-keychain": "^8.1.2",
     "react-native-mmkv": "^2.11.0",
     "react-native-securerandom": "^1.0.1",
     "react-redux": "9.0.2",
-    "redux-flipper": "^2.0.2"
+    "redux-flipper": "^2.0.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -48,6 +50,7 @@
     "@typescript-eslint/parser": "^6.11.0",
     "babel-jest": "^29.6.3",
     "babel-plugin-module-resolver": "^5.0.0",
+    "dotenv": "^16.3.1",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -62,6 +65,8 @@
     "metro-react-native-babel-preset": "0.76.8",
     "prettier": "3.1.1",
     "react-test-renderer": "18.2.0",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2",
     "typescript": "5.0.4"
   },
   "engines": {

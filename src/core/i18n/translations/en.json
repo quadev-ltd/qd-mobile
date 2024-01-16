@@ -1,15 +1,8 @@
 {
   "landing": {
-    "appName": "QD Mobile",
-    "appDescription": "QuaDev Mobile App.",
-    "instructionsTitle": "See Your Changes",
-    "debugTitle": "Debug",
-    "flagTitle": "Toggle flag",
-    "flagDescription": "Test flag is:",
-    "flagOn": "on",
-    "flagOff": "of",
-    "stepOneDescription": "Edit <<FILE_NAME>> to change this screen and then come back to see your edits.",
-    "testReduxTitle": "Test Redux and Persistence",
-    "testReduxDescription": "Click the button below to test Redux. Check if the state of the flag is kept when closing the app to verify persistence."
+    "screenTitle": "Landing Screen",
+    "title": "Landing",
+    "description": "This is the landing page",
+    "environment": "Environment"
   }
 }

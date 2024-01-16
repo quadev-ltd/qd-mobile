@@ -6,10 +6,11 @@ import { ActivityIndicator } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import { i18n } from '../core/i18n/i18n.ts';
-import { StoreProvider } from '../core/state/components/StoreProvider.tsx';
+import { i18n } from './core/i18n/i18n.ts';
+import { StoreProvider } from './core/state/components/StoreProvider.tsx';
+import { LandingScreen } from './screens/landing/LandingScreen.tsx';
 
-import { Landing } from './Landing.tsx';
+import { env } from '@/core/env';
 
 export const App = () => {
   return (
@@ -20,7 +21,7 @@ export const App = () => {
             <PersistGate
               loading={<ActivityIndicator size="large" color="#000000" />}
               persistor={persistor}>
-              <Landing />
+              <LandingScreen environment={env.APPLICATION_ENVIRONMENT} />
             </PersistGate>
           </Provider>
         )}
