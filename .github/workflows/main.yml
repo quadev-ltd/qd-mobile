@@ -74,6 +74,11 @@ jobs:
         run: |
           sudo gem install cocoapods
 
+      - name: Install Pods
+        run: |
+          cd ios
+          pod install
+
       - name: Build iOS App
         run: |
           npx react-native run-ios --no-packager
