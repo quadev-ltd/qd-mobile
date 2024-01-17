@@ -9,7 +9,7 @@
     "paths": {
       "@/*": ["src/*"],
     },
-    "types": ["react-native", "jest", "@testing-library/react-native/extend-expect"],
+    "types": ["react-native", "jest", "@testing-library/react-native/extend-expect", "node"],
   },
-  "include": ["src", "jest.config.ts", "jest.setup.ts", "scripts"]
+  "include": ["src", "jest.config.ts", "jest.setup.ts", "scripts", "./functional/**/*.ts"]
 }

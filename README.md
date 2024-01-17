@@ -69,15 +69,11 @@ docker build --platform=linux/amd64 --tag tavoargento/react-native-android:0.0.1
 ```
 
 # TODO
-- import aliases
-- Readme
 - firebase
   - app distribution
   - authentication
   - terraform
-- react-native-config and environments
-  - zod
-  - environments
-- react-native-camera-vision
+- Functional tests 
 - react-navigation
 - paper
+- react-native-camera-vision
