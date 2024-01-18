@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
-import { Layout } from '../../components/Layout';
-import { Section } from '../../components/Section';
+import { Layout } from '@/components/Layout';
+import { Section } from '@/components/Section';
 
 interface LandingScreenProps {
   environment?: string;
