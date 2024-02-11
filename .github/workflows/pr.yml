@@ -72,7 +72,10 @@ jobs:
       - name: Decode release key file
         run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
 
-      - name: Build Android App
+      - name: Debug environment variables
+        run: echo "STORE_FILE=${STORE_FILE}"
+
+      - name: Build Android Release App
         run: cd android && ./gradlew assembleDevelopmentRelease
 
   build-ios:
