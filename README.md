@@ -50,17 +50,70 @@ If everything is set up _correctly_, you should see your new app running in your
 
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
+## Tchnical details
 
-# Learn More
+### Environments
+The `react-native-config` npm package handles environment variables. A .env file will contain the environment variables.
 
-To learn more about React Native, take a look at the following resources:
+- Development: `.env.dev`
+- Production: `.env.prod`
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+In android the mapping to the corresponding environments is performed in `android/app/build.gradle` where there is an environment file determined for each flavor:
+```groovy
+project.ext.envConfigFiles = [
+        development: ".env.dev",
+        production: ".env.prod"
+]
+```
+Each flavor has its own application id which map them to their own firebase project:
+```groovy
+productFlavors {
+    development {
+        dimension "default"
+        applicationId "com.qdmobile.dev"
+    }
+    production {
+        dimension "default"
+        applicationId "com.qdmobile"
+    }
+    // Define other flavors as needed
+}
+ ```
+To build **release** or **debug** variants of each flavor you need to run the following commands from `/app/android`:
+- For development debug: `./gradlew assembleDevelopmentDebug`
+- For development release: `./gradlew assembleDevelopmentRelease`
+- For production debug: `./gradlew assembleProductionDebug`
+- For production release: `./gradlew assembleProductionRelease`
 
+Configuration variables can be exploited from many places. Android, iOS, Javascript bundle, gradle and more.
+For more info about this read [react-native-config docs](https://www.npmjs.com/package/react-native-config)
+
+### Versioning
+Use `yarn update-version <<semv-new-version>>` to update the version in package.json and in android versionName in build.gradle file.
+
+### APK signing
+For distribution through stores you need a signed apk.  
+To sign your apk you first need to create an Signing Key file.  
+To do so, choose a keystore file name, an alias and set a password to it running the following command:
+```shell
+keytool -genkeypair -v -keystore release-key.keystore -alias easydriver.key -keyalg RSA -keysize 2048 -validity 10000
+```
+This will generate the key file in the current working directory. Make sure that the key is in `android/app` folder (e.g. `app/android/app/release-key.keystore`).  
+The signing configuration is defined in `app/android/app/build.gradle` file under the **release** variant:
+```groovy
+        release {
+          if (project.hasProperty('STORE_FILE')) {
+            storeFile file(project.env.get("STORE_FILE"))
+            storePassword project.env.get("STORE_PASSWORD")
+            keyAlias project.env.get("STORE_ALIAS")
+            keyPassword project.env.get("STORE_KEY_PASSWORD")
+          }
+        }
+```
+You will need to provide the values in the .env file.
+If you are creating a signed release build manually, then you can add the exports above in your local configuration file (`zshrc`, `.bashrc`, etc.) and then build any of the **release** variants to get your signed apk:
+- `./gradlew assembleDevelopmentRelease`
+- `./gradlew assembleProductionRelease`
 
 # Docker image
 If running on a M1 or M2 mac, you will need to build the image with the following command to simulate an amd64 processor architecture
