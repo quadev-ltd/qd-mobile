@@ -99,6 +99,8 @@ android {
             keyPassword 'android'
         }
         release {
+            println("\n\n\n\n\n\n\n\n\n\nSTOIRE_FILE:::::")
+            println(project.env.get("STORE_FILE"))
             if (project.env.get("STORE_FILE")) {
                 storeFile file(project.env.get("STORE_FILE"))
                 storePassword project.env.get("STORE_PASSWORD")
