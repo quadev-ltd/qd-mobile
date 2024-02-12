@@ -76,7 +76,7 @@ jobs:
         run: echo "STORE_FILE=${STORE_FILE}"
 
       - name: Build Android Release App
-        run: cd android && ./gradlew assembleDevelopmentRelease
+        run: cd android && ./gradlew assembleDevelopmentRelease -PSTORE_FILE="${STORE_FILE}" -PSTORE_PASSWORD="${STORE_PASSWORD}" -PSTORE_ALIAS="${STORE_ALIAS}" -PSTORE_KEY_PASSWORD="${STORE_KEY_PASSWORD}"
 
   build-ios:
     runs-on: macos-latest
