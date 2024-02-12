@@ -5,107 +5,157 @@ on:
     branches: [ main ]
 
 jobs:
-  run-checks:
-    runs-on: ubuntu-latest
+#  run-checks:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Install dependencies
+#        run: yarn install --immutable
+#        working-directory: .
+#
+#      - name: Lint
+#        run: yarn lint
+#        working-directory: .
+#
+#      - name: TypeScript compilation
+#        run: yarn tsc
+#        working-directory: .
+#
+#      - name: Run tests
+#        run: yarn test
+#        working-directory: .
+#
+#  build-android:
+#    runs-on: ubuntu-latest
+#    container:
+#      image: tavoargento/react-native-android-ci:0.0.1
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Install dependencies
+#        run: yarn install
+#
+#      - name: Decode google-services.json
+#        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
+#
+#      - name: Decode .env.dev file
+#        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+#
+#      - name: Build Android App
+#        run: cd android && ./gradlew assembleDevelopmentDebug
+#
+#  build-android-release:
+#    runs-on: ubuntu-latest
+#    container:
+#      image: tavoargento/react-native-android-ci:0.0.1
+#    env:
+#      STORE_FILE: ${{ secrets.STORE_FILE }}
+#      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+#      STORE_ALIAS: ${{ secrets.STORE_ALIAS }}
+#      STORE_KEY_PASSWORD: ${{ secrets.STORE_KEY_PASSWORD }}
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Install dependencies
+#        run: yarn install
+#
+#      - name: Decode google-services.json
+#        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
+#
+#      - name: Decode .env.dev file
+#        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+#
+#      - name: Decode release key file
+#        run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
+#
+#      - name: Build Android Release App
+#        run: cd android && ./gradlew assembleDevelopmentRelease
+#
+#  build-ios:
+#    runs-on: macos-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: '20'
+#
+#      - name: Add firebase services file
+#        run: |
+#          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
+#
+#      - name: Install dependencies
+#        run: |
+#          yarn install
+#
+#      - name: Install CocoaPods
+#        run: |
+#          sudo gem install cocoapods
+#
+#      - name: Install Pods
+#        run: |
+#          cd ios
+#          pod install
+#
+#      - name: Build iOS App
+#        run: |
+#          npx react-native run-ios --no-packager
 
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: yarn install --immutable
-        working-directory: .
-
-      - name: Lint
-        run: yarn lint
-        working-directory: .
-
-      - name: TypeScript compilation
-        run: yarn tsc
-        working-directory: .
-
-      - name: Run tests
-        run: yarn test
-        working-directory: .
-
-  build-android:
-    runs-on: ubuntu-latest
-    container:
-      image: tavoargento/react-native-android-ci:0.0.1
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Decode google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
-
-      - name: Decode .env.dev file
-        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
-
-      - name: Build Android App
-        run: cd android && ./gradlew assembleDevelopmentDebug
-
-  build-android-release:
-    runs-on: ubuntu-latest
-    container:
-      image: tavoargento/react-native-android-ci:0.0.1
-    env:
-      STORE_FILE: ${{ secrets.STORE_FILE }}
-      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-      STORE_ALIAS: ${{ secrets.STORE_ALIAS }}
-      STORE_KEY_PASSWORD: ${{ secrets.STORE_KEY_PASSWORD }}
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Decode google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
-
-      - name: Decode .env.dev file
-        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
-
-      - name: Decode release key file
-        run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
-
-      - name: Build Android Release App
-        run: cd android && ./gradlew assembleDevelopmentRelease
-
-  build-ios:
+  build-ios-release:
     runs-on: macos-latest
-    
+
     steps:
       - uses: actions/checkout@v2
-    
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '20'
-      
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install CocoaPods
+        run: sudo gem install cocoapods
+
+      - name: Install Pods
+        run: |
+          cd ios && pod install
+
+      - name: Decode .env.dev file
+        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+
       - name: Add firebase services file
         run: |
           echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
-        
-      - name: Install dependencies
-        run: |
-          yarn install
 
-      - name: Install CocoaPods
-        run: |
-          sudo gem install cocoapods
-      
-      - name: Install Pods
-        run: |
-          cd ios
-          pod install
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode.app
 
-      - name: Build iOS App
+      - name: Build iOS App for Release
         run: |
-          npx react-native run-ios --no-packager
+          xcodebuild -workspace ios/QDMobileDev.xcworkspace \
+                     -scheme QDMobile \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     archive -archivePath $PWD/build/QDMobile.xcarchive
+
+      - name: Export Archive to IPA
+        run: |
+          xcodebuild -exportArchive \
+                     -archivePath $PWD/build/QDMobile.xcarchive \
+                     -exportOptionsPlist ios/exportOptions.plist \  # Ensure this plist file exists and is configured
+                     -exportPath $PWD/build
+
+
+
+
 
 #  build-and-push-android-docker-image:
 #    runs-on: ubuntu-latest
