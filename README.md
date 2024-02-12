@@ -102,15 +102,15 @@ This will generate the key file in the current working directory. Make sure that
 The signing configuration is defined in `app/android/app/build.gradle` file under the **release** variant:
 ```groovy
         release {
-          if (project.hasProperty('STORE_FILE')) {
-            storeFile file(project.env.get("STORE_FILE"))
-            storePassword project.env.get("STORE_PASSWORD")
-            keyAlias project.env.get("STORE_ALIAS")
-            keyPassword project.env.get("STORE_KEY_PASSWORD")
+          if (System.getenv("STORE_FILE")) {
+            storeFile file(System.getenv("STORE_FILE"))
+            storePassword System.getenv("STORE_PASSWORD")
+            keyAlias System.getenv("STORE_ALIAS")
+            keyPassword System.getenv("STORE_KEY_PASSWORD")
           }
         }
 ```
-You will need to provide the values in the .env file.
+You will need to provide the values as environment variables.  
 If you are creating a signed release build manually, then you can add the exports above in your local configuration file (`zshrc`, `.bashrc`, etc.) and then build any of the **release** variants to get your signed apk:
 - `./gradlew assembleDevelopmentRelease`
 - `./gradlew assembleProductionRelease`
