@@ -100,12 +100,12 @@ android {
         }
         release {
             println("\n\n\n\n\n\n\n\n\n\nSTOIRE_FILE:::::")
-            println(project.env.get("STORE_FILE"))
-            if (project.env.get("STORE_FILE")) {
-                storeFile file(project.env.get("STORE_FILE"))
-                storePassword project.env.get("STORE_PASSWORD")
-                keyAlias project.env.get("STORE_ALIAS")
-                keyPassword project.env.get("STORE_KEY_PASSWORD")
+            println(System.getenv("STORE_FILE"))
+            if (System.getenv("STORE_FILE")) {
+                storeFile file(System.getenv("STORE_FILE"))
+                storePassword System.getenv("STORE_PASSWORD")
+                keyAlias System.getenv("STORE_ALIAS")
+                keyPassword System.getenv("STORE_KEY_PASSWORD")
             }
         }
     }
