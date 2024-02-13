@@ -140,7 +140,7 @@ jobs:
 
       - name: Build iOS App for Release
         run: |
-          xcodebuild -workspace ios/QDMobileDev.xcworkspace \
+          xcodebuild -workspace ios/QDMobile.xcworkspace \
                      -scheme QDMobile \
                      -sdk iphoneos \
                      -configuration Release \
