@@ -121,6 +121,10 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Add firebase services file
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
+
       - name: Install CocoaPods
         run: sudo gem install cocoapods
 
@@ -130,10 +134,6 @@ jobs:
 
       - name: Decode .env.dev file
         run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
-
-      - name: Add firebase services file
-        run: |
-          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
 
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode.app
