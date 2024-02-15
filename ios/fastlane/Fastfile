@@ -1,0 +1,46 @@
+default_platform(:ios)
+
+before_all do
+  setup_ci(
+    force: true # This will make sure the environment is really clean
+  ) # Creates a temporary keychain and sets it as the default
+end
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :build_dev_app_for_release do
+        # Match certificates and provisioning profiles
+        match(
+            type: "development",
+            app_identifier: "com.qdmobile.dev",
+            readonly: true
+        )
+        match(
+          type: "appstore",
+          app_identifier: "com.qdmobile.dev",
+          readonly: true
+        )
+
+        # Sync certificates and provisioning profiles
+        sync_code_signing(
+          type: "appstore",
+          readonly: true
+        )
+
+        # Increment the build number to ensure uniqueness
+        increment_build_number(xcodeproj: "QDMobile.xcodeproj")
+
+        # Build your app
+        build_app(
+          scheme: "QDMobileDev",
+          workspace: "QDMobile.xcworkspace",
+          export_method: "app-store",
+          clean: true,
+          xcargs: "-allowProvisioningUpdates"
+        )
+
+        firebase_app_distribution(
+          app: "1:476492543939:ios:2626c5976a5643d0a66f76",
+        )
+  end
+end

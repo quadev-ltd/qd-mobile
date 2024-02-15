@@ -108,8 +108,16 @@ jobs:
 #          npx react-native run-ios --no-packager
 
   build-ios-release:
-    runs-on: macos-latest
-
+    runs-on: macos-14
+    env:
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+      FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+      FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+      FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}y
     steps:
       - uses: actions/checkout@v2
 
@@ -118,43 +126,47 @@ jobs:
         with:
           node-version: '20'
 
+#      - name: Install Ruby 3.2.2
+#        uses: ruby/setup-ruby@v1
+#        with:
+#          ruby-version: '3.2.2'
+
       - name: Install dependencies
         run: yarn install
 
       - name: Add firebase services file
         run: |
+          cd ios/QDMobile
+          mkdir -p firebase/dev
+          cd -
+# TODO: avoid file duplication
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
           echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
 
-      - name: Install CocoaPods
-        run: sudo gem install cocoapods
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
+
+      - name: Install Gems
+        run: bundle install
 
       - name: Install Pods
         run: |
-          cd ios && pod install
+          cd ios
+          bundle exec pod install
 
       - name: Decode .env.dev file
         run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
 
-      - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Build iOS App for Release
+      - name: Build IPA
         run: |
-          xcodebuild -workspace ios/QDMobile.xcworkspace \
-                     -scheme QDMobile \
-                     -sdk iphoneos \
-                     -configuration Release \
-                     archive -archivePath $PWD/build/QDMobile.xcarchive
+          cd ios
+          bundle exec fastlane ios build_dev_app_for_release --verbose
 
-      - name: Export Archive to IPA
+      - name: Print Fastlane log file
+        if: failure() # This ensures the log is only printed if the previous step fails
         run: |
-          xcodebuild -exportArchive \
-                     -archivePath $PWD/build/QDMobile.xcarchive \
-                     -exportOptionsPlist ios/exportOptions.plist \  # Ensure this plist file exists and is configured
-                     -exportPath $PWD/build
-
-
-
+          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
+          ls ~/Library/MobileDevice/Provisioning\ Profiles
 
 
 #  build-and-push-android-docker-image:
