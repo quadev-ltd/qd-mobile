@@ -126,11 +126,6 @@ jobs:
         with:
           node-version: '20'
 
-#      - name: Install Ruby 3.2.2
-#        uses: ruby/setup-ruby@v1
-#        with:
-#          ruby-version: '3.2.2'
-
       - name: Install dependencies
         run: yarn install
 
@@ -139,7 +134,6 @@ jobs:
           cd ios/QDMobile
           mkdir -p firebase/dev
           cd -
-# TODO: avoid file duplication
           echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
           echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
 
