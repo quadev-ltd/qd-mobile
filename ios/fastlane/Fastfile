@@ -7,8 +7,8 @@ before_all do
 end
 
 platform :ios do
-  desc "Description of what the lane does"
-  lane :build_dev_app_for_distribution do
+  desc "Distribute latest version pointing to dev environment"
+  lane :build_and_distribute_dev_app do
         # Match certificates and provisioning profiles
         match(
             type: "development",
@@ -23,7 +23,7 @@ platform :ios do
         )
 
         # Increment the build number to ensure uniqueness
-        increment_build_number(xcodeproj: "QDMobile.xcodeproj")
+#         increment_build_number(xcodeproj: "QDMobile.xcodeproj")
 
         # Build your app
         build_app(
@@ -39,17 +39,17 @@ platform :ios do
         )
 
         # Commit the version increment
-        git_commit(
-          path: "QDMobile.xcodeproj/project.pbxproj", # Specify the path to the file(s) that were modified
-          message: "Increment build number after distribution"
-        )
+#         git_commit(
+#           path: "QDMobile.xcodeproj/project.pbxproj", # Specify the path to the file(s) that were modified
+#           message: "Increment build number after distribution"
+#         )
 
         # Optional: Push the commit to your git remote
-        push_to_git_remote(
-          remote: "origin", # Specify your git remote
-          local_branch: "main", # Specify the local branch to push
-          remote_branch: "main", # Specify the remote branch to push to
-          force: false # Set to true to force push
-        )
+#         push_to_git_remote(
+#           remote: "origin", # Specify your git remote
+#           local_branch: "main", # Specify the local branch to push
+#           remote_branch: "main", # Specify the remote branch to push to
+#           force: false # Set to true to force push
+#         )
   end
 end

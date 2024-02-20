@@ -13,7 +13,7 @@ jobs:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
     #      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
     #      FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
     #      FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
@@ -55,7 +55,7 @@ jobs:
       - name: Build IPA
         run: |
           cd ios
-          bundle exec fastlane ios build_dev_app_for_distribution --verbose
+          bundle exec fastlane ios build_and_distribute_dev_app --verbose
 
       - name: Print Fastlane log file
         if: failure() # This ensures the log is only printed if the previous step fails
