@@ -113,11 +113,11 @@ jobs:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
-      FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
-      FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
-      FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}y
+#      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+#      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+#      FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+#      FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+#      FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}y
     steps:
       - uses: actions/checkout@v2
 
@@ -136,7 +136,6 @@ jobs:
           cd -
           echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
           echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
-          cat ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
 
       - name: Select Xcode Version
         run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
@@ -152,8 +151,6 @@ jobs:
       - name: Decode .env.dev file
         run: |
           echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
-          cat ./.env.dev
-          
 
       - name: Build IPA
         run: |

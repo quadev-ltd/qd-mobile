@@ -8,7 +8,7 @@ end
 
 platform :ios do
   desc "Description of what the lane does"
-  lane :build_dev_app_for_release do
+  lane :build_dev_app_distribution do
         # Match certificates and provisioning profiles
         match(
             type: "development",
@@ -36,6 +36,20 @@ platform :ios do
 
         firebase_app_distribution(
           app: "1:476492543939:ios:2626c5976a5643d0a66f76",
+        )
+
+        # Commit the version increment
+        git_commit(
+          path: "QDMobile.xcodeproj/project.pbxproj", # Specify the path to the file(s) that were modified
+          message: "Increment build number after distribution"
+        )
+
+        # Optional: Push the commit to your git remote
+        push_to_git_remote(
+          remote: "origin", # Specify your git remote
+          local_branch: "main", # Specify the local branch to push
+          remote_branch: "main", # Specify the remote branch to push to
+          force: false # Set to true to force push
         )
   end
 end
