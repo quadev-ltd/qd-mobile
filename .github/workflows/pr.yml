@@ -136,6 +136,7 @@ jobs:
           cd -
           echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
           echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
+          cat ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
 
       - name: Select Xcode Version
         run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
@@ -149,7 +150,10 @@ jobs:
           bundle exec pod install
 
       - name: Decode .env.dev file
-        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+        run: |
+          echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+          cat ./.env.dev
+          
 
       - name: Build IPA
         run: |
