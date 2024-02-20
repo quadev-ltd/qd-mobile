@@ -8,7 +8,7 @@ end
 
 platform :ios do
   desc "Description of what the lane does"
-  lane :build_dev_app_distribution do
+  lane :build_dev_app_for_distribution do
         # Match certificates and provisioning profiles
         match(
             type: "development",

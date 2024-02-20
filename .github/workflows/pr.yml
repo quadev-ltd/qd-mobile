@@ -155,7 +155,7 @@ jobs:
       - name: Build IPA
         run: |
           cd ios
-          bundle exec fastlane ios build_dev_app_for_release --verbose
+          bundle exec fastlane ios build_dev_app_for_distribution --verbose
 
       - name: Print Fastlane log file
         if: failure() # This ensures the log is only printed if the previous step fails
