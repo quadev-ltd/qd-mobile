@@ -62,3 +62,33 @@ jobs:
         run: |
           grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
           ls ~/Library/MobileDevice/Provisioning\ Profiles
+
+
+  build-android-release:
+    if: github.event_name == 'push' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    container:
+      image: tavoargento/react-native-android-ci:0.0.1
+    env:
+      STORE_FILE: ${{ secrets.STORE_FILE }}
+      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+      STORE_ALIAS: ${{ secrets.STORE_ALIAS }}
+      STORE_KEY_PASSWORD: ${{ secrets.STORE_KEY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
+
+      - name: Decode .env.dev file
+        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+
+      - name: Decode release key file
+        run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
+
+      - name: Build Android Release App
+        run: cd android && ./gradlew assembleDevelopmentRelease
