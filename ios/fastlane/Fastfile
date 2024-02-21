@@ -56,6 +56,15 @@ platform :ios do
 
   desc "Distribute latest version to TestFlight"
     lane :build_and_distribute_release_app do
+          api_key = app_store_connect_api_key(
+            key_id: "68JCD4JV8Q",
+            issuer_id: "69aa36e4-2633-4e01-8a1c-be248ef5cdd9",
+            key_filepath: "./AuthKey_68JCD4JV8Q.p8",
+            in_house: false # optional but may be required if using match/sigh
+          )
+
+          pilot(api_key: api_key)
+
           # Match certificates and provisioning profiles
           match(
               type: "appstore",
