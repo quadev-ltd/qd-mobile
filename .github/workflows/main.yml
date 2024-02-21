@@ -1,4 +1,4 @@
-name: Deploy Workflow
+name: On merge to main Deploy Workflow
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
       - closed
 
 jobs:
-  build-ios-release:
+  build-ios-development-release:
     if: github.event.pull_request.merged == true
     runs-on: macos-14
     env:
@@ -65,7 +65,7 @@ jobs:
           grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
 
 
-  build-android-release:
+  build-android-development-release:
     if: github.event_name == 'push' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     container:
