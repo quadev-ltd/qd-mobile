@@ -89,7 +89,7 @@ jobs:
       FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
       FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
       FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
-    #      FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
+      FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
     steps:
       - uses: actions/checkout@v2
 
