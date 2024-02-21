@@ -66,14 +66,13 @@ jobs:
         run: |
           yarn install
 
-      - name: Install CocoaPods
-        run: |
-          sudo gem install cocoapods
+      - name: Install Gems
+        run: bundle install
 
       - name: Install Pods
         run: |
           cd ios
-          pod install
+          bundle exec pod install
 
       - name: Build iOS App
         run: |

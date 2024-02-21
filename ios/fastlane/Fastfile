@@ -10,46 +10,99 @@ platform :ios do
   desc "Distribute latest version pointing to dev environment"
   lane :build_and_distribute_dev_app do
         # Match certificates and provisioning profiles
-        match(
-            type: "development",
-            app_identifier: "com.qdmobile.dev",
-            readonly: true
-        )
+    match(
+        type: "development",
+        app_identifier: "com.qdmobile.dev",
+        readonly: true
+    )
 
-        # Sync certificates and provisioning profiles
-        sync_code_signing(
-          type: "development",
-          readonly: true
-        )
+    # Sync certificates and provisioning profiles
+    sync_code_signing(
+      type: "development",
+      readonly: true
+    )
 
-        # Increment the build number to ensure uniqueness
-#         increment_build_number(xcodeproj: "QDMobile.xcodeproj")
+    # Increment the build number to ensure uniqueness
+    # increment_build_number(xcodeproj: "QDMobile.xcodeproj")
 
-        # Build your app
-        build_app(
-          scheme: "QDMobileDev",
-          workspace: "QDMobile.xcworkspace",
-          export_method: "development",
-          clean: true,
-          xcargs: "-allowProvisioningUpdates"
-        )
+    # Build your app
+    build_app(
+      scheme: "QDMobileDev",
+      workspace: "QDMobile.xcworkspace",
+      export_method: "development",
+      clean: true,
+      xcargs: "-allowProvisioningUpdates"
+    )
 
-        firebase_app_distribution(
-          app: "1:476492543939:ios:2626c5976a5643d0a66f76",
-        )
+    firebase_app_distribution(
+      app: "1:476492543939:ios:2626c5976a5643d0a66f76",
+    )
 
-        # Commit the version increment
-#         git_commit(
-#           path: "QDMobile.xcodeproj/project.pbxproj", # Specify the path to the file(s) that were modified
-#           message: "Increment build number after distribution"
-#         )
+  end
 
-        # Optional: Push the commit to your git remote
-#         push_to_git_remote(
-#           remote: "origin", # Specify your git remote
-#           local_branch: "main", # Specify the local branch to push
-#           remote_branch: "main", # Specify the remote branch to push to
-#           force: false # Set to true to force push
-#         )
+
+  desc "Distribute latest version to TestFlight"
+  lane :build_and_distribute_release_app do
+    # Match certificates and provisioning profiles
+    match(
+        type: "appstore",
+        app_identifier: "com.qdmobile",
+        readonly: true
+    )
+
+    # Sync certificates and provisioning profiles
+    sync_code_signing(
+      type: "appstore",
+      readonly: true
+    )
+
+    # Build your app
+    build_app(
+      scheme: "QDMobile",
+      workspace: "QDMobile.xcworkspace",
+      export_method: "app-store",
+      clean: true,
+      xcargs: "-allowProvisioningUpdates"
+    )
+
+    api_key = app_store_connect_api_key(
+      key_id: "68JCD4JV8Q",
+      issuer_id: "69aa36e4-2633-4e01-8a1c-be248ef5cdd9",
+      key_filepath: "./AuthKey_68JCD4JV8Q.p8",
+      in_house: false # optional but may be required if using match/sigh
+    )
+
+    pilot(
+      app_identifier: "com.qdmobile",
+      api_key: api_key
+    )
+
+    # Upload to TestFlight
+    upload_to_testflight(
+      app_identifier: "com.qdmobile"
+    )
+  end
+
+  desc "Increment build number"
+  lane :increment_build_version_number do
+    # Increment the build number to ensure uniqueness
+    increment_build_number(xcodeproj: "QDMobile.xcodeproj")
+
+    # Commit the version increment
+    git_commit(
+      path: "QDMobile.xcodeproj/project.pbxproj", # Specify the path to the file(s) that were modified
+      message: "Increment build number after distribution"
+    )
+
+    # Optional: Push the commit to your git remote
+    push_to_git_remote(
+      remote: "origin", # Specify your git remote
+      local_branch: "main", # Specify the local branch to push
+      remote_branch: "main", # Specify the remote branch to push to
+      force: false # Set to true to force push
+    )
+
   end
 end
+
+

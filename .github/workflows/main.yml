@@ -1,23 +1,21 @@
-name: Deploy Workflow
+name: On merge to main Deploy Workflow
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
 
 jobs:
-  build-ios-release:
-    if: github.event_name == 'push' && github.event.pull_request.merged == true
+  build-ios-development-release:
+    if: github.event.pull_request.merged == true
     runs-on: macos-14
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-    #      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
-    #      FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
-    #      FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
-    #      FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}y
     steps:
       - uses: actions/checkout@v2
 
@@ -61,10 +59,9 @@ jobs:
         if: failure() # This ensures the log is only printed if the previous step fails
         run: |
           grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
-          ls ~/Library/MobileDevice/Provisioning\ Profiles
 
 
-  build-android-release:
+  build-android-development-release:
     if: github.event_name == 'push' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     container:
