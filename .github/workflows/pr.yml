@@ -66,14 +66,13 @@ jobs:
         run: |
           yarn install
 
-      - name: Install CocoaPods
-        run: |
-          sudo gem install cocoapods
+      - name: Install Gems
+        run: bundle install
 
       - name: Install Pods
         run: |
           cd ios
-          pod install
+          bundle exec pod install
 
       - name: Build iOS App
         run: |
@@ -133,7 +132,6 @@ jobs:
         if: failure() # This ensures the log is only printed if the previous step fails
         run: |
           grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
-          ls ~/Library/MobileDevice/Provisioning\ Profiles
 
 #  build-and-push-android-docker-image:
 #    runs-on: ubuntu-latest

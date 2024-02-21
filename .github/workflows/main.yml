@@ -63,7 +63,6 @@ jobs:
         if: failure() # This ensures the log is only printed if the previous step fails
         run: |
           grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
-          ls ~/Library/MobileDevice/Provisioning\ Profiles
 
 
   build-android-release:
