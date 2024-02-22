@@ -40,9 +40,19 @@ platform :android do
   lane :distribute_dev_app do
     firebase_app_distribution(
         app: "1:476492543939:android:78fda527c441d302a66f76",
-        apk_path: "android/app/build/outputs/apk/development/release/app-development-release.apk"
+        android_artifact_path: "app/build/outputs/apk/development/release/app-development-release.apk"
     )
   end
 
-
+  lane :deploy_to_play_store do
+    supply(
+      track: 'internal', # Can be: production, beta, alpha, or internal
+      package_name: 'com.qdmobile',
+      abb: 'app/build/outputs/bundle/productionRelease/app-production-release.aab', # Or use aab: for Android App Bundles
+      json_key: 'google-play-key.json',
+      skip_upload_metadata: true, # Set to false if you want to upload metadata
+      skip_upload_images: true, # Set to false if you want to upload images
+      skip_upload_screenshots: true # Set to false if you want to upload screenshots
+    )
+  end
 end
