@@ -48,7 +48,7 @@ platform :android do
     supply(
       track: 'internal', # Can be: production, beta, alpha, or internal
       package_name: 'com.qdmobile',
-      abb: 'app/build/outputs/bundle/productionRelease/app-production-release.aab', # Or use aab: for Android App Bundles
+      aab: 'app/build/outputs/bundle/productionRelease/app-production-release.aab', # Or use aab: for Android App Bundles
       json_key: 'google-play-key.json',
       skip_upload_metadata: true, # Set to false if you want to upload metadata
       skip_upload_images: true, # Set to false if you want to upload images
