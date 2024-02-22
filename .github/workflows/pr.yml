@@ -78,6 +78,121 @@ jobs:
         run: |
           npx react-native run-ios --no-packager
 
+  build-ios-development-release:
+    if: github.event.pull_request.merged == true
+    runs-on: macos-14
+    env:
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Add firebase services file
+        run: |
+          cd ios/QDMobile
+          mkdir -p firebase/dev
+          cd -
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
+
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
+
+      - name: Install Gems
+        run: bundle install
+
+      - name: Install Pods
+        run: |
+          cd ios
+          bundle exec pod install
+
+      - name: Decode .env.dev file
+        run: |
+          echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+
+      - name: Build IPA
+        run: |
+          cd ios
+          bundle exec fastlane ios build_and_distribute_dev_app --verbose
+
+      - name: Print Fastlane log file
+        if: failure() # This ensures the log is only printed if the previous step fails
+        run: |
+          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
+
+  build-android-release:
+    runs-on: ubuntu-latest
+    container:
+      image: tavoargento/react-native-android-ci:0.0.1
+    env:
+      STORE_FILE: ${{ secrets.STORE_FILE }}
+      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+      STORE_ALIAS: ${{ secrets.STORE_ALIAS }}
+      STORE_KEY_PASSWORD: ${{ secrets.STORE_KEY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install Gems
+        run: bundle install
+
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_PROD_JSON }}" | base64 -d > ./android/app/src/production/google-services.json
+
+      - name: Decode .env.dev file
+        run: echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.prod.dev
+
+      - name: Decode release key file
+        run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
+
+      - name: Build Android Release App
+        run: cd android && ./gradlew assembleProductionRelease
+
+  build-android-development-release:
+    if: github.event_name == 'push' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    container:
+      image: tavoargento/react-native-android-ci:0.0.1
+    env:
+      STORE_FILE: ${{ secrets.STORE_FILE }}
+      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+      STORE_ALIAS: ${{ secrets.STORE_ALIAS }}
+      STORE_KEY_PASSWORD: ${{ secrets.STORE_KEY_PASSWORD }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install Gems
+        run: bundle install
+
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
+
+      - name: Decode .env.dev file
+        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+
+      - name: Decode release key file
+        run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
+
+      - name: Build Android Release App
+        run: cd android && ./gradlew assembleDevelopmentRelease
+
 #  build-and-push-android-docker-image:
 #    runs-on: ubuntu-latest
 #

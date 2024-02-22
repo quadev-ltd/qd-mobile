@@ -35,6 +35,11 @@ jobs:
       - name: Build Android Release App
         run: cd android && ./gradlew assembleDevelopmentRelease
 
+      - name: Distribute in Firebase App Distribution
+        run: |
+          cd android
+          bundle exec fastlane android distribute_dev_app
+
   build-ios-release:
     runs-on: macos-14
     env:

@@ -6,6 +6,8 @@ ruby '>= 2.6.10'
 gem 'cocoapods', '~> 1.15.2'
 gem 'activesupport', '>= 6.1.7.3', '< 7.1.0'
 gem 'fastlane', '>= 2.219.0'
+gem 'fastlane-plugin-firebase_app_distribution'
+
 # iOS Fastlane Pluginfile path
 ios_plugins_path = File.join(File.dirname(__FILE__), 'ios', 'fastlane', 'Pluginfile')
 eval_gemfile(ios_plugins_path) if File.exist?(ios_plugins_path)
