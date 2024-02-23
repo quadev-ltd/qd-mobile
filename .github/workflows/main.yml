@@ -62,7 +62,6 @@ jobs:
 
 
   build-android-development-release:
-    if: github.event_name == 'push' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     container:
       image: tavoargento/react-native-android-ci:0.0.1
@@ -71,12 +70,15 @@ jobs:
       STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
       STORE_ALIAS: ${{ secrets.STORE_ALIAS }}
       STORE_KEY_PASSWORD: ${{ secrets.STORE_KEY_PASSWORD }}
-
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     steps:
       - uses: actions/checkout@v2
 
       - name: Install dependencies
         run: yarn install
+
+      - name: Install Gems
+        run: bundle install
 
       - name: Decode google-services.json
         run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
@@ -89,3 +91,8 @@ jobs:
 
       - name: Build Android Release App
         run: cd android && ./gradlew assembleDevelopmentRelease
+
+      - name: Distribute to Firebase App Distribution
+        run: |
+          cd android
+          bundle exec fastlane android distribute_dev_app

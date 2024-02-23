@@ -23,22 +23,29 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Decode google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
+      - name: Install Gems
+        run: bundle install
 
-      - name: Decode .env.dev file
-        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_PROD_JSON }}" | base64 -d > ./android/app/src/production/google-services.json
+
+      - name: Decode .env.prod file
+        run: echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.env.prod
 
       - name: Decode release key file
         run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
 
-      - name: Build Android Release App
-        run: cd android && ./gradlew assembleDevelopmentRelease
+      - name: Decode Google Play key
+        run: echo "${{ secrets.GOOGLE_PLAY_KEY }}" | base64 -d > ./android/google-play-key.json
 
-      - name: Distribute in Firebase App Distribution
+      - name: Build Android Release App
+        run: cd android && ./gradlew bundleProductionRelease
+
+      - name: Distribute to Google Play
         run: |
           cd android
-          bundle exec fastlane android distribute_dev_app
+          bundle exec fastlane android deploy_to_play_store
+
 
   build-ios-release:
     runs-on: macos-14
