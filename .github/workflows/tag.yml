@@ -1,4 +1,4 @@
-name: On new tag workflow
+name: On new tag workflow - Deploy to app stores
 
 on:
   push:
@@ -46,7 +46,6 @@ jobs:
           cd android
           bundle exec fastlane android deploy_to_play_store
 
-
   build-ios-release:
     runs-on: macos-14
     env:
@@ -84,9 +83,9 @@ jobs:
           cd ios
           bundle exec pod install
 
-      - name: Decode .env.dev file
+      - name: Decode .env.prod file
         run: |
-          echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.env.dev
+          echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.env.prod
 
       - name: Decode AppStore Authentication key
         run: |
@@ -100,4 +99,4 @@ jobs:
       - name: Print Fastlane log file
         if: failure() # This ensures the log is only printed if the previous step fails
         run: |
-          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
+          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobile-QDMobile.log || true

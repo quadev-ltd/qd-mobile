@@ -80,6 +80,11 @@ platform :ios do
       scheme: "QDMobile",
       workspace: "QDMobile.xcworkspace",
       export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.qdmobile" => "match AppStore com.qdmobile"
+        }
+      },
       clean: true,
       xcargs: "-allowProvisioningUpdates"
     )

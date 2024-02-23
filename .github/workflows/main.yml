@@ -1,4 +1,4 @@
-name: On merge to main Deploy Workflow
+name: On merge to main - Deploy Workflow Firebase App Distribution
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
       - closed
 
 jobs:
-  build-ios-development-release:
+  build-ios-development-test-release:
     if: github.event.pull_request.merged == true
     runs-on: macos-14
     env:
@@ -61,7 +61,7 @@ jobs:
           grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
 
 
-  build-android-development-release:
+  build-android-development-test-release:
     runs-on: ubuntu-latest
     container:
       image: tavoargento/react-native-android-ci:0.0.1
