@@ -119,7 +119,7 @@ jobs:
         run: |
           echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.env.prod
 
-      - name: Build IPA
+      - name: Build and distribute IPA
         run: |
           cd ios
           bundle exec fastlane ios build_and_distribute_prod_app
