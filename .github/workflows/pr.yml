@@ -127,7 +127,7 @@ jobs:
       - name: Print Fastlane log file
         if: failure() # This ensures the log is only printed if the previous step fails
         run: |
-          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
+          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobile-QDMobile.log || true
 
 #  build-and-push-android-docker-image:
 #    runs-on: ubuntu-latest
