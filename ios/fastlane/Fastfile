@@ -6,7 +6,30 @@ before_all do
   ) # Creates a temporary keychain and sets it as the default
 end
 
+# TODO: Refactor to avoid code duplication
+# extract match, update_code_signing_settings and sync_code_signing
+# sync_code_signing can be removed?
 platform :ios do
+  desc "Increment build number"
+  lane :increment_build_version_number do
+    # Increment the build number to ensure uniqueness
+    increment_build_number(xcodeproj: "QDMobile.xcodeproj")
+
+    # Commit the version increment
+    git_commit(
+      path: "QDMobile.xcodeproj/project.pbxproj", # Specify the path to the file(s) that were modified
+      message: "Increment build number after distribution"
+    )
+
+    # Optional: Push the commit to your git remote
+    push_to_git_remote(
+      remote: "origin", # Specify your git remote
+      local_branch: "main", # Specify the local branch to push
+      remote_branch: "main", # Specify the remote branch to push to
+      force: false # Set to true to force push
+    )
+  end
+
   desc "Distribute dev environment to Firebase App Distribution"
   lane :build_and_distribute_dev_app do
     match(
@@ -50,11 +73,6 @@ platform :ios do
       readonly: true
     )
 
-    sync_code_signing(
-      type: "development",
-      readonly: true
-    )
-
     # Update project to manual signing
     update_code_signing_settings(
       use_automatic_signing: false,
@@ -85,12 +103,6 @@ platform :ios do
         type: "appstore",
         app_identifier: "com.qdmobile",
         readonly: true
-    )
-
-    # Sync certificates and provisioning profiles
-    sync_code_signing(
-      type: "appstore",
-      readonly: true
     )
 
     # Update project to manual signing
@@ -127,27 +139,6 @@ platform :ios do
     upload_to_testflight(
       app_identifier: "com.qdmobile"
     )
-  end
-
-  desc "Increment build number"
-  lane :increment_build_version_number do
-    # Increment the build number to ensure uniqueness
-    increment_build_number(xcodeproj: "QDMobile.xcodeproj")
-
-    # Commit the version increment
-    git_commit(
-      path: "QDMobile.xcodeproj/project.pbxproj", # Specify the path to the file(s) that were modified
-      message: "Increment build number after distribution"
-    )
-
-    # Optional: Push the commit to your git remote
-    push_to_git_remote(
-      remote: "origin", # Specify your git remote
-      local_branch: "main", # Specify the local branch to push
-      remote_branch: "main", # Specify the remote branch to push to
-      force: false # Set to true to force push
-    )
-
   end
 end
 
