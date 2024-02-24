@@ -76,7 +76,7 @@ platform :ios do
     )
 
     update_project_team(
-      path: "./QDMobile.xcodeproj",
+      path: "#{ENV['GITHUB_WORKSPACE']}/ios/QDMobile.xcodeproj",
       teamid: "LQRYUWUP72"
     )
 
