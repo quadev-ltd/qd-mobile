@@ -75,6 +75,13 @@ platform :ios do
       readonly: true
     )
 
+    # Update project to manual signing
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      targets: ["QDMobile"],
+      path: "QDMobile.xcodeproj"
+    )
+
     update_project_team(
       path: "QDMobile.xcodeproj",
       teamid: "LQRYUWUP72"
