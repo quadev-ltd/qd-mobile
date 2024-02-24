@@ -82,7 +82,9 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: {
-          "com.qdmobile" => "match AppStore com.qdmobile"
+          "com.qdmobile" => "match AppStore com.qdmobile",
+          signingStyle: "manual",
+          teamId: "LQRYUWUP72"
         }
       },
       clean: true,
