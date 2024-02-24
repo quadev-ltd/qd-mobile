@@ -78,7 +78,7 @@ jobs:
         run: |
           npx react-native run-ios --no-packager
 
-  build-ios-release:
+  build-ios-development-test-release:
     runs-on: macos-14
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
@@ -99,10 +99,10 @@ jobs:
       - name: Add firebase services file
         run: |
           cd ios/QDMobile
-          mkdir -p firebase/prod
+          mkdir -p firebase/dev
           cd -
-          echo "${{ secrets.GOOGLE_SERVICE_INFO_PROD_PLIST }}" | base64 -d > ./ios/QDMobile/firebase/prod/GoogleService-Info.plist
-          echo "${{ secrets.GOOGLE_SERVICE_INFO_PROD_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
+          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
 
       - name: Select Xcode Version
         run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
@@ -115,23 +115,19 @@ jobs:
           cd ios
           bundle exec pod install
 
-      - name: Decode .env.prod file
+      - name: Decode .env.dev file
         run: |
-          echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.env.prod
-
-      - name: Decode AppStore Authentication key
-        run: |
-          echo "${{ secrets.APPSTORE_AUTH_KEY }}" | base64 -d > ./ios/AuthKey_68JCD4JV8Q.p8
+          echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
 
       - name: Build and distribute IPA
         run: |
           cd ios
-          bundle exec fastlane ios build_and_distribute_release_app
+          bundle exec fastlane ios build_and_distribute_dev_app
 
       - name: Print Fastlane log file
         if: failure() # This ensures the log is only printed if the previous step fails
         run: |
-          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobile-QDMobile.log || true
+          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
 
 #  build-and-push-android-docker-image:
 #    runs-on: ubuntu-latest

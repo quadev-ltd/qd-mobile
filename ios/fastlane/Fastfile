@@ -20,6 +20,15 @@ platform :ios do
       readonly: true
     )
 
+    # Update project to manual signing
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      targets: ["QDMobileDev"],
+      path: "QDMobile.xcodeproj",
+      profile_name: "match Development com.qdmobile.dev",
+      code_sign_identity: "Apple Development: Gustavo Franco (6Z7A6H54K9)"
+    )
+
     build_app(
       scheme: "QDMobileDev",
       workspace: "QDMobile.xcworkspace",
@@ -44,6 +53,15 @@ platform :ios do
     sync_code_signing(
       type: "development",
       readonly: true
+    )
+
+    # Update project to manual signing
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      targets: ["QDMobile"],
+      path: "QDMobile.xcodeproj",
+      profile_name: "match Development com.qdmobile",
+      code_sign_identity: "Apple Development: Gustavo Franco (6Z7A6H54K9)"
     )
 
     build_app(
