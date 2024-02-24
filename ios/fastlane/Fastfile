@@ -76,12 +76,12 @@ platform :ios do
     )
 
     update_project_team(
-      path: "#{ENV['GITHUB_WORKSPACE']}/ios/QDMobile.xcodeproj",
+      path: "QDMobile.xcodeproj",
       teamid: "LQRYUWUP72"
     )
 
     update_project_provisioning(
-      xcodeproj: "QDMobile.xcworkspace", # Path to your Xcode project or workspace
+      xcodeproj: "QDMobile.xcodeproj", # Path to your Xcode project or workspace
       profile: ENV["sigh_com.qdmobile_appstore_profile-path"], # Environment variable set by `match`
       target_filter: "QDMobile", # Filter for which targets to update provisioning
       build_configuration: "Release"
