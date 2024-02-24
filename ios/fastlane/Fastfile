@@ -76,7 +76,7 @@ platform :ios do
     )
 
     update_project_team(
-      path: "QDMobile.xcodeproj",
+      path: "./QDMobile.xcodeproj",
       teamid: "LQRYUWUP72"
     )
 
