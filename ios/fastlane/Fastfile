@@ -79,19 +79,9 @@ platform :ios do
     update_code_signing_settings(
       use_automatic_signing: false,
       targets: ["QDMobile"],
-      path: "QDMobile.xcodeproj"
-    )
-
-    update_project_team(
       path: "QDMobile.xcodeproj",
-      teamid: "LQRYUWUP72"
-    )
-
-    update_project_provisioning(
-      xcodeproj: "QDMobile.xcodeproj", # Path to your Xcode project or workspace
-      profile: ENV["sigh_com.qdmobile_appstore_profile-path"], # Environment variable set by `match`
-      target_filter: "QDMobile", # Filter for which targets to update provisioning
-      build_configuration: "Release"
+      profile_name: "match AppStore com.qdmobile",
+      code_sign_identity: "Apple Distribution: Gustavo Franco (LQRYUWUP72)"
     )
 
     # Build your app
@@ -99,13 +89,6 @@ platform :ios do
       scheme: "QDMobile",
       workspace: "QDMobile.xcworkspace",
       export_method: "app-store",
-      export_options: {
-        provisioningProfiles: {
-          "com.qdmobile" => "match AppStore com.qdmobile"
-        },
-        signingStyle: "manual",
-        teamId: "LQRYUWUP72"
-      },
       clean: true,
       xcargs: "-allowProvisioningUpdates"
     )
