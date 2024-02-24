@@ -1,4 +1,4 @@
-name: On new tag workflow
+name: On new tag workflow - Deploy to app stores
 
 on:
   push:
@@ -23,17 +23,28 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Decode google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
+      - name: Install Gems
+        run: bundle install
 
-      - name: Decode .env.dev file
-        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_PROD_JSON }}" | base64 -d > ./android/app/src/production/google-services.json
+
+      - name: Decode .env.prod file
+        run: echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.env.prod
 
       - name: Decode release key file
         run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
 
+      - name: Decode Google Play key
+        run: echo "${{ secrets.GOOGLE_PLAY_KEY }}" | base64 -d > ./android/google-play-key.json
+
       - name: Build Android Release App
-        run: cd android && ./gradlew assembleDevelopmentRelease
+        run: cd android && ./gradlew bundleProductionRelease
+
+      - name: Distribute to Google Play
+        run: |
+          cd android
+          bundle exec fastlane android deploy_to_play_store
 
   build-ios-release:
     runs-on: macos-14
@@ -72,15 +83,15 @@ jobs:
           cd ios
           bundle exec pod install
 
-      - name: Decode .env.dev file
+      - name: Decode .env.prod file
         run: |
-          echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.env.dev
+          echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.env.prod
 
       - name: Decode AppStore Authentication key
         run: |
           echo "${{ secrets.APPSTORE_AUTH_KEY }}" | base64 -d > ./ios/AuthKey_68JCD4JV8Q.p8
 
-      - name: Build IPA
+      - name: Build and distribute IPA
         run: |
           cd ios
           bundle exec fastlane ios build_and_distribute_release_app
@@ -88,4 +99,4 @@ jobs:
       - name: Print Fastlane log file
         if: failure() # This ensures the log is only printed if the previous step fails
         run: |
-          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
+          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobile-QDMobile.log || true

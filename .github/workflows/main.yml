@@ -1,4 +1,4 @@
-name: On merge to main Deploy Workflow
+name: On merge to main - Deploy Workflow Firebase App Distribution
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
       - closed
 
 jobs:
-  build-ios-development-release:
+  build-ios-development-test-release:
     if: github.event.pull_request.merged == true
     runs-on: macos-14
     env:
@@ -50,10 +50,10 @@ jobs:
         run: |
           echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
 
-      - name: Build IPA
+      - name: Build and distribute IPA
         run: |
           cd ios
-          bundle exec fastlane ios build_and_distribute_dev_app --verbose
+          bundle exec fastlane ios build_and_distribute_dev_app
 
       - name: Print Fastlane log file
         if: failure() # This ensures the log is only printed if the previous step fails
@@ -61,8 +61,7 @@ jobs:
           grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
 
 
-  build-android-development-release:
-    if: github.event_name == 'push' && github.event.pull_request.merged == true
+  build-android-development-test-release:
     runs-on: ubuntu-latest
     container:
       image: tavoargento/react-native-android-ci:0.0.1
@@ -71,12 +70,15 @@ jobs:
       STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
       STORE_ALIAS: ${{ secrets.STORE_ALIAS }}
       STORE_KEY_PASSWORD: ${{ secrets.STORE_KEY_PASSWORD }}
-
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     steps:
       - uses: actions/checkout@v2
 
       - name: Install dependencies
         run: yarn install
+
+      - name: Install Gems
+        run: bundle install
 
       - name: Decode google-services.json
         run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
@@ -89,3 +91,8 @@ jobs:
 
       - name: Build Android Release App
         run: cd android && ./gradlew assembleDevelopmentRelease
+
+      - name: Distribute to Firebase App Distribution
+        run: |
+          cd android
+          bundle exec fastlane android distribute_dev_app
