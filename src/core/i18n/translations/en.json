@@ -1,8 +1,50 @@
 {
   "landing": {
-    "screenTitle": "Landing Screen",
-    "title": "Landing",
-    "description": "This is the landing page",
-    "environment": "Environment"
+    "signUpButton": "Sign up",
+    "changePathDescription": "Already have an account?",
+    "changePathButton": "Login"
+  },
+  "signIn": {
+    "withGoogle": "Log in with Google",
+    "withFacebook": "Login with Facebook",
+    "withEmail": "Or continue with Email",
+    "emailLabel": "Email",
+    "emailAccessibilityLabel": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordAccessibilityLabel": "Enter your password",
+    "forgotButton": "Forgot?",
+    "submitButton": "Login",
+    "changePathDescription": "Don't have an account?",
+    "changePathButton": "Sign up"
+  },
+  "signUp": {
+    "withGoogle": "Sign up with Google",
+    "withFacebook": "Sign up with Facebook",
+    "withEmail": "Or continue with Email",
+    "emailLabel": "Email",
+    "emailAccessibilityLabel": "Enter your email",
+    "firstNameLabel": "First name",
+    "firstNameAccessibilityLabel": "Enter your first name",
+    "lastNameLabel": "Last name",
+    "lastNameAccessibilityLabel": "Enter your last name",
+    "dobLabel": "Date of birth",
+    "dobAccessibilityLabel": "Enter your date of birth",
+    "passwordLabel": "Password",
+    "passwordAccessibilityLabel": "Enter your password",
+    "passwordConfirmationLabel": "Confirm password",
+    "passwordConfirmationAccessibilityLabel": "Confirm your password",
+    "termsLabel": "I agree with the Terms of Service and Privacy policy",
+    "termsAccessibilityLabel": "Agree to the terms and conditions",
+    "submitButton": "Sign up",
+    "changePathDescription": "Already have an account?",
+    "changePathButton": "Login"
+  },
+  "forgotPassword": {
+    "title": "Enter your email address",
+    "emailLabel": "Email",
+    "emailAccessibilityLabel": "Enter your email",
+    "submitButton": "Send verification email",
+    "changePathDescription": "Already have an account?",
+    "changePathButton": "Login"
   }
 }
