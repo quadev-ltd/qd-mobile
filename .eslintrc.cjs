@@ -52,6 +52,7 @@ module.exports = {
     'react-native/no-raw-text': 'error',
     'react-native/no-single-element-style-arrays': 'error',
     'eslint-comments/no-unlimited-disable': 'off',
+    'react/prop-types': 'off',
     'no-console': [
       'error',
       {
