@@ -2,7 +2,7 @@
 import { Config } from 'react-native-config';
 import { z } from 'zod';
 
-export const ApplicationEnvironentEnum = z.enum(['dev', 'prod']);
+export const ApplicationEnvironentEnum = z.enum(['test', 'dev', 'prod']);
 
 export const envSchema = z.object({
   APPLICATION_NAME: z.string(),

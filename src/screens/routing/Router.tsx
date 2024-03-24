@@ -6,22 +6,10 @@ import { LandingScreen } from '../landing/LandingScreen';
 import { SignInScreen } from '../sign-in/SignInScreen';
 import { SignUpScreen } from '../sign-up/SignUpScreen';
 
-export enum Screen {
-  Landing = 'Landing',
-  SignIn = 'Login',
-  SignUp = 'Register',
-  ForgotPassword = 'ForgotPassword',
-}
+import { Screen, type StackParamList } from './types';
 
 type RouterProps = {
   environment?: string;
-};
-
-export type StackParamList = {
-  [Screen.Landing]: { environment?: string };
-  [Screen.SignIn]: undefined;
-  [Screen.SignUp]: undefined;
-  [Screen.ForgotPassword]: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();

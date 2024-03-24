@@ -2,8 +2,6 @@ import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet } from 'react-native';
 
-import { Screen, type StackParamList } from '../routing/Router';
-
 import { FormTextInput } from '@/components/FormTextInput';
 import { Footer } from '@/components/sign-in/Footer';
 import { Header } from '@/components/sign-in/Header';
