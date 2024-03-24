@@ -7,6 +7,7 @@ import { Footer } from '@/components/sign-in/Footer';
 import { Header } from '@/components/sign-in/Header';
 import { ScreenType } from '@/components/sign-in/types';
 import { colors } from '@/styles/common';
+import { Screen, StackParamList } from '../routing/types';
 
 export type SignInScreenProps = NativeStackScreenProps<
   StackParamList,
