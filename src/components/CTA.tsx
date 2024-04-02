@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   ctaButton: {
     alignSelf: 'stretch',
     borderRadius: 50,
+    height: 50,
     backgroundColor: colors.black,
     paddingVertical: 14,
     alignItems: 'center',

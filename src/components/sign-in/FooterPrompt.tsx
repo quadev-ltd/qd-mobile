@@ -1,6 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
+import {
+  FooterPromptHeight,
+  FooterPromptTopMargin,
+  LayoutPaddingVertical,
+} from './constants';
 import { type ScreenType } from './types';
 
 import { colors } from '@/styles/common';
@@ -29,9 +34,13 @@ export const FooterPrompt: React.FC<FooterPromptProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    bottom: LayoutPaddingVertical,
+    height: FooterPromptHeight,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 10,
+    alignSelf: 'center',
+    marginTop: FooterPromptTopMargin,
   },
   prompt: {
     color: colors.white,

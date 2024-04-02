@@ -7,7 +7,8 @@
   "signIn": {
     "withGoogle": "Log in with Google",
     "withFacebook": "Login with Facebook",
-    "withEmail": "Or continue with Email",
+    "withEmail": "Or continue with Email@",
+    "withSSO": "or",
     "emailLabel": "Email",
     "emailAccessibilityLabel": "Enter your email",
     "passwordLabel": "Password",
@@ -20,7 +21,8 @@
   "signUp": {
     "withGoogle": "Sign up with Google",
     "withFacebook": "Sign up with Facebook",
-    "withEmail": "Or continue with Email",
+    "withEmail": "Or continue with Email@",
+    "withSSO": "or",
     "emailLabel": "Email",
     "emailAccessibilityLabel": "Enter your email",
     "firstNameLabel": "First name",

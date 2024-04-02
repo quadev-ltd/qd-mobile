@@ -4,11 +4,12 @@ import { View, StyleSheet } from 'react-native';
 
 import { type Screen, type StackParamList } from '../routing/types';
 
+import { CTA } from '@/components/CTA';
 import { FormTextInput } from '@/components/FormTextInput';
 import { Divider } from '@/components/sign-in/Divider';
-import { Footer } from '@/components/sign-in/Footer';
+import { FooterPrompt } from '@/components/sign-in/FooterPrompt';
+import { Layout } from '@/components/sign-in/Layout';
 import { ScreenType } from '@/components/sign-in/types';
-import { colors } from '@/styles/common';
 
 export type ForgotPasswordScreenProps = NativeStackScreenProps<
   StackParamList,
@@ -22,35 +23,27 @@ export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
   const goToSignIn = () => navigation.goBack();
   const handleSubmit = () => {};
   return (
-    <View style={styles.container}>
+    <Layout>
       <Divider label={t('forgotPassword.title')} />
       <View style={styles.form}>
         <FormTextInput
           label={t('signIn.emailLabel')}
           accessibilityLabel={t('signIn.emailAccessibilityLabel')}
         />
+        <CTA text={t('forgotPassword.submitButton')} onPress={handleSubmit} />
       </View>
-      <Footer
-        submit={handleSubmit}
+      <FooterPrompt
         changePath={goToSignIn}
         screen={ScreenType.ForgotPassword}
       />
-    </View>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.purpleBlue,
-    paddingVertical: 70,
-    paddingHorizontal: 20,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    flex: 1,
-  },
   form: {
     marginTop: 20,
-    alignItems: 'center',
-    paddingHorizontal: 20,
+    alignContent: 'stretch',
+    flex: 1,
   },
 });
