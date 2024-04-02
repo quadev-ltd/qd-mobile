@@ -29,8 +29,8 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
       screen={ScreenType.SignUp}
       handleFacebookAction={handleFacebookLogin}
       handleGoogleAction={handleGoogleLogin}
-      changePath={goToSignIn}
-      moveUpOnKeyboard={80}>
+      formHeight={600}
+      changePath={goToSignIn}>
       <FormTextInput
         label={t('signUp.emailLabel')}
         accessibilityLabel={t('signUp.emailAccessibilityLabel')}
@@ -51,10 +51,10 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
         label={t('signUp.passwordLabel')}
         accessibilityLabel={t('signUp.passwordAccessibilityLabel')}
       />
-      {/* <FormTextInput
+      <FormTextInput
         label={t('signUp.passwordConfirmationLabel')}
         accessibilityLabel={t('signUp.passwordConfirmationAccessibilityLabel')}
-      /> */}
+      />
       <View style={styles.agreementContainer}>
         <View
           style={styles.checkbox}

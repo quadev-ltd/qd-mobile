@@ -6,9 +6,9 @@ import { type Screen, type StackParamList } from '../routing/types';
 
 import { CTA } from '@/components/CTA';
 import { FormTextInput } from '@/components/FormTextInput';
-import { Divider } from '@/components/sign-in/Divider';
 import { FooterPrompt } from '@/components/sign-in/FooterPrompt';
 import { Layout } from '@/components/sign-in/Layout';
+import { TextDivider } from '@/components/sign-in/TextDivider';
 import { ScreenType } from '@/components/sign-in/types';
 
 export type ForgotPasswordScreenProps = NativeStackScreenProps<
@@ -24,7 +24,7 @@ export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
   const handleSubmit = () => {};
   return (
     <Layout>
-      <Divider label={t('forgotPassword.title')} />
+      <TextDivider label={t('forgotPassword.title')} />
       <View style={styles.form}>
         <FormTextInput
           label={t('signIn.emailLabel')}

@@ -1,5 +1,11 @@
 import { type ReactNode } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 
 import { LayoutPaddingVertical } from './constants';
 
@@ -12,12 +18,14 @@ type LayoutProps = {
 
 export const Layout: React.FC<LayoutProps> = ({ environment, children }) => {
   return (
-    <View style={styles.LayoutContainer}>
-      {children}
-      <View style={styles.environmentPrompt}>
-        <Text style={styles.environmentPromptText}>{environment}</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.LayoutContainer}>
+        {children}
+        <View style={styles.environmentPrompt}>
+          <Text style={styles.environmentPromptText}>{environment}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
