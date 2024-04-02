@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, Animated } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Animated,
+  TouchableOpacity,
+} from 'react-native';
 
+import { SvgCarretUp } from '@/assets/svg/CarretUp';
+import { SvgFacebook } from '@/assets/svg/Facebook';
+import { SvgGoogle } from '@/assets/svg/Google';
 import { colors } from '@/styles/common';
 
 type DividerProps = {
@@ -56,9 +65,14 @@ export const Divider: React.FC<DividerProps> = ({
         },
       ]}>
       <View style={styles.divider} />
-      <Text style={styles.dividerText} onPress={onPress}>
-        {label}
-      </Text>
+      <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+        <SvgCarretUp />
+        <View style={styles.dividerContentContainer}>
+          <SvgGoogle color={colors.black} />
+          <Text style={styles.dividerText}>{label}</Text>
+          <SvgFacebook color={colors.black} />
+        </View>
+      </TouchableOpacity>
       <View style={styles.divider} />
     </Animated.View>
   );
@@ -67,7 +81,7 @@ export const Divider: React.FC<DividerProps> = ({
 const styles = StyleSheet.create({
   dividerContainer: {
     flexDirection: 'row',
-    marginTop: 0,
+    marginTop: -24,
     marginHorizontal: -20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -79,8 +93,22 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     height: 1,
     margin: 0,
+    marginTop: 32,
+  },
+  dividerContentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 80,
+    marginTop: -8,
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   dividerText: {
     fontWeight: '700',
+    fontSize: 16,
+    marginTop: -8,
   },
 });

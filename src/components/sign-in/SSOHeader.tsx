@@ -95,7 +95,7 @@ export const SSOHeader: React.FC<SSOHeaderProps> = ({
       </View>
       <SSOSwitch
         isSSOExpanded={isSSOExpanded}
-        dividerLabel="Or use G or F"
+        dividerLabel={t(`${screen}.withSSO`)}
         emailButtonLabel={t(`${screen}.withEmail`)}
         onPressSSO={switchSSO}
         onAnimationEnded={animateHeight}
