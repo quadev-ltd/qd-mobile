@@ -61,6 +61,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 25,
+    shadowColor: colors.black,
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 2, height: 4 },
+    shadowRadius: 4,
+    elevation: 4,
   },
   forgotPassword: {
     fontWeight: '700',
