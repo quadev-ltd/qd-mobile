@@ -27,7 +27,8 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       screen={ScreenType.SignIn}
       handleFacebookAction={handleFacebookLogin}
       handleGoogleAction={handleGoogleLogin}
-      changePath={goToSignUp}>
+      changePath={goToSignUp}
+      formHeight={350}>
       <FormTextInput
         label={t('signIn.emailLabel')}
         accessibilityLabel={t('signIn.emailAccessibilityLabel')}
