@@ -30,7 +30,11 @@ export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
           label={t('signIn.emailLabel')}
           accessibilityLabel={t('signIn.emailAccessibilityLabel')}
         />
-        <CTA text={t('forgotPassword.submitButton')} onPress={handleSubmit} />
+        <CTA
+          text={t('forgotPassword.submitButton')}
+          accessibilityLabel={t(`signUp.submitButtonAccessibilityLabel`)}
+          onPress={handleSubmit}
+        />
       </View>
       <FooterPrompt
         changePath={goToSignIn}

@@ -1,28 +1,36 @@
 {
   "landing": {
     "signUpButton": "Sign up",
+    "signUpButtonAccessibilityLabel": "Sign up action",
     "changePathDescription": "Already have an account?",
-    "changePathButton": "Login"
+    "changePathButton": "Sign in"
   },
   "signIn": {
     "withGoogle": "Log in with Google",
+    "withGoogleAccessibilityLabel": "Log in with Google action",
     "withFacebook": "Login with Facebook",
+    "withFacebookAccessibilityLabel": "Log in with Facebook action",
     "withEmail": "Sign in with Email@",
     "withSSO": "or",
+    "withSSOAccessibilityLabel": "Log in with single sign on",
     "emailLabel": "Email",
     "emailAccessibilityLabel": "Enter your email",
     "passwordLabel": "Password",
     "passwordAccessibilityLabel": "Enter your password",
     "forgotButton": "Forgot?",
-    "submitButton": "Login",
+    "submitButton": "Sign in",
+    "submitButtonAccessibilityLabel": "Sign in action",
     "changePathDescription": "Don't have an account?",
     "changePathButton": "Sign up"
   },
   "signUp": {
     "withGoogle": "Sign up with Google",
+    "withGoogleAccessibilityLabel": "Log in with Google action",
     "withFacebook": "Sign up with Facebook",
+    "withFacebookAccessibilityLabel": "Log in with Facebook action",
     "withEmail": "Sign up with Email@",
     "withSSO": "or",
+    "withSSOAccessibilityLabel": "Log in with single sign on",
     "emailLabel": "Email",
     "emailAccessibilityLabel": "Enter your email",
     "firstNameLabel": "First name",
@@ -38,15 +46,17 @@
     "termsLabel": "I agree with the Terms of Service and Privacy policy",
     "termsAccessibilityLabel": "Agree to the terms and conditions",
     "submitButton": "Sign up",
+    "submitButtonAccessibilityLabel": "Sign up action",
     "changePathDescription": "Already have an account?",
-    "changePathButton": "Login"
+    "changePathButton": "Sign in"
   },
   "forgotPassword": {
     "title": "Enter your email address",
     "emailLabel": "Email",
     "emailAccessibilityLabel": "Enter your email",
     "submitButton": "Send verification email",
+    "submitButtonAccessibilityLabel": "Send verification email action",
     "changePathDescription": "Already have an account?",
-    "changePathButton": "Login"
+    "changePathButton": "Sign in"
   }
 }

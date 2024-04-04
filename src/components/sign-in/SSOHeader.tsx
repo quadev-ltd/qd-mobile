@@ -24,7 +24,7 @@ type SSOHeaderProps = {
   handleFacebookLogin: () => void;
   handleGoogleLogin: () => void;
   onAnimationEnded?: () => void;
-  isInitialAnimation?: boolean;
+  disableAnimation?: boolean;
 };
 
 const COLLAPSED_CONTAINER_HEIGHT = 50;
@@ -39,7 +39,7 @@ export const SSOHeader: React.FC<SSOHeaderProps> = ({
   handleFacebookLogin,
   handleGoogleLogin,
   onAnimationEnded,
-  isInitialAnimation,
+  disableAnimation,
 }) => {
   const { t } = useTranslation();
   const [isExpandedSecondAnimation, setIsExpandedSecondAnimation] =
@@ -51,23 +51,24 @@ export const SSOHeader: React.FC<SSOHeaderProps> = ({
     new Animated.Value(HEADER_CONTAINER_BOTTOM_PADDING),
   );
   const animateHeight = () => {
-    Animated.parallel([
-      Animated.timing(animatedHeight, {
-        toValue: isSSOExpanded
-          ? LAYOUT_CONTAINER_HEIGHT
-          : COLLAPSED_CONTAINER_HEIGHT,
-        duration: SSO_COLLAPSE_FIRST_STAGE_DURATION,
-        useNativeDriver: false, // 'height' is not supported by the native driver
-      }),
-      Animated.timing(animatedBottomMargin, {
-        toValue: isSSOExpanded ? HEADER_CONTAINER_BOTTOM_PADDING : 0,
-        duration: SSO_COLLAPSE_FIRST_STAGE_DURATION,
-        useNativeDriver: false, // 'margin' is not supported by the native driver
-      }),
-    ]).start(() => {
-      setIsExpandedSecondAnimation(isSSOExpanded);
-      onAnimationEnded && onAnimationEnded();
-    });
+    !disableAnimation &&
+      Animated.parallel([
+        Animated.timing(animatedHeight, {
+          toValue: isSSOExpanded
+            ? LAYOUT_CONTAINER_HEIGHT
+            : COLLAPSED_CONTAINER_HEIGHT,
+          duration: SSO_COLLAPSE_FIRST_STAGE_DURATION,
+          useNativeDriver: false, // 'height' is not supported by the native driver
+        }),
+        Animated.timing(animatedBottomMargin, {
+          toValue: isSSOExpanded ? HEADER_CONTAINER_BOTTOM_PADDING : 0,
+          duration: SSO_COLLAPSE_FIRST_STAGE_DURATION,
+          useNativeDriver: false, // 'margin' is not supported by the native driver
+        }),
+      ]).start(() => {
+        setIsExpandedSecondAnimation(isSSOExpanded);
+        onAnimationEnded && onAnimationEnded();
+      });
   };
   const shoulHideSSOButtons =
     !isExpandedSecondAnimation || (isExpandedSecondAnimation && !isSSOExpanded);
@@ -76,21 +77,25 @@ export const SSOHeader: React.FC<SSOHeaderProps> = ({
       style={{ height: animatedHeight, paddingBottom: animatedBottomMargin }}>
       <View style={styles.ssoButtonsContainer}>
         <AnimatedCTA
+          testID="facebook-cta"
           SvgComponent={SvgFacebook}
-          text={t(`${screen}.withGoogle`)}
+          text={t(`${screen}.withFacebook`)}
+          accessibilityLabel={t(`${screen}.withFacebookAccessibilityLabel`)}
           style={styles.facebookButton}
           onPress={handleFacebookLogin}
           hide={shoulHideSSOButtons}
-          isInitialAnimation={isInitialAnimation}
+          disableAnimation={disableAnimation}
         />
         <AnimatedCTA
+          testID="google-cta"
           source={require('../../assets/png/google.png')}
           text={t(`${screen}.withGoogle`)}
+          accessibilityLabel={t(`${screen}.withGoogleAccessibilityLabel`)}
           style={styles.googleButton}
           textStyle={{ color: colors.grey }}
           onPress={handleGoogleLogin}
           hide={shoulHideSSOButtons}
-          isInitialAnimation={isInitialAnimation}
+          disableAnimation={disableAnimation}
         />
       </View>
       <SSOSwitch
@@ -99,7 +104,7 @@ export const SSOHeader: React.FC<SSOHeaderProps> = ({
         emailButtonLabel={t(`${screen}.withEmail`)}
         onPressSSO={switchSSO}
         onAnimationEnded={animateHeight}
-        isInitialAnimation={isInitialAnimation}
+        disableAnimation={disableAnimation}
       />
     </Animated.View>
   );

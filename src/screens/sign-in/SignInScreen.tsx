@@ -40,7 +40,11 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         accessibilityLabel={t('signIn.passwordAccessibilityLabel')}
       />
       <View style={commonStyles.footerButton}>
-        <CTA text={t(`signIn.submitButton`)} onPress={handleSubmit} />
+        <CTA
+          text={t(`signIn.submitButton`)}
+          accessibilityLabel={t(`signIn.submitButtonAccessibilityLabel`)}
+          onPress={handleSubmit}
+        />
       </View>
     </SSOAnimatedForm>
   );

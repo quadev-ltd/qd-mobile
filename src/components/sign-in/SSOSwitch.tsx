@@ -10,7 +10,7 @@ type SSOSwitchProps = {
   emailButtonLabel: string;
   onPressSSO: () => void;
   onAnimationEnded?: () => void;
-  isInitialAnimation?: boolean;
+  disableAnimation?: boolean;
 };
 
 export const SSOSwitch: React.FC<SSOSwitchProps> = ({
@@ -19,9 +19,9 @@ export const SSOSwitch: React.FC<SSOSwitchProps> = ({
   emailButtonLabel,
   onPressSSO,
   onAnimationEnded,
-  isInitialAnimation,
+  disableAnimation,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(isInitialAnimation);
+  const [isExpanded, setIsExpanded] = useState(disableAnimation);
   const handleAnimationEnded = () => {
     if (isSSOExpanded !== isExpanded) {
       setIsExpanded(isSSOExpanded);
@@ -39,10 +39,12 @@ export const SSOSwitch: React.FC<SSOSwitchProps> = ({
   ) : (
     <AnimatedCTA
       text={emailButtonLabel}
+      accessibilityLabel={emailButtonLabel}
+      testID="email-cta"
       onPress={onPressSSO}
       hide={!isSSOExpanded}
       onAnimationEnded={handleAnimationEnded}
-      isInitialAnimation={isInitialAnimation}
+      disableAnimation={disableAnimation}
     />
   );
 };

@@ -65,7 +65,10 @@ export const Divider: React.FC<DividerProps> = ({
         },
       ]}>
       <View style={styles.divider} />
-      <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+      <TouchableOpacity
+        testID="divider-cta"
+        style={styles.buttonContainer}
+        onPress={onPress}>
         <SvgCarretUp />
         <View style={styles.dividerContentContainer}>
           <SvgGoogle color={colors.black} />

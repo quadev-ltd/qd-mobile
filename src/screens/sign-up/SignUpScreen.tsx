@@ -16,6 +16,7 @@ export type SignUpScreenScreenProps = NativeStackScreenProps<
   Screen.SignUp
 >;
 
+const FORM_HEIGHT = 600;
 export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
   navigation,
 }) => {
@@ -29,7 +30,7 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
       screen={ScreenType.SignUp}
       handleFacebookAction={handleFacebookLogin}
       handleGoogleAction={handleGoogleLogin}
-      formHeight={600}
+      formHeight={FORM_HEIGHT}
       changePath={goToSignIn}>
       <FormTextInput
         label={t('signUp.emailLabel')}
@@ -66,7 +67,11 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
       </View>
 
       <View style={commonStyles.footerButton}>
-        <CTA text={t(`signUp.submitButton`)} onPress={submit} />
+        <CTA
+          text={t(`signUp.submitButton`)}
+          accessibilityLabel={t(`signUp.submitButtonAccessibilityLabel`)}
+          onPress={submit}
+        />
       </View>
     </SSOAnimatedForm>
   );

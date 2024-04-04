@@ -37,6 +37,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
         <CTA
           style={styles.signUpButton}
           text={t('landing.signUpButton')}
+          accessibilityLabel={t('landing.signUpButtonAccessibilityLabel')}
           onPress={goToSignUp}
         />
       </View>

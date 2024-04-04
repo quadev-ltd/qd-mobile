@@ -21,7 +21,7 @@ export interface SSOAnimatedFormScreenProps {
   handleGoogleAction: () => void;
   changePath: () => void;
   formHeight: number;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
@@ -34,7 +34,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
 }) => {
   const [isSSO, setIsSSO] = useState(true);
   const [translateY] = useState(new Animated.Value(VIEWPORT_HEIGHT));
-  const [isInitialAnimation, setIsInitialAnimation] = useState(true);
+  const [disableAnimation, setDisableAnimation] = useState(true);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const isKeyboardVisibleRef = useRef<boolean>(false);
@@ -46,20 +46,21 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         moveUpOnKeyboard.current =
           formHeight + event.endCoordinates.height - VIEWPORT_HEIGHT;
         if (moveUpOnKeyboard.current > 0) isKeyboardVisibleRef.current = true;
-        refreshKeyboardState();
+        setKeyboardVisibility();
       },
     );
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       () => {
         if (isKeyboardVisibleRef.current) isKeyboardVisibleRef.current = false;
-        refreshKeyboardState();
+        setKeyboardVisibility();
       },
     );
 
-    const refreshKeyboardState = () => {
+    const setKeyboardVisibility = () => {
       setKeyboardVisible(isKeyboardVisibleRef.current);
     };
+
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -67,7 +68,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   }, [formHeight]);
 
   const switchSSO = () => {
-    isInitialAnimation && setIsInitialAnimation(false);
+    disableAnimation && setDisableAnimation(false);
     !isSSO ? animateFormHide(() => setIsSSO(!isSSO)) : setIsSSO(!isSSO);
   };
   const animateFormHide = (onAnimationEnded?: () => void) => {
@@ -99,12 +100,13 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         isSSOExpanded={isSSO}
         switchSSO={switchSSO}
         onAnimationEnded={animateFormShow}
-        isInitialAnimation={isInitialAnimation}
+        disableAnimation={disableAnimation}
       />
       <KeyboardAvoidingView
         behavior={'padding'}
         style={styles.keyboardAvoidingContainer}>
         <Animated.View
+          testID="form"
           style={[
             styles.form,
             {

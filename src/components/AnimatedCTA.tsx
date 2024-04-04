@@ -15,14 +15,16 @@ import { colors } from '@/styles/common';
 
 interface AnimatedCTAProps {
   onPress?: () => void;
+  testID?: string;
   source?: { uri: string };
   SvgComponent?: React.FC;
   text: string;
+  accessibilityLabel: string;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   hide?: boolean;
   onAnimationEnded?: () => void;
-  isInitialAnimation?: boolean;
+  disableAnimation?: boolean;
 }
 export const BUTTON_ANIMATION_DURATION = 300;
 
@@ -40,23 +42,26 @@ const animateButton = (
 
 export const AnimatedCTA: React.FC<AnimatedCTAProps> = ({
   onPress,
+  testID,
   source,
   SvgComponent,
   text,
+  accessibilityLabel,
   style,
   textStyle,
   hide,
   onAnimationEnded,
-  isInitialAnimation,
+  disableAnimation,
 }) => {
-  const [scale] = useState(new Animated.Value(isInitialAnimation ? 1 : 0));
+  const [scale] = useState(new Animated.Value(disableAnimation ? 1 : 0));
   useEffect(() => {
     animateButton(scale, hide, onAnimationEnded);
   }, [hide, scale, onAnimationEnded]);
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity accessibilityLabel={accessibilityLabel} onPress={onPress}>
       <Animated.View
+        testID={testID}
         style={[
           styles.ctaButton,
           style,
