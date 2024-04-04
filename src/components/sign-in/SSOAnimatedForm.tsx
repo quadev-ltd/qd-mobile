@@ -41,7 +41,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   const moveUpOnKeyboard = useRef<number>(0);
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
+      'keyboardWillShow',
       event => {
         moveUpOnKeyboard.current =
           formHeight + event.endCoordinates.height - VIEWPORT_HEIGHT;
@@ -50,7 +50,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
       },
     );
     const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
+      'keyboardWillHide',
       () => {
         if (isKeyboardVisibleRef.current) isKeyboardVisibleRef.current = false;
         setKeyboardVisibility();

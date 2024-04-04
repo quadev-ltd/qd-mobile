@@ -1646,6 +1646,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@egjs/hammerjs@npm:^2.0.17":
+  version: 2.0.17
+  resolution: "@egjs/hammerjs@npm:2.0.17"
+  dependencies:
+    "@types/hammerjs": "npm:^2.0.36"
+  checksum: dbedc15a0e633f887c08394bd636faf6a3abd05726dc0909a0e01209d5860a752d9eca5e512da623aecfabe665f49f1d035de3103eb2f9022c5cea692f9cc9be
+  languageName: node
+  linkType: hard
+
 "@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0":
   version: 4.4.0
   resolution: "@eslint-community/eslint-utils@npm:4.4.0"
@@ -3010,6 +3019,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/hammerjs@npm:^2.0.36":
+  version: 2.0.45
+  resolution: "@types/hammerjs@npm:2.0.45"
+  checksum: 1f01e3d0260e3cb824fd0ae32c9a8e1b3727e53ef31682612a0a282c4a84bb758dd30b04749b2ae91e621443c80bfe541b38e91e33308f9dea5d9ac92bd0e854
+  languageName: node
+  linkType: hard
+
 "@types/hoist-non-react-statics@npm:^3.3.0":
   version: 3.3.5
   resolution: "@types/hoist-non-react-statics@npm:3.3.5"
@@ -3491,6 +3507,7 @@ __metadata:
     react-native: "npm:0.73.5"
     react-native-config: "npm:^1.5.1"
     react-native-flipper: "npm:^0.212.0"
+    react-native-gesture-handler: "npm:^2.16.0"
     react-native-keychain: "npm:^8.1.2"
     react-native-mmkv: "npm:^2.11.0"
     react-native-safe-area-context: "npm:^4.9.0"
@@ -9094,7 +9111,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -9231,6 +9248,22 @@ __metadata:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-native: ">0.62.0"
   checksum: 15b7cdecba9cf38f903bbe769944c9b1389b21b1a86161bdac47dad9028b756c3c0eb432c741b42699ebd6573cb78c88b8d2ef674e34aa8e73641397822f50cc
+  languageName: node
+  linkType: hard
+
+"react-native-gesture-handler@npm:^2.16.0":
+  version: 2.16.0
+  resolution: "react-native-gesture-handler@npm:2.16.0"
+  dependencies:
+    "@egjs/hammerjs": "npm:^2.0.17"
+    hoist-non-react-statics: "npm:^3.3.0"
+    invariant: "npm:^2.2.4"
+    lodash: "npm:^4.17.21"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 7cb16990e9b20a737b92f26444a058069f5fb011f6a621eeb755df77d66c92877a1eb5215b846af4f4d9a8a8b473ae362631bd96aa78ed971dd08c9c2ae75f2e
   languageName: node
   linkType: hard
 

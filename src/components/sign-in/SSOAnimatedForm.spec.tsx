@@ -4,8 +4,6 @@ import { type ReactTestInstance } from 'react-test-renderer';
 import { SSOAnimatedForm } from './SSOAnimatedForm';
 import { ScreenType } from './types';
 
-jest.useFakeTimers();
-
 describe('SSOAnimatedForm', () => {
   const handleFacebookSignIn = jest.fn();
   const handleGoogleSignIn = jest.fn();
@@ -18,7 +16,7 @@ describe('SSOAnimatedForm', () => {
   });
 
   it('hides single sign on call to action buttons and shows the form', async () => {
-    const { findByTestId, getByTestId, getByText, queryByText } = render(
+    const { findByTestId, getByTestId, queryByTestId, getByText, queryByText } = render(
       <SSOAnimatedForm
         screen={ScreenType.SignIn}
         handleFacebookAction={handleFacebookSignIn}
@@ -27,7 +25,8 @@ describe('SSOAnimatedForm', () => {
         formHeight={0}
       />,
     );
-
+    jest.useFakeTimers();
+    
     await act(() => {
       fireEvent.press(getByText('signIn.withEmail'));
       jest.runAllTimers();
@@ -45,17 +44,14 @@ describe('SSOAnimatedForm', () => {
 
     await waitFor(
       async () => {
-        googleCTA = await findByTestId('google-cta');
-        expect(googleCTA.props.style.opacity).toBe(0);
-        facebookCTA = await findByTestId('facebook-cta');
-        expect(facebookCTA.props.style.opacity).toBe(0);
-        emailCTA = queryByText('SignIn.withEmail');
-        expect(emailCTA).toBeNull();
+        expect(queryByText('signIn.withEmail')).toBeNull();
         form = await findByTestId('form');
         expect(form.props.style.opacity).toBe(1);
         expect(form.props.style.transform[0].translateY).toBeLessThan(
           formPosition,
         );
+        expect(queryByTestId('google-cta')).toBeNull();
+        expect(queryByTestId('facebook-cta')).toBeNull();
       },
       { timeout: 3000 },
     );

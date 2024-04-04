@@ -70,33 +70,37 @@ export const SSOHeader: React.FC<SSOHeaderProps> = ({
         onAnimationEnded && onAnimationEnded();
       });
   };
-  const shoulHideSSOButtons =
-    !isExpandedSecondAnimation || (isExpandedSecondAnimation && !isSSOExpanded);
+  const ssoCollapseStarted = (isExpandedSecondAnimation && !isSSOExpanded);
+  const shoulHideSSOButtons = !isExpandedSecondAnimation || ssoCollapseStarted;
   return (
     <Animated.View
       style={{ height: animatedHeight, paddingBottom: animatedBottomMargin }}>
       <View style={styles.ssoButtonsContainer}>
-        <AnimatedCTA
-          testID="facebook-cta"
-          SvgComponent={SvgFacebook}
-          text={t(`${screen}.withFacebook`)}
-          accessibilityLabel={t(`${screen}.withFacebookAccessibilityLabel`)}
-          style={styles.facebookButton}
-          onPress={handleFacebookLogin}
-          hide={shoulHideSSOButtons}
-          disableAnimation={disableAnimation}
-        />
-        <AnimatedCTA
-          testID="google-cta"
-          source={require('../../assets/png/google.png')}
-          text={t(`${screen}.withGoogle`)}
-          accessibilityLabel={t(`${screen}.withGoogleAccessibilityLabel`)}
-          style={styles.googleButton}
-          textStyle={{ color: colors.grey }}
-          onPress={handleGoogleLogin}
-          hide={shoulHideSSOButtons}
-          disableAnimation={disableAnimation}
-        />
+        {isExpandedSecondAnimation && (
+          <>
+            <AnimatedCTA
+              testID="facebook-cta"
+              SvgComponent={SvgFacebook}
+              text={t(`${screen}.withFacebook`)}
+              accessibilityLabel={t(`${screen}.withFacebookAccessibilityLabel`)}
+              style={styles.facebookButton}
+              onPress={handleFacebookLogin}
+              hide={shoulHideSSOButtons}
+              disableAnimation={disableAnimation}
+            />
+            <AnimatedCTA
+              testID="google-cta"
+              source={require('../../assets/png/google.png')}
+              text={t(`${screen}.withGoogle`)}
+              accessibilityLabel={t(`${screen}.withGoogleAccessibilityLabel`)}
+              style={styles.googleButton}
+              textStyle={{ color: colors.grey }}
+              onPress={handleGoogleLogin}
+              hide={shoulHideSSOButtons}
+              disableAnimation={disableAnimation}
+            />
+          </>
+        )}
       </View>
       <SSOSwitch
         isSSOExpanded={isSSOExpanded}

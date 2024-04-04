@@ -51,10 +51,12 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
       <FormTextInput
         label={t('signUp.passwordLabel')}
         accessibilityLabel={t('signUp.passwordAccessibilityLabel')}
+        secureTextEntry={true}
       />
       <FormTextInput
         label={t('signUp.passwordConfirmationLabel')}
         accessibilityLabel={t('signUp.passwordConfirmationAccessibilityLabel')}
+        secureTextEntry={true}
       />
       <View style={styles.agreementContainer}>
         <View

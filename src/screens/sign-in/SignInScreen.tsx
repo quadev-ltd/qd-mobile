@@ -38,6 +38,7 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         forgotPasswordLabel={t('signIn.forgotButton')}
         forgotPasswordCallback={handleForgotPassword}
         accessibilityLabel={t('signIn.passwordAccessibilityLabel')}
+        secureTextEntry={true}
       />
       <View style={commonStyles.footerButton}>
         <CTA

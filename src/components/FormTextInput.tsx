@@ -13,6 +13,7 @@ interface FormTextInputProps {
   forgotPasswordLabel?: string;
   forgotPasswordCallback?: () => void;
   accessibilityLabel: string;
+  secureTextEntry?: boolean;
 }
 
 export const FormTextInput: React.FC<FormTextInputProps> = ({
@@ -20,12 +21,13 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
   forgotPasswordLabel,
   forgotPasswordCallback,
   accessibilityLabel,
+  secureTextEntry,
 }) => {
   return (
     <View style={styles.fieldConatiner}>
       <TextInput
         style={styles.input}
-        secureTextEntry={true}
+        secureTextEntry={secureTextEntry}
         placeholder={label}
         accessible
         accessibilityLabel={accessibilityLabel}

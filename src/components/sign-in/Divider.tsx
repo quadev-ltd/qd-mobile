@@ -6,6 +6,7 @@ import {
   Animated,
   TouchableOpacity,
 } from 'react-native';
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 
 import { SvgCarretUp } from '@/assets/svg/CarretUp';
 import { SvgFacebook } from '@/assets/svg/Facebook';
@@ -65,17 +66,21 @@ export const Divider: React.FC<DividerProps> = ({
         },
       ]}>
       <View style={styles.divider} />
-      <TouchableOpacity
-        testID="divider-cta"
-        style={styles.buttonContainer}
-        onPress={onPress}>
-        <SvgCarretUp />
-        <View style={styles.dividerContentContainer}>
-          <SvgGoogle color={colors.black} />
-          <Text style={styles.dividerText}>{label}</Text>
-          <SvgFacebook color={colors.black} />
-        </View>
-      </TouchableOpacity>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Swipeable onSwipeableOpenStartDrag={onPress}>
+            <TouchableOpacity
+              testID="divider-cta"
+              style={styles.buttonContainer}
+              onPress={onPress}>
+              <SvgCarretUp />
+              <View style={styles.dividerContentContainer}>
+                <SvgGoogle color={colors.black} />
+                <Text style={styles.dividerText}>{label}</Text>
+                <SvgFacebook color={colors.black} />
+              </View>
+            </TouchableOpacity>
+          </Swipeable>          
+        </GestureHandlerRootView>
       <View style={styles.divider} />
     </Animated.View>
   );
