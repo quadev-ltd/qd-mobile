@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, View, StyleSheet, Dimensions } from 'react-native';
 
@@ -17,7 +17,7 @@ import { colors } from '@/styles/common';
 
 const { height: VIEWPORT_HEIGHT } = Dimensions.get('window');
 
-type SSOHeaderProps = {
+type SSOAnimatedHeaderProps = {
   screen: ScreenType;
   isSSOExpanded: boolean;
   switchSSO: () => void;
@@ -32,7 +32,7 @@ const LAYOUT_CONTAINER_HEIGHT = VIEWPORT_HEIGHT - 2 * LAYOUT_PADDING_VERTICAL;
 const HEADER_CONTAINER_BOTTOM_PADDING =
   FOOTER_PROMPT_HEIGHT + FOOTER_PROMPT_TOP_MARGIN;
 export const SSO_COLLAPSE_FIRST_STAGE_DURATION = 700;
-export const SSOHeader: React.FC<SSOHeaderProps> = ({
+export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
   screen,
   isSSOExpanded,
   switchSSO,
@@ -50,7 +50,7 @@ export const SSOHeader: React.FC<SSOHeaderProps> = ({
   const [animatedBottomMargin] = useState(
     new Animated.Value(HEADER_CONTAINER_BOTTOM_PADDING),
   );
-  const animateHeight = () => {
+  const animateHeight = useCallback(() => {
     !disableAnimation &&
       Animated.parallel([
         Animated.timing(animatedHeight, {
@@ -69,8 +69,15 @@ export const SSOHeader: React.FC<SSOHeaderProps> = ({
         setIsExpandedSecondAnimation(isSSOExpanded);
         onAnimationEnded && onAnimationEnded();
       });
-  };
-  const ssoCollapseStarted = (isExpandedSecondAnimation && !isSSOExpanded);
+  }, [
+    isSSOExpanded,
+    disableAnimation,
+    onAnimationEnded,
+    animatedHeight,
+    animatedBottomMargin,
+  ]);
+
+  const ssoCollapseStarted = isExpandedSecondAnimation && !isSSOExpanded;
   const shoulHideSSOButtons = !isExpandedSecondAnimation || ssoCollapseStarted;
   return (
     <Animated.View

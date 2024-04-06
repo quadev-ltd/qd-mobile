@@ -87,6 +87,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
     paddingVertical: 14,
     alignItems: 'center',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 2, height: 4 },
+    shadowRadius: 4,
+    elevation: 4,
   },
   icon: {
     width: 20,

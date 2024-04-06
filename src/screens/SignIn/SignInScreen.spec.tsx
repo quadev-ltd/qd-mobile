@@ -2,7 +2,7 @@ import { type RouteProp } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { act, fireEvent, render } from '@testing-library/react-native';
 
-import { Screen, type StackParamList } from '../routing/types';
+import { Screen, type StackParamList } from '../Routing/types';
 
 import { SignInScreen } from './SignInScreen';
 
@@ -22,7 +22,7 @@ const mockRoute = {
   },
 } as unknown as RouteProp<StackParamList, Screen.SignIn>;
 
-jest.mock('../../components/sign-in/SSOHeader.tsx');
+jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
 
 describe('SignInScreen', () => {
   beforeEach(() => {

@@ -2,13 +2,13 @@ import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { Screen, type StackParamList } from '../routing/types';
+import { Screen, type StackParamList } from '../Routing/types';
 
 import { CTA } from '@/components/CTA';
 import { FormTextInput } from '@/components/FormTextInput';
-import { commonStyles } from '@/components/sign-in/constants';
-import { SSOAnimatedForm } from '@/components/sign-in/SSOAnimatedForm';
-import { ScreenType } from '@/components/sign-in/types';
+import { commonStyles } from '@/components/SignIn/constants';
+import { SSOAnimatedForm } from '@/components/SignIn/SSOAnimatedForm';
+import { ScreenType } from '@/components/SignIn/types';
 
 export type SignInScreenProps = NativeStackScreenProps<
   StackParamList,

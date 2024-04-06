@@ -8,10 +8,10 @@ import {
   Keyboard,
 } from 'react-native';
 
-import { FooterPrompt } from '@/components/sign-in/FooterPrompt';
-import { Layout } from '@/components/sign-in/Layout';
-import { SSOHeader } from '@/components/sign-in/SSOHeader';
-import { type ScreenType } from '@/components/sign-in/types';
+import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
+import { Layout } from '@/components/SignIn/Layout';
+import { SSOAnimatedHeader } from '@/components/SignIn/SSOAnimatedHeader';
+import { type ScreenType } from '@/components/SignIn/types';
 
 const { height: VIEWPORT_HEIGHT } = Dimensions.get('window');
 
@@ -89,11 +89,13 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
       useNativeDriver: true,
     }).start(onAnimationEnded);
   };
+
   const marginTop =
     moveUpOnKeyboard.current > 0 ? -moveUpOnKeyboard.current : 0;
+
   return (
     <Layout>
-      <SSOHeader
+      <SSOAnimatedHeader
         handleFacebookLogin={handleFacebookLogin}
         handleGoogleLogin={handleGoogleLogin}
         screen={screen}

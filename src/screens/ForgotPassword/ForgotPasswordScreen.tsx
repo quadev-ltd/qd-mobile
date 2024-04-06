@@ -2,14 +2,14 @@ import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet } from 'react-native';
 
-import { type Screen, type StackParamList } from '../routing/types';
+import { type Screen, type StackParamList } from '../Routing/types';
 
 import { CTA } from '@/components/CTA';
 import { FormTextInput } from '@/components/FormTextInput';
-import { FooterPrompt } from '@/components/sign-in/FooterPrompt';
-import { Layout } from '@/components/sign-in/Layout';
-import { TextDivider } from '@/components/sign-in/TextDivider';
-import { ScreenType } from '@/components/sign-in/types';
+import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
+import { Layout } from '@/components/SignIn/Layout';
+import { TextDivider } from '@/components/SignIn/TextDivider';
+import { ScreenType } from '@/components/SignIn/types';
 
 export type ForgotPasswordScreenProps = NativeStackScreenProps<
   StackParamList,

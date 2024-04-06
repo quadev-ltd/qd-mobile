@@ -7,32 +7,27 @@ import {
   View,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
 } from 'react-native';
+import MaskInput, { Masks } from 'react-native-mask-input';
 
 import { colors } from '@/styles/common';
 
-interface FormTextInputProps {
+interface FormDateInputProps {
   label: string;
   forgotPasswordLabel?: string;
   forgotPasswordCallback?: () => void;
   accessibilityLabel: string;
-  secureTextEntry?: boolean;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onChangeText?: (text: string) => void;
   value?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
 }
 
-export const FormTextInput: React.FC<FormTextInputProps> = ({
+export const FormDateInput: React.FC<FormDateInputProps> = ({
   label,
-  forgotPasswordLabel,
-  forgotPasswordCallback,
   accessibilityLabel,
-  secureTextEntry,
   onBlur,
   onChangeText,
   value,
@@ -40,24 +35,17 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
 }) => {
   return (
     <View style={styles.fieldConatiner}>
-      <TextInput
+      <MaskInput
         style={styles.input}
-        secureTextEntry={secureTextEntry}
         placeholder={label}
-        accessible
         accessibilityLabel={accessibilityLabel}
-        onBlur={onBlur}
-        onChangeText={onChangeText}
         value={value}
+        onChangeText={onChangeText}
+        mask={Masks.DATE_DDMMYYYY}
+        onBlur={onBlur}
+        keyboardType="numeric"
       />
       {error && <Text style={styles.error}>{error.message as string}</Text>}
-      {forgotPasswordLabel && (
-        <View style={styles.inputLabelContainer}>
-          <TouchableOpacity onPress={forgotPasswordCallback}>
-            <Text style={styles.forgotPassword}>{forgotPasswordLabel}</Text>
-          </TouchableOpacity>
-        </View>
-      )}
     </View>
   );
 };
@@ -67,13 +55,6 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 20,
     alignItems: 'stretch',
-  },
-  inputLabelContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginVertical: 8,
-    paddingHorizontal: 5,
   },
   input: {
     backgroundColor: colors.white,
@@ -94,8 +75,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 26,
     left: 16,
-  },
-  forgotPassword: {
-    fontWeight: '700',
   },
 });

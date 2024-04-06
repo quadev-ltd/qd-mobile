@@ -16,27 +16,28 @@ describe('SSOAnimatedForm', () => {
   });
 
   it('hides single sign on call to action buttons and shows the form', async () => {
-    const { findByTestId, getByTestId, queryByTestId, getByText, queryByText } = render(
-      <SSOAnimatedForm
-        screen={ScreenType.SignIn}
-        handleFacebookAction={handleFacebookSignIn}
-        handleGoogleAction={handleGoogleSignIn}
-        changePath={goToSignUp}
-        formHeight={0}
-      />,
-    );
+    const { findByTestId, getByTestId, queryByTestId, getByText, queryByText } =
+      render(
+        <SSOAnimatedForm
+          screen={ScreenType.SignIn}
+          handleFacebookAction={handleFacebookSignIn}
+          handleGoogleAction={handleGoogleSignIn}
+          changePath={goToSignUp}
+          formHeight={0}
+        />,
+      );
     jest.useFakeTimers();
-    
+
     await act(() => {
       fireEvent.press(getByText('signIn.withEmail'));
       jest.runAllTimers();
     });
 
-    let googleCTA = getByTestId('google-cta');
+    const googleCTA = getByTestId('google-cta');
     expect(googleCTA.props.style.opacity).toBe(1);
-    let facebookCTA = getByTestId('facebook-cta');
+    const facebookCTA = getByTestId('facebook-cta');
     expect(facebookCTA.props.style.opacity).toBe(1);
-    let emailCTA: ReactTestInstance | null = getByTestId('email-cta');
+    const emailCTA: ReactTestInstance | null = getByTestId('email-cta');
     expect(emailCTA.props.style.opacity).toBe(1);
     let form = getByTestId('form');
     expect(form.props.style.opacity).toBe(0);

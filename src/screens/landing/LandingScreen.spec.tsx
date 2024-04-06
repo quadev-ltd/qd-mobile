@@ -2,7 +2,7 @@ import { type RouteProp } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { render, screen } from '@testing-library/react-native';
 
-import { type Screen, type StackParamList } from '../routing/types';
+import { type Screen, type StackParamList } from '../Routing/types';
 
 import { LandingScreen } from './LandingScreen';
 
