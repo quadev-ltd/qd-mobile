@@ -1,10 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { ForgotPasswordScreen } from '../forgot-password/ForgotPasswordScreen';
-import { LandingScreen } from '../landing/LandingScreen';
-import { SignInScreen } from '../sign-in/SignInScreen';
-import { SignUpScreen } from '../sign-up/SignUpScreen';
+import { ForgotPasswordScreen } from '../ForgotPassword/ForgotPasswordScreen';
+import { LandingScreen } from '../Landing/LandingScreen';
+import { SignInScreen } from '../SignIn/SignInScreen';
+import { SignUpScreen } from '../SignUp/SignUpScreen';
 
 import { Screen, type StackParamList } from './types';
 

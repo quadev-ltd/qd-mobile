@@ -8,7 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { i18n } from './core/i18n/i18n';
 import { StoreProvider } from './core/state/components/StoreProvider';
-import { Router } from './screens/routing/Router';
+import { Router } from './screens/Routing/Router';
 
 import { env } from '@/core/env';
 

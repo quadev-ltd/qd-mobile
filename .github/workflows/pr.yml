@@ -28,6 +28,7 @@ jobs:
         working-directory: .
 
   build-android:
+    needs: run-checks
     runs-on: ubuntu-latest
     container:
       image: tavoargento/react-native-android-ci:0.0.1
@@ -48,6 +49,7 @@ jobs:
         run: cd android && ./gradlew assembleDevelopmentDebug
 
   build-ios:
+    needs: run-checks
     runs-on: macos-latest
 
     steps:

@@ -8,10 +8,10 @@ import {
   Keyboard,
 } from 'react-native';
 
-import { FooterPrompt } from '@/components/sign-in/FooterPrompt';
-import { Layout } from '@/components/sign-in/Layout';
-import { SSOHeader } from '@/components/sign-in/SSOHeader';
-import { type ScreenType } from '@/components/sign-in/types';
+import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
+import { Layout } from '@/components/SignIn/Layout';
+import { SSOAnimatedHeader } from '@/components/SignIn/SSOAnimatedHeader';
+import { type ScreenType } from '@/components/SignIn/types';
 
 const { height: VIEWPORT_HEIGHT } = Dimensions.get('window');
 
@@ -21,7 +21,7 @@ export interface SSOAnimatedFormScreenProps {
   handleGoogleAction: () => void;
   changePath: () => void;
   formHeight: number;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
@@ -34,32 +34,33 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
 }) => {
   const [isSSO, setIsSSO] = useState(true);
   const [translateY] = useState(new Animated.Value(VIEWPORT_HEIGHT));
-  const [isInitialAnimation, setIsInitialAnimation] = useState(true);
+  const [disableAnimation, setDisableAnimation] = useState(true);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const isKeyboardVisibleRef = useRef<boolean>(false);
   const moveUpOnKeyboard = useRef<number>(0);
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
+      'keyboardWillShow',
       event => {
         moveUpOnKeyboard.current =
           formHeight + event.endCoordinates.height - VIEWPORT_HEIGHT;
         if (moveUpOnKeyboard.current > 0) isKeyboardVisibleRef.current = true;
-        refreshKeyboardState();
+        setKeyboardVisibility();
       },
     );
     const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
+      'keyboardWillHide',
       () => {
         if (isKeyboardVisibleRef.current) isKeyboardVisibleRef.current = false;
-        refreshKeyboardState();
+        setKeyboardVisibility();
       },
     );
 
-    const refreshKeyboardState = () => {
+    const setKeyboardVisibility = () => {
       setKeyboardVisible(isKeyboardVisibleRef.current);
     };
+
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -67,7 +68,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   }, [formHeight]);
 
   const switchSSO = () => {
-    isInitialAnimation && setIsInitialAnimation(false);
+    disableAnimation && setDisableAnimation(false);
     !isSSO ? animateFormHide(() => setIsSSO(!isSSO)) : setIsSSO(!isSSO);
   };
   const animateFormHide = (onAnimationEnded?: () => void) => {
@@ -88,23 +89,26 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
       useNativeDriver: true,
     }).start(onAnimationEnded);
   };
+
   const marginTop =
     moveUpOnKeyboard.current > 0 ? -moveUpOnKeyboard.current : 0;
+
   return (
     <Layout>
-      <SSOHeader
+      <SSOAnimatedHeader
         handleFacebookLogin={handleFacebookLogin}
         handleGoogleLogin={handleGoogleLogin}
         screen={screen}
         isSSOExpanded={isSSO}
         switchSSO={switchSSO}
         onAnimationEnded={animateFormShow}
-        isInitialAnimation={isInitialAnimation}
+        disableAnimation={disableAnimation}
       />
       <KeyboardAvoidingView
         behavior={'padding'}
         style={styles.keyboardAvoidingContainer}>
         <Animated.View
+          testID="form"
           style={[
             styles.form,
             {

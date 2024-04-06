@@ -1,4 +1,5 @@
 import '@testing-library/react-native/extend-expect';
+import '@testing-library/jest-native/extend-expect';
 import { config } from 'dotenv';
 
 // set up env
@@ -14,5 +15,20 @@ jest.mock('react-native-config', () => ({
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
+    use: () => ({ init: jest.fn() }),
   }),
 }));
+
+jest.mock('i18next', () => ({
+  t: (key: string) => key,
+  use: () => ({ init: jest.fn() }),
+}));
+
+jest.mock('react-native-gesture-handler', () => {
+  return {
+    Swipeable: jest.fn().mockImplementation(({ children }) => children),
+    GestureHandlerRootView: jest
+      .fn()
+      .mockImplementation(({ children }) => children),
+  };
+});

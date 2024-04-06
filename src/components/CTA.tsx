@@ -16,6 +16,7 @@ interface CTAProps {
   source?: { uri: string };
   SvgComponent?: React.FC;
   text: string;
+  accessibilityLabel: string;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
 }
@@ -25,11 +26,15 @@ export const CTA: React.FC<CTAProps> = ({
   source,
   SvgComponent,
   text,
+  accessibilityLabel,
   style,
   textStyle,
 }) => {
   return (
-    <TouchableOpacity style={[styles.ctaButton, style]} onPress={onPress}>
+    <TouchableOpacity
+      accessibilityLabel={accessibilityLabel}
+      style={[styles.ctaButton, style]}
+      onPress={onPress}>
       <View style={styles.iconTextContainer}>
         {source && <Image source={source} style={styles.icon} />}
         {SvgComponent && <SvgComponent />}
@@ -47,6 +52,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
     paddingVertical: 14,
     alignItems: 'center',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 2, height: 4 },
+    shadowRadius: 4,
+    elevation: 4,
   },
   icon: {
     width: 20,
