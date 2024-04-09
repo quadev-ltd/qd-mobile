@@ -14,7 +14,7 @@ import {
 import { SvgCarretUp } from '@/assets/svg/CarretUp';
 import { SvgFacebook } from '@/assets/svg/Facebook';
 import { SvgGoogle } from '@/assets/svg/Google';
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 type DividerProps = {
   label: string;

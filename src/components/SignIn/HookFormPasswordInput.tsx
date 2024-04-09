@@ -15,11 +15,12 @@ import {
 } from '../../hooks/usePasswordValidation';
 import { FormTextInput } from '../FormTextInput';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
+import { SignUpSchemaType } from '@/schemas/signUpSchema';
 
 interface HookFormPasswordInputProps {
-  name: string;
-  control: Control<FieldValues>;
+  name: keyof SignUpSchemaType;
+  control: Control<SignUpSchemaType>;
   password?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
 }

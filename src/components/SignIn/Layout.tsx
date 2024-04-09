@@ -9,7 +9,7 @@ import {
 
 import { LayoutPaddingVertical } from './constants';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 type LayoutProps = {
   environment?: string;

@@ -9,6 +9,7 @@ import { type Persistor, persistReducer, persistStore } from 'redux-persist';
 
 import { generateMMKVStorage } from './mmkv.ts';
 import { testSlice } from './testSlice.ts';
+import { apiSlice } from '../api';
 
 const middlewares: Middleware[] = [];
 
@@ -20,7 +21,10 @@ if (__DEV__ && Platform.OS !== 'ios') {
 
 const rootReducer = combineReducers({
   [testSlice.reducerPath]: testSlice.reducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
 });
+
+middlewares.push(apiSlice.middleware);
 
 export const generateStore = (
   encriptionKey: string,

@@ -11,7 +11,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 interface AnimatedCTAProps {
   onPress?: () => void;

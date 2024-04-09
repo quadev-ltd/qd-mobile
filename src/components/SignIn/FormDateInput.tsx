@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import MaskInput, { Masks } from 'react-native-mask-input';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 interface FormDateInputProps {
   label: string;

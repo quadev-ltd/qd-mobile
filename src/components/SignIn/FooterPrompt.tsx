@@ -8,7 +8,7 @@ import {
 } from './constants';
 import { type ScreenType } from './types';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 interface FooterPromptProps {
   changePath: () => void;

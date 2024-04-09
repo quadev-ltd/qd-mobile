@@ -24,5 +24,4 @@ const jestConfig: JestConfigWithTsJest = {
   collectCoverageFrom: ['<rootDir>/src/**/*.tsx'],
 };
 
-// eslint-disable-next-line import/no-default-export
 export default jestConfig;

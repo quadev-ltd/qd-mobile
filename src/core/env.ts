@@ -7,6 +7,8 @@ export const ApplicationEnvironentEnum = z.enum(['test', 'dev', 'prod']);
 export const envSchema = z.object({
   APPLICATION_NAME: z.string(),
   APPLICATION_ENVIRONMENT: ApplicationEnvironentEnum,
+  APPLICATION_VERSION: z.string(),
+  BASE_URL: z.string(),
 });
 
 // validate config variables

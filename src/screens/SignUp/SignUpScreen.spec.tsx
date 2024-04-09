@@ -8,6 +8,15 @@ import { SignUpScreen } from './SignUpScreen';
 
 import { ApplicationEnvironentEnum } from '@/core/env';
 
+const registerUser = jest.fn();
+jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
+jest.mock('../../core/api', () => ({
+  useRegisterUserMutation: jest.fn(() => ([
+    registerUser,
+    { iLoading: false, error: null, data: null },
+  ])),
+}));
+
 const mockNavigation = {
   navigate: jest.fn(),
 } as unknown as NativeStackNavigationProp<
@@ -22,7 +31,6 @@ const mockRoute = {
   },
 } as unknown as RouteProp<StackParamList, Screen.SignUp>;
 
-jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
 describe('SignUpScreen', () => {
   beforeEach(() => {
     (mockNavigation.navigate as jest.Mock).mockReset();

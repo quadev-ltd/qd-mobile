@@ -1,6 +1,6 @@
 import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 interface SvgGoogleProps {
   color?: string;

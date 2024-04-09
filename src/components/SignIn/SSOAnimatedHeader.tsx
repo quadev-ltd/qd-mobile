@@ -13,7 +13,7 @@ import { SSOSwitch } from './SSOSwitch';
 import { type ScreenType } from './types';
 
 import { SvgFacebook } from '@/assets/svg/Facebook';
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 const { height: VIEWPORT_HEIGHT } = Dimensions.get('window');
 

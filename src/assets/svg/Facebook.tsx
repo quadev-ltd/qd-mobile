@@ -1,6 +1,6 @@
 import Svg, { Path } from 'react-native-svg';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 interface SvgFacebookProps {
   color?: string;

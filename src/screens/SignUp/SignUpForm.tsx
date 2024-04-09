@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, Keyboard } from 'react-native';
 
@@ -8,7 +8,10 @@ import { commonStyles } from '@/components/SignIn/constants';
 import { HookFormDateInput } from '@/components/SignIn/HookFormDateInput';
 import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
-import { SignUpFields, signUpSchema } from '@/schemas/signUpSchema';
+import { SignUpFields, SignUpSchemaType, signUpSchema } from '@/schemas/signUpSchema';
+import { useRegisterUserMutation } from '@/core/api';
+import Spinner from '@/components/Spinner';
+import { stringToDate, stringToGrpcTimestamp } from '@/util';
 
 interface SignUpFormScreenProps {}
 
@@ -18,19 +21,37 @@ export const SignUpForm: React.FC<SignUpFormScreenProps> = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm({ resolver: zodResolver(signUpSchema) });
+  } = useForm<SignUpSchemaType>({ resolver: zodResolver(signUpSchema) });
   const { t } = useTranslation();
+  const [registerUser, { isLoading, data, error }] = useRegisterUserMutation();
   const password = watch('password');
 
-  const onSubmit = (data: FieldValues) => {
-    // Reset form on submit
-    // eslint-disable-next-line no-console
-    console.log('Data:::', data);
+  const onSubmit = async (formData: SignUpSchemaType) => {
+    try {
+      const dob = stringToDate(formData[SignUpFields.dob]).getUTCSeconds();
+      const parsedData = {
+        ...formData,
+        [SignUpFields.dob]: dob,
+      };
+      const userData = await registerUser(parsedData).unwrap();
+      console.log('User registered:', userData);
+      console.log('Data:', data);
+      // Handle success (e.g., show a success message or redirect the user)
+    } catch (err) {
+      // Handle errors (e.g., show error message)
+      console.error('Registration failed:', err);
+      console.log('Error:', error);
+    }
+    
   };
   const handleOnSubmit = () => {
     Keyboard.dismiss();
     handleSubmit(onSubmit)();
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
