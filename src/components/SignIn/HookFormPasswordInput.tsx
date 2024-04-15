@@ -3,7 +3,6 @@ import {
   Controller,
   type FieldError,
   type FieldErrorsImpl,
-  type FieldValues,
   type Merge,
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -15,8 +14,8 @@ import {
 } from '../../hooks/usePasswordValidation';
 import { FormTextInput } from '../FormTextInput';
 
+import { type SignUpSchemaType } from '@/schemas/signUpSchema';
 import { colors } from '@/styles';
-import { SignUpSchemaType } from '@/schemas/signUpSchema';
 
 interface HookFormPasswordInputProps {
   name: keyof SignUpSchemaType;

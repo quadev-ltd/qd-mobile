@@ -5,15 +5,20 @@ import { ForgotPasswordScreen } from '../ForgotPassword/ForgotPasswordScreen';
 import { LandingScreen } from '../Landing/LandingScreen';
 import { SignInScreen } from '../SignIn/SignInScreen';
 import { SignUpScreen } from '../SignUp/SignUpScreen';
+import { WelcomeScreen } from '../Welcome/WelcomeScreen';
 
 import { Screen, type StackParamList } from './types';
 
 type RouterProps = {
   environment?: string;
+  applicationName: string;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
-export const Router: React.FC<RouterProps> = ({ environment }) => {
+export const Router: React.FC<RouterProps> = ({
+  environment,
+  applicationName,
+}) => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -31,6 +36,11 @@ export const Router: React.FC<RouterProps> = ({ environment }) => {
         <Stack.Screen
           name={Screen.ForgotPassword}
           component={ForgotPasswordScreen}
+        />
+        <Stack.Screen
+          name={Screen.Wellcome}
+          component={WelcomeScreen}
+          initialParams={{ applicationName }}
         />
       </Stack.Navigator>
     </NavigationContainer>

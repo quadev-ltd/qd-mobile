@@ -36,6 +36,7 @@ export const FormDateInput: React.FC<FormDateInputProps> = ({
   return (
     <View style={styles.fieldConatiner}>
       <MaskInput
+        testID={label}
         style={styles.input}
         placeholder={label}
         accessibilityLabel={accessibilityLabel}

@@ -41,6 +41,7 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
   return (
     <View style={styles.fieldConatiner}>
       <TextInput
+        testID={label}
         style={styles.input}
         secureTextEntry={secureTextEntry}
         placeholder={label}

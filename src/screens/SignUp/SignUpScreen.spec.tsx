@@ -11,11 +11,17 @@ import { ApplicationEnvironentEnum } from '@/core/env';
 const registerUser = jest.fn();
 jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
 jest.mock('../../core/api', () => ({
-  useRegisterUserMutation: jest.fn(() => ([
+  useRegisterUserMutation: jest.fn(() => [
     registerUser,
     { iLoading: false, error: null, data: null },
-  ])),
+  ]),
 }));
+jest.mock('react-native-toast-message', () => 'ToastMessage');
+jest.mock('@react-native-firebase/crashlytics', () => 'Crashlytics');
+jest.mock(
+  'react-native-vector-icons/MaterialCommunityIcons',
+  () => 'MaterialCommunityIcons',
+);
 
 const mockNavigation = {
   navigate: jest.fn(),
@@ -44,11 +50,11 @@ describe('SignUpScreen', () => {
     expect(queryByText('signUp.firstNameLabel')).toBeNull();
   });
 
-  it('navigates to the sign-in screen on change path action', () => {
+  it('navigates to the sign-in screen on change path action', async () => {
     const { getByText } = render(
       <SignUpScreen navigation={mockNavigation} route={mockRoute} />,
     );
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('signUp.changePathButton'));
     });
     expect(mockNavigation.navigate).toHaveBeenCalledWith(Screen.SignIn);

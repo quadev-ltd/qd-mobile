@@ -7,9 +7,10 @@ import {
 import { Platform } from 'react-native';
 import { type Persistor, persistReducer, persistStore } from 'redux-persist';
 
+import { apiSlice } from '../api';
+
 import { generateMMKVStorage } from './mmkv.ts';
 import { testSlice } from './testSlice.ts';
-import { apiSlice } from '../api';
 
 const middlewares: Middleware[] = [];
 

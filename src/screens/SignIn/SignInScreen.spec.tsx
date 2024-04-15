@@ -23,6 +23,10 @@ const mockRoute = {
 } as unknown as RouteProp<StackParamList, Screen.SignIn>;
 
 jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
+jest.mock(
+  'react-native-vector-icons/MaterialCommunityIcons',
+  () => 'MaterialCommunityIcons',
+);
 
 describe('SignInScreen', () => {
   beforeEach(() => {
@@ -37,12 +41,12 @@ describe('SignInScreen', () => {
     expect(queryByText('signIn.firstNameLabel')).toBeNull();
   });
 
-  it('navigates to the sign-in screen on change path action', () => {
+  it('navigates to the sign-in screen on change path action', async () => {
     const { getByText } = render(
       <SignInScreen navigation={mockNavigation} route={mockRoute} />,
     );
 
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('signIn.changePathButton'));
     });
 

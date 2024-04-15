@@ -19,6 +19,20 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
   const handleFacebookLogin = () => {};
   const handleGoogleLogin = () => {};
   const goToSignIn = () => navigation.navigate(Screen.SignIn);
+  const handleSuccess = (userData: { userName: string; userID: string }) => {
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: Screen.Wellcome,
+          params: {
+            firstName: userData.userName,
+            userID: userData.userID,
+          },
+        },
+      ],
+    });
+  };
   return (
     <SSOAnimatedForm
       screen={ScreenType.SignUp}
@@ -26,7 +40,7 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
       handleGoogleAction={handleGoogleLogin}
       formHeight={FORM_HEIGHT}
       changePath={goToSignIn}>
-      <SignUpForm />
+      <SignUpForm onSuccess={handleSuccess} />
     </SSOAnimatedForm>
   );
 };

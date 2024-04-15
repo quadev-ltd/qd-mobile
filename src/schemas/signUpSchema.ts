@@ -14,7 +14,6 @@ export enum SignUpFields {
   dob = 'date_of_birth',
   password = 'password',
   passwordConfirmation = 'password_confirmation',
-  terms = 'terms',
 }
 
 export const signUpSchema = z

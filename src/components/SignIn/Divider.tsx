@@ -10,10 +10,8 @@ import {
   GestureHandlerRootView,
   Swipeable,
 } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { SvgCarretUp } from '@/assets/svg/CarretUp';
-import { SvgFacebook } from '@/assets/svg/Facebook';
-import { SvgGoogle } from '@/assets/svg/Google';
 import { colors } from '@/styles';
 
 type DividerProps = {
@@ -76,11 +74,11 @@ export const Divider: React.FC<DividerProps> = ({
             testID="divider-cta"
             style={styles.buttonContainer}
             onPress={onPress}>
-            <SvgCarretUp />
+            <Icon name="chevron-up" size={32} color={colors.black} />
             <View style={styles.dividerContentContainer}>
-              <SvgGoogle color={colors.black} />
+              <Icon name="google" size={26} color={colors.black} />
               <Text style={styles.dividerText}>{label}</Text>
-              <SvgFacebook color={colors.black} />
+              <Icon name="facebook" size={28} color="#000000" />
             </View>
           </TouchableOpacity>
         </Swipeable>
@@ -111,7 +109,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: 80,
-    marginTop: -8,
   },
   buttonContainer: {
     flexDirection: 'column',

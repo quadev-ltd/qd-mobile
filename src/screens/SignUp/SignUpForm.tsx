@@ -1,48 +1,105 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { type TFunction } from 'i18next';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, Keyboard } from 'react-native';
+import Toast from 'react-native-toast-message';
+
+import { AsynchErrorMessages } from '../../core/api/constants';
 
 import { CTA } from '@/components/CTA';
 import { commonStyles } from '@/components/SignIn/constants';
 import { HookFormDateInput } from '@/components/SignIn/HookFormDateInput';
 import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
-import { SignUpFields, SignUpSchemaType, signUpSchema } from '@/schemas/signUpSchema';
-import { useRegisterUserMutation } from '@/core/api';
 import Spinner from '@/components/Spinner';
+import { useRegisterUserMutation } from '@/core/api';
+import { type ResponseError } from '@/core/api/types';
+import Logger from '@/core/logger';
+import {
+  SignUpFields,
+  type SignUpSchemaType,
+  signUpSchema,
+} from '@/schemas/signUpSchema';
 import { stringToDate, stringToGrpcTimestamp } from '@/util';
 
-interface SignUpFormScreenProps {}
+interface SignUpFormProps {
+  onSuccess: (userData: { userName: string; userID: string }) => void;
+}
 
-export const SignUpForm: React.FC<SignUpFormScreenProps> = () => {
+const showUnexpectedErrorToast = (t: TFunction<'translation'>) => {
+  Toast.show({
+    type: 'error',
+    text1: t('signUp.genericError'),
+    text2: t('signUp.genericErrorDescription'),
+    position: 'bottom',
+  });
+};
+
+export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
     watch,
   } = useForm<SignUpSchemaType>({ resolver: zodResolver(signUpSchema) });
   const { t } = useTranslation();
-  const [registerUser, { isLoading, data, error }] = useRegisterUserMutation();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
   const password = watch('password');
 
   const onSubmit = async (formData: SignUpSchemaType) => {
     try {
-      const dob = stringToDate(formData[SignUpFields.dob]).getUTCSeconds();
+      const dob = stringToGrpcTimestamp(formData[SignUpFields.dob]);
+      stringToDate(formData[SignUpFields.dob]).getTime();
       const parsedData = {
         ...formData,
         [SignUpFields.dob]: dob,
       };
       const userData = await registerUser(parsedData).unwrap();
-      console.log('User registered:', userData);
-      console.log('Data:', data);
-      // Handle success (e.g., show a success message or redirect the user)
+      if (userData.success) {
+        onSuccess({
+          userID: userData.user.user_id,
+          userName: userData.user.first_name,
+        });
+      } else {
+        Logger().logError(
+          Error(`Failed to register user: ${parsedData[SignUpFields.email]}`),
+        );
+        showUnexpectedErrorToast(t);
+      }
     } catch (err) {
-      // Handle errors (e.g., show error message)
-      console.error('Registration failed:', err);
-      console.log('Error:', error);
+      const typedError = err as ResponseError;
+      if (
+        typedError.data?.field_errors &&
+        typedError.data.field_errors.length > 0 &&
+        typedError.status === 400
+      ) {
+        (err as ResponseError).data?.field_errors?.forEach(fieldError => {
+          const errorMessage = AsynchErrorMessages[fieldError.error];
+          if (!errorMessage) {
+            Logger().logError(
+              Error(`Unknown registration error: ${JSON.stringify(err)}`),
+            );
+            showUnexpectedErrorToast(t);
+            return;
+          }
+          setError(
+            fieldError.field as keyof SignUpSchemaType,
+            {
+              type: 'manual',
+              message: errorMessage,
+            },
+            { shouldFocus: true },
+          );
+        });
+      } else {
+        Logger().logError(
+          Error(`Unknown registration error: ${JSON.stringify(err)}`),
+        );
+        showUnexpectedErrorToast(t);
+      }
     }
-    
   };
   const handleOnSubmit = () => {
     Keyboard.dismiss();

@@ -3,6 +3,7 @@ export enum Screen {
   SignIn = 'Login',
   SignUp = 'Register',
   ForgotPassword = 'ForgotPassword',
+  Wellcome = 'Wellcome',
 }
 
 export type StackParamList = {
@@ -10,4 +11,9 @@ export type StackParamList = {
   [Screen.SignIn]: undefined;
   [Screen.SignUp]: undefined;
   [Screen.ForgotPassword]: undefined;
+  [Screen.Wellcome]: {
+    applicationName?: string;
+    firstName: string;
+    userID: string;
+  };
 };

@@ -2,7 +2,8 @@ import { render } from '@testing-library/react-native';
 import { useForm } from 'react-hook-form';
 
 import { HookFormPasswordInput } from './HookFormPasswordInput';
-import { SignUpFields, SignUpSchemaType } from '@/schemas/signUpSchema';
+
+import { SignUpFields, type SignUpSchemaType } from '@/schemas/signUpSchema';
 
 interface TestProps {
   password: string;

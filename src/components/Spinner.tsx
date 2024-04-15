@@ -1,11 +1,12 @@
-import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native-paper';
+
+import { colors } from '@/styles';
 
 const Spinner = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" animating={true} color={MD2Colors.black} />
+      <ActivityIndicator size="large" animating={true} color={colors.black} />
     </View>
   );
 };

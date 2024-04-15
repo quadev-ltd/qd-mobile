@@ -3,12 +3,12 @@ import {
   Controller,
   type FieldError,
   type FieldErrorsImpl,
-  type FieldValues,
   type Merge,
 } from 'react-hook-form';
 
 import { FormTextInput } from '../FormTextInput';
-import { SignUpSchemaType } from '@/schemas/signUpSchema';
+
+import { type SignUpSchemaType } from '@/schemas/signUpSchema';
 
 interface HookFormTextInputProps {
   name: keyof SignUpSchemaType;

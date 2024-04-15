@@ -35,6 +35,7 @@
     "emailAccessibilityLabel": "Enter your email",
     "emailRequiredError": "Required",
     "emailFormatError": "Please enter a valid email address",
+    "emailAlreadyUsedError": "Email is already in use",
     "firstNameLabel": "First name",
     "firstNameRequiredError": "Required",
     "firstNameLengthError": "First name must be less than 30 characters",
@@ -69,7 +70,9 @@
     "submitButton": "Sign up",
     "submitButtonAccessibilityLabel": "Sign up action",
     "changePathDescription": "Already have an account?",
-    "changePathButton": "Sign in"
+    "changePathButton": "Sign in",
+    "genericError": "Error",
+    "genericErrorDescription": "Something went wrong. Please try again later."
   },
   "forgotPassword": {
     "title": "Enter your email address",
@@ -79,5 +82,12 @@
     "submitButtonAccessibilityLabel": "Send verification email action",
     "changePathDescription": "Already have an account?",
     "changePathButton": "Sign in"
+  },
+  "wellcome": {
+    "title": "Wellcome to ",
+    "emailVerification": "We've sent you an email!\n\nPlease check your inbox to complete the verification process.",
+    "resendCTA": "Resend email",
+    "resendCTAAccessibilityLabel": "Resend email"
+
   }
 }

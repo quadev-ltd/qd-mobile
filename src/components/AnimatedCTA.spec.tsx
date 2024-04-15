@@ -30,7 +30,7 @@ describe('AnimatedCTA', () => {
       ),
     ).resolves.toBeUndefined();
 
-    act(() => {
+    await act(() => {
       rerender(
         <AnimatedCTA
           testID="cta"
