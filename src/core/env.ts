@@ -9,6 +9,7 @@ export const envSchema = z.object({
   APPLICATION_ENVIRONMENT: ApplicationEnvironentEnum,
   APPLICATION_VERSION: z.string(),
   BASE_URL: z.string(),
+  DEEP_LINKING_DOMAIN: z.string(),
 });
 
 // validate config variables

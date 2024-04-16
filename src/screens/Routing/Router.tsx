@@ -5,9 +5,12 @@ import { ForgotPasswordScreen } from '../ForgotPassword/ForgotPasswordScreen';
 import { LandingScreen } from '../Landing/LandingScreen';
 import { SignInScreen } from '../SignIn/SignInScreen';
 import { SignUpScreen } from '../SignUp/SignUpScreen';
+import VerifyEmailScreen from '../VerifyEmail/VerifyEmailScreen';
 import { WelcomeScreen } from '../Welcome/WelcomeScreen';
 
 import { Screen, type StackParamList } from './types';
+
+import { linking } from '@/core/deepLinking';
 
 type RouterProps = {
   environment?: string;
@@ -20,7 +23,7 @@ export const Router: React.FC<RouterProps> = ({
   applicationName,
 }) => {
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator
         initialRouteName={Screen.Landing}
         screenOptions={{
@@ -42,6 +45,7 @@ export const Router: React.FC<RouterProps> = ({
           component={WelcomeScreen}
           initialParams={{ applicationName }}
         />
+        <Stack.Screen name={Screen.VerifyEmail} component={VerifyEmailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

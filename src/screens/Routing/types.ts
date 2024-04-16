@@ -4,6 +4,7 @@ export enum Screen {
   SignUp = 'Register',
   ForgotPassword = 'ForgotPassword',
   Wellcome = 'Wellcome',
+  VerifyEmail = 'VerifyEmail',
 }
 
 export type StackParamList = {
@@ -15,5 +16,9 @@ export type StackParamList = {
     applicationName?: string;
     firstName: string;
     userID: string;
+  };
+  [Screen.VerifyEmail]: {
+    userID: string;
+    verificationToken: string;
   };
 };

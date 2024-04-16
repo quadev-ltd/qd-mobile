@@ -82,3 +82,6 @@ GoogleService-Info.plist
 .env.*
 !.env.example
 !.env.test
+
+# react-native-config codegen
+ios/tmp.xcconfig
