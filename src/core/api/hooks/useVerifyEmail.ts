@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 
 import { useVerifyEmailMutation } from '@/core/api';
-import { type APIError } from '@/core/api/constants';
-import { type ResponseError } from '@/core/api/types';
+import { type APIError, type ResponseError } from '@/core/api/types';
 import logger from '@/core/logger';
 
 export const useVerifyEmail = (userID: string, verificationToken?: string) => {

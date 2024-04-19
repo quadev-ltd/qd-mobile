@@ -10,7 +10,7 @@ import { useEmailVerification } from './useEmailVerification';
 import { CTA } from '@/components/CTA';
 import FlatTextCTA from '@/components/FlatTextCTA';
 import { Layout } from '@/components/SignIn/Layout';
-import { APIError } from '@/core/api/constants';
+import { APIError } from '@/core/api/types';
 import { colors } from '@/styles';
 
 const mapAPIErrorToFriendlyMessage = (

@@ -1,5 +1,5 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { Screen, type StackParamList } from '../Routing/types';
 
@@ -48,10 +48,6 @@ export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
     if (isVerifyError) return VerificationRequestStatus.Failure;
     return VerificationRequestStatus.Idle;
   }, [isVerifying, isVerifySuccess, isVerifyError]);
-
-  useEffect(() => {
-    isVerifySuccess && navigation.navigate(Screen.Landing, { environment: 'wtf' });
-  }, [isVerifySuccess])
 
   return (
     <EmailVerificationComponent

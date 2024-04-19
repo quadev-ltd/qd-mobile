@@ -6,8 +6,8 @@ import {
 } from './usePasswordValidation';
 
 jest.mock('@react-native-firebase/crashlytics', () => ({
-    log: jest.fn(),
-    recordError: jest.fn(),
+  log: jest.fn(),
+  recordError: jest.fn(),
 }));
 
 describe('isPasswordValid', () => {

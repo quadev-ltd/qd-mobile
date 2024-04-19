@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { resendVerificationEmailMutation } from './resendVerificationEmail';
-import { signUpMutation } from './signUp';
+import { resendVerificationEmailMutation } from './resendVerificationEmailMutation';
+import { signUpMutation } from './signUpMutation';
 import {
   type VerifyEmailRequest,
   type BaseResponse,
@@ -9,7 +9,7 @@ import {
   type SignUpRequest,
   type SignUpResponse,
 } from './types';
-import { verifyEmailMutation } from './verifyEmail';
+import { verifyEmailMutation } from './verifyEmailMutation';
 
 import { env } from '@/core/env';
 

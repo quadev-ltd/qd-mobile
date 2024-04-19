@@ -1,5 +1,23 @@
 import { type Timestamp } from '../../util/index';
 
+export enum FieldErrors {
+  Email = 'email',
+  Required = 'required',
+  Complex = 'complex',
+  AlreadyUsed = 'already_used',
+  MaxLength = 'max',
+  NotFuture = 'not_future',
+}
+
+export enum APIError {
+  InvalidUserIDError = 'invalid_user_id',
+  InvalidEmailError = 'invalid_email',
+  EmailVerifiedError = 'email_already_verified',
+  InvalidTokenError = 'invalid_token',
+  TokenExpiredError = 'token_expired',
+  TooManyRequestsError = 'too_many_requests',
+}
+
 export enum Methods {
   POST = 'POST',
   GET = 'GET',

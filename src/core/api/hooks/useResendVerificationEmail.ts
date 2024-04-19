@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 
 import { useResendVerificationEmailMutation } from '..';
-import { APIError } from '../constants';
-import { type ResponseError } from '../types';
+import { APIError, type ResponseError } from '../types';
 
 import logger from '@/core/logger';
 

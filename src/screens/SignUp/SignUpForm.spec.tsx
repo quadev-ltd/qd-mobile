@@ -9,8 +9,7 @@ import Toast from 'react-native-toast-message';
 
 import { SignUpForm } from './SignUpForm';
 
-import { FieldErrors } from '@/core/api/constants';
-import { type ResponseError } from '@/core/api/types';
+import { FieldErrors, type ResponseError } from '@/core/api/types';
 import { SignUpFields } from '@/schemas/signUpSchema';
 
 const mockRegisterUser = jest.fn();
@@ -153,7 +152,11 @@ describe('SignUpForm complete success and errors', () => {
       () => {
         expect(mockRegisterUser).toHaveBeenCalledTimes(1);
         expect(mockLogger.logError).toHaveBeenCalledWith(
-          Error(`Unknown registration error for email ${validData[SignUpFields.email]}: {}`),
+          Error(
+            `Unknown registration error for email ${
+              validData[SignUpFields.email]
+            }: {}`,
+          ),
         );
       },
       { timeout: 1000 },
@@ -206,9 +209,9 @@ describe('SignUpForm complete success and errors', () => {
         expect(mockLogger.logError).toHaveBeenCalledTimes(1);
         expect(mockLogger.logError).toHaveBeenCalledWith(
           Error(
-            `Unknown registration error for email ${validData[SignUpFields.email]}: ${JSON.stringify(
-              unkonwResponseError,
-            )}`,
+            `Unknown registration error for email ${
+              validData[SignUpFields.email]
+            }: ${JSON.stringify(unkonwResponseError)}`,
           ),
         );
         expect(mockShowToast).toHaveBeenCalledWith({
@@ -246,9 +249,9 @@ describe('SignUpForm complete success and errors', () => {
         expect(mockLogger.logError).toHaveBeenCalledTimes(1);
         expect(mockLogger.logError).toHaveBeenCalledWith(
           Error(
-            `Unknown registration error for email ${validData[SignUpFields.email]}: ${JSON.stringify(
-              internalServerResponseError,
-            )}`,
+            `Unknown registration error for email ${
+              validData[SignUpFields.email]
+            }: ${JSON.stringify(internalServerResponseError)}`,
           ),
         );
         expect(mockShowToast).toHaveBeenCalledWith({
