@@ -49,7 +49,7 @@ const StatusDisplay: React.FC<StatusDisplayProps> = ({ status }) => {
         />
       );
     default:
-      return;
+      return null;
   }
 };
 

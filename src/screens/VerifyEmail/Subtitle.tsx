@@ -38,7 +38,7 @@ const Subtitle: React.FC<SubtitleProps> = ({
       {t('emailVerification.successSubtitle')}
     </Text>;
   }
-  return;
+  return null;
 };
 
 const styles = StyleSheet.create({

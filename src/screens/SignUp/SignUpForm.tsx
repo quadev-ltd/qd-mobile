@@ -73,7 +73,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
           const errorMessage = AsynchErrorMessages[fieldError.error];
           if (!errorMessage) {
             Logger().logError(
-              Error(`Unknown registration error: ${JSON.stringify(err)}`),
+              Error(`Unknown registration error for email ${formData[SignUpFields.email]}: ${JSON.stringify(err)}`),
             );
             showUnexpectedErrorToast(t);
             return;
@@ -89,7 +89,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         });
       } else {
         Logger().logError(
-          Error(`Unknown registration error: ${JSON.stringify(err)}`),
+          Error(`Unknown registration error for email ${formData[SignUpFields.email]}: ${JSON.stringify(err)}`),
         );
         showUnexpectedErrorToast(t);
       }

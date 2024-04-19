@@ -153,7 +153,7 @@ describe('SignUpForm complete success and errors', () => {
       () => {
         expect(mockRegisterUser).toHaveBeenCalledTimes(1);
         expect(mockLogger.logError).toHaveBeenCalledWith(
-          Error(`Failed to register user: ${validData[SignUpFields.email]}`),
+          Error(`Unknown registration error for email ${validData[SignUpFields.email]}: {}`),
         );
       },
       { timeout: 1000 },
@@ -206,7 +206,7 @@ describe('SignUpForm complete success and errors', () => {
         expect(mockLogger.logError).toHaveBeenCalledTimes(1);
         expect(mockLogger.logError).toHaveBeenCalledWith(
           Error(
-            `Unknown registration error: ${JSON.stringify(
+            `Unknown registration error for email ${validData[SignUpFields.email]}: ${JSON.stringify(
               unkonwResponseError,
             )}`,
           ),
@@ -246,7 +246,7 @@ describe('SignUpForm complete success and errors', () => {
         expect(mockLogger.logError).toHaveBeenCalledTimes(1);
         expect(mockLogger.logError).toHaveBeenCalledWith(
           Error(
-            `Unknown registration error: ${JSON.stringify(
+            `Unknown registration error for email ${validData[SignUpFields.email]}: ${JSON.stringify(
               internalServerResponseError,
             )}`,
           ),
