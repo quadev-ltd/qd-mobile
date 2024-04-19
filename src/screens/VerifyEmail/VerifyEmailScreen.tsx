@@ -1,9 +1,13 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Text } from 'react-native';
+import { useEffect, useMemo } from 'react';
 
-import { type Screen, type StackParamList } from '../Routing/types';
+import { Screen, type StackParamList } from '../Routing/types';
 
-import { Layout } from '@/components/SignIn/Layout';
+import { ResendRequestStatus, VerificationRequestStatus } from './types';
+import EmailVerificationComponent from './VerifyEmail';
+
+import { useResendEmail } from '@/core/api/hooks/useResendVerificationEmail';
+import { useVerifyEmail } from '@/core/api/hooks/useVerifyEmail';
 
 export type VerifyEmailScreenProps = NativeStackScreenProps<
   StackParamList,
@@ -11,14 +15,55 @@ export type VerifyEmailScreenProps = NativeStackScreenProps<
 >;
 
 export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
-  route,
+  route: { params },
+  navigation,
 }) => {
+  const {
+    isLoading: isVerifying,
+    isError: isVerifyError,
+    isSuccess: isVerifySuccess,
+    apiErrorCode: apiVerifyErrorCode,
+  } = useVerifyEmail(params.userID, params.verificationToken);
+
+  const {
+    resendEmail,
+    isSending,
+    isSendSuccess,
+    isSendError,
+    apiSendErrorCode,
+  } = useResendEmail(params.userID);
+
+  const goToSignIn = () => navigation.navigate(Screen.SignIn);
+
+  const resendStatus = useMemo(() => {
+    if (isSending) return ResendRequestStatus.Sending;
+    if (isSendSuccess) return ResendRequestStatus.Sent;
+    if (isSendError) return ResendRequestStatus.Failure;
+    return ResendRequestStatus.Idle;
+  }, [isSending, isSendSuccess, isSendError]);
+
+  const verificationStatus = useMemo(() => {
+    if (isVerifying) return VerificationRequestStatus.Verifying;
+    if (isVerifySuccess) return VerificationRequestStatus.Verified;
+    if (isVerifyError) return VerificationRequestStatus.Failure;
+    return VerificationRequestStatus.Idle;
+  }, [isVerifying, isVerifySuccess, isVerifyError]);
+
+  useEffect(() => {
+    isVerifySuccess && navigation.navigate(Screen.Landing, { environment: 'wtf' });
+  }, [isVerifySuccess])
+
   return (
-    <Layout>
-      <Text>Verify Email Screen</Text>
-      <Text>{route.params?.userID}</Text>
-      <Text>{route.params?.verificationToken}</Text>
-    </Layout>
+    <EmailVerificationComponent
+      resendStatus={resendStatus}
+      verificationStatus={verificationStatus}
+      userName={params.firstName ? ` ${params.firstName}` : ''}
+      applicationName={params.applicationName}
+      resendEmail={resendEmail}
+      goToSignIn={goToSignIn}
+      apiResendError={apiSendErrorCode}
+      apiVerificationError={apiVerifyErrorCode}
+    />
   );
 };
 

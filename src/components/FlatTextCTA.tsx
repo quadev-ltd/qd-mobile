@@ -14,6 +14,7 @@ interface FlatTextCTAProps {
   accessibilityLabel: string;
   style?: TextStyle;
   Icon?: ReactNode;
+  disabled?: boolean;
 }
 
 export const FlatTextCTA: React.FC<FlatTextCTAProps> = ({
@@ -22,13 +23,17 @@ export const FlatTextCTA: React.FC<FlatTextCTAProps> = ({
   accessibilityLabel,
   style,
   Icon,
+  disabled,
 }) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={styles.container}
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}>
-      <Text style={[styles.text, style]}>{text}</Text>
+      <Text style={[styles.text, style, disabled && styles.disabled]}>
+        {text}
+      </Text>
       {Icon && Icon}
     </TouchableOpacity>
   );
@@ -45,6 +50,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 8,
     color: colors.black,
+  },
+  disabled: {
+    color: colors.disabledGrey,
+    opacity: 0.5,
   },
 });
 

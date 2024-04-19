@@ -24,7 +24,7 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
       index: 0,
       routes: [
         {
-          name: Screen.Wellcome,
+          name: Screen.VerifyEmail,
           params: {
             firstName: userData.userName,
             userID: userData.userID,

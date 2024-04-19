@@ -9,9 +9,9 @@ const { t } = i18n;
 
 export enum SignUpFields {
   email = 'email',
-  firstName = 'first_name',
-  lastName = 'last_name',
-  dob = 'date_of_birth',
+  firstName = 'firstName',
+  lastName = 'lastName',
+  dob = 'dateOfBirth',
   password = 'password',
   passwordConfirmation = 'password_confirmation',
 }

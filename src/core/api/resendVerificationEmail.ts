@@ -1,5 +1,5 @@
 import { APIEndpoints, ParameterNames } from './constants';
-import { type ResendVerificationRequest } from './types';
+import { Methods, type ResendVerificationRequest } from './types';
 
 export const resendVerificationEmailMutation = (
   data: ResendVerificationRequest,
@@ -9,6 +9,6 @@ export const resendVerificationEmailMutation = (
       ParameterNames.UserID,
       data.userID,
     ),
-    method: 'POST',
+    method: Methods.POST,
   };
 };

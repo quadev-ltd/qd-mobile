@@ -14,7 +14,7 @@ const jestConfig: JestConfigWithTsJest = {
       },
     ],
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'node'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
@@ -22,6 +22,11 @@ const jestConfig: JestConfigWithTsJest = {
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
   collectCoverageFrom: ['<rootDir>/src/**/*.tsx'],
+  transformIgnorePatterns: [
+    // "/node_modules/(?!(@react-native-firebase/crashlytics)/)",
+    // "/node_modules/(?!(@react-navigation/native)/)",
+    // "/node_modules/(?!(@react-navigation/native-stack)/)"
+  ],
 };
 
 export default jestConfig;

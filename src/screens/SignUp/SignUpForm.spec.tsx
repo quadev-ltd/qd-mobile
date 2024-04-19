@@ -61,8 +61,8 @@ const successResponseData = {
   success: true,
   message: 'success',
   user: {
-    user_id: '123d768a98df',
-    first_name: 'John',
+    userID: '123d768a98df',
+    firstName: 'John',
   },
 };
 

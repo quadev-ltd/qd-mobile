@@ -3,11 +3,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { resendVerificationEmailMutation } from './resendVerificationEmail';
 import { signUpMutation } from './signUp';
 import {
+  type VerifyEmailRequest,
   type BaseResponse,
   type ResendVerificationRequest,
-  type SignUpFormType,
+  type SignUpRequest,
   type SignUpResponse,
 } from './types';
+import { verifyEmailMutation } from './verifyEmail';
 
 import { env } from '@/core/env';
 
@@ -29,7 +31,7 @@ export const apiSlice = createApi({
     },
   }),
   endpoints: builder => ({
-    registerUser: builder.mutation<SignUpResponse, SignUpFormType>({
+    registerUser: builder.mutation<SignUpResponse, SignUpRequest>({
       query: signUpMutation,
     }),
     resendVerificationEmail: builder.mutation<
@@ -38,8 +40,14 @@ export const apiSlice = createApi({
     >({
       query: resendVerificationEmailMutation,
     }),
+    verifyEmail: builder.mutation<BaseResponse, VerifyEmailRequest>({
+      query: verifyEmailMutation,
+    }),
   }),
 });
 
-export const { useRegisterUserMutation, useResendVerificationEmailMutation } =
-  apiSlice;
+export const {
+  useRegisterUserMutation,
+  useResendVerificationEmailMutation,
+  useVerifyEmailMutation,
+} = apiSlice;

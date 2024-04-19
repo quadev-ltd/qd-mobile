@@ -19,6 +19,7 @@ interface CTAProps {
   accessibilityLabel: string;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  disabled?: boolean;
 }
 
 export const CTA: React.FC<CTAProps> = ({
@@ -29,16 +30,26 @@ export const CTA: React.FC<CTAProps> = ({
   accessibilityLabel,
   style,
   textStyle,
+  disabled,
 }) => {
   return (
     <TouchableOpacity
       accessibilityLabel={accessibilityLabel}
-      style={[styles.ctaButton, style]}
-      onPress={onPress}>
-      <View style={styles.iconTextContainer}>
-        {source && <Image source={source} style={styles.icon} />}
-        {SvgComponent && <SvgComponent />}
-        <Text style={[styles.iconText, textStyle]}>{text}</Text>
+      onPress={onPress}
+      disabled={disabled}>
+      <View style={[styles.ctaButton, disabled && styles.disabled, style]}>
+        <View style={styles.iconTextContainer}>
+          {source && <Image source={source} style={styles.icon} />}
+          {SvgComponent && <SvgComponent />}
+          <Text
+            style={[
+              styles.iconText,
+              disabled && styles.iconTextDisabled,
+              textStyle,
+            ]}>
+            {text}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -51,11 +62,16 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: colors.black,
     paddingVertical: 14,
+    paddingHorizontal: 24,
     alignItems: 'center',
     shadowOpacity: 0.2,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 4,
     elevation: 4,
+  },
+  disabled: {
+    backgroundColor: colors.disabledGrey,
+    opacity: 0.3,
   },
   icon: {
     width: 20,
@@ -65,6 +81,9 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: '700',
+  },
+  iconTextDisabled: {
+    color: colors.grey,
   },
   iconTextContainer: {
     display: 'flex',

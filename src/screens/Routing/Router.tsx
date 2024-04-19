@@ -5,8 +5,7 @@ import { ForgotPasswordScreen } from '../ForgotPassword/ForgotPasswordScreen';
 import { LandingScreen } from '../Landing/LandingScreen';
 import { SignInScreen } from '../SignIn/SignInScreen';
 import { SignUpScreen } from '../SignUp/SignUpScreen';
-import VerifyEmailScreen from '../VerifyEmail/VerifyEmailScreen';
-import { WelcomeScreen } from '../Welcome/WelcomeScreen';
+import { VerifyEmailScreen } from '../VerifyEmail/VerifyEmailScreen';
 
 import { Screen, type StackParamList } from './types';
 
@@ -41,11 +40,10 @@ export const Router: React.FC<RouterProps> = ({
           component={ForgotPasswordScreen}
         />
         <Stack.Screen
-          name={Screen.Wellcome}
-          component={WelcomeScreen}
+          name={Screen.VerifyEmail}
+          component={VerifyEmailScreen}
           initialParams={{ applicationName }}
         />
-        <Stack.Screen name={Screen.VerifyEmail} component={VerifyEmailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

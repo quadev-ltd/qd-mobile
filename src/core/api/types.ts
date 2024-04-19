@@ -1,5 +1,12 @@
 import { type Timestamp } from '../../util/index';
 
+export enum Methods {
+  POST = 'POST',
+  GET = 'GET',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
+
 export interface FieldError {
   error: string;
   field: string;
@@ -19,21 +26,21 @@ export interface ResponseError {
 }
 
 export interface User {
-  user_id: string;
   email: string;
-  first_name: string;
-  last_name: string;
-  date_of_birth: Timestamp;
-  registration_date: Timestamp;
-  account_status: string;
+  userID: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Timestamp;
+  registrationDate: Timestamp;
+  accountStatus: string;
 }
 
 // SignUp
-export interface SignUpFormType {
+export interface SignUpRequest {
   email: string;
-  first_name: string;
-  last_name: string;
-  date_of_birth: {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: {
     seconds: number;
     nanos: number;
   };
@@ -47,5 +54,20 @@ export interface SignUpResponse extends BaseResponse {
 
 // Resend Verification Email
 export interface ResendVerificationRequest {
+  userID: string;
+}
+
+// Verify Email
+export interface VerifyEmailRequest {
+  userID: string;
+  verificationToken: string;
+}
+
+export interface VerifyEmailResponse extends BaseResponse {
+  authToken: string;
+  authTokenExpiry: Timestamp;
+  refreshToken: string;
+  refreshTokenExpiry: Timestamp;
+  userEmail: string;
   userID: string;
 }

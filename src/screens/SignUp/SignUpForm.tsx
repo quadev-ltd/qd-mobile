@@ -57,17 +57,11 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         [SignUpFields.dob]: dob,
       };
       const userData = await registerUser(parsedData).unwrap();
-      if (userData.success) {
-        onSuccess({
-          userID: userData.user.user_id,
-          userName: userData.user.first_name,
-        });
-      } else {
-        Logger().logError(
-          Error(`Failed to register user: ${parsedData[SignUpFields.email]}`),
-        );
-        showUnexpectedErrorToast(t);
-      }
+
+      onSuccess({
+        userID: userData.user.userID,
+        userName: userData.user.firstName,
+      });
     } catch (err) {
       const typedError = err as ResponseError;
       if (

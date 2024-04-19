@@ -11,6 +11,15 @@ export enum FieldErrors {
   NotFuture = 'not_future',
 }
 
+export enum APIError {
+  InvalidUserIDError = 'invalid_user_id',
+  InvalidEmailError = 'invalid_email',
+  EmailVerifiedError = 'email_already_verified',
+  InvalidTokenError = 'invalid_token',
+  TokenExpiredError = 'token_expired',
+  TooManyRequestsError = 'too_many_requests',
+}
+
 export const AsynchErrorMessages: { [key: string]: string } = {
   [FieldErrors.AlreadyUsed]: t('signUp.emailAlreadyUsedError') as string,
   [FieldErrors.Complex]: 'complex',
@@ -22,9 +31,11 @@ export const AsynchErrorMessages: { [key: string]: string } = {
 
 export enum ParameterNames {
   UserID = ':user_id',
+  VerificationToken = ':verification_token',
 }
 
 export enum APIEndpoints {
   SignUp = '/user',
   ResendVerificationEmail = `/user/${ParameterNames.UserID}/email/verification`,
+  VerifyEmail = `/user/${ParameterNames.UserID}/email/${ParameterNames.VerificationToken}`,
 }

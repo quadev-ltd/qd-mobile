@@ -83,11 +83,22 @@
     "changePathDescription": "Already have an account?",
     "changePathButton": "Sign in"
   },
-  "wellcome": {
-    "title": "Wellcome to ",
-    "emailVerification": "We've sent you an email!\n\nPlease check your inbox to complete the verification process.",
+  "emailVerification": {
+    "title": "Welcome to ",
+    "verifyingSubtitle": "We are verifying your email...",
+    "emailSent": "We've sent you a verification email!",
+    "successSubtitle": "Your email has been verified!",
+    "emailVerificationInstructions": "Please check your inbox to complete the verification process.",
     "resendCTA": "Resend email",
-    "resendCTAAccessibilityLabel": "Resend email"
-
+    "generalErrorDescription": "There was a problem, the link appears to be corrucpted.",
+    "tokenExpiredError": "The link has expired. Try sending another link.",
+    "linkCorruptedError": "The link appears to be corrupted. Try sending another link.",
+    "tooManyRequestsError": "Too many requests. Wait a minute and try again.",
+    "emailAlreadyVerifiedError": "Your email has already been verified. Try to sign in with it.",
+    "signInCTA": "Sign in with another account"
+  },
+  "toast": {
+    "errorTitle": "Error",
+    "unexpectedErrorRetry": "Something went wrong. Please try again later."
   }
 }
