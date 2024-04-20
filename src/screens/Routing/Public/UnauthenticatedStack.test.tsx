@@ -1,16 +1,19 @@
 import { render, waitFor } from '@testing-library/react-native';
 
-import { Router } from './Router';
+import UnauthenticatedStack from './UnauthenticatedStack';
 
 jest.mock('@react-native-firebase/crashlytics', () => ({
   recordError: jest.fn(),
   log: jest.fn(),
 }));
 
-describe('Router', () => {
+describe('UnauthenticatedStack', () => {
   it('should render correctly', async () => {
     const { findByText } = render(
-      <Router environment="test" applicationName="Test Application" />,
+      <UnauthenticatedStack
+        environment="test"
+        applicationName="Test Application"
+      />,
     );
 
     await waitFor(

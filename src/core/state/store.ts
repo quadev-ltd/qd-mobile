@@ -1,11 +1,10 @@
 import {
   combineReducers,
   configureStore,
-  type EnhancedStore,
   type Middleware,
 } from '@reduxjs/toolkit';
 import { Platform } from 'react-native';
-import { type Persistor, persistReducer, persistStore } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 
 import { apiSlice } from '../api';
 
@@ -27,9 +26,7 @@ const rootReducer = combineReducers({
 
 middlewares.push(apiSlice.middleware);
 
-export const generateStore = (
-  encriptionKey: string,
-): { store: EnhancedStore; persistor: Persistor } => {
+export const generateStore = (encriptionKey: string) => {
   const reduxMMKVStorage = generateMMKVStorage(
     'persist.qdmobile.com',
     encriptionKey,

@@ -2,7 +2,7 @@ import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet } from 'react-native';
 
-import { Screen, type StackParamList } from '../Routing/types';
+import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
 import { CTA } from '@/components/CTA';
 import {
@@ -16,7 +16,7 @@ import { ApplicationEnvironentEnum } from '@/core/env';
 
 export type LandingScreenProps = NativeStackScreenProps<
   StackParamList,
-  Screen.Landing
+  PublicScreen.Landing
 >;
 
 export const LandingScreen: React.FC<LandingScreenProps> = ({
@@ -24,8 +24,8 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
   navigation,
 }) => {
   const { t } = useTranslation();
-  const goToSignUp = () => navigation.navigate(Screen.SignUp);
-  const goToSignIn = () => navigation.navigate(Screen.SignIn);
+  const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
+  const goToSignIn = () => navigation.navigate(PublicScreen.SignIn);
   return (
     <Layout
       environment={
@@ -56,3 +56,5 @@ const styles = StyleSheet.create({
     marginBottom: FooterPromptHeight + FooterPromptTopMargin,
   },
 });
+
+export default LandingScreen;

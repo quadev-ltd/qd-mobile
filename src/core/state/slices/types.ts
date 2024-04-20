@@ -1,5 +1,3 @@
-import { Timestamp } from "@/util";
-
 export enum ClaimName {
   EmailClaim = 'email',
   ExpiryClaim = 'exp',

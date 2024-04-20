@@ -1,10 +1,10 @@
-import { Screen } from '@/screens/Routing/types';
+import { PublicScreen } from '@/screens/Routing/Public/types';
 
 export const linking = {
   prefixes: ['quadevdomain://', 'https://quadevdomain.com'],
   config: {
     screens: {
-      [Screen.VerifyEmail]: 'user/:userID/email/:verificationToken',
+      [PublicScreen.VerifyEmail]: 'user/:userID/email/:verificationToken',
     },
   },
 };

@@ -1,6 +1,6 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { Screen, type StackParamList } from '../Routing/types';
+import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
 import { SignUpForm } from './SignUpForm';
 
@@ -9,7 +9,7 @@ import { ScreenType } from '@/components/SignIn/types';
 
 export type SignUpScreenScreenProps = NativeStackScreenProps<
   StackParamList,
-  Screen.SignUp
+  PublicScreen.SignUp
 >;
 
 const FORM_HEIGHT = 600;
@@ -18,13 +18,13 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
 }) => {
   const handleFacebookLogin = () => {};
   const handleGoogleLogin = () => {};
-  const goToSignIn = () => navigation.navigate(Screen.SignIn);
+  const goToSignIn = () => navigation.navigate(PublicScreen.SignIn);
   const handleSuccess = (userData: { userName: string; userID: string }) => {
     navigation.reset({
       index: 0,
       routes: [
         {
-          name: Screen.VerifyEmail,
+          name: PublicScreen.VerifyEmail,
           params: {
             firstName: userData.userName,
             userID: userData.userID,
@@ -44,3 +44,5 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
     </SSOAnimatedForm>
   );
 };
+
+export default SignUpScreen;

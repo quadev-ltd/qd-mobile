@@ -1,50 +1,34 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { ForgotPasswordScreen } from '../ForgotPassword/ForgotPasswordScreen';
-import { LandingScreen } from '../Landing/LandingScreen';
-import { SignInScreen } from '../SignIn/SignInScreen';
-import { SignUpScreen } from '../SignUp/SignUpScreen';
-import { VerifyEmailScreen } from '../VerifyEmail/VerifyEmailScreen';
-
-import { Screen, type StackParamList } from './types';
+import AuthenticatedStack from './Private/AuthenticatedStack';
+import UnauthenticatedStack from './Public/UnauthenticatedStack';
 
 import { linking } from '@/core/deepLinking';
+import { useAppSelector } from '@/core/state/hooks';
+import {
+  AuthStateStatus,
+  authStatusSelector,
+} from '@/core/state/slices/authSlice';
 
 type RouterProps = {
   environment?: string;
   applicationName: string;
 };
 
-const Stack = createNativeStackNavigator<StackParamList>();
-export const Router: React.FC<RouterProps> = ({
-  environment,
-  applicationName,
-}) => {
+const Router: React.FC<RouterProps> = ({ environment, applicationName }) => {
+  const authenticationStatus = useAppSelector(authStatusSelector);
   return (
     <NavigationContainer linking={linking}>
-      <Stack.Navigator
-        initialRouteName={Screen.Landing}
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen
-          name={Screen.Landing}
-          component={LandingScreen}
-          initialParams={{ environment }}
+      {authenticationStatus === AuthStateStatus.Authenticated ? (
+        <AuthenticatedStack />
+      ) : (
+        <UnauthenticatedStack
+          environment={environment}
+          applicationName={applicationName}
         />
-        <Stack.Screen name={Screen.SignIn} component={SignInScreen} />
-        <Stack.Screen name={Screen.SignUp} component={SignUpScreen} />
-        <Stack.Screen
-          name={Screen.ForgotPassword}
-          component={ForgotPasswordScreen}
-        />
-        <Stack.Screen
-          name={Screen.VerifyEmail}
-          component={VerifyEmailScreen}
-          initialParams={{ applicationName }}
-        />
-      </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 };
+
+export default Router;

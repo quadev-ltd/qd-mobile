@@ -2,7 +2,7 @@ import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { Screen, type StackParamList } from '../Routing/types';
+import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
 import { CTA } from '@/components/CTA';
 import { FormTextInput } from '@/components/FormTextInput';
@@ -12,13 +12,14 @@ import { ScreenType } from '@/components/SignIn/types';
 
 export type SignInScreenProps = NativeStackScreenProps<
   StackParamList,
-  Screen.SignIn
+  PublicScreen.SignIn
 >;
 
 export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
-  const handleForgotPassword = () => navigation.navigate(Screen.ForgotPassword);
-  const goToSignUp = () => navigation.navigate(Screen.SignUp);
+  const handleForgotPassword = () =>
+    navigation.navigate(PublicScreen.ForgotPassword);
+  const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
   const handleSubmit = () => {};
   const handleFacebookLogin = () => {};
   const handleGoogleLogin = () => {};
@@ -50,3 +51,5 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     </SSOAnimatedForm>
   );
 };
+
+export default SignInScreen;

@@ -2,7 +2,7 @@ import { type RouteProp } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { act, fireEvent, render } from '@testing-library/react-native';
 
-import { Screen, type StackParamList } from '../Routing/types';
+import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
 import { SignUpScreen } from './SignUpScreen';
 
@@ -27,7 +27,7 @@ const mockNavigation = {
   navigate: jest.fn(),
 } as unknown as NativeStackNavigationProp<
   StackParamList,
-  Screen.SignUp,
+  PublicScreen.SignUp,
   undefined
 >;
 
@@ -35,7 +35,7 @@ const mockRoute = {
   params: {
     environment: ApplicationEnvironentEnum.Enum.dev,
   },
-} as unknown as RouteProp<StackParamList, Screen.SignUp>;
+} as unknown as RouteProp<StackParamList, PublicScreen.SignUp>;
 
 describe('SignUpScreen', () => {
   beforeEach(() => {
@@ -57,6 +57,6 @@ describe('SignUpScreen', () => {
     await act(() => {
       fireEvent.press(getByText('signUp.changePathButton'));
     });
-    expect(mockNavigation.navigate).toHaveBeenCalledWith(Screen.SignIn);
+    expect(mockNavigation.navigate).toHaveBeenCalledWith(PublicScreen.SignIn);
   });
 });

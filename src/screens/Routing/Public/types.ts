@@ -1,4 +1,4 @@
-export enum Screen {
+export enum PublicScreen {
   Landing = 'Landing',
   SignIn = 'Login',
   SignUp = 'Register',
@@ -7,11 +7,11 @@ export enum Screen {
 }
 
 export type StackParamList = {
-  [Screen.Landing]: { environment?: string };
-  [Screen.SignIn]: undefined;
-  [Screen.SignUp]: undefined;
-  [Screen.ForgotPassword]: undefined;
-  [Screen.VerifyEmail]: {
+  [PublicScreen.Landing]: { environment?: string };
+  [PublicScreen.SignIn]: undefined;
+  [PublicScreen.SignUp]: undefined;
+  [PublicScreen.ForgotPassword]: undefined;
+  [PublicScreen.VerifyEmail]: {
     applicationName: string;
     firstName?: string;
     userID: string;

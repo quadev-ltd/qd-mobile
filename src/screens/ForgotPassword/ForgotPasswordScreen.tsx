@@ -2,7 +2,10 @@ import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet } from 'react-native';
 
-import { type Screen, type StackParamList } from '../Routing/types';
+import {
+  type PublicScreen,
+  type StackParamList,
+} from '../Routing/Public/types';
 
 import { CTA } from '@/components/CTA';
 import { FormTextInput } from '@/components/FormTextInput';
@@ -13,7 +16,7 @@ import { ScreenType } from '@/components/SignIn/types';
 
 export type ForgotPasswordScreenProps = NativeStackScreenProps<
   StackParamList,
-  Screen.ForgotPassword
+  PublicScreen.ForgotPassword
 >;
 
 export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
@@ -51,3 +54,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default ForgotPasswordScreen;

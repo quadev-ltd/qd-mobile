@@ -2,7 +2,10 @@ import { type RouteProp } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { render, screen } from '@testing-library/react-native';
 
-import { type Screen, type StackParamList } from '../Routing/types';
+import {
+  type PublicScreen,
+  type StackParamList,
+} from '../Routing/Public/types';
 
 import { LandingScreen } from './LandingScreen';
 
@@ -26,12 +29,15 @@ describe('LandingScreen', () => {
         navigation={
           mockNavigation as unknown as NativeStackNavigationProp<
             StackParamList,
-            Screen.Landing,
+            PublicScreen.Landing,
             undefined
           >
         }
         route={
-          mockRoute as unknown as RouteProp<StackParamList, Screen.Landing>
+          mockRoute as unknown as RouteProp<
+            StackParamList,
+            PublicScreen.Landing
+          >
         }
       />,
     );

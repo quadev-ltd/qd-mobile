@@ -1,5 +1,6 @@
 import { decode } from 'base-64';
-import { TokenPayload } from './types';
+
+import { type TokenPayload } from './types';
 
 export const jwtDecode = (token: string): TokenPayload => {
   try {
@@ -12,6 +13,6 @@ export const jwtDecode = (token: string): TokenPayload => {
     const parsedPayload = JSON.parse(decodedPayload);
     return parsedPayload;
   } catch (error) {
-    throw(`Failed to decode JWT: ${error}`);    
+    throw `Failed to decode JWT: ${error}`;
   }
 };

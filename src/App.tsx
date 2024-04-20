@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import '@formatjs/intl-locale/polyfill';
 import '@formatjs/intl-pluralrules/polyfill';
 
@@ -11,8 +12,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import AppLoading from './components/AppLoading';
 import { i18n } from './core/i18n/i18n';
 import { setUpLogger } from './core/logger';
-import { StoreProvider } from './core/state/components/StoreProvider';
-import { Router } from './screens/Routing/Router';
+import StoreProvider from './core/state/components/StoreProvider';
+import Router from './screens/Routing/Router';
 
 import { env } from '@/core/env';
 

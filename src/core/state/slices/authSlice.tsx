@@ -4,12 +4,19 @@ import {
   type PayloadAction,
 } from '@reduxjs/toolkit';
 
-import { deleteAccessToken, deleteRefreshToken, retrieveAccessToken, retrieveRefreshToken, storeAccessToken, storeRefreshToken } from '../keychain';
+import {
+  deleteAccessToken,
+  deleteRefreshToken,
+  retrieveAccessToken,
+  storeAccessToken,
+  storeRefreshToken,
+} from '../keychain';
+
+import { ClaimName, type TokenPayload } from './types';
+import { jwtDecode } from './util';
 
 import logger from '@/core/logger';
 import { type RootState } from '@/core/state/store';
-import { ClaimName, TokenPayload } from './types';
-import { jwtDecode } from './util';
 
 export interface AuthStateUser {
   accessToken: string;
@@ -59,14 +66,14 @@ export const login = createAsyncThunk(
   ) => {
     try {
       const decodedToken = decodeToken(newAccessToken);
-      logger().logMessage('Token successfully decoded. Storing tokens in keychain.')
+      logger().logMessage(
+        'Token successfully decoded. Storing tokens in keychain.',
+      );
       await storeAccessToken(newAccessToken);
       await storeRefreshToken(refreshToken);
       return {
         accessToken: newAccessToken,
-        tokenExpiry: new Date(
-          decodedToken[ClaimName.ExpiryClaim] * 1000,
-        ),
+        tokenExpiry: new Date(decodedToken[ClaimName.ExpiryClaim] * 1000),
       };
     } catch (error) {
       logger().logError(Error(`Failed to login: ${error}`));
@@ -75,49 +82,68 @@ export const login = createAsyncThunk(
   },
 );
 
-export const refreshTokens = createAsyncThunk('auth/refreshTokens', async (_, { rejectWithValue, getState }) => {
-  console.log('Refreshing token::::');
-  // try {
-  //   const refreshToken = await retrieveRefreshToken();
-  //   const response = await refreshAccessToken(refreshToken.password);
-  //   await Keychain.setGenericPassword('accessToken', response.accessToken, { service: 'accessTokenService' });
-  //   return response.accessToken;
-  // } catch (error) {
-  //   return rejectWithValue(error.response.data);
-  // }
-});
+export const refreshTokens = createAsyncThunk(
+  'auth/refreshTokens',
+  async () => {
+    // async (_, { rejectWithValue, getState }) => {
+    //     console.log('Refreshing token::::');
+    //     // try {
+    //     //   const refreshToken = await retrieveRefreshToken();
+    //     //   const response = await refreshAccessToken(refreshToken.password);
+    //     //   await Keychain.setGenericPassword('accessToken', response.accessToken, { service: 'accessTokenService' });
+    //     //   return response.accessToken;
+    //     // } catch (error) {
+    //     //   return rejectWithValue(error.response.data);
+    //     // }
+  },
+);
 
-export const loadInitialToken = createAsyncThunk('auth/loadInitialToken', async (_, { dispatch }) => {
-  const token = await retrieveAccessToken();
-  if (token !== null) {
-    try {
-      const decodedToken = decodeToken(token);
-      if (!decodedToken[ClaimName.ExpiryClaim]) {
-        throw new Error('Token does not contain expiry claim');
-      }
-      if (decodedToken[ClaimName.ExpiryClaim] < Date.now() / 1000) {
-        await refreshTokens();
-      } else {
-        const accessToken = {
-          accessToken: token,
-          tokenExpiry: new Date(
-            decodedToken[ClaimName.ExpiryClaim] * 1000,
+export const loadInitialToken = createAsyncThunk(
+  'auth/loadInitialToken',
+  async (_, { dispatch }) => {
+    const token = await retrieveAccessToken();
+    if (token !== null) {
+      try {
+        const decodedToken = decodeToken(token);
+        if (!decodedToken[ClaimName.ExpiryClaim]) {
+          throw new Error('Token does not contain expiry claim');
+        }
+        if (decodedToken[ClaimName.ExpiryClaim] < Date.now() / 1000) {
+          await refreshTokens();
+        } else {
+          const accessToken = {
+            accessToken: token,
+            tokenExpiry: new Date(decodedToken[ClaimName.ExpiryClaim] * 1000),
+          };
+          logger().logMessage('Token successfully decoded. And verified.');
+          dispatch(setAccessToken(accessToken));
+        }
+      } catch (err) {
+        logger().logError(
+          Error(
+            `Failed to decode token: ${err}. Tokens will be removed from keychain.`,
           ),
-        };
-        logger().logMessage('Token successfully decoded. And verified.');
-        dispatch(setAccessToken(accessToken));
+        );
+        await deleteAccessToken();
+        await deleteRefreshToken();
       }
-    } catch (err) {
-      logger().logError(
-        Error(
-          `Failed to decode token: ${err}. Tokens will be removed from keychain.`,
-        ),
-      );
+    }
+  },
+);
+
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async (_, { rejectWithValue }) => {
+    try {
       await deleteAccessToken();
       await deleteRefreshToken();
+      logger().logMessage('Logout successful.');
+    } catch (error) {
+      logger().logError(Error(`Logout failed: ${error}`));
+      return rejectWithValue(error);
     }
-  }
-});
+  },
+);
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -126,7 +152,7 @@ export const authSlice = createSlice({
     setAccessToken: (state, action: PayloadAction<AuthStateUser>) => {
       state.status = AuthStateStatus.Authenticated;
       state.user = action.payload;
-    }
+    },
   },
   extraReducers: builder => {
     builder
@@ -143,6 +169,10 @@ export const authSlice = createSlice({
       .addCase(login.rejected, state => {
         state.status = AuthStateStatus.Unauthenticated;
         state.user = null;
+      })
+      .addCase(logout.fulfilled, state => {
+        state.status = AuthStateStatus.Unauthenticated;
+        state.user = null;
       });
   },
 });
@@ -150,4 +180,3 @@ export const authSlice = createSlice({
 export const { setAccessToken } = authSlice.actions;
 
 export const authStatusSelector = (state: RootState) => state.auth.status;
-

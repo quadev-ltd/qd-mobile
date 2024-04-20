@@ -24,7 +24,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		44F601BDA1FCBEF27037249B /* Pods_QDMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825F2359D242B4759EC242FC /* Pods_QDMobile.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		CB6FC2511A175831901812CA /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		CB6FC2511A175831901812CA /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		FD4CE8A8A97EAC1C0632241E /* Pods_QDMobileDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA6F80305B620965517ADD94 /* Pods_QDMobileDev.framework */; };
 /* End PBXBuildFile section */
 
@@ -88,7 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB6FC2511A175831901812CA /* (null) in Frameworks */,
+				CB6FC2511A175831901812CA /* BuildFile in Frameworks */,
 				44F601BDA1FCBEF27037249B /* Pods_QDMobile.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
