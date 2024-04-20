@@ -13,7 +13,7 @@ import {
   type NativeSyntheticEvent,
 } from 'react-native';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 interface FormTextInputProps {
   label: string;
@@ -41,6 +41,7 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
   return (
     <View style={styles.fieldConatiner}>
       <TextInput
+        testID={label}
         style={styles.input}
         secureTextEntry={secureTextEntry}
         placeholder={label}

@@ -2,17 +2,32 @@ import { type RouteProp } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { act, fireEvent, render } from '@testing-library/react-native';
 
-import { Screen, type StackParamList } from '../Routing/types';
+import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
 import { SignUpScreen } from './SignUpScreen';
 
 import { ApplicationEnvironentEnum } from '@/core/env';
 
+const registerUser = jest.fn();
+jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
+jest.mock('../../core/api', () => ({
+  useRegisterUserMutation: jest.fn(() => [
+    registerUser,
+    { iLoading: false, error: null, data: null },
+  ]),
+}));
+jest.mock('react-native-toast-message', () => 'ToastMessage');
+jest.mock('@react-native-firebase/crashlytics', () => 'Crashlytics');
+jest.mock(
+  'react-native-vector-icons/MaterialCommunityIcons',
+  () => 'MaterialCommunityIcons',
+);
+
 const mockNavigation = {
   navigate: jest.fn(),
 } as unknown as NativeStackNavigationProp<
   StackParamList,
-  Screen.SignUp,
+  PublicScreen.SignUp,
   undefined
 >;
 
@@ -20,9 +35,8 @@ const mockRoute = {
   params: {
     environment: ApplicationEnvironentEnum.Enum.dev,
   },
-} as unknown as RouteProp<StackParamList, Screen.SignUp>;
+} as unknown as RouteProp<StackParamList, PublicScreen.SignUp>;
 
-jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
 describe('SignUpScreen', () => {
   beforeEach(() => {
     (mockNavigation.navigate as jest.Mock).mockReset();
@@ -36,13 +50,13 @@ describe('SignUpScreen', () => {
     expect(queryByText('signUp.firstNameLabel')).toBeNull();
   });
 
-  it('navigates to the sign-in screen on change path action', () => {
+  it('navigates to the sign-in screen on change path action', async () => {
     const { getByText } = render(
       <SignUpScreen navigation={mockNavigation} route={mockRoute} />,
     );
-    act(() => {
+    await act(() => {
       fireEvent.press(getByText('signUp.changePathButton'));
     });
-    expect(mockNavigation.navigate).toHaveBeenCalledWith(Screen.SignIn);
+    expect(mockNavigation.navigate).toHaveBeenCalledWith(PublicScreen.SignIn);
   });
 });

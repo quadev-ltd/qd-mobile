@@ -3,17 +3,18 @@ import {
   Controller,
   type FieldError,
   type FieldErrorsImpl,
-  type FieldValues,
   type Merge,
 } from 'react-hook-form';
 
 import { FormTextInput } from '../FormTextInput';
 
+import { type SignUpSchemaType } from '@/schemas/signUpSchema';
+
 interface HookFormTextInputProps {
-  name: string;
+  name: keyof SignUpSchemaType;
   label: string;
   accessibilityLabel: string;
-  control?: Control<FieldValues>;
+  control?: Control<SignUpSchemaType>;
   secureTextEntry?: boolean;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
 }

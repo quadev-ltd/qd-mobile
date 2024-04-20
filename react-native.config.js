@@ -15,5 +15,10 @@ module.exports = {
                 ios: null, // Exclude from iOS build
             },
         },
+        'react-native-vector-icons': {
+            platforms: {
+                ios: null,
+            },
+        },
     }
 }

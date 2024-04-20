@@ -44,7 +44,6 @@ module.exports = {
     }],
     'import/first': 'error',
     'import/newline-after-import': 'error',
-    'import/no-default-export': 'error',
     'import/no-named-as-default': 'off',
     'react-native/no-unused-styles': 'error',
     'react-native/split-platform-components': 'off',

@@ -1200,14 +1200,17 @@ PODS:
     - React-Core
   - RNKeychain (8.1.2):
     - React-Core
+  - RNReanimated (3.8.1):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
   - RNScreens (3.29.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
   - RNSecureRandom (1.0.1):
     - React
-  - RNSVG (15.1.0):
-    - React-Core
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
 
@@ -1270,9 +1273,9 @@ DEPENDENCIES:
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSecureRandom (from `../node_modules/react-native-securerandom`)
-  - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1409,12 +1412,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSecureRandom:
     :path: "../node_modules/react-native-securerandom"
-  RNSVG:
-    :path: "../node_modules/react-native-svg"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1492,9 +1495,9 @@ SPEC CHECKSUMS:
   RNFBCrashlytics: 11f52604cc41fde69e8cc8fcc9c578fc8d5b8a15
   RNGestureHandler: fdcd620c0e90c3d80612dd994e8518a8866ed34b
   RNKeychain: a65256b6ca6ba6976132cc4124b238a5b13b3d9c
+  RNReanimated: 8c009e95ed82289b412801b9fc220dca24455f8d
   RNScreens: 2b73f5eb2ac5d94fbd61fa4be0bfebd345716825
   RNSecureRandom: 07efbdf2cd99efe13497433668e54acd7df49fef
-  RNSVG: 50cf2c7018e57cf5d3522d98d0a3a4dd6bf9d093
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 4f53dc50008d626fa679c7a1cb4bed898f8c0bde
 

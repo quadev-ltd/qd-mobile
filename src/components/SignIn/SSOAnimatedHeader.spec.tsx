@@ -3,6 +3,11 @@ import { render } from '@testing-library/react-native';
 import { SSOAnimatedHeader } from './SSOAnimatedHeader';
 import { ScreenType } from './types';
 
+jest.mock(
+  'react-native-vector-icons/MaterialCommunityIcons',
+  () => 'MaterialCommunityIcons',
+);
+
 describe('SSOAnimatedHeader', () => {
   const switchSSO = jest.fn();
   const handleFacebookLogin = jest.fn();

@@ -1,9 +1,10 @@
 export const colors = {
-  red: '#FF0000',
+  red: '#D66',
   purpleBlue: '#5050C3',
-  white: '#FFFFFF',
+  white: '#DFDFDF',
   offWhite: 'rgba(217, 217, 217, 1)',
   grey: '#8C8C8C',
-  black: '#000000',
+  disabledGrey: 'rgb(200, 200, 200)',
+  black: '#222',
   facebookBlue: '#1877F2',
 };

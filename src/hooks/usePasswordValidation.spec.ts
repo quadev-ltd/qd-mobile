@@ -1,9 +1,14 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-native';
 
 import {
   isPasswordValid,
   usePasswordValidation,
 } from './usePasswordValidation';
+
+jest.mock('@react-native-firebase/crashlytics', () => ({
+  log: jest.fn(),
+  recordError: jest.fn(),
+}));
 
 describe('isPasswordValid', () => {
   it('validates password correctly', () => {

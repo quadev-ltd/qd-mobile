@@ -1,10 +1,13 @@
-import { type Store } from '@reduxjs/toolkit';
+import { type UnknownAction, type Store } from '@reduxjs/toolkit';
 import { type FC, useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
 import { type Persistor } from 'redux-persist';
 
 import { getMMKVEncryptionKey } from '../keychain.ts';
+import { loadInitialToken } from '../slices/authSlice.tsx';
 import { generateStore } from '../store.ts';
+
+import AppLoading from '@/components/AppLoading.tsx';
+import logger from '@/core/logger';
 
 interface StoreDetails {
   store: Store;
@@ -27,14 +30,25 @@ export const StoreProvider: FC<IProps> = ({ children }) => {
 
   useEffect(() => {
     initMMKV().catch(error => {
-      console.error('There has been an error loading the store:', error);
+      logger().logError(
+        Error(`There has been an error loading the store: ${error}`),
+      );
       throw error;
     });
   }, []);
 
+  useEffect(() => {
+    storeDetails &&
+      storeDetails.store.dispatch(
+        loadInitialToken() as unknown as UnknownAction,
+      );
+  }, [storeDetails]);
+
   if (!storeDetails) {
-    return <ActivityIndicator size="large" color="#000000" />;
+    return <AppLoading />;
   }
 
   return children(storeDetails);
 };
+
+export default StoreProvider;

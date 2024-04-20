@@ -2,7 +2,11 @@ import { encode } from 'base-64';
 import * as Keychain from 'react-native-keychain';
 import { generateSecureRandom } from 'react-native-securerandom';
 
-const MMKV_ENCRYPTION_KEY = 'mmkv_encryption_key';
+import logger from '../logger';
+
+export const MMKV_ENCRYPTION_KEY = 'MMKV_ENCRYPTION_KEY';
+export const ACCESS_TOKEN = 'ACCESS_TOKEN';
+export const REFRESH_TOKEN = 'REFRESH_TOKEN';
 
 export type PersistKey = {
   isFresh: boolean;
@@ -26,5 +30,79 @@ export const getMMKVEncryptionKey: () => Promise<
   );
   if (hasSetCredentials) {
     return randomBytesStringToBase64;
+  }
+};
+
+// Function to store the access token
+export const storeAccessToken = async (accessToken: string) => {
+  try {
+    await Keychain.setGenericPassword(ACCESS_TOKEN, accessToken, {
+      service: ACCESS_TOKEN,
+    });
+  } catch (error) {
+    logger().logError(error as Error);
+  }
+};
+
+// Function to store the refresh token
+export const storeRefreshToken = async (refreshToken: string) => {
+  try {
+    await Keychain.setGenericPassword(REFRESH_TOKEN, refreshToken, {
+      service: REFRESH_TOKEN,
+    });
+  } catch (error) {
+    logger().logError(error as Error);
+  }
+};
+
+// Function to retrieve the access token
+export const retrieveAccessToken = async () => {
+  try {
+    const credentials = await Keychain.getGenericPassword({
+      service: ACCESS_TOKEN,
+    });
+    if (credentials) {
+      return credentials.password;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    logger().logError(error as Error);
+    return null;
+  }
+};
+
+// Function to retrieve the refresh token
+export const retrieveRefreshToken = async () => {
+  try {
+    const credentials = await Keychain.getGenericPassword({
+      service: REFRESH_TOKEN,
+    });
+    if (credentials) {
+      return credentials.password;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    logger().logError(error as Error);
+    return null;
+  }
+};
+
+// Function to delete the access token
+export const deleteAccessToken = async () => {
+  try {
+    await Keychain.resetGenericPassword({ service: ACCESS_TOKEN });
+  } catch (error) {
+    logger().logError(error as Error);
+  }
+};
+
+// Function to delete the refresh token
+export const deleteRefreshToken = async () => {
+  try {
+    await Keychain.resetGenericPassword({ service: REFRESH_TOKEN });
+  } catch (error) {
+    logger().logError(error as Error);
   }
 };

@@ -3,6 +3,11 @@ import { act } from 'react-test-renderer';
 
 import { Divider } from './Divider';
 
+jest.mock(
+  'react-native-vector-icons/MaterialCommunityIcons',
+  () => 'MaterialCommunityIcons',
+);
+
 describe('Divider', () => {
   const handlePress = jest.fn();
   const handleAnimationEnded = jest.fn();
@@ -30,7 +35,7 @@ describe('Divider', () => {
       ),
     ).resolves.toBeUndefined();
 
-    act(() => {
+    await act(() => {
       rerender(
         <Divider
           label="or"

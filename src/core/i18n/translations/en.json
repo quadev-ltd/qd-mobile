@@ -35,6 +35,7 @@
     "emailAccessibilityLabel": "Enter your email",
     "emailRequiredError": "Required",
     "emailFormatError": "Please enter a valid email address",
+    "emailAlreadyUsedError": "Email is already in use",
     "firstNameLabel": "First name",
     "firstNameRequiredError": "Required",
     "firstNameLengthError": "First name must be less than 30 characters",
@@ -69,7 +70,9 @@
     "submitButton": "Sign up",
     "submitButtonAccessibilityLabel": "Sign up action",
     "changePathDescription": "Already have an account?",
-    "changePathButton": "Sign in"
+    "changePathButton": "Sign in",
+    "genericError": "Error",
+    "genericErrorDescription": "Something went wrong. Please try again later."
   },
   "forgotPassword": {
     "title": "Enter your email address",
@@ -79,5 +82,27 @@
     "submitButtonAccessibilityLabel": "Send verification email action",
     "changePathDescription": "Already have an account?",
     "changePathButton": "Sign in"
+  },
+  "emailVerification": {
+    "title": "Welcome to ",
+    "verifyingSubtitle": "We are verifying your email...",
+    "emailSent": "We've sent you a verification email!",
+    "successSubtitle": "Your email has been verified!",
+    "emailVerificationInstructions": "Please check your inbox to complete the verification process.",
+    "resendCTA": "Resend email",
+    "generalErrorDescription": "There was a problem, the link appears to be obsolete or corrupted.",
+    "tokenExpiredError": "The link has expired. Try sending another link.",
+    "linkCorruptedError": "The link appears to be corrupted. Try sending another link.",
+    "tooManyRequestsError": "Too many requests. Wait a minute and try again.",
+    "emailAlreadyVerifiedError": "Your email has already been verified. Try to sign in with it.",
+    "signInCTA": "Sign in with another account"
+  },
+  "toast": {
+    "errorTitle": "Error",
+    "unexpectedErrorRetry": "Something went wrong. Please try again later."
+  },
+  "drawerMenu": {
+    "signOut": "Sign out",
+    "profile": "Profile"
   }
 }

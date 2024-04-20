@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, View, StyleSheet, Dimensions } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { AnimatedCTA } from '../AnimatedCTA';
 
@@ -12,10 +13,12 @@ import {
 import { SSOSwitch } from './SSOSwitch';
 import { type ScreenType } from './types';
 
-import { SvgFacebook } from '@/assets/svg/Facebook';
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 const { height: VIEWPORT_HEIGHT } = Dimensions.get('window');
+const FacebookIcon = () => (
+  <Icon name="facebook" size={36} color={colors.white} />
+);
 
 type SSOAnimatedHeaderProps = {
   screen: ScreenType;
@@ -87,7 +90,7 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
           <>
             <AnimatedCTA
               testID="facebook-cta"
-              SvgComponent={SvgFacebook}
+              Icon={<FacebookIcon />}
               text={t(`${screen}.withFacebook`)}
               accessibilityLabel={t(`${screen}.withFacebookAccessibilityLabel`)}
               style={styles.facebookButton}
@@ -97,7 +100,7 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
             />
             <AnimatedCTA
               testID="google-cta"
-              source={require('../../assets/png/google.png')}
+              Icon={<Icon name="google" size={28} color={colors.grey} />}
               text={t(`${screen}.withGoogle`)}
               accessibilityLabel={t(`${screen}.withGoogleAccessibilityLabel`)}
               style={styles.googleButton}
@@ -127,10 +130,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   facebookButton: {
+    alignItems: 'flex-start',
     backgroundColor: colors.facebookBlue,
     marginBottom: 20,
   },
   googleButton: {
+    alignItems: 'flex-start',
     backgroundColor: colors.white,
     marginBottom: 20,
   },

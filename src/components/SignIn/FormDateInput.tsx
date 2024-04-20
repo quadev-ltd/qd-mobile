@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import MaskInput, { Masks } from 'react-native-mask-input';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 interface FormDateInputProps {
   label: string;
@@ -36,6 +36,7 @@ export const FormDateInput: React.FC<FormDateInputProps> = ({
   return (
     <View style={styles.fieldConatiner}>
       <MaskInput
+        testID={label}
         style={styles.input}
         placeholder={label}
         accessibilityLabel={accessibilityLabel}

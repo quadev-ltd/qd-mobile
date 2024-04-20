@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, Animated } from 'react-native';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 type TextDividerProps = {
   label: string;

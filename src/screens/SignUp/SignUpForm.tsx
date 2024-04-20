@@ -1,36 +1,116 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type FieldValues, useForm } from 'react-hook-form';
+import { type TFunction } from 'i18next';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, Keyboard } from 'react-native';
+import Toast from 'react-native-toast-message';
+
+import { AsynchErrorMessages } from '../../core/api/constants';
 
 import { CTA } from '@/components/CTA';
 import { commonStyles } from '@/components/SignIn/constants';
 import { HookFormDateInput } from '@/components/SignIn/HookFormDateInput';
 import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
-import { SignUpFields, signUpSchema } from '@/schemas/signUpSchema';
+import Spinner from '@/components/Spinner';
+import { useRegisterUserMutation } from '@/core/api';
+import { type ResponseError } from '@/core/api/types';
+import Logger from '@/core/logger';
+import {
+  SignUpFields,
+  type SignUpSchemaType,
+  signUpSchema,
+} from '@/schemas/signUpSchema';
+import { stringToDate, stringToGrpcTimestamp } from '@/util';
 
-interface SignUpFormScreenProps {}
+interface SignUpFormProps {
+  onSuccess: (userData: { userName: string; userID: string }) => void;
+}
 
-export const SignUpForm: React.FC<SignUpFormScreenProps> = () => {
+const showUnexpectedErrorToast = (t: TFunction<'translation'>) => {
+  Toast.show({
+    type: 'error',
+    text1: t('signUp.genericError'),
+    text2: t('signUp.genericErrorDescription'),
+    position: 'bottom',
+  });
+};
+
+export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
     watch,
-  } = useForm({ resolver: zodResolver(signUpSchema) });
+  } = useForm<SignUpSchemaType>({ resolver: zodResolver(signUpSchema) });
   const { t } = useTranslation();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
   const password = watch('password');
 
-  const onSubmit = (data: FieldValues) => {
-    // Reset form on submit
-    // eslint-disable-next-line no-console
-    console.log('Data:::', data);
+  const onSubmit = async (formData: SignUpSchemaType) => {
+    try {
+      const dob = stringToGrpcTimestamp(formData[SignUpFields.dob]);
+      stringToDate(formData[SignUpFields.dob]).getTime();
+      const parsedData = {
+        ...formData,
+        [SignUpFields.dob]: dob,
+      };
+      const userData = await registerUser(parsedData).unwrap();
+
+      onSuccess({
+        userID: userData.user.userID,
+        userName: userData.user.firstName,
+      });
+    } catch (err) {
+      const typedError = err as ResponseError;
+      if (
+        typedError.data?.field_errors &&
+        typedError.data.field_errors.length > 0 &&
+        typedError.status === 400
+      ) {
+        (err as ResponseError).data?.field_errors?.forEach(fieldError => {
+          const errorMessage = AsynchErrorMessages[fieldError.error];
+          if (!errorMessage) {
+            Logger().logError(
+              Error(
+                `Unknown registration error for email ${
+                  formData[SignUpFields.email]
+                }: ${JSON.stringify(err)}`,
+              ),
+            );
+            showUnexpectedErrorToast(t);
+            return;
+          }
+          setError(
+            fieldError.field as keyof SignUpSchemaType,
+            {
+              type: 'manual',
+              message: errorMessage,
+            },
+            { shouldFocus: true },
+          );
+        });
+      } else {
+        Logger().logError(
+          Error(
+            `Unknown registration error for email ${
+              formData[SignUpFields.email]
+            }: ${JSON.stringify(err)}`,
+          ),
+        );
+        showUnexpectedErrorToast(t);
+      }
+    }
   };
   const handleOnSubmit = () => {
     Keyboard.dismiss();
     handleSubmit(onSubmit)();
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>

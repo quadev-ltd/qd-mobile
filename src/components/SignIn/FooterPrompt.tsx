@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+
+import FlatTextCTA from '../FlatTextCTA';
 
 import {
   FooterPromptHeight,
@@ -8,7 +10,7 @@ import {
 } from './constants';
 import { type ScreenType } from './types';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 interface FooterPromptProps {
   changePath: () => void;
@@ -23,11 +25,11 @@ export const FooterPrompt: React.FC<FooterPromptProps> = ({
   return (
     <View style={styles.container}>
       <Text style={styles.prompt}>{t(`${screen}.changePathDescription`)}</Text>
-      <TouchableOpacity onPress={changePath}>
-        <Text style={styles.footerAction}>
-          {t(`${screen}.changePathButton`)}
-        </Text>
-      </TouchableOpacity>
+      <FlatTextCTA
+        text={t(`${screen}.changePathButton`)}
+        accessibilityLabel={t(`${screen}.changePathButton`)}
+        onPress={changePath}
+      />
     </View>
   );
 };
@@ -46,10 +48,5 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: '700',
     alignSelf: 'center',
-  },
-  footerAction: {
-    fontWeight: '700',
-    alignSelf: 'center',
-    paddingLeft: 8,
   },
 });

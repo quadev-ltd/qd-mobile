@@ -3,14 +3,16 @@ import { useForm } from 'react-hook-form';
 
 import { HookFormPasswordInput } from './HookFormPasswordInput';
 
+import { SignUpFields, type SignUpSchemaType } from '@/schemas/signUpSchema';
+
 interface TestProps {
   password: string;
 }
 const TestComponent: React.FC<TestProps> = ({ password }) => {
-  const { control } = useForm();
+  const { control } = useForm<SignUpSchemaType>();
   return (
     <HookFormPasswordInput
-      name="password"
+      name={SignUpFields.password}
       password={password}
       control={control}
     />

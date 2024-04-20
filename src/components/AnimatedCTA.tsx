@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import {
   Animated,
   Image,
@@ -11,13 +11,13 @@ import {
   type ViewStyle,
 } from 'react-native';
 
-import { colors } from '@/styles/common';
+import { colors } from '@/styles';
 
 interface AnimatedCTAProps {
   onPress?: () => void;
   testID?: string;
   source?: { uri: string };
-  SvgComponent?: React.FC;
+  Icon?: ReactNode;
   text: string;
   accessibilityLabel: string;
   style?: StyleProp<ViewStyle>;
@@ -44,7 +44,7 @@ export const AnimatedCTA: React.FC<AnimatedCTAProps> = ({
   onPress,
   testID,
   source,
-  SvgComponent,
+  Icon,
   text,
   accessibilityLabel,
   style,
@@ -72,7 +72,7 @@ export const AnimatedCTA: React.FC<AnimatedCTAProps> = ({
         ]}>
         <View style={styles.iconTextContainer}>
           {source && <Image source={source} style={styles.icon} />}
-          {SvgComponent && <SvgComponent />}
+          {Icon && Icon}
           <Text style={[styles.iconText, textStyle]}>{text}</Text>
         </View>
       </Animated.View>
@@ -83,10 +83,13 @@ export const AnimatedCTA: React.FC<AnimatedCTAProps> = ({
 const styles = StyleSheet.create({
   ctaButton: {
     alignSelf: 'stretch',
+    height: 50,
     borderRadius: 50,
     backgroundColor: colors.black,
-    paddingVertical: 14,
+    paddingVertical: 0,
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
     shadowOpacity: 0.2,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 4,

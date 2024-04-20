@@ -3,17 +3,18 @@ import {
   Controller,
   type FieldError,
   type FieldErrorsImpl,
-  type FieldValues,
   type Merge,
 } from 'react-hook-form';
 
 import { FormDateInput } from './FormDateInput';
 
+import { type SignUpSchemaType } from '@/schemas/signUpSchema';
+
 interface HookFormDateInputProps {
-  name: string;
+  name: keyof SignUpSchemaType;
   label: string;
   accessibilityLabel: string;
-  control?: Control<FieldValues>;
+  control?: Control<SignUpSchemaType>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
 }
 

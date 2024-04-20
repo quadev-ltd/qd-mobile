@@ -1,14 +1,15 @@
 import {
   combineReducers,
   configureStore,
-  type EnhancedStore,
   type Middleware,
 } from '@reduxjs/toolkit';
 import { Platform } from 'react-native';
-import { type Persistor, persistReducer, persistStore } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
+
+import { apiSlice } from '../api';
 
 import { generateMMKVStorage } from './mmkv.ts';
-import { testSlice } from './testSlice.ts';
+import { authSlice } from './slices/authSlice.tsx';
 
 const middlewares: Middleware[] = [];
 
@@ -19,12 +20,13 @@ if (__DEV__ && Platform.OS !== 'ios') {
 }
 
 const rootReducer = combineReducers({
-  [testSlice.reducerPath]: testSlice.reducer,
+  [authSlice.reducerPath]: authSlice.reducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
-export const generateStore = (
-  encriptionKey: string,
-): { store: EnhancedStore; persistor: Persistor } => {
+middlewares.push(apiSlice.middleware);
+
+export const generateStore = (encriptionKey: string) => {
   const reduxMMKVStorage = generateMMKVStorage(
     'persist.qdmobile.com',
     encriptionKey,
