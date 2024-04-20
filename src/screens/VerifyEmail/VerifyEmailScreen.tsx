@@ -6,8 +6,11 @@ import { Screen, type StackParamList } from '../Routing/types';
 import { ResendRequestStatus, VerificationRequestStatus } from './types';
 import EmailVerificationComponent from './VerifyEmail';
 
+import AppLoading from '@/components/AppLoading';
 import { useResendEmail } from '@/core/api/hooks/useResendVerificationEmail';
 import { useVerifyEmail } from '@/core/api/hooks/useVerifyEmail';
+import { useSelector } from 'react-redux';
+import { AuthStateStatus, authStatusSelector } from '@/core/state/slices/authSlice';
 
 export type VerifyEmailScreenProps = NativeStackScreenProps<
   StackParamList,
@@ -24,7 +27,6 @@ export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
     isSuccess: isVerifySuccess,
     apiErrorCode: apiVerifyErrorCode,
   } = useVerifyEmail(params.userID, params.verificationToken);
-
   const {
     resendEmail,
     isSending,
@@ -32,6 +34,7 @@ export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
     isSendError,
     apiSendErrorCode,
   } = useResendEmail(params.userID);
+  const authenticationStatus = useSelector(authStatusSelector)
 
   const goToSignIn = () => navigation.navigate(Screen.SignIn);
 
@@ -48,6 +51,10 @@ export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
     if (isVerifyError) return VerificationRequestStatus.Failure;
     return VerificationRequestStatus.Idle;
   }, [isVerifying, isVerifySuccess, isVerifyError]);
+
+  if (authenticationStatus === AuthStateStatus.Authenticated) {
+    return <AppLoading/>;
+  }
 
   return (
     <EmailVerificationComponent

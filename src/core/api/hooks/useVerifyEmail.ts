@@ -2,12 +2,18 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 
+import { GIF_NOTIFICATION_DURATION } from './useResendVerificationEmail';
+
 import { useVerifyEmailMutation } from '@/core/api';
 import { type APIError, type ResponseError } from '@/core/api/types';
 import logger from '@/core/logger';
+import { useDispatch } from 'react-redux';
+import { login } from '@/core/state/slices/authSlice';
+import { UnknownAction } from '@reduxjs/toolkit';
 
 export const useVerifyEmail = (userID: string, verificationToken?: string) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [apiErrorCode, setAPIErrorCode] = useState<APIError | undefined>();
   const [verifyEmail, { isLoading, isError, isSuccess }] =
     useVerifyEmailMutation();
@@ -18,6 +24,14 @@ export const useVerifyEmail = (userID: string, verificationToken?: string) => {
       verificationToken,
     })
       .unwrap()
+      .then(data => {
+        setTimeout(async () => {
+          dispatch(login({
+              accessToken: data.authToken,
+              refreshToken: data.refreshToken,
+            }) as unknown as UnknownAction);
+        }, GIF_NOTIFICATION_DURATION);
+      })
       .catch(err => {
         const typedError = err as ResponseError;
         if (typedError.status === 400) {

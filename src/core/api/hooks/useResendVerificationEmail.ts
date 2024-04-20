@@ -7,7 +7,7 @@ import { APIError, type ResponseError } from '../types';
 
 import logger from '@/core/logger';
 
-const NOTIFICATION_DURATION = 2400;
+export const GIF_NOTIFICATION_DURATION = 2400;
 
 export const useResendEmail = (userID: string) => {
   const { t } = useTranslation();
@@ -40,14 +40,14 @@ export const useResendEmail = (userID: string) => {
       setIsSendSuccess(true);
       timeoutRef.current = setTimeout(() => {
         setIsSendSuccess(false);
-      }, NOTIFICATION_DURATION);
+      }, GIF_NOTIFICATION_DURATION);
     };
 
     const showFailure = () => {
       setIsSendError(true);
       timeoutRef.current = setTimeout(() => {
         setIsSendError(false);
-      }, NOTIFICATION_DURATION);
+      }, GIF_NOTIFICATION_DURATION);
     };
 
     try {

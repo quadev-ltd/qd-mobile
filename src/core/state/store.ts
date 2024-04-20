@@ -10,6 +10,7 @@ import { type Persistor, persistReducer, persistStore } from 'redux-persist';
 import { apiSlice } from '../api';
 
 import { generateMMKVStorage } from './mmkv.ts';
+import { authSlice } from './slices/authSlice.tsx';
 
 const middlewares: Middleware[] = [];
 
@@ -20,6 +21,7 @@ if (__DEV__ && Platform.OS !== 'ios') {
 }
 
 const rootReducer = combineReducers({
+  [authSlice.reducerPath]: authSlice.reducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

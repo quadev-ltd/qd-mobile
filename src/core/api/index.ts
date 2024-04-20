@@ -8,6 +8,7 @@ import {
   type ResendVerificationRequest,
   type SignUpRequest,
   type SignUpResponse,
+  type VerifyEmailResponse,
 } from './types';
 import { verifyEmailMutation } from './verifyEmailMutation';
 
@@ -40,7 +41,7 @@ export const apiSlice = createApi({
     >({
       query: resendVerificationEmailMutation,
     }),
-    verifyEmail: builder.mutation<BaseResponse, VerifyEmailRequest>({
+    verifyEmail: builder.mutation<VerifyEmailResponse, VerifyEmailRequest>({
       query: verifyEmailMutation,
     }),
   }),

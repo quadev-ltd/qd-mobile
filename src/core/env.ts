@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-restricted-imports
 import { Config } from 'react-native-config';
 import { z } from 'zod';
+import logger from './logger';
 
 export const ApplicationEnvironentEnum = z.enum(['test', 'dev', 'prod']);
 
@@ -20,7 +21,6 @@ if (!parsed.success) {
     null,
     2,
   )}`;
-  console.error(errorMessage);
   throw new Error(errorMessage);
 }
 

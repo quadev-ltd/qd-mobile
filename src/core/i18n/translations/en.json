@@ -90,7 +90,7 @@
     "successSubtitle": "Your email has been verified!",
     "emailVerificationInstructions": "Please check your inbox to complete the verification process.",
     "resendCTA": "Resend email",
-    "generalErrorDescription": "There was a problem, the link appears to be corrucpted.",
+    "generalErrorDescription": "There was a problem, the link appears to be obsolete or corrupted.",
     "tokenExpiredError": "The link has expired. Try sending another link.",
     "linkCorruptedError": "The link appears to be corrupted. Try sending another link.",
     "tooManyRequestsError": "Too many requests. Wait a minute and try again.",
