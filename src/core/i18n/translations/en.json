@@ -100,5 +100,9 @@
   "toast": {
     "errorTitle": "Error",
     "unexpectedErrorRetry": "Something went wrong. Please try again later."
+  },
+  "drawerMenu": {
+    "signOut": "Sign out",
+    "profile": "Profile"
   }
 }

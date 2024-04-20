@@ -20,10 +20,10 @@ export const apiSlice = createApi({
     baseUrl: env.BASE_URL,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     prepareHeaders: (headers, { getState }) => {
-      const token = '(getState() as RootState)';
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
+      // const token = '(getState() as RootState)';
+      // if (token) {
+      //   headers.set('Authorization', `Bearer ${token}`);
+      // }
       headers.set(
         'X-Request-Source',
         `${env.APPLICATION_NAME}/${env.APPLICATION_ENVIRONMENT}/${env.APPLICATION_VERSION}`,
