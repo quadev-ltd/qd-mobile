@@ -26,9 +26,10 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https"
+              android:host="@string/DEEP_LINKING_DOMAIN" />
             <data android:scheme="@string/DEEP_LINKING_DOMAIN"
-              android:host="user"
-              android:pathPattern="/.*" />
+                android:host="api" />
         </intent-filter>
       </activity>
     </application>
