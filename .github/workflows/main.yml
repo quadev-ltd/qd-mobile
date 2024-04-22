@@ -9,7 +9,6 @@ on:
 
 jobs:
   build-ios-development-test-release:
-    if: github.event.pull_request.merged == true
     runs-on: macos-14
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
