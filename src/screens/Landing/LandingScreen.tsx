@@ -35,7 +35,10 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
       }>
       <View style={styles.container}>
         <View style={styles.logoContainer}>
-          <Image style={styles.logo} source={require('../../assets/png/logo.png')}/>
+          <Image
+            style={styles.logo}
+            source={require('../../assets/png/logo.png')}
+          />
         </View>
         <CTA
           style={styles.signUpButton}
