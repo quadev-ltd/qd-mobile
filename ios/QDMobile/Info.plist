@@ -20,6 +20,10 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>com.apple.developer.associated-domains</key>
+  <array>
+    <string>applinks:$(DEEP_LINKING_DOMAIN)</string>
+  </array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -29,12 +33,12 @@
 			</array>
 		</dict>
 	</array>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>$(DEEP_LINKING_DOMAIN)</string>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

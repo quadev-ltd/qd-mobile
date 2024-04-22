@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const LayoutPaddingVertical = 70;
+export const LayoutPaddingVertical = 64;
 export const FooterPromptHeight = 20;
 export const FooterPromptTopMargin = 8;
 

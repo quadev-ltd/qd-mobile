@@ -4,7 +4,7 @@ import '@formatjs/intl-pluralrules/polyfill';
 
 import { I18nextProvider } from 'react-i18next';
 import { StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -26,13 +26,13 @@ export const App = () => {
         {({ store, persistor }) => (
           <Provider store={store}>
             <PersistGate loading={<AppLoading />} persistor={persistor}>
-              <SafeAreaView style={styles.container}>
+              <SafeAreaProvider style={styles.container}>
                 <Router
                   environment={env.APPLICATION_ENVIRONMENT}
                   applicationName={env.APPLICATION_NAME}
                 />
                 <Toast />
-              </SafeAreaView>
+              </SafeAreaProvider>
             </PersistGate>
           </Provider>
         )}
