@@ -74,12 +74,12 @@ export const Divider: React.FC<DividerProps> = ({
             testID="divider-cta"
             style={styles.buttonContainer}
             onPress={onPress}>
-            <Icon name="chevron-up" size={32} color={colors.black} />
             <View style={styles.dividerContentContainer}>
               <Icon name="google" size={26} color={colors.black} />
               <Text style={styles.dividerText}>{label}</Text>
               <Icon name="facebook" size={28} color="#000000" />
             </View>
+            <Icon name="chevron-down" size={32} color={colors.black} />
           </TouchableOpacity>
         </Swipeable>
       </GestureHandlerRootView>
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: 80,
+    marginTop: 24,
   },
   buttonContainer: {
     flexDirection: 'column',
@@ -118,6 +119,6 @@ const styles = StyleSheet.create({
   dividerText: {
     fontWeight: '700',
     fontSize: 16,
-    marginTop: -8,
+    marginTop: 8,
   },
 });
