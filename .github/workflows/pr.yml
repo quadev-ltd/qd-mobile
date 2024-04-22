@@ -5,88 +5,53 @@ on:
     branches: [ main ]
 
 jobs:
-  # run-checks:
-  #   runs-on: ubuntu-latest
+  run-checks:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Install dependencies
-  #       run: yarn install --immutable
-  #       working-directory: .
+      - name: Install dependencies
+        run: yarn install --immutable
+        working-directory: .
 
-  #     - name: Lint
-  #       run: yarn lint
-  #       working-directory: .
+      - name: Lint
+        run: yarn lint
+        working-directory: .
 
-  #     - name: TypeScript compilation
-  #       run: yarn tsc
-  #       working-directory: .
+      - name: TypeScript compilation
+        run: yarn tsc
+        working-directory: .
 
-  #     - name: Run tests
-  #       run: yarn test
-  #       working-directory: .
+      - name: Run tests
+        run: yarn test
+        working-directory: .
 
-  # build-android:
-  #   needs: run-checks
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: tavoargento/react-native-android-ci:0.0.1
+  build-android:
+    needs: run-checks
+    runs-on: ubuntu-latest
+    container:
+      image: tavoargento/react-native-android-ci:0.0.1
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Install dependencies
-  #       run: yarn install
+      - name: Install dependencies
+        run: yarn install
 
-  #     - name: Decode google-services.json
-  #       run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
 
-  #     - name: Decode .env.dev file
-  #       run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+      - name: Decode .env.dev file
+        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
 
-  #     - name: Build Android App
-  #       run: cd android && ./gradlew assembleDevelopmentDebug
+      - name: Build Android App
+        run: cd android && ./gradlew assembleDevelopmentDebug
 
-  # build-ios:
-  #   needs: run-checks
-  #   runs-on: macos-latest
+  build-ios:
+    needs: run-checks
+    runs-on: macos-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: '20'
-
-  #     - name: Add firebase services file
-  #       run: |
-  #         echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
-
-  #     - name: Install dependencies
-  #       run: |
-  #         yarn install
-
-  #     - name: Install Gems
-  #       run: bundle install
-
-  #     - name: Install Pods
-  #       run: |
-  #         cd ios
-  #         bundle exec pod install
-
-  #     - name: Build iOS App
-  #       run: |
-  #         npx react-native run-ios --no-packager
-
-  build-ios-development-test-release:
-    runs-on: macos-14
-    env:
-      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
 
@@ -95,19 +60,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: yarn install
-
       - name: Add firebase services file
         run: |
-          cd ios/QDMobile
-          mkdir -p firebase/dev
-          cd -
-          echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/firebase/dev/GoogleService-Info.plist
           echo "${{ secrets.GOOGLE_SERVICE_INFO_DEV_PLIST }}" | base64 -d > ./ios/QDMobile/GoogleService-Info.plist
 
-      - name: Select Xcode Version
-        run: sudo xcode-select -s /Applications/Xcode_15.3.app
+      - name: Install dependencies
+        run: |
+          yarn install
 
       - name: Install Gems
         run: bundle install
@@ -117,19 +76,9 @@ jobs:
           cd ios
           bundle exec pod install
 
-      - name: Decode .env.dev file
+      - name: Build iOS App
         run: |
-          echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
-
-      - name: Build and distribute IPA
-        run: |
-          cd ios
-          bundle exec fastlane ios build_and_distribute_dev_app
-
-      - name: Print Fastlane log file
-        if: failure() # This ensures the log is only printed if the previous step fails
-        run: |
-          grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
+          npx react-native run-ios --no-packager
 
 #  build-and-push-android-docker-image:
 #    runs-on: ubuntu-latest
