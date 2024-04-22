@@ -1,6 +1,6 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 
 import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
@@ -34,6 +34,9 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
           : ''
       }>
       <View style={styles.container}>
+        <View style={styles.logoContainer}>
+          <Image style={styles.logo} source={require('../../assets/png/logo.png')}/>
+        </View>
         <CTA
           style={styles.signUpButton}
           text={t('landing.signUpButton')}
@@ -51,6 +54,19 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
+  },
+  logoContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: 64,
+  },
+  logo: {
+    width: 120,
+    height: 150,
+    position: 'absolute',
+    top: 120,
   },
   signUpButton: {
     marginBottom: FooterPromptHeight + FooterPromptTopMargin,
