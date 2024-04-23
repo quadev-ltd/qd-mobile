@@ -1,4 +1,5 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useEffect } from 'react';
 
 import { type DrawerParamList, PrivateScreen } from './types';
 
@@ -8,7 +9,16 @@ import HomeTwoScreen from '@/screens/HomeTwo/HomeTwoScreen';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
-const AuthenticatedStack: React.FC = () => {
+type AuthenticatedStackProps = {
+  hideSplashScreen: () => void;
+};
+
+const AuthenticatedStack: React.FC<AuthenticatedStackProps> = ({
+  hideSplashScreen,
+}) => {
+  useEffect(() => {
+    hideSplashScreen();
+  }, [hideSplashScreen]);
   return (
     <Drawer.Navigator
       drawerContent={CustomDrawerContent}

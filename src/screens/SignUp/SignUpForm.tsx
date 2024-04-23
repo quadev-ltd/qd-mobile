@@ -8,7 +8,6 @@ import Toast from 'react-native-toast-message';
 import { AsynchErrorMessages } from '../../core/api/constants';
 
 import { CTA } from '@/components/CTA';
-import { commonStyles } from '@/components/SignIn/constants';
 import { HookFormDateInput } from '@/components/SignIn/HookFormDateInput';
 import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
@@ -157,14 +156,14 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         secureTextEntry={true}
       />
       <View style={styles.tAndCContainer}>
-        <Text style={styles.tAndCText} adjustsFontSizeToFit>
+        <Text style={styles.tAndCText}>
           {t('signUp.termsLabel')}
           <Text style={styles.termsLink}>{t('signUp.termsOfService')}</Text>&
           <Text style={styles.termsLink}>{t('signUp.privacyPolicy')}</Text>
         </Text>
       </View>
 
-      <View style={commonStyles.footerButton}>
+      <View style={styles.footerButton}>
         <CTA
           text={t(`signUp.submitButton`)}
           accessibilityLabel={t(`signUp.submitButtonAccessibilityLabel`)}
@@ -174,7 +173,6 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
     </>
   );
 };
-
 const styles = StyleSheet.create({
   tAndCContainer: {
     flexDirection: 'row',
@@ -185,10 +183,16 @@ const styles = StyleSheet.create({
   },
   tAndCText: {
     flex: 1,
-    fontSize: 12,
+    fontSize: 14,
     alignSelf: 'center',
   },
   termsLink: {
     textDecorationLine: 'underline',
+  },
+  footerButton: {
+    marginBottom: 12,
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignContent: 'stretch',
   },
 });

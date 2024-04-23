@@ -3753,6 +3753,7 @@ __metadata:
     react-native-safe-area-context: "npm:^4.9.0"
     react-native-screens: "npm:^3.29.0"
     react-native-securerandom: "npm:^1.0.1"
+    react-native-splash-screen: "npm:^3.3.0"
     react-native-toast-message: "npm:^2.2.0"
     react-native-vector-icons: "npm:^10.0.3"
     react-redux: "npm:9.1.0"
@@ -9587,6 +9588,15 @@ __metadata:
   peerDependencies:
     react-native: "*"
   checksum: 389d2f6abbc3531337e58f78818ebc1f253156cee51c9ff78e72c6f358db8b9a758f4dbd5ddd9595c2fa5d87e80c95400647596f62e2124033c3dc7a79b770ea
+  languageName: node
+  linkType: hard
+
+"react-native-splash-screen@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "react-native-splash-screen@npm:3.3.0"
+  peerDependencies:
+    react-native: ">=0.57.0"
+  checksum: 0979585b4087dba0825c94393477fc0301210cfa09eae4a98336e91865765f3c774cf8b20c525b3cea74c588e1e4ff0aa9d7500292ad52979670aa59ab83f0a4
   languageName: node
   linkType: hard
 

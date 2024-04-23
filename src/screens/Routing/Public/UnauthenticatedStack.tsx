@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useEffect } from 'react';
 
 import { PublicScreen, type StackParamList } from './types';
 
@@ -11,13 +12,18 @@ import VerifyEmailScreen from '@/screens/VerifyEmail/VerifyEmailScreen';
 type UnauthenticatedStackProps = {
   environment?: string;
   applicationName: string;
+  hideSplashScreen: () => void;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
 export const UnauthenticatedStack: React.FC<UnauthenticatedStackProps> = ({
   environment,
   applicationName,
+  hideSplashScreen,
 }) => {
+  useEffect(() => {
+    hideSplashScreen();
+  }, [hideSplashScreen]);
   return (
     <Stack.Navigator
       initialRouteName={PublicScreen.Landing}

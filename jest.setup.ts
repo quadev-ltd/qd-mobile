@@ -1,6 +1,7 @@
 import '@testing-library/react-native/extend-expect';
 import '@testing-library/jest-native/extend-expect';
 import { config } from 'dotenv';
+import { type ReactNode } from 'react';
 
 // set up env
 config({
@@ -32,3 +33,9 @@ jest.mock('react-native-gesture-handler', () => {
       .mockImplementation(({ children }) => children),
   };
 });
+
+jest.mock('react-native-safe-area-context', () => ({
+  SafeAreaView: ({ children }: { children: ReactNode }) => children,
+  SafeAreaProvider: ({ children }: { children: ReactNode }) => children,
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));

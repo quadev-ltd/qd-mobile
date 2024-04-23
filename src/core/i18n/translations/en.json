@@ -78,7 +78,7 @@
     "title": "Enter your email address",
     "emailLabel": "Email",
     "emailAccessibilityLabel": "Enter your email",
-    "submitButton": "Send verification email",
+    "submitButton": "Request password reset",
     "submitButtonAccessibilityLabel": "Send verification email action",
     "changePathDescription": "Already have an account?",
     "changePathButton": "Sign in"

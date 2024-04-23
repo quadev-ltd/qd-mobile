@@ -1,13 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Platform } from 'react-native';
 
 import FlatTextCTA from '../FlatTextCTA';
 
-import {
-  FooterPromptHeight,
-  FooterPromptTopMargin,
-  LayoutPaddingVertical,
-} from './constants';
 import { type ScreenType } from './types';
 
 import { colors } from '@/styles';
@@ -34,19 +29,20 @@ export const FooterPrompt: React.FC<FooterPromptProps> = ({
   );
 };
 
+export const FooterPromptHeight = Platform.OS === 'ios' ? 48 : 64;
+
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    bottom: LayoutPaddingVertical,
+    bottom: 0,
     height: FooterPromptHeight,
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'flex-start',
     alignSelf: 'center',
-    marginTop: FooterPromptTopMargin,
   },
   prompt: {
     color: colors.white,
     fontWeight: '700',
-    alignSelf: 'center',
+    // alignSelf: 'center',
   },
 });

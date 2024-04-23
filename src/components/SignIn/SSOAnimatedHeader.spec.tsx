@@ -21,6 +21,7 @@ describe('SSOAnimatedHeader', () => {
         switchSSO={switchSSO}
         handleFacebookLogin={handleFacebookLogin}
         handleGoogleLogin={handleGoogleLogin}
+        safeAreaViewportHeight={900}
       />,
     );
     expect(getByText('signIn.withGoogle')).toBeTruthy();
