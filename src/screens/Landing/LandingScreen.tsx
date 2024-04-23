@@ -40,7 +40,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
     return {
       transform: [{ scale: scale.value }],
     };
-  });
+  }, [scale]);
 
   const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
   const goToSignIn = () => navigation.navigate(PublicScreen.SignIn);
