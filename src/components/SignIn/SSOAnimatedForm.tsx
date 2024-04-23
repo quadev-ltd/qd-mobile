@@ -6,9 +6,14 @@ import {
   Easing,
   KeyboardAvoidingView,
   Keyboard,
+  Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
+import {
+  FooterPrompt,
+  FooterPromptHeight,
+} from '@/components/SignIn/FooterPrompt';
 import { Layout } from '@/components/SignIn/Layout';
 import { SSOAnimatedHeader } from '@/components/SignIn/SSOAnimatedHeader';
 import { type ScreenType } from '@/components/SignIn/types';
@@ -33,18 +38,22 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   children,
 }) => {
   const [isSSO, setIsSSO] = useState(true);
-  const [translateY] = useState(new Animated.Value(VIEWPORT_HEIGHT));
+  const { top, bottom } = useSafeAreaInsets();
+  const safeAreaViewportHeight =
+    VIEWPORT_HEIGHT - top - bottom - FooterPromptHeight - 12;
+  const [translateY] = useState(new Animated.Value(safeAreaViewportHeight));
   const [disableAnimation, setDisableAnimation] = useState(true);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const isKeyboardVisibleRef = useRef<boolean>(false);
   const moveUpOnKeyboard = useRef<number>(0);
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardWillShow',
       event => {
         moveUpOnKeyboard.current =
-          formHeight + event.endCoordinates.height - VIEWPORT_HEIGHT;
+          formHeight + event.endCoordinates.height - safeAreaViewportHeight;
         if (moveUpOnKeyboard.current > 0) isKeyboardVisibleRef.current = true;
         setKeyboardVisibility();
       },
@@ -65,14 +74,14 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
     };
-  }, [formHeight]);
+  }, [formHeight, safeAreaViewportHeight]);
 
   const switchSSO = () => {
     disableAnimation && setDisableAnimation(false);
     !isSSO ? animateFormHide(() => setIsSSO(!isSSO)) : setIsSSO(!isSSO);
   };
   const animateFormHide = (onAnimationEnded?: () => void) => {
-    !isSSO && animateTranslation(VIEWPORT_HEIGHT, onAnimationEnded);
+    !isSSO && animateTranslation(safeAreaViewportHeight, onAnimationEnded);
   };
   const animateFormShow = () => {
     !isSSO && animateTranslation(0);
@@ -103,9 +112,10 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         switchSSO={switchSSO}
         onAnimationEnded={animateFormShow}
         disableAnimation={disableAnimation}
+        safeAreaViewportHeight={safeAreaViewportHeight}
       />
       <KeyboardAvoidingView
-        behavior={'padding'}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardAvoidingContainer}>
         <Animated.View
           testID="form"
@@ -118,7 +128,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
                 },
               ],
               opacity: translateY.interpolate({
-                inputRange: [0, VIEWPORT_HEIGHT],
+                inputRange: [0, safeAreaViewportHeight],
                 outputRange: [1, 0],
               }),
             },
@@ -140,7 +150,7 @@ const styles = StyleSheet.create({
   },
   form: {
     flex: 1,
-    marginTop: 32,
+    marginTop: 24,
     alignItems: 'stretch',
     overflow: 'hidden',
   },

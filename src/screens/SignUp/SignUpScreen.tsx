@@ -1,4 +1,5 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
@@ -34,14 +35,16 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
     });
   };
   return (
-    <SSOAnimatedForm
-      screen={ScreenType.SignUp}
-      handleFacebookAction={handleFacebookLogin}
-      handleGoogleAction={handleGoogleLogin}
-      formHeight={FORM_HEIGHT}
-      changePath={goToSignIn}>
-      <SignUpForm onSuccess={handleSuccess} />
-    </SSOAnimatedForm>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SSOAnimatedForm
+        screen={ScreenType.SignUp}
+        handleFacebookAction={handleFacebookLogin}
+        handleGoogleAction={handleGoogleLogin}
+        formHeight={FORM_HEIGHT}
+        changePath={goToSignIn}>
+        <SignUpForm onSuccess={handleSuccess} />
+      </SSOAnimatedForm>
+    </TouchableWithoutFeedback>
   );
 };
 

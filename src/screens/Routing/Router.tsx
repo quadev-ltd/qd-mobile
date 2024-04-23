@@ -1,4 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
+import SplashScreen from 'react-native-splash-screen';
 
 import AuthenticatedStack from './Private/AuthenticatedStack';
 import UnauthenticatedStack from './Public/UnauthenticatedStack';
@@ -20,9 +21,10 @@ const Router: React.FC<RouterProps> = ({ environment, applicationName }) => {
   return (
     <NavigationContainer linking={linking}>
       {authenticationStatus === AuthStateStatus.Authenticated ? (
-        <AuthenticatedStack />
+        <AuthenticatedStack hideSplashScreen={SplashScreen.hide} />
       ) : (
         <UnauthenticatedStack
+          hideSplashScreen={SplashScreen.hide}
           environment={environment}
           applicationName={applicationName}
         />

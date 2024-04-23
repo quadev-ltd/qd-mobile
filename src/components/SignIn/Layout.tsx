@@ -1,13 +1,6 @@
 import { type ReactNode } from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
-
-import { LayoutPaddingVertical } from './constants';
+import { View, StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors } from '@/styles';
 
@@ -18,14 +11,12 @@ type LayoutProps = {
 
 export const Layout: React.FC<LayoutProps> = ({ environment, children }) => {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.LayoutContainer}>
-        {children}
-        <View style={styles.environmentPrompt}>
-          <Text style={styles.environmentPromptText}>{environment}</Text>
-        </View>
+    <SafeAreaView style={styles.LayoutContainer}>
+      {children}
+      <View style={styles.environmentPrompt}>
+        <Text style={styles.environmentPromptText}>{environment}</Text>
       </View>
-    </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 };
 
@@ -36,7 +27,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     alignContent: 'stretch',
-    paddingVertical: LayoutPaddingVertical,
     paddingHorizontal: 40,
     backgroundColor: colors.purpleBlue,
   },
