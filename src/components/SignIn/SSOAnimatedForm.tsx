@@ -4,9 +4,9 @@ import {
   StyleSheet,
   Dimensions,
   Easing,
-  KeyboardAvoidingView,
   Keyboard,
   Platform,
+  ScrollView,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -50,17 +50,16 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardWillShow',
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
       event => {
-        moveUpOnKeyboard.current =
-          formHeight + event.endCoordinates.height - safeAreaViewportHeight;
-        if (moveUpOnKeyboard.current > 0) isKeyboardVisibleRef.current = true;
+        moveUpOnKeyboard.current = event.endCoordinates.height;
         setKeyboardVisibility();
       },
     );
     const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardWillHide',
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
       () => {
+        moveUpOnKeyboard.current = 0;
         if (isKeyboardVisibleRef.current) isKeyboardVisibleRef.current = false;
         setKeyboardVisibility();
       },
@@ -99,8 +98,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
     }).start(onAnimationEnded);
   };
 
-  const marginTop =
-    moveUpOnKeyboard.current > 0 ? -moveUpOnKeyboard.current : 0;
+  const marginBottom = moveUpOnKeyboard.current - 80;
 
   return (
     <Layout>
@@ -114,9 +112,9 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         disableAnimation={disableAnimation}
         safeAreaViewportHeight={safeAreaViewportHeight}
       />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardAvoidingContainer}>
+      <ScrollView
+        style={Platform.OS === 'ios' && isKeyboardVisible && { marginBottom }}
+        contentContainerStyle={!isKeyboardVisible && styles.srcollView}>
         <Animated.View
           testID="form"
           style={[
@@ -132,20 +130,17 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
                 outputRange: [1, 0],
               }),
             },
-            isKeyboardVisible && {
-              marginTop,
-            },
           ]}>
           {children}
         </Animated.View>
-      </KeyboardAvoidingView>
+      </ScrollView>
       <FooterPrompt changePath={changePath} screen={screen} />
     </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  keyboardAvoidingContainer: {
+  srcollView: {
     flex: 1,
   },
   form: {
