@@ -1,11 +1,6 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
-import {
-  Keyboard,
-  View,
-  TouchableWithoutFeedback,
-  StyleSheet,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
@@ -28,33 +23,31 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   const handleFacebookLogin = () => {};
   const handleGoogleLogin = () => {};
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SSOAnimatedForm
-        screen={ScreenType.SignIn}
-        handleFacebookAction={handleFacebookLogin}
-        handleGoogleAction={handleGoogleLogin}
-        changePath={goToSignUp}
-        formHeight={350}>
-        <FormTextInput
-          label={t('signIn.emailLabel')}
-          accessibilityLabel={t('signIn.emailAccessibilityLabel')}
+    <SSOAnimatedForm
+      screen={ScreenType.SignIn}
+      handleFacebookAction={handleFacebookLogin}
+      handleGoogleAction={handleGoogleLogin}
+      changePath={goToSignUp}
+      formHeight={350}>
+      <FormTextInput
+        label={t('signIn.emailLabel')}
+        accessibilityLabel={t('signIn.emailAccessibilityLabel')}
+      />
+      <FormTextInput
+        label={t('signIn.passwordLabel')}
+        forgotPasswordLabel={t('signIn.forgotButton')}
+        forgotPasswordCallback={handleForgotPassword}
+        accessibilityLabel={t('signIn.passwordAccessibilityLabel')}
+        secureTextEntry={true}
+      />
+      <View style={styles.footerButton}>
+        <CTA
+          text={t(`signIn.submitButton`)}
+          accessibilityLabel={t(`signIn.submitButtonAccessibilityLabel`)}
+          onPress={handleSubmit}
         />
-        <FormTextInput
-          label={t('signIn.passwordLabel')}
-          forgotPasswordLabel={t('signIn.forgotButton')}
-          forgotPasswordCallback={handleForgotPassword}
-          accessibilityLabel={t('signIn.passwordAccessibilityLabel')}
-          secureTextEntry={true}
-        />
-        <View style={styles.footerButton}>
-          <CTA
-            text={t(`signIn.submitButton`)}
-            accessibilityLabel={t(`signIn.submitButtonAccessibilityLabel`)}
-            onPress={handleSubmit}
-          />
-        </View>
-      </SSOAnimatedForm>
-    </TouchableWithoutFeedback>
+      </View>
+    </SSOAnimatedForm>
   );
 };
 
