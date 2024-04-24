@@ -52,6 +52,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
     const keyboardDidShowListener = Keyboard.addListener(
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
       event => {
+        if (!isKeyboardVisibleRef.current) isKeyboardVisibleRef.current = true;
         moveUpOnKeyboard.current = event.endCoordinates.height;
         setKeyboardVisibility();
       },
