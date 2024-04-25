@@ -8,28 +8,32 @@ import {
 
 import { FormTextInput } from '../FormTextInput';
 
-import { type SignUpSchemaType } from '@/schemas/signUpSchema';
+import { type FieldType } from './types';
 
-interface HookFormTextInputProps {
-  name: keyof SignUpSchemaType;
+interface HookFormTextInputProps<
+  TFormSchema extends Record<FieldType, string>,
+> {
+  name: keyof TFormSchema;
   label: string;
   accessibilityLabel: string;
-  control?: Control<SignUpSchemaType>;
+  control?: Control<TFormSchema>;
   secureTextEntry?: boolean;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
 }
 
-export const HookFormTextInput: React.FC<HookFormTextInputProps> = ({
+export const HookFormTextInput = <
+  TFormSchema extends Record<FieldType, string>,
+>({
   name,
   label,
   accessibilityLabel,
   control,
   secureTextEntry,
   error,
-}) => {
+}: HookFormTextInputProps<TFormSchema>) => {
   return (
     <Controller
-      name={name}
+      name={name as FieldType}
       control={control}
       render={({ field: { onChange, onBlur, value } }) => {
         return (

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Toast from 'react-native-toast-message';
 
 import { GIF_NOTIFICATION_DURATION } from './useResendVerificationEmail';
 
+import { showUnexpectedErrorToast } from '@/components/Toast';
 import { useVerifyEmailMutation } from '@/core/api';
 import { type APIError, type ResponseError } from '@/core/api/types';
 import logger from '@/core/logger';
@@ -27,7 +27,7 @@ export const useVerifyEmail = (userID: string, verificationToken?: string) => {
         setTimeout(async () => {
           dispatch(
             login({
-              accessToken: data.authToken,
+              authToken: data.authToken,
               refreshToken: data.refreshToken,
             }),
           );
@@ -41,12 +41,7 @@ export const useVerifyEmail = (userID: string, verificationToken?: string) => {
           logger().logError(
             Error(`Failed to verify email: ${JSON.stringify(err)}`),
           );
-          Toast.show({
-            type: 'error',
-            text1: t('toast.errorTitle'),
-            text2: t('toast.unexpecteError'),
-            position: 'bottom',
-          });
+          showUnexpectedErrorToast(t);
         }
       });
   }, [userID, verificationToken, verifyEmail, t, dispatch]);

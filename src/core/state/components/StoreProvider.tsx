@@ -2,11 +2,11 @@ import { type UnknownAction, type Store } from '@reduxjs/toolkit';
 import { type FC, useEffect, useState } from 'react';
 import { type Persistor } from 'redux-persist';
 
-import { getMMKVEncryptionKey } from '../keychain.ts';
-import { loadInitialToken } from '../slices/authSlice.tsx';
-import { generateStore } from '../store.ts';
+import { getMMKVEncryptionKey } from '../keychain';
+import { loadInitialToken } from '../slices/authSlice';
+import { generateStore } from '../store';
 
-import AppLoading from '@/components/AppLoading.tsx';
+import AppLoading from '@/components/AppLoading';
 import logger from '@/core/logger';
 
 interface StoreDetails {

@@ -20,7 +20,7 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
       contentContainerStyle={styles.container}
       {...props}>
       <View style={styles.drawerHeader}>
-        <Text style={styles.drawerHeaderText}>{t('drawerMenu.signOut')}</Text>
+        <Text style={styles.drawerHeaderText}>{t('drawerMenu.profile')}</Text>
       </View>
       <DrawerItemList {...props} />
       <View style={styles.drawerContent}>

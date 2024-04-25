@@ -11,7 +11,7 @@ import { ApplicationEnvironentEnum } from '@/core/env';
 const registerUser = jest.fn();
 jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
 jest.mock('../../core/api', () => ({
-  useRegisterUserMutation: jest.fn(() => [
+  useSignUpMutation: jest.fn(() => [
     registerUser,
     { iLoading: false, error: null, data: null },
   ]),

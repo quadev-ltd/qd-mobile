@@ -14,22 +14,35 @@ import {
 } from '../../hooks/usePasswordValidation';
 import { FormTextInput } from '../FormTextInput';
 
-import { type SignUpSchemaType } from '@/schemas/signUpSchema';
+import { type FieldType } from './types';
+
 import { colors } from '@/styles';
 
-interface HookFormPasswordInputProps {
-  name: keyof SignUpSchemaType;
-  control: Control<SignUpSchemaType>;
+interface HookFormPasswordInputProps<
+  TFormSchema extends Record<FieldType, string>,
+> {
+  label: string;
+  accessibilityLabel: string;
+  name: keyof TFormSchema;
+  control: Control<TFormSchema>;
   password?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
+  forgotPasswordLabel?: string;
+  forgotPasswordCallback?: () => void;
 }
 
-export const HookFormPasswordInput: React.FC<HookFormPasswordInputProps> = ({
+export const HookFormPasswordInput = <
+  TFormSchema extends Record<FieldType, string>,
+>({
+  label,
+  accessibilityLabel,
   name,
   password,
   control,
   error,
-}) => {
+  forgotPasswordLabel,
+  forgotPasswordCallback,
+}: HookFormPasswordInputProps<TFormSchema>) => {
   const { t } = useTranslation();
   const validations: PasswordValidityAttributes =
     usePasswordValidation(password);
@@ -54,19 +67,21 @@ export const HookFormPasswordInput: React.FC<HookFormPasswordInputProps> = ({
   const { isValid } = validations;
   return (
     <Controller
-      name={name}
+      name={name as FieldType}
       control={control}
       render={({ field: { onChange, onBlur, value } }) => {
         return (
           <>
             <FormTextInput
-              label={t('signUp.passwordLabel')}
-              accessibilityLabel={t('signUp.passwordAccessibilityLabel')}
+              label={label}
+              accessibilityLabel={accessibilityLabel}
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
               error={error}
               secureTextEntry={true}
+              forgotPasswordLabel={forgotPasswordLabel}
+              forgotPasswordCallback={forgotPasswordCallback}
             />
             {!isValid && (
               <View style={styles.passwordHintsContainer}>

@@ -22,10 +22,7 @@ jest.mock('react-native-toast-message', () => ({
   show: jest.fn(),
 }));
 jest.mock('../../core/api', () => ({
-  useRegisterUserMutation: jest.fn(() => [
-    mockRegisterUser,
-    { iLoading: false },
-  ]),
+  useSignUpMutation: jest.fn(() => [mockRegisterUser, { iLoading: false }]),
 }));
 jest.mock('@react-native-firebase/crashlytics', () => ({
   log: jest.fn(),
@@ -216,8 +213,8 @@ describe('SignUpForm complete success and errors', () => {
         );
         expect(mockShowToast).toHaveBeenCalledWith({
           type: 'error',
-          text1: 'signUp.genericError',
-          text2: 'signUp.genericErrorDescription',
+          text1: 'toast.errorTitle',
+          text2: 'toast.unexpectedErrorRetry',
           position: 'bottom',
         });
       },
@@ -256,8 +253,8 @@ describe('SignUpForm complete success and errors', () => {
         );
         expect(mockShowToast).toHaveBeenCalledWith({
           type: 'error',
-          text1: 'signUp.genericError',
-          text2: 'signUp.genericErrorDescription',
+          text1: 'toast.errorTitle',
+          text2: 'toast.unexpectedErrorRetry',
           position: 'bottom',
         });
       },

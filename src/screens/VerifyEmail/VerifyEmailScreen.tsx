@@ -8,6 +8,8 @@ import EmailVerificationComponent from './VerifyEmail';
 
 import { useResendEmail } from '@/core/api/hooks/useResendVerificationEmail';
 import { useVerifyEmail } from '@/core/api/hooks/useVerifyEmail';
+import { useAppDispatch } from '@/core/state/hooks';
+import { logout } from '@/core/state/slices/authSlice';
 
 export type VerifyEmailScreenProps = NativeStackScreenProps<
   StackParamList,
@@ -31,8 +33,12 @@ export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
     isSendError,
     apiSendErrorCode,
   } = useResendEmail(params.userID);
+  const dispatch = useAppDispatch();
 
-  const goToSignIn = () => navigation.navigate(PublicScreen.SignIn);
+  const goToSignIn = () => {
+    dispatch(logout());
+    navigation.navigate(PublicScreen.SignIn);
+  };
 
   const resendStatus = useMemo(() => {
     if (isSending) return ResendRequestStatus.Sending;

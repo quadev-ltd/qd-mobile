@@ -3,28 +3,27 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, Keyboard } from 'react-native';
 
-import { AsynchErrorMessages } from '../../core/api/constants';
-
 import { CTA } from '@/components/CTA';
 import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
 import Spinner from '@/components/Spinner';
-import { showUnexpectedErrorToast } from '@/components/Toast';
-import { useSignInMutation } from '@/core/api';
-import { type ResponseError } from '@/core/api/types';
-import Logger from '@/core/logger';
+import { useSignIn } from '@/core/api/hooks/useSignIn';
+import { type TokensPayload } from '@/core/state/slices/authSlice';
 import {
   SignInFields,
   type SignInSchemaType,
   signInSchema,
 } from '@/schemas/signInSchema';
-import { trimFormData } from '@/util';
 
 interface SignInFormProps {
-  onSuccess: (userData: { authToken: string; refreshToken: string }) => void;
+  onSuccess: (userData: TokensPayload) => void;
+  forgotPasswordCallback: () => void;
 }
 
-export const SignInForm: React.FC<SignInFormProps> = ({ onSuccess }) => {
+export const SignInForm: React.FC<SignInFormProps> = ({
+  onSuccess,
+  forgotPasswordCallback,
+}) => {
   const {
     control,
     handleSubmit,
@@ -33,58 +32,12 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onSuccess }) => {
     watch,
   } = useForm<SignInSchemaType>({ resolver: zodResolver(signInSchema) });
   const { t } = useTranslation();
-  const [registerUser, { isLoading }] = useSignInMutation();
+  const { signIn, isLoading } = useSignIn(onSuccess, setError);
   const password = watch('password');
 
-  const onSubmit = async (formData: SignInSchemaType) => {
-    try {
-      const trimmedFormData = trimFormData(formData);
-      const userData = await registerUser(trimmedFormData).unwrap();
-      onSuccess(userData);
-    } catch (err) {
-      const typedError = err as ResponseError;
-      if (
-        typedError.data?.field_errors &&
-        typedError.data.field_errors.length > 0 &&
-        typedError.status === 400
-      ) {
-        (err as ResponseError).data?.field_errors?.forEach(fieldError => {
-          const errorMessage = AsynchErrorMessages[fieldError.error];
-          if (!errorMessage) {
-            Logger().logError(
-              Error(
-                `Unknown registration error for email ${
-                  formData[SignInFields.email]
-                }: ${JSON.stringify(err)}`,
-              ),
-            );
-            showUnexpectedErrorToast(t);
-            return;
-          }
-          setError(
-            fieldError.field as keyof SignInSchemaType,
-            {
-              type: 'manual',
-              message: errorMessage,
-            },
-            { shouldFocus: true },
-          );
-        });
-      } else {
-        Logger().logError(
-          Error(
-            `Unknown registration error for email ${
-              formData[SignInFields.email]
-            }: ${JSON.stringify(err)}`,
-          ),
-        );
-        showUnexpectedErrorToast(t);
-      }
-    }
-  };
   const handleOnSubmit = () => {
     Keyboard.dismiss();
-    handleSubmit(onSubmit)();
+    handleSubmit(signIn)();
   };
 
   if (isLoading) {
@@ -102,6 +55,10 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onSuccess }) => {
       />
 
       <HookFormPasswordInput
+        label={t('signIn.passwordLabel')}
+        accessibilityLabel={t('signIn.passwordAccessibilityLabel')}
+        forgotPasswordLabel={t('signIn.forgotButton')}
+        forgotPasswordCallback={forgotPasswordCallback}
         name={SignInFields.password}
         password={password}
         control={control}

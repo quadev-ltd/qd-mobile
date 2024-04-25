@@ -15,13 +15,20 @@
     "withSSOAccessibilityLabel": "Log in with single sign on",
     "emailLabel": "Email",
     "emailAccessibilityLabel": "Enter your email",
+    "emailRequiredError": "Required",
+    "emailFormatError": "Please enter a valid email address",
     "passwordLabel": "Password",
     "passwordAccessibilityLabel": "Enter your password",
+    "passwordRequiredError": "Required",
+    "passwordFormatError": "Password format is invalid",
+    "invalidEmailOrPasswordError": "Invalid email or password",
     "forgotButton": "Forgot?",
     "submitButton": "Sign in",
     "submitButtonAccessibilityLabel": "Sign in action",
     "changePathDescription": "Don't have an account?",
-    "changePathButton": "Sign up"
+    "changePathButton": "Sign up",
+    "getProfileError": "Error",
+    "getProfileErrorDescription": "There was a problem getting your profile. Please try again later."
   },
   "signUp": {
     "withGoogle": "Sign up with Google",
@@ -70,9 +77,7 @@
     "submitButton": "Sign up",
     "submitButtonAccessibilityLabel": "Sign up action",
     "changePathDescription": "Already have an account?",
-    "changePathButton": "Sign in",
-    "genericError": "Error",
-    "genericErrorDescription": "Something went wrong. Please try again later."
+    "changePathButton": "Sign in"
   },
   "forgotPassword": {
     "title": "Enter your email address",
