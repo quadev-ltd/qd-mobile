@@ -14,7 +14,6 @@ import {
 } from '../keychain';
 
 import { ClaimName, LOGOUT, type TokenPayload } from './types';
-
 import { isUserVerifiedSelector } from './userSlice';
 import { jwtDecode } from './util';
 
