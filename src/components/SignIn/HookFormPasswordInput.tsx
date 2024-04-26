@@ -29,6 +29,7 @@ interface HookFormPasswordInputProps<
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   forgotPasswordLabel?: string;
   forgotPasswordCallback?: () => void;
+  onSubmitEditing?: () => void;
 }
 
 export const HookFormPasswordInput = <
@@ -42,6 +43,7 @@ export const HookFormPasswordInput = <
   error,
   forgotPasswordLabel,
   forgotPasswordCallback,
+  onSubmitEditing,
 }: HookFormPasswordInputProps<TFormSchema>) => {
   const { t } = useTranslation();
   const validations: PasswordValidityAttributes =
@@ -82,6 +84,8 @@ export const HookFormPasswordInput = <
               secureTextEntry={true}
               forgotPasswordLabel={forgotPasswordLabel}
               forgotPasswordCallback={forgotPasswordCallback}
+              onSubmitEditing={onSubmitEditing}
+              keyboardType="visible-password"
             />
             {!isValid && (
               <View style={styles.passwordHintsContainer}>

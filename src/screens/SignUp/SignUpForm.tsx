@@ -49,6 +49,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         name={SignUpFields.email}
         control={control}
         error={errors[SignUpFields.email]}
+        onSubmitEditing={handleOnSubmit}
+        keyboardType="email-address"
       />
       <HookFormTextInput
         label={t('signUp.firstNameLabel')}
@@ -56,6 +58,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         name={SignUpFields.firstName}
         control={control}
         error={errors[SignUpFields.firstName]}
+        onSubmitEditing={handleOnSubmit}
+        keyboardType="default"
       />
       <HookFormTextInput
         label={t('signUp.lastNameLabel')}
@@ -63,6 +67,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         name={SignUpFields.lastName}
         control={control}
         error={errors[SignUpFields.lastName]}
+        onSubmitEditing={handleOnSubmit}
+        keyboardType="default"
       />
       <HookFormDateInput
         label={t('signUp.dobLabel')}
@@ -70,6 +76,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         name={SignUpFields.dob}
         control={control}
         error={errors[SignUpFields.dob]}
+        onSubmitEditing={handleOnSubmit}
       />
       <HookFormPasswordInput
         label={t('signUp.passwordLabel')}
@@ -78,6 +85,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         password={password}
         control={control}
         error={errors[SignUpFields.password]}
+        onSubmitEditing={handleOnSubmit}
       />
       <HookFormTextInput
         label={t('signUp.passwordConfirmationLabel')}
@@ -85,7 +93,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         name={SignUpFields.passwordConfirmation}
         control={control}
         error={errors[SignUpFields.passwordConfirmation]}
-        secureTextEntry={true}
+        onSubmitEditing={handleOnSubmit}
+        keyboardType="visible-password"
       />
       <View style={styles.tAndCContainer}>
         <Text style={styles.tAndCText}>

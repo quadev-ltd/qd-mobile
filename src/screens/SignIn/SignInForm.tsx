@@ -52,6 +52,8 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         name={SignInFields.email}
         control={control}
         error={errors[SignInFields.email]}
+        onSubmitEditing={handleOnSubmit}
+        keyboardType="email-address"
       />
 
       <HookFormPasswordInput
@@ -63,6 +65,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         password={password}
         control={control}
         error={errors[SignInFields.password]}
+        onSubmitEditing={handleOnSubmit}
       />
       <View style={styles.footerButton}>
         <CTA

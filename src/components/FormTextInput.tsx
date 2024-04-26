@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
+  type KeyboardTypeOptions,
 } from 'react-native';
 
 import { colors } from '@/styles';
@@ -23,8 +24,10 @@ interface FormTextInputProps {
   secureTextEntry?: boolean;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onChangeText?: (text: string) => void;
+  onSubmitEditing?: () => void;
   value?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 export const FormTextInput: React.FC<FormTextInputProps> = ({
@@ -33,8 +36,10 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
   forgotPasswordCallback,
   accessibilityLabel,
   secureTextEntry,
+  onSubmitEditing,
   onBlur,
   onChangeText,
+  keyboardType,
   value,
   error,
 }) => {
@@ -49,6 +54,9 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
         accessibilityLabel={accessibilityLabel}
         onBlur={onBlur}
         onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
+        returnKeyType="go"
+        keyboardType={keyboardType}
         value={value}
       />
       {error && <Text style={styles.error}>{error.message as string}</Text>}
