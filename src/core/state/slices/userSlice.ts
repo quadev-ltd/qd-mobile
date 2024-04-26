@@ -47,6 +47,5 @@ export const userSlice = createSlice({
 
 export const { setProfileDetails } = userSlice.actions;
 
-export const isUserVerifiedSelector = (state: RootState) => {
-  return state.user?.accountStatus === AccountStatus.Verified;
-};
+export const isUserVerifiedSelector = (state: RootState) =>
+  state.user?.accountStatus === AccountStatus.Verified;

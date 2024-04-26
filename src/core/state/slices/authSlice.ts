@@ -14,6 +14,7 @@ import {
 } from '../keychain';
 
 import { ClaimName, LOGOUT, type TokenPayload } from './types';
+
 import { isUserVerifiedSelector } from './userSlice';
 import { jwtDecode } from './util';
 
@@ -154,6 +155,7 @@ export interface AuthTokenPayload {
   authToken?: string;
   tokenExpiry?: Date;
 }
+
 const sliceName = 'auth';
 export const authSlice = createSlice({
   name: sliceName,
