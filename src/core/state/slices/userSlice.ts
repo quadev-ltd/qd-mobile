@@ -3,7 +3,9 @@ import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { type RootState } from '../store';
 
 import { AccountStatus } from './authSlice';
+import { LOGOUT } from './types';
 
+import logger from '@/core/logger';
 import { type Timestamp } from '@/util';
 
 export interface User {
@@ -26,13 +28,20 @@ const initialState: User = {
   accountStatus: '',
 };
 
+const sliceName = 'user';
 export const userSlice = createSlice({
-  name: 'user',
+  name: sliceName,
   initialState,
   reducers: {
     setProfileDetails: (state, action: PayloadAction<User>) => {
       return action.payload;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(LOGOUT, () => {
+      logger().logMessage(`${sliceName} slice logout successfully`);
+      return initialState;
+    });
   },
 });
 
