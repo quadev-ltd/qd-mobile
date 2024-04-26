@@ -15,3 +15,5 @@ export interface TokenPayload {
   [ClaimName.TypeClaim]: string;
   [ClaimName.UserIDClaim]: string;
 }
+
+export const LOGOUT = 'logout';

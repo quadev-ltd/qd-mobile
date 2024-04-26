@@ -13,7 +13,7 @@ import {
   storeRefreshToken,
 } from '../keychain';
 
-import { ClaimName, type TokenPayload } from './types';
+import { ClaimName, LOGOUT, type TokenPayload } from './types';
 import { isUserVerifiedSelector } from './userSlice';
 import { jwtDecode } from './util';
 
@@ -137,11 +137,12 @@ export const loadInitialToken = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   'auth/logout',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     try {
       await deleteAuthToken();
       await deleteRefreshToken();
-      logger().logMessage('Logout successful.');
+      logger().logMessage('Keychain logout successful.');
+      dispatch({ type: LOGOUT });
     } catch (error) {
       logger().logError(Error(`Logout failed: ${error}`));
       return rejectWithValue(error);
@@ -153,9 +154,9 @@ export interface AuthTokenPayload {
   authToken?: string;
   tokenExpiry?: Date;
 }
-
+const sliceName = 'auth';
 export const authSlice = createSlice({
-  name: 'auth',
+  name: sliceName,
   initialState,
   reducers: {
     setAuthToken: (state, action: PayloadAction<AuthTokenPayload>) => {
@@ -178,7 +179,10 @@ export const authSlice = createSlice({
         },
       )
       .addCase(login.rejected, () => initialState)
-      .addCase(logout.fulfilled, () => initialState);
+      .addCase(logout.fulfilled, () => {
+        logger().logMessage(`${sliceName} slice logout successfully`);
+        return initialState;
+      });
   },
 });
 
