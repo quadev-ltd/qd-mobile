@@ -1,13 +1,28 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet } from 'react-native';
 
 import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
-import { CTA } from '@/components/CTA';
-import { FormTextInput } from '@/components/FormTextInput';
+import LoadUserProfile from './LoadUserProfile';
+import { SignInForm } from './SignInForm';
+
 import { SSOAnimatedForm } from '@/components/SignIn/SSOAnimatedForm';
 import { ScreenType } from '@/components/SignIn/types';
+import { showUnexpectedErrorToast } from '@/components/Toast';
+import { type GetUserProfileResponse } from '@/core/api/types';
+import logger from '@/core/logger';
+import { useAppDispatch, useAppSelector } from '@/core/state/hooks';
+import {
+  AccountStatus,
+  type TokensPayload,
+  login,
+  logout,
+  setAuthToken,
+} from '@/core/state/slices/authSlice';
+import { ClaimName } from '@/core/state/slices/types';
+import { setProfileDetails } from '@/core/state/slices/userSlice';
+import { jwtDecode } from '@/core/state/slices/util';
 
 export type SignInScreenProps = NativeStackScreenProps<
   StackParamList,
@@ -15,13 +30,85 @@ export type SignInScreenProps = NativeStackScreenProps<
 >;
 
 export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
+  const dispatch = useAppDispatch();
+  const authToken = useAppSelector(state => state.auth.authToken);
   const { t } = useTranslation();
+  const [tokens, setTokens] = useState<TokensPayload | null>(null);
+
   const handleForgotPassword = () =>
     navigation.navigate(PublicScreen.ForgotPassword);
+
   const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
-  const handleSubmit = () => {};
+
   const handleFacebookLogin = () => {};
   const handleGoogleLogin = () => {};
+
+  const handleLoginSuccess = (authenticationTokens: TokensPayload) => {
+    try {
+      const claims = jwtDecode(authenticationTokens.authToken);
+      setTokens(authenticationTokens);
+      dispatch(
+        setAuthToken({
+          authToken: authenticationTokens.authToken,
+          tokenExpiry: new Date(claims[ClaimName.ExpiryClaim] * 1000),
+        }),
+      );
+    } catch (err) {
+      logger().logError(Error(`Failed to decode JWT: ${err}`));
+      showUnexpectedErrorToast(t);
+    }
+  };
+
+  const handleLoadProfileSuccess = (data: GetUserProfileResponse) => {
+    if (data.user.accountStatus === AccountStatus.Verified) {
+      if (tokens === null) {
+        dispatch(logout());
+        logger().logError(Error('Tokens must not be null at this stage.'));
+        showUnexpectedErrorToast(t);
+        return;
+      }
+      dispatch(
+        login({
+          authToken: tokens.authToken,
+          refreshToken: tokens.refreshToken,
+        }),
+      );
+    }
+    dispatch(setProfileDetails(data.user));
+    if (data.user.accountStatus === AccountStatus.Unverified) {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: PublicScreen.VerifyEmail,
+            params: {
+              firstName: data.user.firstName,
+              userID: data.user.userID,
+            },
+          },
+        ],
+      });
+      return;
+    }
+    !(
+      data.user.accountStatus === AccountStatus.Verified ||
+      data.user.accountStatus === AccountStatus.Unverified
+    ) &&
+      logger().logError(
+        Error(`Unknown account status ${data.user.accountStatus}`),
+      );
+  };
+  const handleLoadProfileError = () => {
+    dispatch(logout());
+  };
+  if (authToken) {
+    return (
+      <LoadUserProfile
+        onSuccess={handleLoadProfileSuccess}
+        onError={handleLoadProfileError}
+      />
+    );
+  }
   return (
     <SSOAnimatedForm
       screen={ScreenType.SignIn}
@@ -29,35 +116,12 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       handleGoogleAction={handleGoogleLogin}
       changePath={goToSignUp}
       formHeight={350}>
-      <FormTextInput
-        label={t('signIn.emailLabel')}
-        accessibilityLabel={t('signIn.emailAccessibilityLabel')}
-      />
-      <FormTextInput
-        label={t('signIn.passwordLabel')}
-        forgotPasswordLabel={t('signIn.forgotButton')}
+      <SignInForm
+        onSuccess={handleLoginSuccess}
         forgotPasswordCallback={handleForgotPassword}
-        accessibilityLabel={t('signIn.passwordAccessibilityLabel')}
-        secureTextEntry={true}
       />
-      <View style={styles.footerButton}>
-        <CTA
-          text={t(`signIn.submitButton`)}
-          accessibilityLabel={t(`signIn.submitButtonAccessibilityLabel`)}
-          onPress={handleSubmit}
-        />
-      </View>
     </SSOAnimatedForm>
   );
 };
-
-export const styles = StyleSheet.create({
-  footerButton: {
-    marginBottom: 12,
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignContent: 'stretch',
-  },
-});
 
 export default SignInScreen;

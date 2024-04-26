@@ -34,9 +34,9 @@ export const getMMKVEncryptionKey: () => Promise<
 };
 
 // Function to store the access token
-export const storeAccessToken = async (accessToken: string) => {
+export const storeAuthToken = async (authToken: string) => {
   try {
-    await Keychain.setGenericPassword(ACCESS_TOKEN, accessToken, {
+    await Keychain.setGenericPassword(ACCESS_TOKEN, authToken, {
       service: ACCESS_TOKEN,
     });
   } catch (error) {
@@ -56,7 +56,7 @@ export const storeRefreshToken = async (refreshToken: string) => {
 };
 
 // Function to retrieve the access token
-export const retrieveAccessToken = async () => {
+export const retrieveAuthToken = async () => {
   try {
     const credentials = await Keychain.getGenericPassword({
       service: ACCESS_TOKEN,
@@ -90,7 +90,7 @@ export const retrieveRefreshToken = async () => {
 };
 
 // Function to delete the access token
-export const deleteAccessToken = async () => {
+export const deleteAuthToken = async () => {
   try {
     await Keychain.resetGenericPassword({ service: ACCESS_TOKEN });
   } catch (error) {

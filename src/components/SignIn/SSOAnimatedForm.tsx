@@ -78,7 +78,12 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
 
   const switchSSO = () => {
     disableAnimation && setDisableAnimation(false);
-    !isSSO ? animateFormHide(() => setIsSSO(!isSSO)) : setIsSSO(!isSSO);
+    !isSSO
+      ? animateFormHide(() => {
+          setIsSSO(!isSSO);
+          Keyboard.dismiss();
+        })
+      : setIsSSO(!isSSO);
   };
   const animateFormHide = (onAnimationEnded?: () => void) => {
     !isSSO && animateTranslation(safeAreaViewportHeight, onAnimationEnded);

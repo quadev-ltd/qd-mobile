@@ -1,4 +1,5 @@
 import { type Timestamp } from '../../util/index';
+import { type User } from '../state/slices/userSlice';
 
 export enum FieldErrors {
   Email = 'email',
@@ -7,6 +8,7 @@ export enum FieldErrors {
   AlreadyUsed = 'already_used',
   MaxLength = 'max',
   NotFuture = 'not_future',
+  InvalidEmailPassword = 'invalid_email_password',
 }
 
 export enum APIError {
@@ -43,16 +45,6 @@ export interface ResponseError {
   status: number;
 }
 
-export interface User {
-  email: string;
-  userID: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: Timestamp;
-  registrationDate: Timestamp;
-  accountStatus: string;
-}
-
 // SignUp
 export interface SignUpRequest {
   email: string;
@@ -63,11 +55,24 @@ export interface SignUpRequest {
     nanos: number;
   };
   password: string;
-  password_confirmation: string;
+  passwordConfirmation: string;
 }
 
 export interface SignUpResponse extends BaseResponse {
   user: User;
+}
+
+// SignIn
+export interface SignInRequest {
+  email: string;
+  password: string;
+}
+
+export interface SignInResponse {
+  authToken: string;
+  authTokenExpiry: Timestamp;
+  refreshToken: string;
+  refreshTokenExpiry: Timestamp;
 }
 
 // Resend Verification Email
@@ -81,11 +86,14 @@ export interface VerifyEmailRequest {
   verificationToken: string;
 }
 
-export interface VerifyEmailResponse extends BaseResponse {
+export interface VerifyEmailResponse {
   authToken: string;
   authTokenExpiry: Timestamp;
   refreshToken: string;
   refreshTokenExpiry: Timestamp;
-  userEmail: string;
-  userID: string;
+}
+
+// GetUserProfile
+export interface GetUserProfileResponse {
+  user: User;
 }

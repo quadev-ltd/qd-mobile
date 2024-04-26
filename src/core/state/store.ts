@@ -8,8 +8,9 @@ import { persistReducer, persistStore } from 'redux-persist';
 
 import { apiSlice } from '../api';
 
-import { generateMMKVStorage } from './mmkv.ts';
-import { authSlice } from './slices/authSlice.tsx';
+import { generateMMKVStorage } from './mmkv';
+import { authSlice } from './slices/authSlice';
+import { userSlice } from './slices/userSlice';
 
 const middlewares: Middleware[] = [];
 
@@ -22,6 +23,7 @@ if (__DEV__ && Platform.OS !== 'ios') {
 const rootReducer = combineReducers({
   [authSlice.reducerPath]: authSlice.reducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
+  [userSlice.reducerPath]: userSlice.reducer,
 });
 
 middlewares.push(apiSlice.middleware);

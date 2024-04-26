@@ -11,7 +11,9 @@ interface TestProps {
 const TestComponent: React.FC<TestProps> = ({ password }) => {
   const { control } = useForm<SignUpSchemaType>();
   return (
-    <HookFormPasswordInput
+    <HookFormPasswordInput<SignUpSchemaType>
+      label="password"
+      accessibilityLabel="password"
       name={SignUpFields.password}
       password={password}
       control={control}

@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Toast from 'react-native-toast-message';
 
 import { useResendVerificationEmailMutation } from '..';
 import { APIError, type ResponseError } from '../types';
 
+import { showUnexpectedErrorToast } from '@/components/Toast';
 import logger from '@/core/logger';
 
 export const GIF_NOTIFICATION_DURATION = 2400;
@@ -27,12 +27,7 @@ export const useResendEmail = (userID: string) => {
   }, []);
 
   const showToastNotification = useCallback(() => {
-    Toast.show({
-      type: 'error',
-      text1: t('toast.errorTitle'),
-      text2: t('toast.unexpectedErrorRetry'),
-      position: 'bottom',
-    });
+    showUnexpectedErrorToast(t);
   }, [t]);
 
   const resendEmail = useCallback(async () => {

@@ -6,10 +6,7 @@ import UnauthenticatedStack from './Public/UnauthenticatedStack';
 
 import { linking } from '@/core/deepLinking';
 import { useAppSelector } from '@/core/state/hooks';
-import {
-  AuthStateStatus,
-  authStatusSelector,
-} from '@/core/state/slices/authSlice';
+import { isAuthenticatedSelector } from '@/core/state/slices/authSlice';
 
 type RouterProps = {
   environment?: string;
@@ -17,10 +14,10 @@ type RouterProps = {
 };
 
 const Router: React.FC<RouterProps> = ({ environment, applicationName }) => {
-  const authenticationStatus = useAppSelector(authStatusSelector);
+  const isAuthenticated = useAppSelector(isAuthenticatedSelector);
   return (
     <NavigationContainer linking={linking}>
-      {authenticationStatus === AuthStateStatus.Authenticated ? (
+      {isAuthenticated ? (
         <AuthenticatedStack hideSplashScreen={SplashScreen.hide} />
       ) : (
         <UnauthenticatedStack
