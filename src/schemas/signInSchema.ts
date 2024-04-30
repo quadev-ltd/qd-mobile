@@ -14,15 +14,15 @@ export enum SignInFields {
 export const signInSchema = z.object({
   [SignInFields.email]: z
     .string({
-      required_error: t('signIn.emailRequiredError'),
+      required_error: t('fieldError.emailRequiredError'),
     })
-    .email({ message: t('signIn.emailFormatError') }),
+    .email({ message: t('fieldError.emailFormatError') }),
   [SignInFields.password]: z
     .string({
-      required_error: t('signIn.passwordRequiredError'),
+      required_error: t('fieldError.passwordRequiredError'),
     })
     .refine(password => isPasswordValid(password).isValid, {
-      message: t('signIn.passwordFormatError'),
+      message: t('fieldError.passwordFormatError'),
     }),
 });
 

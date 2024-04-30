@@ -27,6 +27,7 @@ export interface SSOAnimatedFormScreenProps {
   changePath: () => void;
   formHeight: number;
   children?: ReactNode;
+  initiateManualSignIn?: boolean;
 }
 
 export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
@@ -36,6 +37,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   changePath,
   formHeight,
   children,
+  initiateManualSignIn,
 }) => {
   const [isSSO, setIsSSO] = useState(true);
   const { top, bottom } = useSafeAreaInsets();
@@ -75,6 +77,13 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
       keyboardDidHideListener.remove();
     };
   }, [formHeight, safeAreaViewportHeight]);
+
+  useEffect(() => {
+    if (initiateManualSignIn) {
+      switchSSO();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const switchSSO = () => {
     disableAnimation && setDisableAnimation(false);

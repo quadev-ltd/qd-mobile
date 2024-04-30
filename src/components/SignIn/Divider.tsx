@@ -91,7 +91,7 @@ export const Divider: React.FC<DividerProps> = ({
 const styles = StyleSheet.create({
   dividerContainer: {
     flexDirection: 'row',
-    marginTop: -24,
+    marginTop: -32,
     marginHorizontal: -20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 12,
   },
   dividerText: {
     fontWeight: '700',

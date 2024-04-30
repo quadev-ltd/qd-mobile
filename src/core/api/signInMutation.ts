@@ -1,5 +1,4 @@
-import { APIEndpoints } from './constants';
-import { Methods, type SignInRequest } from './types';
+import { APIEndpoints, Methods, type SignInRequest } from './types';
 
 export const signInMutation = (userDetails: SignInRequest) => {
   return {

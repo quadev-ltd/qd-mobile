@@ -18,7 +18,7 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
 }) => {
   const handleFacebookLogin = () => {};
   const handleGoogleLogin = () => {};
-  const goToSignIn = () => navigation.navigate(PublicScreen.SignIn);
+  const goToSignIn = () => navigation.navigate(PublicScreen.SignIn, {});
   const handleSuccess = (userData: { userName: string; userID: string }) => {
     navigation.reset({
       index: 0,

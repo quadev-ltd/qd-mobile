@@ -36,8 +36,8 @@ export const LoadUserProfile: React.FC<LoadUserProfileProps> = ({
       logger().logError(Error('Failed to get user profile'));
       Toast.show({
         type: 'error',
-        text1: t('signIn.getProfileError'),
-        text2: t('signIn.getProfileErrorDescription'),
+        text1: t('error.getProfileError'),
+        text2: t('error.getProfileErrorDescription'),
         position: 'bottom',
       });
       onError();

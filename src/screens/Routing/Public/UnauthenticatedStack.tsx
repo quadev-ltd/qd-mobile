@@ -5,6 +5,7 @@ import { PublicScreen, type StackParamList } from './types';
 
 import ForgotPasswordScreen from '@/screens/ForgotPassword/ForgotPasswordScreen';
 import LandingScreen from '@/screens/Landing/LandingScreen';
+import ResetPasswordScreen from '@/screens/ResetPassword/ResetPasswordScreen';
 import SignInScreen from '@/screens/SignIn/SignInScreen';
 import SignUpScreen from '@/screens/SignUp/SignUpScreen';
 import VerifyEmailScreen from '@/screens/VerifyEmail/VerifyEmailScreen';
@@ -40,6 +41,10 @@ export const UnauthenticatedStack: React.FC<UnauthenticatedStackProps> = ({
       <Stack.Screen
         name={PublicScreen.ForgotPassword}
         component={ForgotPasswordScreen}
+      />
+      <Stack.Screen
+        name={PublicScreen.ResetPassword}
+        component={ResetPasswordScreen}
       />
       <Stack.Screen
         name={PublicScreen.VerifyEmail}

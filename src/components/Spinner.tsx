@@ -14,7 +14,7 @@ const Spinner: React.FC<SpinnerProps> = ({ style, color }) => {
       <ActivityIndicator
         size="large"
         animating={true}
-        color={color || colors.black}
+        color={color || colors.blackSpinner}
       />
     </View>
   );

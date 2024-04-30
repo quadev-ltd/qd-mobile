@@ -26,59 +26,59 @@ describe('HookFormPasswordInput', () => {
     const { getByText, queryByText, rerender } = render(
       <TestComponent password="Password123" />,
     );
-    expect(getByText('signUp.passwordSpecialCharacterError')).toBeTruthy();
+    expect(getByText('fieldError.passwordSpecialCharacterError')).toBeTruthy();
 
     rerender(<TestComponent password="Password123!" />);
-    expect(queryByText('signUp.passwordSpecialCharacterError')).toBeNull();
+    expect(queryByText('fieldError.passwordSpecialCharacterError')).toBeNull();
   });
 
   it('should show length error and then hide it', () => {
     const { getByText, queryByText, rerender } = render(
       <TestComponent password="Aaa123!" />,
     );
-    expect(getByText('signUp.passwordLengthError')).toBeTruthy();
+    expect(getByText('fieldError.passwordLengthError')).toBeTruthy();
 
     rerender(<TestComponent password="Aaaa123!" />);
-    expect(queryByText('signUp.passwordLengthError')).toBeNull();
+    expect(queryByText('fieldError.passwordLengthError')).toBeNull();
   });
 
   it('should show lower upper case error and then hide it', () => {
     const { getByText, queryByText, rerender } = render(
       <TestComponent password="AAAA123!" />,
     );
-    expect(getByText('signUp.passwordLowercaseError')).toBeTruthy();
+    expect(getByText('fieldError.passwordLowercaseError')).toBeTruthy();
 
     rerender(<TestComponent password="AAAa123!" />);
-    expect(queryByText('signUp.passwordLowercaseError')).toBeNull();
+    expect(queryByText('fieldError.passwordLowercaseError')).toBeNull();
   });
 
   it('should show number error and then hide it', () => {
     const { getByText, queryByText, rerender } = render(
       <TestComponent password="Aaaaaaa!" />,
     );
-    expect(getByText('signUp.passwordNumberError')).toBeTruthy();
+    expect(getByText('fieldError.passwordNumberError')).toBeTruthy();
 
     rerender(<TestComponent password="Aaaaaaa1!" />);
-    expect(queryByText('signUp.passwordNumberError')).toBeNull();
+    expect(queryByText('fieldError.passwordNumberError')).toBeNull();
   });
 
   it('should show errors and then hide it', () => {
     const { getByText, queryByText, rerender } = render(
       <TestComponent password="aaaaaaa" />,
     );
-    expect(getByText('signUp.passwordNumberError')).toBeTruthy();
-    expect(getByText('signUp.passwordUppercaseError')).toBeTruthy();
-    expect(getByText('signUp.passwordLengthError')).toBeTruthy();
-    expect(getByText('signUp.passwordSpecialCharacterError')).toBeTruthy();
-    expect(queryByText('signUp.passwordLowercaseError')).toBeNull();
+    expect(getByText('fieldError.passwordNumberError')).toBeTruthy();
+    expect(getByText('fieldError.passwordUppercaseError')).toBeTruthy();
+    expect(getByText('fieldError.passwordLengthError')).toBeTruthy();
+    expect(getByText('fieldError.passwordSpecialCharacterError')).toBeTruthy();
+    expect(queryByText('fieldError.passwordLowercaseError')).toBeNull();
 
     rerender(<TestComponent password="Aaaaaaa1!" />);
 
-    expect(queryByText('signUp.passwordNumberError')).toBeNull();
-    expect(queryByText('signUp.passwordNumberError')).toBeNull();
-    expect(queryByText('signUp.passwordUppercaseError')).toBeNull();
-    expect(queryByText('signUp.passwordLengthError')).toBeNull();
-    expect(queryByText('signUp.passwordLowercaseError')).toBeNull();
-    expect(queryByText('signUp.passwordSpecialCharacterError')).toBeNull();
+    expect(queryByText('fieldError.passwordNumberError')).toBeNull();
+    expect(queryByText('fieldError.passwordNumberError')).toBeNull();
+    expect(queryByText('fieldError.passwordUppercaseError')).toBeNull();
+    expect(queryByText('fieldError.passwordLengthError')).toBeNull();
+    expect(queryByText('fieldError.passwordLowercaseError')).toBeNull();
+    expect(queryByText('fieldError.passwordSpecialCharacterError')).toBeNull();
   });
 });

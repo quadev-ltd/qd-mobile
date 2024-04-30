@@ -24,7 +24,7 @@ describe('signUpSchema', () => {
 
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[0].message,
-    ).toBe('signUp.dobFutureError');
+    ).toBe('fieldError.dobFutureError');
   });
 
   it('should fail with date invalid error', async () => {
@@ -34,7 +34,7 @@ describe('signUpSchema', () => {
 
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[0].message,
-    ).toBe('signUp.dobFormatError');
+    ).toBe('fieldError.dobFormatError');
   });
 
   it('should fail with invalid email', async () => {
@@ -44,7 +44,7 @@ describe('signUpSchema', () => {
 
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[0].message,
-    ).toBe('signUp.emailFormatError');
+    ).toBe('fieldError.emailFormatError');
   });
 
   it('should fail with missing required fields', async () => {
@@ -61,19 +61,19 @@ describe('signUpSchema', () => {
 
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[0].message,
-    ).toBe('signUp.firstNameRequiredError');
+    ).toBe('fieldError.firstNameRequiredError');
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[1].message,
-    ).toBe('signUp.lastNameRequiredError');
+    ).toBe('fieldError.lastNameRequiredError');
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[2].message,
-    ).toBe('signUp.dobRequiredError');
+    ).toBe('fieldError.dobRequiredError');
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[3].message,
-    ).toBe('signUp.dobFormatError');
+    ).toBe('fieldError.dobFormatError');
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[4].message,
-    ).toBe('signUp.passwordFormatError');
+    ).toBe('fieldError.passwordFormatError');
   });
 
   it('should fail with non-matching passwords', async () => {
@@ -85,7 +85,7 @@ describe('signUpSchema', () => {
     expect(result.success).toBe(false);
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[0].message,
-    ).toBe('signUp.passwordConfirmationMatchError');
+    ).toBe('fieldError.passwordConfirmationMatchError');
   });
 
   // Add more test cases for other validation rules (e.g., firstName/lastName length, dob format, password validation, etc.)

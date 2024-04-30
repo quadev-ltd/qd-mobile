@@ -43,6 +43,5 @@ const styles = StyleSheet.create({
   prompt: {
     color: colors.white,
     fontWeight: '700',
-    // alignSelf: 'center',
   },
 });

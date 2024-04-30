@@ -1,5 +1,9 @@
-import { APIEndpoints, ParameterNames } from './constants';
-import { Methods, type ResendVerificationRequest } from './types';
+import {
+  APIEndpoints,
+  Methods,
+  ParameterNames,
+  type ResendVerificationRequest,
+} from './types';
 
 export const resendVerificationEmailMutation = (
   data: ResendVerificationRequest,

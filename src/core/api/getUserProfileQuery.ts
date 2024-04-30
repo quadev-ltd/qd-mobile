@@ -1,5 +1,4 @@
-import { APIEndpoints } from './constants';
-import { Methods } from './types';
+import { APIEndpoints, Methods } from './types';
 
 export const getUserProfileQuery = () => {
   return {

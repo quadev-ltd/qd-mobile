@@ -1,17 +1,13 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet } from 'react-native';
 
-import {
-  type PublicScreen,
-  type StackParamList,
-} from '../Routing/Public/types';
+import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
-import { CTA } from '@/components/CTA';
-import { FormTextInput } from '@/components/FormTextInput';
+import ForgotPasswordForm from './ForgotPasswordForm';
+
 import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
 import { Layout } from '@/components/SignIn/Layout';
-import { TextDivider } from '@/components/SignIn/TextDivider';
+import Title from '@/components/SignIn/Title';
 import { ScreenType } from '@/components/SignIn/types';
 
 export type ForgotPasswordScreenProps = NativeStackScreenProps<
@@ -21,38 +17,32 @@ export type ForgotPasswordScreenProps = NativeStackScreenProps<
 
 export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
   navigation,
+  route,
 }) => {
   const { t } = useTranslation();
-  const goToSignIn = () => navigation.goBack();
-  const handleSubmit = () => {};
+  const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
+
   return (
     <Layout>
-      <TextDivider label={t('forgotPassword.title')} />
-      <View style={styles.form}>
-        <FormTextInput
-          label={t('signIn.emailLabel')}
-          accessibilityLabel={t('signIn.emailAccessibilityLabel')}
-        />
-        <CTA
-          text={t('forgotPassword.submitButton')}
-          accessibilityLabel={t(`signUp.submitButtonAccessibilityLabel`)}
-          onPress={handleSubmit}
-        />
-      </View>
+      <Title
+        text={t('forgotPassword.title')}
+        accessibilityLabel={t('forgotPassword.title')}
+      />
+      <ForgotPasswordForm
+        emailLabel={t('forgotPassword.emailLabel')}
+        emailAccessibilityLabel={t('forgotPassword.emailAccessibilityLabel')}
+        submitLabel={t('forgotPassword.submitButton')}
+        submitAccessibilityLabel={t(
+          'forgotPassword.submitButtonAccessibilityLabel',
+        )}
+        defaultEmail={route.params?.email || ''}
+      />
       <FooterPrompt
-        changePath={goToSignIn}
+        changePath={goToSignUp}
         screen={ScreenType.ForgotPassword}
       />
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  form: {
-    marginTop: 20,
-    alignContent: 'stretch',
-    flex: 1,
-  },
-});
 
 export default ForgotPasswordScreen;

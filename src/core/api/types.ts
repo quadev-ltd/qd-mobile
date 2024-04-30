@@ -1,6 +1,23 @@
 import { type Timestamp } from '../../util/index';
 import { type User } from '../state/slices/userSlice';
 
+export enum ParameterNames {
+  UserID = ':userID',
+  VerificationToken = ':verificationToken',
+}
+
+export enum APIEndpoints {
+  SignUp = '/user',
+  SignIn = '/user/sessions',
+  ResendVerificationEmail = `/user/${ParameterNames.UserID}/email/verification`,
+  VerifyEmail = `/user/${ParameterNames.UserID}/email/${ParameterNames.VerificationToken}`,
+  RequestPasswordReset = '/user/password/reset',
+  RefreshToken = '/authentication/refresh',
+  GetUserProfile = '/user/profile',
+  VerifyPasswordVerificationToken = `/user/${ParameterNames.UserID}/password/reset-verification/${ParameterNames.VerificationToken}`,
+  ResetPassword = `/user/${ParameterNames.UserID}/password/reset/${ParameterNames.VerificationToken}`,
+}
+
 export enum FieldErrors {
   Email = 'email',
   Required = 'required',
@@ -96,4 +113,22 @@ export interface VerifyEmailResponse {
 // GetUserProfile
 export interface GetUserProfileResponse {
   user: User;
+}
+
+// Request Password Reset
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+// Verify reset password verification token
+export interface VerifyResetPasswordTokenRequest {
+  userID: string;
+  verificationToken: string;
+}
+
+// Reset password
+export interface ResetPasswordRequest {
+  userID: string;
+  verificationToken: string;
+  password: string;
 }

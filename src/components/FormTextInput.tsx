@@ -106,5 +106,6 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     fontWeight: '700',
+    color: colors.black,
   },
 });

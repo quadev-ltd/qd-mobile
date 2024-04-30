@@ -11,12 +11,3 @@ export enum VerificationRequestStatus {
   Verified = 'VERIFIED',
   Failure = 'FAILURE',
 }
-
-export enum VerificationScreenStatus {
-  Pending = 'PENDING',
-  Verifying = 'VERIFYING',
-  Sending = 'SENDING',
-  Failure = 'FAILURE',
-  Irreparable = 'IRREPARABLE',
-  Success = 'SUCCESS',
-}
