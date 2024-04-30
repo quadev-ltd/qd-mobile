@@ -17,7 +17,7 @@ import {
 
 interface SignInFormProps {
   onSuccess: (userData: TokensPayload) => void;
-  forgotPasswordCallback: () => void;
+  forgotPasswordCallback: (email?: string) => void;
 }
 
 export const SignInForm: React.FC<SignInFormProps> = ({
@@ -33,7 +33,8 @@ export const SignInForm: React.FC<SignInFormProps> = ({
   } = useForm<SignInSchemaType>({ resolver: zodResolver(signInSchema) });
   const { t } = useTranslation();
   const { signIn, isLoading } = useSignIn(onSuccess, setError);
-  const password = watch('password');
+  const password = watch(SignInFields.password);
+  const email = watch(SignInFields.email);
 
   const handleOnSubmit = () => {
     Keyboard.dismiss();
@@ -44,6 +45,12 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     return <Spinner />;
   }
 
+  const handleForgotPasswordNavigation = () => {
+    if (errors[SignInFields.email]) {
+      forgotPasswordCallback(email);
+    } else forgotPasswordCallback();
+  };
+
   return (
     <>
       <HookFormTextInput
@@ -52,17 +59,20 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         name={SignInFields.email}
         control={control}
         error={errors[SignInFields.email]}
+        onSubmitEditing={handleOnSubmit}
+        keyboardType="email-address"
       />
 
       <HookFormPasswordInput
         label={t('signIn.passwordLabel')}
         accessibilityLabel={t('signIn.passwordAccessibilityLabel')}
         forgotPasswordLabel={t('signIn.forgotButton')}
-        forgotPasswordCallback={forgotPasswordCallback}
+        forgotPasswordCallback={handleForgotPasswordNavigation}
         name={SignInFields.password}
         password={password}
         control={control}
         error={errors[SignInFields.password]}
+        onSubmitEditing={handleOnSubmit}
       />
       <View style={styles.footerButton}>
         <CTA

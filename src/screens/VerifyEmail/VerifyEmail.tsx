@@ -1,17 +1,20 @@
 import { type TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import StatusDisplay from './StatusDisplay';
+import StatusDisplay from '../../components/StatusDisplay';
+
 import Subtitle from './Subtitle';
 import { type ResendRequestStatus, VerificationRequestStatus } from './types';
 import { useEmailVerification } from './useEmailVerification';
 
 import { CTA } from '@/components/CTA';
-import FlatTextCTA from '@/components/FlatTextCTA';
+import ErrorMessage from '@/components/SignIn/ErrorMessage';
+import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
 import { Layout } from '@/components/SignIn/Layout';
+import Title from '@/components/SignIn/Title';
+import { ScreenType } from '@/components/SignIn/types';
 import { APIError } from '@/core/api/types';
-import { colors } from '@/styles';
 
 const mapAPIErrorToFriendlyMessage = (
   t: TFunction<'translation'>,
@@ -21,10 +24,10 @@ const mapAPIErrorToFriendlyMessage = (
     case APIError.EmailVerifiedError:
       return t('emailVerification.emailAlreadyVerifiedError');
     case APIError.TokenExpiredError:
-      return t('emailVerification.tokenExpiredError');
+      return t('error.tokenExpiredError');
     case APIError.InvalidTokenError:
     case APIError.InvalidUserIDError:
-      return t('emailVerification.linkCorruptedError');
+      return t('error.linkCorruptedError');
     case APIError.TooManyRequestsError:
       return t('emailVerification.tooManyRequestsError');
     default:
@@ -63,55 +66,48 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({
   return (
     <Layout>
       <View style={styles.container}>
-        <View style={styles.heroConatiner} />
+        <Title text={title} accessibilityLabel={title} />
         <StatusDisplay status={finalStatus} />
-        <Text style={styles.welcomeText} accessibilityLabel={title}>
-          {title}
-        </Text>
         <Subtitle
           status={finalStatus}
           isDeepLinkedVerificationStage={isDeepLinkedVerificationStage}
         />
         <View style={styles.descriptionContainerText}>
           {apiResendError && !isDeepLinkedVerificationStage && (
-            <Text
-              style={styles.error}
+            <ErrorMessage
+              text={mapAPIErrorToFriendlyMessage(t, apiResendError)}
               accessibilityLabel={mapAPIErrorToFriendlyMessage(
                 t,
                 apiResendError,
-              )}>
-              {mapAPIErrorToFriendlyMessage(t, apiResendError)}
-            </Text>
+              )}
+            />
           )}
           {verificationStatus !== VerificationRequestStatus.Verified &&
             apiVerificationError &&
             isDeepLinkedVerificationStage && (
-              <Text
-                style={styles.error}
+              <ErrorMessage
+                text={mapAPIErrorToFriendlyMessage(t, apiVerificationError)}
                 accessibilityLabel={mapAPIErrorToFriendlyMessage(
                   t,
                   apiVerificationError,
-                )}>
-                {mapAPIErrorToFriendlyMessage(t, apiVerificationError)}
-              </Text>
+                )}
+              />
             )}
           {![apiVerificationError, apiResendError].includes(
             APIError.EmailVerifiedError,
           ) &&
             !(verificationStatus === VerificationRequestStatus.Verified) && (
               <CTA
+                style={styles.resendCTA}
                 disabled={!displayButtons}
                 text={t('emailVerification.resendCTA')}
                 accessibilityLabel={t('emailVerification.resendCTA')}
                 onPress={resendEmail}
               />
             )}
-          <FlatTextCTA
-            style={styles.signInFooter}
-            text={t('emailVerification.signInCTA')}
-            accessibilityLabel={t('emailVerification.signInCTA')}
-            onPress={goToSignIn}
-            disabled={!displayButtons}
+          <FooterPrompt
+            changePath={goToSignIn}
+            screen={ScreenType.EmailVerification}
           />
         </View>
       </View>
@@ -123,39 +119,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-  },
-  heroConatiner: {
-    flex: 1,
-    position: 'relative',
-  },
-  welcomeText: {
-    position: 'absolute',
-    top: 40,
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: colors.white,
-    marginBottom: 40,
+    alignItems: 'stretch',
+    alignContent: 'stretch',
   },
   descriptionContainerText: {
-    flex: 2,
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
   },
-  signInFooter: {
-    fontSize: 16,
-    marginTop: 32,
-  },
-  error: {
-    fontSize: 16,
-    color: colors.red,
-    fontWeight: '700',
-    textAlign: 'center',
-    paddingHorizontal: 24,
-    marginBottom: 24,
+  resendCTA: {
+    marginBottom: 12,
   },
 });
 

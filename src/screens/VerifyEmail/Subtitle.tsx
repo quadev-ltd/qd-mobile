@@ -1,58 +1,39 @@
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text } from 'react-native';
 
-import { VerificationScreenStatus } from './types';
+import Subtitle from '@/components/SignIn/Subtitle';
+import { VerificationStatus } from '@/components/StatusDisplay';
 
-import { colors } from '@/styles';
-
-interface SubtitleProps {
-  status?: VerificationScreenStatus;
+interface VerificationSubtitleProps {
+  status?: VerificationStatus;
   isDeepLinkedVerificationStage: boolean;
 }
-const Subtitle: React.FC<SubtitleProps> = ({
+const VerificationSubtitle: React.FC<VerificationSubtitleProps> = ({
   status,
   isDeepLinkedVerificationStage,
 }) => {
   const { t } = useTranslation();
+  let subtitle: string | undefined;
+
   if (!isDeepLinkedVerificationStage) {
-    const subtitle = `${t('emailVerification.emailSent')}\n\n${t(
+    subtitle = `${t('emailVerification.emailSent')}\n\n${t(
       'emailVerification.emailVerificationInstructions',
     )}`;
-    return (
-      <Text accessibilityLabel={subtitle} style={styles.subtitle}>
-        {subtitle}
-      </Text>
-    );
   }
-  if (status === VerificationScreenStatus.Verifying) {
-    <Text
-      accessibilityLabel={t('emailVerification.verifyingSubtitle')}
-      style={styles.subtitle}>
-      {t('emailVerification.verifyingSubtitle')}
-    </Text>;
+
+  if (status === VerificationStatus.Verifying) {
+    subtitle = t('emailVerification.verifyingSubtitle');
   }
-  if (status === VerificationScreenStatus.Success) {
-    <Text
-      accessibilityLabel={t('emailVerification.successSubtitle')}
-      style={styles.subtitle}>
-      {t('emailVerification.successSubtitle')}
-    </Text>;
+
+  if (status === VerificationStatus.Success) {
+    subtitle = t('emailVerification.successSubtitle');
   }
+
+  const accessibilityLabel = subtitle;
+  if (subtitle && accessibilityLabel) {
+    return <Subtitle text={subtitle} accessibilityLabel={accessibilityLabel} />;
+  }
+
   return null;
 };
 
-const styles = StyleSheet.create({
-  subtitle: {
-    position: 'absolute',
-    top: 300,
-    fontSize: 16,
-    paddingHorizontal: 0,
-    paddingBottom: 48,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: colors.white,
-    lineHeight: 24,
-  },
-});
-
-export default Subtitle;
+export default VerificationSubtitle;

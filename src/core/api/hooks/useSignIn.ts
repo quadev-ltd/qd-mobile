@@ -2,7 +2,7 @@ import { type UseFormSetError } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSignInMutation } from '..';
-import { AsynchErrorMessages } from '../constants';
+import { AsynchErrorMessages } from '../errors';
 import { FieldErrors, type ResponseError, type SignInResponse } from '../types';
 
 import { showUnexpectedErrorToast } from '@/components/Toast';

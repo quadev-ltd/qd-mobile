@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import {
-  ResendRequestStatus,
-  VerificationRequestStatus,
-  VerificationScreenStatus,
-} from './types';
+import { ResendRequestStatus, VerificationRequestStatus } from './types';
+
+import { VerificationStatus } from '@/components/StatusDisplay';
 
 export const useEmailVerification = (
   verificationStatus: VerificationRequestStatus,
@@ -25,11 +23,11 @@ export const useEmailVerification = (
   const finalStatus = useMemo(() => {
     switch (resendStatus) {
       case ResendRequestStatus.Sending:
-        return VerificationScreenStatus.Sending;
+        return VerificationStatus.Sending;
       case ResendRequestStatus.Failure:
-        return VerificationScreenStatus.Failure;
+        return VerificationStatus.Failure;
       case ResendRequestStatus.Sent:
-        return VerificationScreenStatus.Success;
+        return VerificationStatus.Success;
       default:
         // If idle it breaks the switch in favour of possible deeplinking
         break;
@@ -37,23 +35,23 @@ export const useEmailVerification = (
     if (isDeepLinkedVerificationStage) {
       switch (verificationStatus) {
         case VerificationRequestStatus.Verifying:
-          return VerificationScreenStatus.Verifying;
+          return VerificationStatus.Verifying;
         case VerificationRequestStatus.Failure:
-          return VerificationScreenStatus.Failure;
+          return VerificationStatus.Failure;
         case VerificationRequestStatus.Verified:
-          return VerificationScreenStatus.Success;
+          return VerificationStatus.Success;
         default:
           return;
       }
     }
-    return VerificationScreenStatus.Pending;
+    return VerificationStatus.Pending;
   }, [verificationStatus, resendStatus, isDeepLinkedVerificationStage]);
 
   return {
     isDeepLinkedVerificationStage,
     finalStatus,
     displayButtons:
-      finalStatus !== VerificationScreenStatus.Sending &&
-      finalStatus !== VerificationScreenStatus.Verifying,
+      finalStatus !== VerificationStatus.Sending &&
+      finalStatus !== VerificationStatus.Verifying,
   };
 };

@@ -5,6 +5,7 @@ import {
   type FieldErrorsImpl,
   type Merge,
 } from 'react-hook-form';
+import { type KeyboardTypeOptions } from 'react-native';
 
 import { FormTextInput } from '../FormTextInput';
 
@@ -19,6 +20,8 @@ interface HookFormTextInputProps<
   control?: Control<TFormSchema>;
   secureTextEntry?: boolean;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
+  onSubmitEditing?: () => void;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 export const HookFormTextInput = <
@@ -30,6 +33,8 @@ export const HookFormTextInput = <
   control,
   secureTextEntry,
   error,
+  onSubmitEditing,
+  keyboardType,
 }: HookFormTextInputProps<TFormSchema>) => {
   return (
     <Controller
@@ -46,6 +51,8 @@ export const HookFormTextInput = <
               value={value}
               error={error}
               secureTextEntry={secureTextEntry}
+              onSubmitEditing={onSubmitEditing}
+              keyboardType={keyboardType}
             />
           </>
         );

@@ -6,7 +6,7 @@ import {
   type Merge,
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Platform } from 'react-native';
 
 import {
   usePasswordValidation,
@@ -29,6 +29,7 @@ interface HookFormPasswordInputProps<
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   forgotPasswordLabel?: string;
   forgotPasswordCallback?: () => void;
+  onSubmitEditing?: () => void;
 }
 
 export const HookFormPasswordInput = <
@@ -42,6 +43,7 @@ export const HookFormPasswordInput = <
   error,
   forgotPasswordLabel,
   forgotPasswordCallback,
+  onSubmitEditing,
 }: HookFormPasswordInputProps<TFormSchema>) => {
   const { t } = useTranslation();
   const validations: PasswordValidityAttributes =
@@ -51,15 +53,15 @@ export const HookFormPasswordInput = <
     .map(key => {
       switch (key) {
         case 'hasUpperCase':
-          return t('signUp.passwordUppercaseError');
+          return t('fieldError.passwordUppercaseError');
         case 'hasLowerCase':
-          return t('signUp.passwordLowercaseError');
+          return t('fieldError.passwordLowercaseError');
         case 'hasNumber':
-          return t('signUp.passwordNumberError');
+          return t('fieldError.passwordNumberError');
         case 'hasSpecialChar':
-          return t('signUp.passwordSpecialCharacterError');
+          return t('fieldError.passwordSpecialCharacterError');
         case 'hasLength':
-          return t('signUp.passwordLengthError');
+          return t('fieldError.passwordLengthError');
         default:
           break;
       }
@@ -82,6 +84,10 @@ export const HookFormPasswordInput = <
               secureTextEntry={true}
               forgotPasswordLabel={forgotPasswordLabel}
               forgotPasswordCallback={forgotPasswordCallback}
+              onSubmitEditing={onSubmitEditing}
+              keyboardType={
+                Platform.OS === 'ios' ? 'visible-password' : 'default'
+              }
             />
             {!isValid && (
               <View style={styles.passwordHintsContainer}>

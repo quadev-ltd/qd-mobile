@@ -29,14 +29,17 @@ export type SignInScreenProps = NativeStackScreenProps<
   PublicScreen.SignIn
 >;
 
-export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
+export const SignInScreen: React.FC<SignInScreenProps> = ({
+  route,
+  navigation,
+}) => {
   const dispatch = useAppDispatch();
   const authToken = useAppSelector(state => state.auth.authToken);
   const { t } = useTranslation();
   const [tokens, setTokens] = useState<TokensPayload | null>(null);
 
-  const handleForgotPassword = () =>
-    navigation.navigate(PublicScreen.ForgotPassword);
+  const handleForgotPassword = (email?: string) =>
+    navigation.navigate(PublicScreen.ForgotPassword, { email });
 
   const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
 
@@ -115,7 +118,8 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       handleFacebookAction={handleFacebookLogin}
       handleGoogleAction={handleGoogleLogin}
       changePath={goToSignUp}
-      formHeight={350}>
+      formHeight={350}
+      initiateManualSignIn={route.params?.manualSignIn}>
       <SignInForm
         onSuccess={handleLoginSuccess}
         forgotPasswordCallback={handleForgotPassword}

@@ -4871,10 +4871,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.8.15, dayjs@npm:^1.8.29":
+"dayjs@npm:^1.8.15":
   version: 1.11.10
   resolution: "dayjs@npm:1.11.10"
   checksum: 4de9af50639d47df87f2e15fa36bb07e0f9ed1e9c52c6caa1482788ee9a384d668f1dbd00c54f82aaab163db07d61d2899384b8254da3a9184fc6deca080e2fe
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.8.29":
+  version: 1.11.11
+  resolution: "dayjs@npm:1.11.11"
+  checksum: 0131d10516b9945f05a57e13f4af49a6814de5573a494824e103131a3bbe4cc470b1aefe8e17e51f9a478a22cd116084be1ee5725cedb66ec4c3f9091202dc4b
   languageName: node
   linkType: hard
 
@@ -9818,16 +9825,16 @@ __metadata:
   linkType: hard
 
 "redux-flipper@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "redux-flipper@npm:2.0.2"
+  version: 2.0.3
+  resolution: "redux-flipper@npm:2.0.3"
   dependencies:
     cycle: "npm:^1.0.3"
     dayjs: "npm:^1.8.29"
   peerDependencies:
     react-native: ">=0.63.0"
     react-native-flipper: ">=0.100.0"
-    redux: ^4
-  checksum: 8c3d7b4a0c7717c2d4f168c1f2e7e6fd859318d54378caec87070713da26f7c97e08d85643f433a5092d8c363b4b22ae8d9ac796f32603f85c3d0dc8cf0cf8d8
+    redux: ">=4"
+  checksum: c9d957377fd8a1c53817d9eb69d3b92e4cf61e9224fe69b1be95ec2c757e2c94e8302aac5142e087962f42d0db23afa02e4c46d124edc57527005db9099ca311
   languageName: node
   linkType: hard
 

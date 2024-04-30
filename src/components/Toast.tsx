@@ -4,8 +4,8 @@ import Toast from 'react-native-toast-message';
 export const showUnexpectedErrorToast = (t: TFunction<'translation'>) => {
   Toast.show({
     type: 'error',
-    text1: t('toast.errorTitle'),
-    text2: t('toast.unexpectedErrorRetry'),
+    text1: t('error.errorTitle'),
+    text2: t('error.unexpectedErrorRetry'),
     position: 'bottom',
   });
 };

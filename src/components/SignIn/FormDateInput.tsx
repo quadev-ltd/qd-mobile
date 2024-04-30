@@ -23,6 +23,7 @@ interface FormDateInputProps {
   onChangeText?: (text: string) => void;
   value?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
+  onSubmitEditing?: () => void;
 }
 
 export const FormDateInput: React.FC<FormDateInputProps> = ({
@@ -32,6 +33,7 @@ export const FormDateInput: React.FC<FormDateInputProps> = ({
   onChangeText,
   value,
   error,
+  onSubmitEditing,
 }) => {
   return (
     <View style={styles.fieldConatiner}>
@@ -45,6 +47,7 @@ export const FormDateInput: React.FC<FormDateInputProps> = ({
         mask={Masks.DATE_DDMMYYYY}
         onBlur={onBlur}
         keyboardType="numeric"
+        onSubmitEditing={onSubmitEditing}
       />
       {error && <Text style={styles.error}>{error.message as string}</Text>}
     </View>

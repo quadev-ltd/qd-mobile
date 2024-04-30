@@ -37,7 +37,7 @@ export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
 
   const goToSignIn = () => {
     dispatch(logout());
-    navigation.navigate(PublicScreen.SignIn);
+    navigation.navigate(PublicScreen.SignIn, {});
   };
 
   const resendStatus = useMemo(() => {

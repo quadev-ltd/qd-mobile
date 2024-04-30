@@ -2,15 +2,18 @@ import {
   APIEndpoints,
   Methods,
   ParameterNames,
-  type VerifyEmailRequest,
+  type ResetPasswordRequest,
 } from './types';
 
-export const verifyEmailMutation = (data: VerifyEmailRequest) => {
+export const resetPasswordMutation = (data: ResetPasswordRequest) => {
   return {
-    url: APIEndpoints.VerifyEmail.replace(
+    url: APIEndpoints.ResetPassword.replace(
       ParameterNames.UserID,
       data.userID,
     ).replace(ParameterNames.VerificationToken, data.verificationToken),
     method: Methods.POST,
+    body: {
+      password: data.password,
+    },
   };
 };

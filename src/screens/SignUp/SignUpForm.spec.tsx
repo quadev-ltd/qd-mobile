@@ -175,7 +175,9 @@ describe('SignUpForm complete success and errors', () => {
     await waitFor(
       async () => {
         expect(mockRegisterUser).toHaveBeenCalledTimes(1);
-        expect(await findByText(`signUp.emailAlreadyUsedError`)).toBeDefined();
+        expect(
+          await findByText(`fieldError.emailAlreadyUsedError`),
+        ).toBeDefined();
       },
       { timeout: 1000 },
     );
@@ -213,8 +215,8 @@ describe('SignUpForm complete success and errors', () => {
         );
         expect(mockShowToast).toHaveBeenCalledWith({
           type: 'error',
-          text1: 'toast.errorTitle',
-          text2: 'toast.unexpectedErrorRetry',
+          text1: 'error.errorTitle',
+          text2: 'error.unexpectedErrorRetry',
           position: 'bottom',
         });
       },
@@ -253,8 +255,8 @@ describe('SignUpForm complete success and errors', () => {
         );
         expect(mockShowToast).toHaveBeenCalledWith({
           type: 'error',
-          text1: 'toast.errorTitle',
-          text2: 'toast.unexpectedErrorRetry',
+          text1: 'error.errorTitle',
+          text2: 'error.unexpectedErrorRetry',
           position: 'bottom',
         });
       },
@@ -355,7 +357,7 @@ describe('SignUpForm individual errors', () => {
       // Wait for and check the expected error message
       await waitFor(
         async () => {
-          expect(await findByText(`signUp.${expectedError}`)).toBeDefined();
+          expect(await findByText(`fieldError.${expectedError}`)).toBeDefined();
         },
         { timeout: 1000 },
       );
@@ -371,35 +373,35 @@ describe('SignUpForm individual errors', () => {
 
     await waitFor(
       async () => {
-        const element = await findByText('signUp.emailRequiredError');
+        const element = await findByText('fieldError.emailRequiredError');
         expect(element).toBeDefined();
       },
       { timeout: 1000 },
     );
     await waitFor(
       async () => {
-        const element = await findByText('signUp.firstNameRequiredError');
+        const element = await findByText('fieldError.firstNameRequiredError');
         expect(element).toBeDefined();
       },
       { timeout: 1000 },
     );
     await waitFor(
       async () => {
-        const element = await findByText('signUp.lastNameRequiredError');
+        const element = await findByText('fieldError.lastNameRequiredError');
         expect(element).toBeDefined();
       },
       { timeout: 1000 },
     );
     await waitFor(
       async () => {
-        const element = await findByText('signUp.dobRequiredError');
+        const element = await findByText('fieldError.dobRequiredError');
         expect(element).toBeDefined();
       },
       { timeout: 1000 },
     );
     await waitFor(
       async () => {
-        const element = await findByText('signUp.passwordRequiredError');
+        const element = await findByText('fieldError.passwordRequiredError');
         expect(element).toBeDefined();
       },
       { timeout: 1000 },

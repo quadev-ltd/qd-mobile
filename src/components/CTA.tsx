@@ -35,6 +35,7 @@ export const CTA: React.FC<CTAProps> = ({
   return (
     <TouchableOpacity
       accessibilityLabel={accessibilityLabel}
+      accessible={true}
       onPress={onPress}
       disabled={disabled}>
       <View style={[styles.ctaButton, disabled && styles.disabled, style]}>

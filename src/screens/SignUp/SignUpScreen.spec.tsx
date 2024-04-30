@@ -57,6 +57,9 @@ describe('SignUpScreen', () => {
     await act(() => {
       fireEvent.press(getByText('signUp.changePathButton'));
     });
-    expect(mockNavigation.navigate).toHaveBeenCalledWith(PublicScreen.SignIn);
+    expect(mockNavigation.navigate).toHaveBeenCalledWith(
+      PublicScreen.SignIn,
+      {},
+    );
   });
 });

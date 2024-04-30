@@ -16,6 +16,7 @@ interface HookFormDateInputProps {
   accessibilityLabel: string;
   control?: Control<SignUpSchemaType>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
+  onSubmitEditing?: () => void;
 }
 
 export const HookFormDateInput: React.FC<HookFormDateInputProps> = ({
@@ -24,6 +25,7 @@ export const HookFormDateInput: React.FC<HookFormDateInputProps> = ({
   accessibilityLabel,
   control,
   error,
+  onSubmitEditing,
 }) => {
   return (
     <Controller
@@ -39,6 +41,7 @@ export const HookFormDateInput: React.FC<HookFormDateInputProps> = ({
               onChangeText={onChange}
               value={value}
               error={error}
+              onSubmitEditing={onSubmitEditing}
             />
           </>
         );

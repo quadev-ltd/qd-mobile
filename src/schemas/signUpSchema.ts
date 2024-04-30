@@ -20,32 +20,32 @@ export const signUpSchema = z
   .object({
     [SignUpFields.email]: z
       .string({
-        required_error: t('signUp.emailRequiredError'),
+        required_error: t('fieldError.emailRequiredError'),
       })
-      .email({ message: t('signUp.emailFormatError') }),
+      .email({ message: t('fieldError.emailFormatError') }),
     [SignUpFields.firstName]: z
       .string({
-        required_error: t('signUp.firstNameRequiredError'),
+        required_error: t('fieldError.firstNameRequiredError'),
       })
-      .min(1, { message: t('signUp.firstNameRequiredError') })
-      .max(30, { message: t('signUp.firstNameLengthError') }),
+      .min(1, { message: t('fieldError.firstNameRequiredError') })
+      .max(30, { message: t('fieldError.firstNameLengthError') }),
     [SignUpFields.lastName]: z
       .string({
-        required_error: t('signUp.lastNameRequiredError'),
+        required_error: t('fieldError.lastNameRequiredError'),
       })
-      .min(1, { message: t('signUp.lastNameRequiredError') })
-      .max(30, { message: t('signUp.lastNameLengthError') }),
+      .min(1, { message: t('fieldError.lastNameRequiredError') })
+      .max(30, { message: t('fieldError.lastNameLengthError') }),
     [SignUpFields.dob]: z
       .string({
-        required_error: t('signUp.dobRequiredError'),
+        required_error: t('fieldError.dobRequiredError'),
       })
-      .min(1, { message: t('signUp.dobRequiredError') })
+      .min(1, { message: t('fieldError.dobRequiredError') })
       .refine(
         dob => {
           return validateDatePattern(dob);
         },
         {
-          message: t('signUp.dobFormatError'),
+          message: t('fieldError.dobFormatError'),
         },
       )
       .refine(
@@ -55,25 +55,25 @@ export const signUpSchema = z
           return parsedDate <= new Date();
         },
         {
-          message: t('signUp.dobFutureError'),
+          message: t('fieldError.dobFutureError'),
         },
       ),
     [SignUpFields.password]: z
       .string({
-        required_error: t('signUp.passwordRequiredError'),
+        required_error: t('fieldError.passwordRequiredError'),
       })
       .refine(password => isPasswordValid(password).isValid, {
-        message: t('signUp.passwordFormatError'),
+        message: t('fieldError.passwordFormatError'),
       }),
     [SignUpFields.passwordConfirmation]: z.string({
-      required_error: t('signUp.passwordConfirmationRequiredError'),
+      required_error: t('fieldError.passwordConfirmationRequiredError'),
     }),
   })
   .refine(
     data =>
       data[SignUpFields.password] === data[SignUpFields.passwordConfirmation],
     {
-      message: t('signUp.passwordConfirmationMatchError'),
+      message: t('fieldError.passwordConfirmationMatchError'),
       path: [SignUpFields.passwordConfirmation],
     },
   );
