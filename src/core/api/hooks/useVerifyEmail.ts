@@ -9,6 +9,7 @@ import { type APIError, type ResponseError } from '@/core/api/types';
 import logger from '@/core/logger';
 import { useAppDispatch } from '@/core/state/hooks';
 import { login } from '@/core/state/slices/authSlice';
+import { setUserVerified } from '@/core/state/slices/userSlice';
 
 export const useVerifyEmail = (userID: string, verificationToken?: string) => {
   const { t } = useTranslation();
@@ -31,6 +32,7 @@ export const useVerifyEmail = (userID: string, verificationToken?: string) => {
               refreshToken: data.refreshToken,
             }),
           );
+          dispatch(setUserVerified());
         }, GIF_NOTIFICATION_DURATION);
       })
       .catch(err => {

@@ -7,6 +7,8 @@ import { type ResponseError } from '../types';
 
 import { showUnexpectedErrorToast } from '@/components/Toast';
 import logger from '@/core/logger';
+import { useAppDispatch } from '@/core/state/hooks';
+import { setProfileDetails } from '@/core/state/slices/userSlice';
 import { SignUpFields, type SignUpSchemaType } from '@/schemas/signUpSchema';
 import { stringToDate, stringToGrpcTimestamp, trimFormData } from '@/util';
 
@@ -21,6 +23,7 @@ export const useSignUp = (
 ) => {
   const { t } = useTranslation();
   const [signUpUser, { isLoading }] = useSignUpMutation();
+  const dispatch = useAppDispatch();
 
   const signUp = async (formData: SignUpSchemaType) => {
     try {
@@ -33,6 +36,7 @@ export const useSignUp = (
       const trimmedFormData = trimFormData(parsedData);
       const userData = await signUpUser(trimmedFormData).unwrap();
 
+      dispatch(setProfileDetails(userData.user));
       onSuccess({
         userID: userData.user.userID,
         userName: userData.user.firstName,

@@ -43,7 +43,7 @@ describe('SignInScreen', () => {
     (mockNavigation.navigate as jest.Mock).mockReset();
     store = mockStore({
       auth: {
-        authToken: undefined,
+        authToken: '',
       },
     });
   });

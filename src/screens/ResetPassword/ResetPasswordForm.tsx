@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, Platform } from 'react-native';
@@ -11,6 +10,7 @@ import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
 import Subtitle from '@/components/SignIn/Subtitle';
 import { useResetPassword } from '@/core/api/hooks/useResetPassword';
+import { useRedirectToSignInOnSuccess } from '@/hooks/useRedirectToSignInOnSuccess';
 import {
   ResetPasswordFields,
   resetPasswordSchema,
@@ -23,8 +23,6 @@ export interface ResetPasswordFormProps {
   sendAnotherResetLink: () => void;
   onSuccessGoToSignIn: () => void;
 }
-
-const DELAY = 4000;
 
 export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
   userID,
@@ -49,18 +47,8 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
   } = useForm<ResetPasswordSchemaType>({
     resolver: zodResolver(resetPasswordSchema),
   });
+  useRedirectToSignInOnSuccess(isResetSuccess, onSuccessGoToSignIn);
 
-  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
-  useEffect(() => {
-    if (isResetSuccess) {
-      timeoutRef.current = setTimeout(() => {
-        onSuccessGoToSignIn();
-      }, DELAY);
-    }
-    return () => {
-      timeoutRef.current && clearTimeout(timeoutRef.current);
-    };
-  }, [isResetSuccess, onSuccessGoToSignIn]);
   const password = watch(ResetPasswordFields.password);
 
   const handleOnSubmit = () => {

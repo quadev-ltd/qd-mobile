@@ -21,12 +21,6 @@ export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
   navigation,
 }) => {
   const {
-    isLoading: isVerifying,
-    isError: isVerifyError,
-    isSuccess: isVerifySuccess,
-    apiErrorCode: apiVerifyErrorCode,
-  } = useVerifyEmail(params.userID, params.verificationToken);
-  const {
     resendEmail,
     isSending,
     isSendSuccess,
@@ -34,6 +28,12 @@ export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
     apiSendErrorCode,
   } = useResendEmail(params.userID);
   const dispatch = useAppDispatch();
+  const {
+    isLoading: isVerifying,
+    isError: isVerifyError,
+    isSuccess: isVerifySuccess,
+    apiErrorCode: apiVerifyErrorCode,
+  } = useVerifyEmail(params.userID, params.verificationToken);
 
   const goToSignIn = () => {
     dispatch(logout());

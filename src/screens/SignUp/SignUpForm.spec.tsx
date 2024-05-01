@@ -6,11 +6,14 @@ import {
 import { type GetByQuery } from '@testing-library/react-native/build/queries/make-queries';
 import { type CommonQueryOptions } from '@testing-library/react-native/build/queries/options';
 import Toast from 'react-native-toast-message';
+import { Provider } from 'react-redux';
+import { type MockStoreEnhanced } from 'redux-mock-store';
 
 import { SignUpForm } from './SignUpForm';
 
 import { FieldErrors, type ResponseError } from '@/core/api/types';
 import { SignUpFields } from '@/schemas/signUpSchema';
+import { getMockStore } from '@/util/mockStore';
 
 const mockRegisterUser = jest.fn();
 const mockLogger = {
@@ -97,21 +100,29 @@ async function fillFormFields(
 }
 const { show: mockShowToast } = Toast;
 describe('SignUpForm complete success and errors', () => {
+  let store: MockStoreEnhanced<unknown>;
   beforeEach(() => {
     onSuccess.mockReset();
     mockRegisterUser.mockReset();
     (mockShowToast as jest.Mock).mockReset();
     mockLogger.logError.mockReset();
     mockLogger.logMessage.mockReset();
+    store = getMockStore();
   });
 
   it('should render successfully', () => {
-    const { getByText } = render(<SignUpForm onSuccess={onSuccess} />);
+    const { getByText } = render(
+      <Provider store={store}>
+        <SignUpForm onSuccess={onSuccess} />
+      </Provider>,
+    );
     expect(getByText('signUp.submitButton')).toBeDefined();
   });
   it('should submit full success', async () => {
     const { getByText, getByTestId } = render(
-      <SignUpForm onSuccess={onSuccess} />,
+      <Provider store={store}>
+        <SignUpForm onSuccess={onSuccess} />
+      </Provider>,
     );
     mockRegisterUser.mockReturnValue({
       unwrap: () => Promise.resolve(successResponseData),
@@ -136,7 +147,9 @@ describe('SignUpForm complete success and errors', () => {
 
   it('should submit successfully but response is not successful', async () => {
     const { getByText, getByTestId } = render(
-      <SignUpForm onSuccess={onSuccess} />,
+      <Provider store={store}>
+        <SignUpForm onSuccess={onSuccess} />
+      </Provider>,
     );
     mockRegisterUser.mockReturnValue({
       unwrap: () => Promise.resolve(failResponseData),
@@ -162,7 +175,9 @@ describe('SignUpForm complete success and errors', () => {
 
   it('should submit successfully but response returns a known error', async () => {
     const { getByText, getByTestId, findByText } = render(
-      <SignUpForm onSuccess={onSuccess} />,
+      <Provider store={store}>
+        <SignUpForm onSuccess={onSuccess} />
+      </Provider>,
     );
     mockRegisterUser.mockReturnValue({
       unwrap: () => Promise.reject(knownResponseEmailInUse),
@@ -185,7 +200,9 @@ describe('SignUpForm complete success and errors', () => {
 
   it('should submit successfully but response returns a UNKNOWN error', async () => {
     const { getByText, getByTestId } = render(
-      <SignUpForm onSuccess={onSuccess} />,
+      <Provider store={store}>
+        <SignUpForm onSuccess={onSuccess} />
+      </Provider>,
     );
     const unkonwResponseError: ResponseError = Object.assign(
       {},
@@ -226,7 +243,9 @@ describe('SignUpForm complete success and errors', () => {
 
   it('should submit successfully but response returns a 500 error', async () => {
     const { getByText, getByTestId } = render(
-      <SignUpForm onSuccess={onSuccess} />,
+      <Provider store={store}>
+        <SignUpForm onSuccess={onSuccess} />
+      </Provider>,
     );
 
     const internalServerResponseError: ResponseError = Object.assign(
@@ -266,6 +285,10 @@ describe('SignUpForm complete success and errors', () => {
 });
 
 describe('SignUpForm individual errors', () => {
+  let store: MockStoreEnhanced<unknown>;
+  beforeEach(() => {
+    store = getMockStore();
+  });
   // give me one day in the future
   const today = new Date();
   const futureDate = new Date(today);
@@ -342,7 +365,9 @@ describe('SignUpForm individual errors', () => {
     'should render $expectedError for $testFieldKey with value $testFieldValue',
     async ({ testFieldKey, testFieldValue, expectedError }) => {
       const { getByText, getByTestId, findByText } = render(
-        <SignUpForm onSuccess={onSuccess} />,
+        <Provider store={store}>
+          <SignUpForm onSuccess={onSuccess} />
+        </Provider>,
       );
 
       for (const key of Object.values(SignUpFields)) {
@@ -366,7 +391,9 @@ describe('SignUpForm individual errors', () => {
 
   it('should render required errors', async () => {
     const { getByText, findByText } = render(
-      <SignUpForm onSuccess={onSuccess} />,
+      <Provider store={store}>
+        <SignUpForm onSuccess={onSuccess} />
+      </Provider>,
     );
 
     await act(() => fireEvent.press(getByText('signUp.submitButton')));
