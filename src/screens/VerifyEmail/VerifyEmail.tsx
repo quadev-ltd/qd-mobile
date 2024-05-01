@@ -72,27 +72,24 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({
           status={finalStatus}
           isDeepLinkedVerificationStage={isDeepLinkedVerificationStage}
         />
-        <View style={styles.descriptionContainerText}>
-          {apiResendError && !isDeepLinkedVerificationStage && (
+        {apiResendError && !isDeepLinkedVerificationStage && (
+          <ErrorMessage
+            text={mapAPIErrorToFriendlyMessage(t, apiResendError)}
+            accessibilityLabel={mapAPIErrorToFriendlyMessage(t, apiResendError)}
+          />
+        )}
+        {verificationStatus !== VerificationRequestStatus.Verified &&
+          apiVerificationError &&
+          isDeepLinkedVerificationStage && (
             <ErrorMessage
-              text={mapAPIErrorToFriendlyMessage(t, apiResendError)}
+              text={mapAPIErrorToFriendlyMessage(t, apiVerificationError)}
               accessibilityLabel={mapAPIErrorToFriendlyMessage(
                 t,
-                apiResendError,
+                apiVerificationError,
               )}
             />
           )}
-          {verificationStatus !== VerificationRequestStatus.Verified &&
-            apiVerificationError &&
-            isDeepLinkedVerificationStage && (
-              <ErrorMessage
-                text={mapAPIErrorToFriendlyMessage(t, apiVerificationError)}
-                accessibilityLabel={mapAPIErrorToFriendlyMessage(
-                  t,
-                  apiVerificationError,
-                )}
-              />
-            )}
+        <View style={styles.descriptionContainerText}>
           {![apiVerificationError, apiResendError].includes(
             APIError.EmailVerifiedError,
           ) &&

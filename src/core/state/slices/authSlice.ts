@@ -1,6 +1,5 @@
 import {
   createAsyncThunk,
-  createSelector,
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
@@ -14,11 +13,9 @@ import {
 } from '../keychain';
 
 import { ClaimName, LOGOUT, type TokenPayload } from './types';
-import { isUserVerifiedSelector } from './userSlice';
 import { jwtDecode } from './util';
 
 import logger from '@/core/logger';
-import { type RootState } from '@/core/state/store';
 
 export enum AuthStateStatus {
   Pending = 'PENDING',
@@ -188,12 +185,3 @@ export const authSlice = createSlice({
 });
 
 export const { setAuthToken } = authSlice.actions;
-
-const isAuthenticated = createSelector(
-  (state: RootState) => state.auth.status === AuthStateStatus.Authenticated,
-  isUserVerifiedSelector,
-  (isAuthenticatedValue, isVerified) => isAuthenticatedValue && isVerified,
-);
-
-export const isAuthenticatedSelector = (state: RootState) =>
-  isAuthenticated(state);

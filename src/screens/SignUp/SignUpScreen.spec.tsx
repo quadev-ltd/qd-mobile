@@ -1,12 +1,15 @@
 import { type RouteProp } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { act, fireEvent, render } from '@testing-library/react-native';
+import { Provider } from 'react-redux';
+import { type MockStoreEnhanced } from 'redux-mock-store';
 
 import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
 import { SignUpScreen } from './SignUpScreen';
 
 import { ApplicationEnvironentEnum } from '@/core/env';
+import { getMockStore } from '@/util/mockStore';
 
 const registerUser = jest.fn();
 jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
@@ -22,6 +25,9 @@ jest.mock(
   'react-native-vector-icons/MaterialCommunityIcons',
   () => 'MaterialCommunityIcons',
 );
+jest.mock('@/core/state/slices/userSlice', () => ({
+  isUserVerifiedSelector: jest.fn(),
+}));
 
 const mockNavigation = {
   navigate: jest.fn(),
@@ -38,13 +44,18 @@ const mockRoute = {
 } as unknown as RouteProp<StackParamList, PublicScreen.SignUp>;
 
 describe('SignUpScreen', () => {
+  let store: MockStoreEnhanced<unknown>;
   beforeEach(() => {
+    (mockNavigation.navigate as jest.Mock).mockReset();
+    store = getMockStore();
     (mockNavigation.navigate as jest.Mock).mockReset();
   });
 
   it('renders correctly', () => {
     const { queryByText } = render(
-      <SignUpScreen navigation={mockNavigation} route={mockRoute} />,
+      <Provider store={store}>
+        <SignUpScreen navigation={mockNavigation} route={mockRoute} />
+      </Provider>,
     );
     expect(queryByText('signUp.changePathButton')).toBeVisible();
     expect(queryByText('signUp.firstNameLabel')).toBeNull();
@@ -52,7 +63,9 @@ describe('SignUpScreen', () => {
 
   it('navigates to the sign-in screen on change path action', async () => {
     const { getByText } = render(
-      <SignUpScreen navigation={mockNavigation} route={mockRoute} />,
+      <Provider store={store}>
+        <SignUpScreen navigation={mockNavigation} route={mockRoute} />
+      </Provider>,
     );
     await act(() => {
       fireEvent.press(getByText('signUp.changePathButton'));

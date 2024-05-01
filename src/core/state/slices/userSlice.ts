@@ -1,7 +1,5 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { type RootState } from '../store';
-
 import { AccountStatus } from './authSlice';
 import { LOGOUT } from './types';
 
@@ -36,6 +34,9 @@ export const userSlice = createSlice({
     setProfileDetails: (state, action: PayloadAction<User>) => {
       return action.payload;
     },
+    setUserVerified: state => {
+      state.accountStatus = AccountStatus.Verified;
+    },
   },
   extraReducers: builder => {
     builder.addCase(LOGOUT, () => {
@@ -45,7 +46,4 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setProfileDetails } = userSlice.actions;
-
-export const isUserVerifiedSelector = (state: RootState) =>
-  state.user?.accountStatus === AccountStatus.Verified;
+export const { setProfileDetails, setUserVerified } = userSlice.actions;

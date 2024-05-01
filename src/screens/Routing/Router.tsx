@@ -6,7 +6,7 @@ import UnauthenticatedStack from './Public/UnauthenticatedStack';
 
 import { linking } from '@/core/deepLinking';
 import { useAppSelector } from '@/core/state/hooks';
-import { isAuthenticatedSelector } from '@/core/state/slices/authSlice';
+import { isAuthenticatedSelector } from '@/core/state/selectors/auth';
 
 type RouterProps = {
   environment?: string;

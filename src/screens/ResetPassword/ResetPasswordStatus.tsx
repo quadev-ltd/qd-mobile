@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import StatusContainer from './StatusContainer';
 
@@ -31,23 +31,25 @@ const ResetPasswordStatus: React.FC<ResetPasswordStatusProps> = ({
     return (
       <StatusContainer status={VerificationStatus.Failure}>
         <ErrorMessage text={errorMessage} accessibilityLabel={errorMessage} />
-        {(errorMessage === t('error.linkCorruptedError') ||
-          errorMessage === t('error.tokenExpiredError')) && (
-          <CTA
-            style={styles.postErrorCTA}
-            text={t('resetPassword.sendAnotherLink')}
-            accessibilityLabel={t('resetPassword.sendAnotherLink')}
-            onPress={sendAnotherResetLink}
-          />
-        )}
-        {errorMessage === t('error.networkError') && (
-          <CTA
-            style={styles.postErrorCTA}
-            text={t('resetPassword.tryAgain')}
-            accessibilityLabel={t('resetPassword.tryAgain')}
-            onPress={tryAgain}
-          />
-        )}
+        <View style={styles.descriptionContainerText}>
+          {(errorMessage === t('error.linkCorruptedError') ||
+            errorMessage === t('error.tokenExpiredError')) && (
+            <CTA
+              style={styles.postErrorCTA}
+              text={t('resetPassword.sendAnotherLink')}
+              accessibilityLabel={t('resetPassword.sendAnotherLink')}
+              onPress={sendAnotherResetLink}
+            />
+          )}
+          {errorMessage === t('error.networkError') && (
+            <CTA
+              style={styles.postErrorCTA}
+              text={t('resetPassword.tryAgain')}
+              accessibilityLabel={t('resetPassword.tryAgain')}
+              onPress={tryAgain}
+            />
+          )}
+        </View>
       </StatusContainer>
     );
   }
@@ -69,9 +71,15 @@ const ResetPasswordStatus: React.FC<ResetPasswordStatusProps> = ({
 };
 
 const styles = StyleSheet.create({
+  descriptionContainerText: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
   postErrorCTA: {
     marginTop: 32,
-    alignSelf: 'center',
+    marginBottom: 12,
+    alignSelf: 'stretch',
   },
 });
 

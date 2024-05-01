@@ -24,7 +24,7 @@ const VerificationSubtitle: React.FC<VerificationSubtitleProps> = ({
     subtitle = t('emailVerification.verifyingSubtitle');
   }
 
-  if (status === VerificationStatus.Success) {
+  if (status === VerificationStatus.Success && isDeepLinkedVerificationStage) {
     subtitle = t('emailVerification.successSubtitle');
   }
 
