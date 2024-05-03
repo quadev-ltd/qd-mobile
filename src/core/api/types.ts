@@ -12,7 +12,7 @@ export enum APIEndpoints {
   ResendVerificationEmail = `/user/${ParameterNames.UserID}/email/verification`,
   VerifyEmail = `/user/${ParameterNames.UserID}/email/${ParameterNames.VerificationToken}`,
   RequestPasswordReset = '/user/password/reset',
-  RefreshToken = '/authentication/refresh',
+  RefreshAuthTokens = '/authentication/refresh',
   GetUserProfile = '/user/profile',
   VerifyPasswordVerificationToken = `/user/${ParameterNames.UserID}/password/reset-verification/${ParameterNames.VerificationToken}`,
   ResetPassword = `/user/${ParameterNames.UserID}/password/reset/${ParameterNames.VerificationToken}`,
@@ -35,6 +35,7 @@ export enum APIError {
   InvalidTokenError = 'invalid_token',
   TokenExpiredError = 'token_expired',
   TooManyRequestsError = 'too_many_requests',
+  UnmanagedError = 'unmanaged_error',
 }
 
 export enum Methods {
@@ -85,7 +86,7 @@ export interface SignInRequest {
   password: string;
 }
 
-export interface SignInResponse {
+export interface AuthenticationResponse {
   authToken: string;
   authTokenExpiry: Timestamp;
   refreshToken: string;
@@ -131,4 +132,9 @@ export interface ResetPasswordRequest {
   userID: string;
   verificationToken: string;
   password: string;
+}
+
+// Refresh Auth Tokens
+export interface RefreshAuthTokensRequest {
+  refreshToken: string;
 }

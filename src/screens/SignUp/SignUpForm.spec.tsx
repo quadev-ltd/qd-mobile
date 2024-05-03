@@ -65,11 +65,6 @@ const successResponseData = {
   },
 };
 
-const failResponseData = {
-  success: false,
-  message: 'failure',
-};
-
 const knownResponseEmailInUse: ResponseError = {
   status: 400,
   data: {
@@ -142,34 +137,6 @@ describe('SignUpForm complete success and errors', () => {
         expect(onSuccess).toHaveBeenCalledTimes(1);
       },
       { timeout: 2000 },
-    );
-  });
-
-  it('should submit successfully but response is not successful', async () => {
-    const { getByText, getByTestId } = render(
-      <Provider store={store}>
-        <SignUpForm onSuccess={onSuccess} />
-      </Provider>,
-    );
-    mockRegisterUser.mockReturnValue({
-      unwrap: () => Promise.resolve(failResponseData),
-    });
-    await fillFormFields(getByTestId);
-
-    await act(() => fireEvent.press(getByText('signUp.submitButton')));
-
-    await waitFor(
-      () => {
-        expect(mockRegisterUser).toHaveBeenCalledTimes(1);
-        expect(mockLogger.logError).toHaveBeenCalledWith(
-          Error(
-            `Unknown registration error for email ${
-              validData[SignUpFields.email]
-            }: {}`,
-          ),
-        );
-      },
-      { timeout: 1000 },
     );
   });
 

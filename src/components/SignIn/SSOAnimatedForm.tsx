@@ -128,8 +128,12 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         safeAreaViewportHeight={safeAreaViewportHeight}
       />
       <ScrollView
+        keyboardShouldPersistTaps="handled"
         style={Platform.OS === 'ios' && isKeyboardVisible && { marginBottom }}
-        contentContainerStyle={!isKeyboardVisible && styles.srcollView}>
+        contentContainerStyle={[
+          styles.formContainer,
+          !isKeyboardVisible && styles.srcollView,
+        ]}>
         <Animated.View
           testID="form"
           style={[
@@ -163,5 +167,8 @@ const styles = StyleSheet.create({
     marginTop: 24,
     alignItems: 'stretch',
     overflow: 'hidden',
+  },
+  formContainer: {
+    paddingHorizontal: 16,
   },
 });

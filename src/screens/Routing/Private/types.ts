@@ -1,9 +1,9 @@
 export enum PrivateScreen {
   Home = 'Home',
-  HomeTwo = 'HomeTwo',
+  ScreenTwo = 'ScreenTwo',
 }
 
 export type DrawerParamList = {
   [PrivateScreen.Home]: { environment?: string };
-  [PrivateScreen.HomeTwo]: undefined;
+  [PrivateScreen.ScreenTwo]: undefined;
 };

@@ -37,7 +37,7 @@ export const LoadUserProfile: React.FC<LoadUserProfileProps> = ({
       Toast.show({
         type: 'error',
         text1: t('error.getProfileError'),
-        text2: t('error.getProfileErrorDescription'),
+        text2: t('error.getProfileDescriptionError'),
         position: 'bottom',
       });
       onError();

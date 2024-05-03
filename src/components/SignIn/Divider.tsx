@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
   dividerContainer: {
     flexDirection: 'row',
     marginTop: -32,
-    marginHorizontal: -20,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 15,

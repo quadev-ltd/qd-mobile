@@ -85,15 +85,11 @@
     "successSubtitle": "Your email has been verified!",
     "emailVerificationInstructions": "Please check your inbox to complete the verification process.",
     "resendCTA": "Resend email",
-    "generalErrorDescription": "There was a problem, the link appears to be obsolete or corrupted.",
-    "tooManyRequestsError": "Too many requests. Wait a minute and try again.",
-    "emailAlreadyVerifiedError": "Your email has already been verified. Try to sign in with it.",
     "changePathDescription": "Or sign in with another acccount",
     "changePathButton": "Sign in"
   },
   "drawerMenu": {
-    "signOut": "Sign out",
-    "profile": "Profile"
+    "signOut": "Sign out"
   },
   "fieldError": {
     "emailRequiredError": "Required",
@@ -121,11 +117,17 @@
   "error": {
     "errorTitle": "Error",
     "unexpectedErrorRetry": "Something went wrong. Please try again later.",
-    "serverSideError": "Something went wrong. If the problem persist please contact support.",
+    "serverSideError": "If the problem persist please contact support.",
     "networkError": "Network error. Check your connection.",
     "linkCorruptedError": "The link appears to be corrupted. Try sending another link.",
     "tokenExpiredError": "The link has expired. Try sending another link.",
     "getProfileError": "Error",
-    "getProfileErrorDescription": "There was a problem getting your profile. Please try again later."
+    "getProfileDescriptionError": "There was a problem getting your profile. Please try again later.",
+    "unauthorizedError": "Unauthorized. Unable to refresh session.",
+    "refreshSessionError": "There was a problem refreshing your session.",
+    "networkOrServerError": "Network error or server error. Please try again later.",
+    "emailAlreadyVerifiedError": "Your email has already been verified. Try to sign in with it.",
+    "tooManyRequestsError": "Too many requests. Wait a minute and try again.",
+    "linkGeneralError": "There was a problem, the link appears to be obsolete or corrupted."
   }
 }

@@ -1,4 +1,3 @@
-import { type TFunction } from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -8,22 +7,11 @@ import {
 } from '..';
 import {
   type RTKQueryErrorType,
-  processCustomError,
+  processVerificationError,
   processError,
 } from '../errors';
 
 import { type ResetPasswordSchemaType } from '@/schemas/resetPasswordSchema';
-
-const parseError = (rawError: RTKQueryErrorType, t: TFunction<'translate'>) => {
-  let displayMessage = processError(rawError, t);
-  if (!displayMessage) {
-    displayMessage = processCustomError(rawError, t);
-  }
-  if (!displayMessage) {
-    displayMessage = t('error.unexpectedErrorRetry');
-  }
-  return displayMessage;
-};
 
 export const useResetPassword = (userID: string, verificationToken: string) => {
   const { t } = useTranslation();
@@ -46,12 +34,27 @@ export const useResetPassword = (userID: string, verificationToken: string) => {
     undefined,
   );
 
+  const parseError = useCallback(
+    (rawError: RTKQueryErrorType) => {
+      const displayError = processVerificationError(rawError, t);
+      if (displayError) {
+        setErrorMessage(displayError);
+      } else {
+        processError(rawError, t, {
+          onUnmanagedError: setErrorMessage,
+          onUnexpectedError: () =>
+            setErrorMessage(t('error.unexpectedErrorRetry')),
+        });
+      }
+    },
+    [t],
+  );
+
   useEffect(() => {
     if (verificationError) {
-      const displayMessage = parseError(verificationError, t);
-      setErrorMessage(displayMessage);
+      parseError(verificationError);
     }
-  }, [verificationError, t]);
+  }, [verificationError, parseError]);
 
   const resetUserPassword = useCallback(
     async (formData: ResetPasswordSchemaType) => {
@@ -62,11 +65,10 @@ export const useResetPassword = (userID: string, verificationToken: string) => {
           password: formData.password,
         }).unwrap();
       } catch (err) {
-        const displayMessage = parseError(err as RTKQueryErrorType, t);
-        setErrorMessage(displayMessage);
+        parseError(err as RTKQueryErrorType);
       }
     },
-    [resetPassword, t, userID, verificationToken],
+    [resetPassword, parseError, userID, verificationToken],
   );
 
   const tryAgain = () => {

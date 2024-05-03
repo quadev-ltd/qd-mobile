@@ -69,7 +69,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   }
 
   return (
-    <>
+    <View style={styles.formContainer}>
       <Subtitle
         text={t('forgotPassword.subtitle')}
         accessibilityLabel={t('forgotPassword.subtitle')}
@@ -90,11 +90,15 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
           onPress={handleOnSubmit}
         />
       </View>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  formContainer: {
+    paddingHorizontal: 16,
+    flex: 1,
+  },
   footerButton: {
     marginBottom: 12,
     flex: 1,

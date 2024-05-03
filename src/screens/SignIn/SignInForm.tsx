@@ -62,7 +62,6 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         onSubmitEditing={handleOnSubmit}
         keyboardType="email-address"
       />
-
       <HookFormPasswordInput
         label={t('signIn.passwordLabel')}
         accessibilityLabel={t('signIn.passwordAccessibilityLabel')}

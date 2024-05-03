@@ -23,6 +23,7 @@ import {
 import { ClaimName } from '@/core/state/slices/types';
 import { setProfileDetails } from '@/core/state/slices/userSlice';
 import { jwtDecode } from '@/core/state/slices/util';
+import { secondsToDate } from '@/util';
 
 export type SignInScreenProps = NativeStackScreenProps<
   StackParamList,
@@ -53,7 +54,7 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({
       dispatch(
         setAuthToken({
           authToken: authenticationTokens.authToken,
-          tokenExpiry: new Date(claims[ClaimName.ExpiryClaim] * 1000),
+          tokenExpiry: secondsToDate(claims[ClaimName.ExpiryClaim]),
         }),
       );
     } catch (err) {
