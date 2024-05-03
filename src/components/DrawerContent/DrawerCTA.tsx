@@ -40,8 +40,9 @@ export const DrawerCTA: React.FC<DrawerCTAProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
     alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'stretch',
   },
   text: {
     fontWeight: '700',

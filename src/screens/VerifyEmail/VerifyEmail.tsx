@@ -22,16 +22,18 @@ const mapAPIErrorToFriendlyMessage = (
 ) => {
   switch (apiError) {
     case APIError.EmailVerifiedError:
-      return t('emailVerification.emailAlreadyVerifiedError');
+      return t('error.emailAlreadyVerifiedError');
     case APIError.TokenExpiredError:
       return t('error.tokenExpiredError');
     case APIError.InvalidTokenError:
     case APIError.InvalidUserIDError:
       return t('error.linkCorruptedError');
     case APIError.TooManyRequestsError:
-      return t('emailVerification.tooManyRequestsError');
+      return t('error.tooManyRequestsError');
+    case APIError.UnmanagedError:
+      return t('error.networkOrServerError');
     default:
-      return t('emailVerification.generalErrorDescription');
+      return t('error.linkGeneralError');
   }
 };
 
@@ -79,6 +81,7 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({
           />
         )}
         {verificationStatus !== VerificationRequestStatus.Verified &&
+          verificationStatus !== VerificationRequestStatus.Verifying &&
           apiVerificationError &&
           isDeepLinkedVerificationStage && (
             <ErrorMessage
@@ -118,6 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
     alignContent: 'stretch',
+    paddingHorizontal: 16,
   },
   descriptionContainerText: {
     flex: 1,

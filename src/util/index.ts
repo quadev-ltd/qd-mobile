@@ -41,3 +41,6 @@ export const trimFormData = <
   );
   return trimmedData as T;
 };
+
+export const secondsToDate = (seconds: number): Date =>
+  new Date(seconds * 1000);

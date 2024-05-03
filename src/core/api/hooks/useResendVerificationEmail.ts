@@ -2,9 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useResendVerificationEmailMutation } from '..';
+import { type RTKQueryErrorType, processError } from '../errors';
 import { APIError, type ResponseError } from '../types';
 
-import { showUnexpectedErrorToast } from '@/components/Toast';
+import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
 import logger from '@/core/logger';
 
 export const GIF_NOTIFICATION_DURATION = 2400;
@@ -25,10 +26,6 @@ export const useResendEmail = (userID: string) => {
       clearTimeout(timeoutRef.current);
     };
   }, []);
-
-  const showToastNotification = useCallback(() => {
-    showUnexpectedErrorToast(t);
-  }, [t]);
 
   const resendEmail = useCallback(async () => {
     const showSuccess = () => {
@@ -57,20 +54,22 @@ export const useResendEmail = (userID: string) => {
           logger().logError(
             Error(`Failed to resend email: ${JSON.stringify(err)}`),
           );
-          showToastNotification();
+          showUnexpectedErrorToast(t);
         }
       }
       if (typedError.status === 429) {
         setAPISendErrorCode(APIError.TooManyRequestsError);
       } else {
-        logger().logError(
-          Error(`Failed to resend email: ${JSON.stringify(err)}`),
-        );
-        showToastNotification();
+        processError(err as RTKQueryErrorType, t, {
+          onUnmanagedError: errorMessage =>
+            showErrorToast(t('error.errorTitle'), errorMessage),
+          onUnexpectedError: () => showUnexpectedErrorToast(t),
+          logErrorMessage: `Failed to resend email: ${JSON.stringify(err)}`,
+        });
       }
       showFailure();
     }
-  }, [userID, resendVerificationEmail, showToastNotification]);
+  }, [userID, resendVerificationEmail, t]);
 
   return {
     resendEmail,

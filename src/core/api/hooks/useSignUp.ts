@@ -2,10 +2,14 @@ import { type UseFormSetError } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSignUpMutation } from '..';
-import { AsynchErrorMessages } from '../errors';
+import {
+  AsynchErrorMessages,
+  type RTKQueryErrorType,
+  processError,
+} from '../errors';
 import { type ResponseError } from '../types';
 
-import { showUnexpectedErrorToast } from '@/components/Toast';
+import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
 import logger from '@/core/logger';
 import { useAppDispatch } from '@/core/state/hooks';
 import { setProfileDetails } from '@/core/state/slices/userSlice';
@@ -71,14 +75,14 @@ export const useSignUp = (
           );
         });
       } else {
-        logger().logError(
-          Error(
-            `Unknown registration error for email ${
-              formData[SignUpFields.email]
-            }: ${JSON.stringify(err)}`,
-          ),
-        );
-        showUnexpectedErrorToast(t);
+        processError(err as RTKQueryErrorType, t, {
+          onUnmanagedError: errorMessage =>
+            showErrorToast(t('error.errorTitle'), errorMessage),
+          onUnexpectedError: () => showUnexpectedErrorToast(t),
+          logErrorMessage: `Unknown registration error for email ${
+            formData[SignUpFields.email]
+          }: ${JSON.stringify(err)}`,
+        });
       }
     }
   };

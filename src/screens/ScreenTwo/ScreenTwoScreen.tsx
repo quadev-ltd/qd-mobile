@@ -6,12 +6,12 @@ import {
   type PrivateScreen,
 } from '@/screens/Routing/Private/types';
 
-export type HomeTwoScreenProps = DrawerScreenProps<
+export type ScreenTwoScreenProps = DrawerScreenProps<
   DrawerParamList,
-  PrivateScreen.HomeTwo
+  PrivateScreen.ScreenTwo
 >;
 
-const HomeTwoScreen: React.FC<HomeTwoScreenProps> = () => {
+const ScreenTwoScreen: React.FC<ScreenTwoScreenProps> = () => {
   return (
     <View>
       <Text style={styles.homeText} />
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeTwoScreen;
+export default ScreenTwoScreen;

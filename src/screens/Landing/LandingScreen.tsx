@@ -4,8 +4,8 @@ import { View, StyleSheet } from 'react-native';
 
 import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
+import Logo from '@/components/AnimatedLogo';
 import { CTA } from '@/components/CTA';
-import Logo from '@/components/Logo';
 import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
 import { Layout } from '@/components/SignIn/Layout';
 import { ScreenType } from '@/components/SignIn/types';

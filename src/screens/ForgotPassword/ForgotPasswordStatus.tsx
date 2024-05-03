@@ -55,11 +55,11 @@ export const ForgotPasswordStatus: React.FC<ForgotPasswordStatusProps> = ({
       {isError && (
         <>
           <StatusDisplay status={VerificationStatus.Failure} />
+          <ErrorMessage
+            text={errorMessage || t('forgotPassword.error')}
+            accessibilityLabel={errorMessage || t('forgotPassword.error')}
+          />
           <View style={styles.bodyContainer}>
-            <ErrorMessage
-              text={errorMessage || t('forgotPassword.error')}
-              accessibilityLabel={errorMessage || t('forgotPassword.error')}
-            />
             <CTA
               style={styles.cta}
               text={t('forgotPassword.tryAgain')}
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
+    paddingHorizontal: 16,
   },
   cta: {
     marginBottom: 12,

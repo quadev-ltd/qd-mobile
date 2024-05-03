@@ -1,32 +1,14 @@
-import { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import Animated, {
-  useSharedValue,
-  withSpring,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
+import { View, StyleSheet, type ImageStyle, Image } from 'react-native';
 
-export const LandingScreen: React.FC = () => {
-  const scale = useSharedValue(1);
+interface LogoProps {
+  style?: ImageStyle;
+}
 
-  useEffect(() => {
-    scale.value = withSpring(0.75, {
-      damping: 2,
-      stiffness: 100,
-      mass: 1,
-    });
-  }, [scale]);
-
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }],
-    };
-  }, [scale]);
-
+export const Logo: React.FC<LogoProps> = ({ style }) => {
   return (
     <View style={styles.logoContainer}>
-      <Animated.Image
-        style={[styles.logo, animatedStyles]}
+      <Image
+        style={[styles.logo, style]}
         source={require('../assets/png/logo.png')}
         resizeMode="cover"
       />
@@ -50,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LandingScreen;
+export default Logo;

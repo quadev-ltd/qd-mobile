@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useForgotPasswordMutation } from '..';
 import { type RTKQueryErrorType, processError } from '../errors';
 
-import logger from '@/core/logger';
 import {
   ForgotPasswordFields,
   type ForgotPasswordSchemaType,
@@ -15,7 +14,7 @@ export const useForgotPassword = () => {
   const [showStatus, setShowStatus] = useState(false);
   const [forgotPassword, { isLoading, isError, isSuccess }] =
     useForgotPasswordMutation();
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+  const [errorDisplay, setErrorDisplay] = useState<string | undefined>(
     undefined,
   );
   const requestPasswordReset = async (formData: ForgotPasswordSchemaType) => {
@@ -28,19 +27,14 @@ export const useForgotPassword = () => {
       };
       await forgotPassword(sanitisedForm).unwrap();
     } catch (err) {
-      const resultError = err as RTKQueryErrorType;
-      const displayMesssage = processError(resultError, t);
-      if (displayMesssage) {
-        setErrorMessage(displayMesssage);
-      } else {
-        logger().logError(
-          Error(
-            `Unknown error while requesting password reset for ${
-              formData[ForgotPasswordFields.email]
-            }: ${JSON.stringify(err)}`,
-          ),
-        );
-      }
+      processError(err as RTKQueryErrorType, t, {
+        onUnmanagedError: message => {
+          setErrorDisplay(message);
+        },
+        logErrorMessage: `Unknown error while requesting password reset for ${
+          formData[ForgotPasswordFields.email]
+        }: ${JSON.stringify(err)}`,
+      });
     }
   };
 
@@ -51,6 +45,6 @@ export const useForgotPassword = () => {
     isLoading,
     isError,
     isSuccess,
-    errorMessage,
+    errorMessage: errorDisplay,
   };
 };

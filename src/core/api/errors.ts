@@ -29,7 +29,7 @@ const RPC_ERROR_PREFIX = 'rpc error: code = InvalidArgument desc = ';
 
 export type RTKQueryErrorType = FetchBaseQueryError | SerializedError;
 
-export const processError = (
+export const processUnmanagedError = (
   error: RTKQueryErrorType,
   t: TFunction<'translate'>,
 ) => {
@@ -55,12 +55,12 @@ export const processError = (
     const clientError = error as { error: string; message: string };
     const errorMessage = `${clientError.error}: ${clientError.message}`;
     logger().logError(Error(`Client side error: ${errorMessage}`));
-    return t('error.unexpectedErrorRetry');
+    return;
   }
   return t('error.unexpectedErrorRetry');
 };
 
-export const processCustomError = (
+export const processVerificationError = (
   error: FetchBaseQueryError | SerializedError,
   t: TFunction<'translate'>,
 ) => {
@@ -84,5 +84,25 @@ export const processCustomError = (
         Error(`Unknown server error: ${JSON.stringify(serverError)}`),
       );
       return t('error.unexpectedErrorRetry');
+  }
+};
+
+interface ProcessErrorOptions {
+  onUnmanagedError?: (errorMessage: string) => void;
+  onUnexpectedError?: () => void;
+  logErrorMessage?: string;
+}
+export const processError = (
+  err: RTKQueryErrorType,
+  t: TFunction<'translate'>,
+  options?: ProcessErrorOptions,
+) => {
+  const errorMessage = processUnmanagedError(err, t);
+  if (errorMessage) {
+    options?.onUnmanagedError?.(errorMessage);
+  } else {
+    options?.logErrorMessage &&
+      logger().logError(Error(options?.logErrorMessage));
+    options?.onUnexpectedError?.();
   }
 };

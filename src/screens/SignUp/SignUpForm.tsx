@@ -33,8 +33,8 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
   const password = watch('password');
 
   const handleOnSubmit = () => {
-    Keyboard.dismiss();
     handleSubmit(signUp)();
+    Keyboard.dismiss();
   };
 
   if (isLoading) {

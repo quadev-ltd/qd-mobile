@@ -2,16 +2,23 @@ import { type UseFormSetError } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useSignInMutation } from '..';
-import { AsynchErrorMessages } from '../errors';
-import { FieldErrors, type ResponseError, type SignInResponse } from '../types';
+import {
+  AsynchErrorMessages,
+  type RTKQueryErrorType,
+  processError,
+} from '../errors';
+import {
+  FieldErrors,
+  type ResponseError,
+  type AuthenticationResponse,
+} from '../types';
 
-import { showUnexpectedErrorToast } from '@/components/Toast';
-import logger from '@/core/logger';
+import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
 import { SignInFields, type SignInSchemaType } from '@/schemas/signInSchema';
 import { trimFormData } from '@/util';
 
 export const useSignIn = (
-  onSuccess: (userData: SignInResponse) => void,
+  onSuccess: (userData: AuthenticationResponse) => void,
   setAsynchError: UseFormSetError<SignInSchemaType>,
 ) => {
   const { t } = useTranslation();
@@ -45,14 +52,15 @@ export const useSignIn = (
           { shouldFocus: true },
         );
       } else {
-        logger().logError(
-          Error(
-            `Unknown sign in error for email ${
-              formData[SignInFields.email]
-            }: ${JSON.stringify(err)}`,
-          ),
-        );
-        showUnexpectedErrorToast(t);
+        processError(err as RTKQueryErrorType, t, {
+          onUnmanagedError: message => {
+            showErrorToast(t('error.errorTitle'), message);
+          },
+          onUnexpectedError: () => showUnexpectedErrorToast(t),
+          logErrorMessage: `Unknown error while signing in for ${
+            formData[SignInFields.email]
+          }: ${JSON.stringify(err)}`,
+        });
       }
     }
   };

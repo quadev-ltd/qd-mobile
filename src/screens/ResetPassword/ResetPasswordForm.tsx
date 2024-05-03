@@ -69,7 +69,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
   }
 
   return (
-    <>
+    <View style={styles.formContainer}>
       <Subtitle
         text={t('resetPassword.subtitle')}
         accessibilityLabel={t('resetPasswrod.subtitle')}
@@ -101,11 +101,15 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
           onPress={handleOnSubmit}
         />
       </View>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  formContainer: {
+    paddingHorizontal: 16,
+    flex: 1,
+  },
   footerButton: {
     marginBottom: 12,
     flex: 1,

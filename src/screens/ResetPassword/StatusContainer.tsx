@@ -25,6 +25,7 @@ const StatusContainer: React.FC<StatusContainerProps> = ({
 const styles = StyleSheet.create({
   statusContainer: {
     flex: 1,
+    paddingHorizontal: 16,
   },
 });
 

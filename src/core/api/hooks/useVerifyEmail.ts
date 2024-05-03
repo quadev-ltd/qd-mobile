@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { type RTKQueryErrorType, processError } from '../errors';
+
 import { GIF_NOTIFICATION_DURATION } from './useResendVerificationEmail';
 
-import { showUnexpectedErrorToast } from '@/components/Toast';
+import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
 import { useVerifyEmailMutation } from '@/core/api';
-import { type APIError, type ResponseError } from '@/core/api/types';
-import logger from '@/core/logger';
+import { APIError, type ResponseError } from '@/core/api/types';
 import { useAppDispatch } from '@/core/state/hooks';
 import { login } from '@/core/state/slices/authSlice';
 import { setUserVerified } from '@/core/state/slices/userSlice';
@@ -40,10 +41,14 @@ export const useVerifyEmail = (userID: string, verificationToken?: string) => {
         if (typedError.status === 400) {
           setAPIErrorCode(typedError.data?.error as APIError | undefined);
         } else {
-          logger().logError(
-            Error(`Failed to verify email: ${JSON.stringify(err)}`),
-          );
-          showUnexpectedErrorToast(t);
+          processError(err as RTKQueryErrorType, t, {
+            onUnmanagedError: message => {
+              showErrorToast(t('error.errorTitle'), message);
+            },
+            onUnexpectedError: () => showUnexpectedErrorToast(t),
+            logErrorMessage: `Failed to verify email: ${JSON.stringify(err)}`,
+          });
+          setAPIErrorCode(APIError.UnmanagedError);
         }
       });
   }, [userID, verificationToken, verifyEmail, t, dispatch]);

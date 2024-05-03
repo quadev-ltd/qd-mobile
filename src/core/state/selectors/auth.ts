@@ -13,3 +13,6 @@ const isAuthenticated = createSelector(
 
 export const isAuthenticatedSelector = (state: RootState) =>
   isAuthenticated(state);
+
+export const isAuthPendingSelector = (state: RootState) =>
+  state.auth.status === AuthStateStatus.Pending;
