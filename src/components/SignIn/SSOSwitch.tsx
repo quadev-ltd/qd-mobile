@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { AnimatedCTA } from '../AnimatedCTA';
 
 import { Divider } from './Divider';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import { colors } from '@/styles';
 
 type SSOSwitchProps = {
