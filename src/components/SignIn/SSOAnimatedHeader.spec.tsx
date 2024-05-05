@@ -10,8 +10,8 @@ jest.mock(
 
 describe('SSOAnimatedHeader', () => {
   const switchSSO = jest.fn();
-  const handleFacebookLogin = jest.fn();
-  const handleGoogleLogin = jest.fn();
+  const handleFacebookSignIn = jest.fn();
+  const handleGoogleSignIn = jest.fn();
   it('renders initial state correctly', () => {
     const { getByText, queryByText } = render(
       <SSOAnimatedHeader
@@ -19,8 +19,8 @@ describe('SSOAnimatedHeader', () => {
         isSSOExpanded={true}
         disableAnimation={true}
         switchSSO={switchSSO}
-        handleFacebookLogin={handleFacebookLogin}
-        handleGoogleLogin={handleGoogleLogin}
+        handleFacebookSignIn={handleFacebookSignIn}
+        handleGoogleSignIn={handleGoogleSignIn}
         safeAreaViewportHeight={900}
       />,
     );
