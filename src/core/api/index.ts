@@ -57,13 +57,14 @@ const baseQueryWithReauth = async (
   extraOptions: object,
 ) => {
   const { authToken, tokenExpiry } = (api.getState() as RootState).auth;
-  if (authToken && tokenExpiry) {
+  const isAuthenticated = authToken && tokenExpiry;
+  if (isAuthenticated) {
     if (tokenExpiry.getTime() <= Date.now()) {
       await api.dispatch(refreshTokens());
     }
   }
   let result = await baseQuery(args, api, extraOptions);
-  if (result.error && result.error.status === 401) {
+  if (result.error && result.error.status === 401 && isAuthenticated) {
     const refreshResult = await api.dispatch(refreshTokens());
     if (refreshResult.meta.requestStatus === 'fulfilled') {
       result = await baseQuery(args, api, extraOptions);

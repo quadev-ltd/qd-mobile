@@ -1,7 +1,6 @@
 import { type ReactNode, useEffect, useState } from 'react';
 import {
   Animated,
-  Image,
   type StyleProp,
   StyleSheet,
   Text,
@@ -16,7 +15,6 @@ import { colors } from '@/styles';
 interface AnimatedCTAProps {
   onPress?: () => void;
   testID?: string;
-  source?: { uri: string };
   Icon?: ReactNode;
   text: string;
   accessibilityLabel: string;
@@ -43,7 +41,6 @@ const animateButton = (
 export const AnimatedCTA: React.FC<AnimatedCTAProps> = ({
   onPress,
   testID,
-  source,
   Icon,
   text,
   accessibilityLabel,
@@ -70,9 +67,8 @@ export const AnimatedCTA: React.FC<AnimatedCTAProps> = ({
             opacity: scale,
           },
         ]}>
+        {Icon && Icon}
         <View style={styles.iconTextContainer}>
-          {source && <Image source={source} style={styles.icon} />}
-          {Icon && Icon}
           <Text style={[styles.iconText, textStyle]}>{text}</Text>
         </View>
       </Animated.View>
@@ -82,22 +78,17 @@ export const AnimatedCTA: React.FC<AnimatedCTAProps> = ({
 
 const styles = StyleSheet.create({
   ctaButton: {
+    flexDirection: 'row',
     alignSelf: 'stretch',
     height: 50,
     borderRadius: 50,
     backgroundColor: colors.black,
-    paddingVertical: 0,
     alignItems: 'center',
-    justifyContent: 'center',
     paddingHorizontal: 24,
     shadowOpacity: 0.2,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 4,
     elevation: 4,
-  },
-  icon: {
-    width: 20,
-    height: 20,
   },
   iconText: {
     color: colors.white,
@@ -105,9 +96,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   iconTextContainer: {
-    display: 'flex',
-    gap: 15,
+    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
   },
 });

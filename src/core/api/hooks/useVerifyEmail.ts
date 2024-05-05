@@ -3,14 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 import { type RTKQueryErrorType, processError } from '../errors';
 
-import { GIF_NOTIFICATION_DURATION } from './useResendVerificationEmail';
-
 import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
 import { useVerifyEmailMutation } from '@/core/api';
 import { APIError, type ResponseError } from '@/core/api/types';
 import { useAppDispatch } from '@/core/state/hooks';
 import { login } from '@/core/state/slices/authSlice';
-import { setUserVerified } from '@/core/state/slices/userSlice';
 
 export const useVerifyEmail = (userID: string, verificationToken?: string) => {
   const { t } = useTranslation();
@@ -26,15 +23,12 @@ export const useVerifyEmail = (userID: string, verificationToken?: string) => {
     })
       .unwrap()
       .then(data => {
-        setTimeout(async () => {
-          dispatch(
-            login({
-              authToken: data.authToken,
-              refreshToken: data.refreshToken,
-            }),
-          );
-          dispatch(setUserVerified());
-        }, GIF_NOTIFICATION_DURATION);
+        dispatch(
+          login({
+            authToken: data.authToken,
+            refreshToken: data.refreshToken,
+          }),
+        );
       })
       .catch(err => {
         const typedError = err as ResponseError;

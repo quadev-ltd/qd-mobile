@@ -32,8 +32,8 @@ export interface SSOAnimatedFormScreenProps {
 
 export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   screen,
-  handleFacebookAction: handleFacebookLogin,
-  handleGoogleAction: handleGoogleLogin,
+  handleFacebookAction: handleFacebookSignIn,
+  handleGoogleAction: handleGoogleSignIn,
   changePath,
   formHeight,
   children,
@@ -118,8 +118,8 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   return (
     <Layout>
       <SSOAnimatedHeader
-        handleFacebookLogin={handleFacebookLogin}
-        handleGoogleLogin={handleGoogleLogin}
+        handleFacebookSignIn={handleFacebookSignIn}
+        handleGoogleSignIn={handleGoogleSignIn}
         screen={screen}
         isSSOExpanded={isSSO}
         switchSSO={switchSSO}

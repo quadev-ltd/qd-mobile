@@ -10,16 +10,12 @@ import { type ScreenType } from './types';
 
 import { colors } from '@/styles';
 
-const FacebookIcon = () => (
-  <Icon name="facebook" size={36} color={colors.white} />
-);
-
 type SSOAnimatedHeaderProps = {
   screen: ScreenType;
   isSSOExpanded: boolean;
   switchSSO: () => void;
-  handleFacebookLogin: () => void;
-  handleGoogleLogin: () => void;
+  handleFacebookSignIn: () => void;
+  handleGoogleSignIn: () => void;
   onAnimationEnded?: () => void;
   disableAnimation?: boolean;
   safeAreaViewportHeight: number;
@@ -33,8 +29,8 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
   screen,
   isSSOExpanded,
   switchSSO,
-  handleFacebookLogin,
-  handleGoogleLogin,
+  handleFacebookSignIn,
+  handleGoogleSignIn,
   onAnimationEnded,
   disableAnimation,
   safeAreaViewportHeight,
@@ -72,11 +68,11 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
           <>
             <AnimatedCTA
               testID="facebook-cta"
-              Icon={<FacebookIcon />}
+              Icon={<Icon name="facebook" size={36} color={colors.white} />}
               text={t(`${screen}.withFacebook`)}
               accessibilityLabel={t(`${screen}.withFacebookAccessibilityLabel`)}
               style={styles.facebookButton}
-              onPress={handleFacebookLogin}
+              onPress={handleFacebookSignIn}
               hide={shoulHideSSOButtons}
               disableAnimation={disableAnimation}
             />
@@ -87,7 +83,7 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
               accessibilityLabel={t(`${screen}.withGoogleAccessibilityLabel`)}
               style={styles.googleButton}
               textStyle={{ color: colors.grey }}
-              onPress={handleGoogleLogin}
+              onPress={handleGoogleSignIn}
               hide={shoulHideSSOButtons}
               disableAnimation={disableAnimation}
             />
@@ -115,12 +111,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   facebookButton: {
-    alignItems: 'flex-start',
     backgroundColor: colors.facebookBlue,
     marginBottom: 20,
   },
   googleButton: {
-    alignItems: 'flex-start',
     backgroundColor: colors.white,
     marginBottom: 20,
   },
