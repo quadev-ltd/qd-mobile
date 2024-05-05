@@ -44,8 +44,8 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({
 
   const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
 
-  const handleFacebookLogin = () => {};
-  const handleGoogleLogin = () => {};
+  const handleFacebookSignIn = () => {};
+  const handleGoogleSignIn = () => {};
 
   const handleLoginSuccess = (authenticationTokens: TokensPayload) => {
     try {
@@ -116,8 +116,8 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({
   return (
     <SSOAnimatedForm
       screen={ScreenType.SignIn}
-      handleFacebookAction={handleFacebookLogin}
-      handleGoogleAction={handleGoogleLogin}
+      handleFacebookAction={handleFacebookSignIn}
+      handleGoogleAction={handleGoogleSignIn}
       changePath={goToSignUp}
       formHeight={350}
       initiateManualSignIn={route.params?.manualSignIn}>

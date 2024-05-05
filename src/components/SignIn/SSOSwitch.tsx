@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { AnimatedCTA } from '../AnimatedCTA';
 
 import { Divider } from './Divider';
+
+import { colors } from '@/styles';
 
 type SSOSwitchProps = {
   isSSOExpanded: boolean;
@@ -45,6 +48,7 @@ export const SSOSwitch: React.FC<SSOSwitchProps> = ({
       hide={!isSSOExpanded}
       onAnimationEnded={handleAnimationEnded}
       disableAnimation={disableAnimation}
+      Icon={<Icon name="email" size={28} color={colors.white} />}
     />
   );
 };
