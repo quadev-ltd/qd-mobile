@@ -85,8 +85,8 @@
     "successSubtitle": "Your email has been verified!",
     "emailVerificationInstructions": "Please check your inbox to complete the verification process.",
     "resendCTA": "Resend email",
-    "changePathDescription": "Or sign in with another acccount",
-    "changePathButton": "Sign in"
+    "changePathDescription": "Or start again",
+    "changePathButton": "go back"
   },
   "drawerMenu": {
     "signOut": "Sign out"

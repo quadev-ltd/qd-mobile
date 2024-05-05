@@ -1,7 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from 'react-native';
 
 import ForgotPasswordStatus from './ForgotPasswordStatus';
 
@@ -69,7 +75,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   }
 
   return (
-    <View style={styles.formContainer}>
+    <ScrollView contentContainerStyle={styles.formContainer}>
       <Subtitle
         text={t('forgotPassword.subtitle')}
         accessibilityLabel={t('forgotPassword.subtitle')}
@@ -83,18 +89,26 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         onSubmitEditing={handleOnSubmit}
         keyboardType="email-address"
       />
-      <View style={styles.footerButton}>
-        <CTA
-          text={submitLabel}
-          accessibilityLabel={submitAccessibilityLabel}
-          onPress={handleOnSubmit}
-        />
-      </View>
-    </View>
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoidingContainer}
+        behavior={'padding'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 200 : 0}>
+        <View style={styles.footerButton}>
+          <CTA
+            text={submitLabel}
+            accessibilityLabel={submitAccessibilityLabel}
+            onPress={handleOnSubmit}
+          />
+        </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  keyboardAvoidingContainer: {
+    flex: 1,
+  },
   formContainer: {
     paddingHorizontal: 16,
     flex: 1,

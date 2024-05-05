@@ -1,7 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, Platform } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Platform,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 
 import ResetPasswordStatus from './ResetPasswordStatus';
 
@@ -69,7 +75,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
   }
 
   return (
-    <View style={styles.formContainer}>
+    <ScrollView contentContainerStyle={styles.formContainer}>
       <Subtitle
         text={t('resetPassword.subtitle')}
         accessibilityLabel={t('resetPasswrod.subtitle')}
@@ -93,19 +99,28 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
         keyboardType={Platform.OS === 'ios' ? 'visible-password' : 'default'}
         secureTextEntry={true}
       />
-
-      <View style={styles.footerButton}>
-        <CTA
-          text={t(`resetPassword.submitButton`)}
-          accessibilityLabel={t(`resetPassword.submitButtonAccessibilityLabel`)}
-          onPress={handleOnSubmit}
-        />
-      </View>
-    </View>
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoidingContainer}
+        behavior={'padding'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 200 : 0}>
+        <View style={styles.footerButton}>
+          <CTA
+            text={t(`resetPassword.submitButton`)}
+            accessibilityLabel={t(
+              `resetPassword.submitButtonAccessibilityLabel`,
+            )}
+            onPress={handleOnSubmit}
+          />
+        </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  keyboardAvoidingContainer: {
+    flex: 1,
+  },
   formContainer: {
     paddingHorizontal: 16,
     flex: 1,
