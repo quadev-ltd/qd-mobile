@@ -3,7 +3,6 @@ import {
   configureStore,
   type Middleware,
 } from '@reduxjs/toolkit';
-import { Platform } from 'react-native';
 import { persistReducer, persistStore } from 'redux-persist';
 
 import { apiSlice } from '../api';
@@ -13,12 +12,6 @@ import { authSlice } from './slices/authSlice';
 import { userSlice } from './slices/userSlice';
 
 const middlewares: Middleware[] = [];
-
-if (__DEV__ && Platform.OS !== 'ios') {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const createDebugger = require('redux-flipper').default;
-  middlewares.push(createDebugger());
-}
 
 const rootReducer = combineReducers({
   [authSlice.reducerPath]: authSlice.reducer,
