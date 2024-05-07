@@ -642,7 +642,7 @@
 				CODE_SIGN_ENTITLEMENTS = QDMobileDev.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = LQRYUWUP72;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "QDMobile/QDMobileDev-Info.plist";
@@ -674,7 +674,7 @@
 				CODE_SIGN_ENTITLEMENTS = QDMobileDev.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = LQRYUWUP72;
 				INFOPLIST_FILE = "QDMobile/QDMobileDev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -755,7 +755,7 @@
 				CODE_SIGN_ENTITLEMENTS = QDMobile/QDMobile.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = LQRYUWUP72;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = QDMobile/Info.plist;
@@ -787,7 +787,7 @@
 				CODE_SIGN_ENTITLEMENTS = QDMobile/QDMobile.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = LQRYUWUP72;
 				INFOPLIST_FILE = QDMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
