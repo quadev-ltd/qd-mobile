@@ -10,6 +10,7 @@ import { apiSlice } from '../api';
 import { generateMMKVStorage } from './mmkv';
 import { authSlice } from './slices/authSlice';
 import { userSlice } from './slices/userSlice';
+
 import reactotron from '@/reactotron/reactotronConfig';
 
 const middlewares: Middleware[] = [];
@@ -37,8 +38,10 @@ export const generateStore = (encriptionKey: string) => {
     reducer: persistedReducer,
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({ serializableCheck: false }).concat(middlewares),
-    enhancers: (getDefaultEnhancers) =>
-      __DEV__ ? getDefaultEnhancers().concat(reactotron.createEnhancer()) : getDefaultEnhancers(),
+    enhancers: getDefaultEnhancers =>
+      __DEV__
+        ? getDefaultEnhancers().concat(reactotron.createEnhancer())
+        : getDefaultEnhancers(),
   });
   const persistor = persistStore(store);
   return { store, persistor };

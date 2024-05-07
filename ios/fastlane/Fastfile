@@ -135,10 +135,10 @@ platform :ios do
       api_key: api_key
     )
 
-    # Upload to TestFlight
-    upload_to_testflight(
-      app_identifier: "com.qdmobile"
-    )
+    # # Upload to TestFlight (Already handled by pilot)
+    # upload_to_testflight(
+    #   app_identifier: "com.qdmobile"
+    # )
   end
 end
 
