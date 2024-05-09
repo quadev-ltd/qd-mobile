@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Animated, View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { AnimatedCTA } from '../AnimatedCTA';
+import CTA from '../CTA';
 
 import { SSOSwitch } from './SSOSwitch';
 import { type ScreenType } from './types';
@@ -66,7 +66,8 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
       <View style={styles.ssoButtonsContainer}>
         {isExpandedSecondAnimation && (
           <>
-            <AnimatedCTA
+            <CTA
+              isAnimated={true}
               testID="facebook-cta"
               Icon={<Icon name="facebook" size={36} color={colors.white} />}
               text={t(`${screen}.withFacebook`)}
@@ -76,7 +77,8 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
               hide={shoulHideSSOButtons}
               disableAnimation={disableAnimation}
             />
-            <AnimatedCTA
+            <CTA
+              isAnimated={true}
               testID="google-cta"
               Icon={<Icon name="google" size={28} color={colors.grey} />}
               text={t(`${screen}.withGoogle`)}

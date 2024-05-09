@@ -50,6 +50,7 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
         style={styles.input}
         secureTextEntry={secureTextEntry}
         placeholder={label}
+        placeholderTextColor={colors.grey}
         accessible
         accessibilityLabel={accessibilityLabel}
         onBlur={onBlur}

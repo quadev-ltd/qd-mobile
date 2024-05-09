@@ -1,5 +1,6 @@
+import { type ReactNode, useEffect, useState } from 'react';
 import {
-  Image,
+  Animated,
   type StyleProp,
   StyleSheet,
   Text,
@@ -13,83 +14,115 @@ import { colors } from '@/styles';
 
 interface CTAProps {
   onPress?: () => void;
-  source?: { uri: string };
-  SvgComponent?: React.FC;
+  testID?: string;
+  Icon?: ReactNode;
   text: string;
   accessibilityLabel: string;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  hide?: boolean;
+  onAnimationEnded?: () => void;
+  disableAnimation?: boolean;
+  isAnimated?: boolean;
   disabled?: boolean;
 }
+export const BUTTON_ANIMATION_DURATION = 300;
+
+const animateButton = (
+  scale: Animated.Value,
+  hide?: boolean,
+  onAnimationEnded?: () => void,
+) => {
+  Animated.timing(scale, {
+    toValue: hide ? 0 : 1,
+    duration: BUTTON_ANIMATION_DURATION,
+    useNativeDriver: true,
+  }).start(onAnimationEnded);
+};
 
 export const CTA: React.FC<CTAProps> = ({
   onPress,
-  source,
-  SvgComponent,
+  testID,
+  Icon,
   text,
   accessibilityLabel,
   style,
   textStyle,
+  hide,
+  onAnimationEnded,
+  disableAnimation,
+  isAnimated,
   disabled,
 }) => {
+  const [scale] = useState(new Animated.Value(disableAnimation ? 1 : 0));
+  useEffect(() => {
+    isAnimated && animateButton(scale, hide, onAnimationEnded);
+  }, [hide, scale, onAnimationEnded, isAnimated]);
+
+  const AnimatedView = isAnimated
+    ? Animated.createAnimatedComponent(View)
+    : View;
+
   return (
     <TouchableOpacity
+      disabled={disabled}
       accessibilityLabel={accessibilityLabel}
-      accessible={true}
-      onPress={onPress}
-      disabled={disabled}>
-      <View style={[styles.ctaButton, disabled && styles.disabled, style]}>
-        <View style={styles.iconTextContainer}>
-          {source && <Image source={source} style={styles.icon} />}
-          {SvgComponent && <SvgComponent />}
+      onPress={onPress}>
+      <AnimatedView
+        testID={testID}
+        style={[
+          styles.ctaButton,
+          style,
+          disabled && styles.disabled,
+          isAnimated && {
+            transform: [{ scale }],
+            opacity: scale,
+          },
+        ]}>
+        {Icon && Icon}
+        <View style={styles.textContainer}>
           <Text
-            style={[
-              styles.iconText,
-              disabled && styles.iconTextDisabled,
-              textStyle,
-            ]}>
+            style={[styles.text, textStyle, disabled && styles.textDisabled]}>
             {text}
           </Text>
         </View>
-      </View>
+      </AnimatedView>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   ctaButton: {
+    flexDirection: 'row',
     alignSelf: 'stretch',
-    borderRadius: 50,
     height: 50,
+    borderRadius: 50,
     backgroundColor: colors.black,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
     alignItems: 'center',
+    paddingHorizontal: 24,
     shadowOpacity: 0.2,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 4,
     elevation: 4,
   },
-  disabled: {
-    backgroundColor: colors.disabledGrey,
-    opacity: 0.3,
-  },
-  icon: {
-    width: 20,
-    height: 20,
-  },
-  iconText: {
+  text: {
     color: colors.white,
     fontSize: 16,
     fontWeight: '700',
   },
-  iconTextDisabled: {
+  disabled: {
+    backgroundColor: colors.disabledGrey,
+    opacity: 0.3,
+  },
+  textDisabled: {
     color: colors.grey,
   },
-  iconTextContainer: {
-    display: 'flex',
-    gap: 15,
+  textContainer: {
+    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
   },
 });
+
+export default CTA;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { AnimatedCTA } from '../AnimatedCTA';
+import CTA from '../CTA';
 
 import { Divider } from './Divider';
 
@@ -40,7 +40,8 @@ export const SSOSwitch: React.FC<SSOSwitchProps> = ({
       onAnimationEnded={handleAnimationEnded}
     />
   ) : (
-    <AnimatedCTA
+    <CTA
+      isAnimated={true}
       text={emailButtonLabel}
       accessibilityLabel={emailButtonLabel}
       testID="email-cta"

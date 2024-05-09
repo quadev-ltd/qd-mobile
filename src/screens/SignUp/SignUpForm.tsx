@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native';
 
-import { CTA } from '@/components/CTA';
+import CTA from '@/components/CTA';
 import { HookFormDateInput } from '@/components/SignIn/HookFormDateInput';
 import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';

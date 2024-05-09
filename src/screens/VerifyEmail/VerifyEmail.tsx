@@ -8,7 +8,7 @@ import Subtitle from './Subtitle';
 import { type ResendRequestStatus, VerificationRequestStatus } from './types';
 import { useEmailVerification } from './useEmailVerification';
 
-import { CTA } from '@/components/CTA';
+import CTA from '@/components/CTA';
 import ErrorMessage from '@/components/SignIn/ErrorMessage';
 import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
 import { Layout } from '@/components/SignIn/Layout';
