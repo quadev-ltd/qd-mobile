@@ -11,7 +11,7 @@ import {
 
 import ResetPasswordStatus from './ResetPasswordStatus';
 
-import { CTA } from '@/components/CTA';
+import CTA from '@/components/CTA';
 import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
 import Subtitle from '@/components/SignIn/Subtitle';
@@ -96,7 +96,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
         control={control}
         error={errors[ResetPasswordFields.passwordConfirmation]}
         onSubmitEditing={handleOnSubmit}
-        keyboardType={Platform.OS === 'ios' ? 'visible-password' : 'default'}
+        keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'}
         secureTextEntry={true}
       />
       <KeyboardAvoidingView

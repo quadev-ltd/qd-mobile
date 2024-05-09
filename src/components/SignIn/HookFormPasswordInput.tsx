@@ -86,7 +86,7 @@ export const HookFormPasswordInput = <
               forgotPasswordCallback={forgotPasswordCallback}
               onSubmitEditing={onSubmitEditing}
               keyboardType={
-                Platform.OS === 'ios' ? 'visible-password' : 'default'
+                Platform.OS !== 'ios' ? 'default' : 'visible-password'
               }
             />
             {!isValid && (

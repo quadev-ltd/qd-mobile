@@ -134,11 +134,6 @@ platform :ios do
       app_identifier: "com.qdmobile",
       api_key: api_key
     )
-
-    # Upload to TestFlight
-    upload_to_testflight(
-      app_identifier: "com.qdmobile"
-    )
   end
 end
 

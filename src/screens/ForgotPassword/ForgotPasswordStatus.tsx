@@ -5,7 +5,7 @@ import StatusDisplay, {
   VerificationStatus,
 } from '../../components/StatusDisplay';
 
-import { CTA } from '@/components/CTA';
+import CTA from '@/components/CTA';
 import ErrorMessage from '@/components/SignIn/ErrorMessage';
 import Subtitle from '@/components/SignIn/Subtitle';
 

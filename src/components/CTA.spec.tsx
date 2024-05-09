@@ -1,6 +1,6 @@
 import { act, render, waitFor } from '@testing-library/react-native';
 
-import { AnimatedCTA } from './AnimatedCTA';
+import { CTA } from './CTA';
 
 describe('AnimatedCTA', () => {
   const handlePress = jest.fn();
@@ -10,7 +10,8 @@ describe('AnimatedCTA', () => {
   });
   it('should show button and then hide', async () => {
     const { findByTestId, rerender } = render(
-      <AnimatedCTA
+      <CTA
+        isAnimated={true}
         testID="cta"
         text="test label"
         accessibilityLabel="test label"
@@ -32,7 +33,8 @@ describe('AnimatedCTA', () => {
 
     await act(() => {
       rerender(
-        <AnimatedCTA
+        <CTA
+          isAnimated={true}
           testID="cta"
           text="test label"
           accessibilityLabel="test label"

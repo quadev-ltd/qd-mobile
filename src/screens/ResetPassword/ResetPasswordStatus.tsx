@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import StatusContainer from './StatusContainer';
 
-import { CTA } from '@/components/CTA';
+import CTA from '@/components/CTA';
 import ErrorMessage from '@/components/SignIn/ErrorMessage';
 import Subtitle from '@/components/SignIn/Subtitle';
 import { VerificationStatus } from '@/components/StatusDisplay';

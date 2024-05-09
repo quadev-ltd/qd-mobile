@@ -11,7 +11,7 @@ import {
 
 import ForgotPasswordStatus from './ForgotPasswordStatus';
 
-import { CTA } from '@/components/CTA';
+import CTA from '@/components/CTA';
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
 import Subtitle from '@/components/SignIn/Subtitle';
 import { useForgotPassword } from '@/core/api/hooks/useForgotPassword';
