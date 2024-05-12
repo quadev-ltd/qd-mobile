@@ -5,7 +5,7 @@ import CTA from '../CTA';
 
 import { Divider } from './Divider';
 
-import { colors } from '@/styles';
+import { colors } from '@/styles/colors';
 
 type SSOSwitchProps = {
   isSSOExpanded: boolean;

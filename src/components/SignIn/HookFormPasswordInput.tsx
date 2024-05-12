@@ -16,7 +16,7 @@ import { FormTextInput } from '../FormTextInput';
 
 import { type FieldType } from './types';
 
-import { colors } from '@/styles';
+import { colors } from '@/styles/colors';
 
 interface HookFormPasswordInputProps<
   TFormSchema extends Record<FieldType, string>,

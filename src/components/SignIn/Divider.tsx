@@ -12,7 +12,7 @@ import {
 } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { colors } from '@/styles';
+import { colors } from '@/styles/colors';
 
 type DividerProps = {
   label: string;

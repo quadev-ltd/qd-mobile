@@ -54,7 +54,7 @@
   },
   "forgotPassword": {
     "title": "Reset password",
-    "subtitle": "Please, enter youe email address. We will send you a link to create a new password.",
+    "subtitle": "Please, enter your email address. We will send you a link to create a new password.",
     "emailLabel": "Email",
     "emailAccessibilityLabel": "Enter your email",
     "submitButton": "Reset Password",

@@ -12,7 +12,7 @@ import DrawerCTA from './DrawerCTA';
 import { useAppDispatch, useAppSelector } from '@/core/state/hooks';
 import { getUserDetailsSelector } from '@/core/state/selectors/user';
 import { logout } from '@/core/state/slices/authSlice';
-import { colors } from '@/styles';
+import { colors } from '@/styles/colors';
 
 const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const { t } = useTranslation();

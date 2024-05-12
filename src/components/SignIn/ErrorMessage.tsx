@@ -1,6 +1,6 @@
 import { StyleSheet, Text } from 'react-native';
 
-import { colors } from '@/styles';
+import { colors } from '@/styles/colors';
 
 interface ErrorMessageProps {
   text: string;
