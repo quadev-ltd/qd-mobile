@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 16,
     paddingVertical: 12,
+    height: 48,
     borderRadius: 25,
     shadowOpacity: 0.2,
     shadowOffset: { width: 2, height: 4 },
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
   error: {
     position: 'absolute',
-    top: 24,
+    bottom: 0,
     left: 16,
   },
 });
