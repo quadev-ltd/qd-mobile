@@ -1,7 +1,7 @@
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
-import { colors } from '@/styles';
+import { colors } from '@/styles/colors';
 
 interface SpinnerProps {
   style?: ViewStyle;

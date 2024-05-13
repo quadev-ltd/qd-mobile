@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState, useMemo } from 'react';
 import {
   Animated,
   type StyleProp,
@@ -9,8 +9,7 @@ import {
   View,
   type ViewStyle,
 } from 'react-native';
-
-import { colors } from '@/styles';
+import { useTheme } from 'react-native-paper';
 
 interface CTAProps {
   onPress?: () => void;
@@ -54,6 +53,7 @@ export const CTA: React.FC<CTAProps> = ({
   isAnimated,
   disabled,
 }) => {
+  const { fonts, colors } = useTheme();
   const [scale] = useState(new Animated.Value(disableAnimation ? 1 : 0));
   useEffect(() => {
     isAnimated && animateButton(scale, hide, onAnimationEnded);
@@ -62,6 +62,24 @@ export const CTA: React.FC<CTAProps> = ({
   const AnimatedView = isAnimated
     ? Animated.createAnimatedComponent(View)
     : View;
+
+  const dynamicStyles = useMemo(
+    () => ({
+      ctaButton: {
+        backgroundColor: colors.secondary,
+      },
+      text: {
+        color: colors.onSecondary,
+        fontFamily: fonts.bodyLarge.fontFamily,
+        fontSize: fonts.bodyLarge.fontSize,
+      },
+      disabled: {
+        backgroundColor: colors.surfaceDisabled,
+        opacity: 0.3,
+      },
+    }),
+    [fonts, colors],
+  );
 
   return (
     <TouchableOpacity
@@ -72,8 +90,9 @@ export const CTA: React.FC<CTAProps> = ({
         testID={testID}
         style={[
           styles.ctaButton,
+          dynamicStyles.ctaButton,
           style,
-          disabled && styles.disabled,
+          disabled && dynamicStyles.disabled,
           isAnimated && {
             transform: [{ scale }],
             opacity: scale,
@@ -81,8 +100,7 @@ export const CTA: React.FC<CTAProps> = ({
         ]}>
         {Icon && Icon}
         <View style={styles.textContainer}>
-          <Text
-            style={[styles.text, textStyle, disabled && styles.textDisabled]}>
+          <Text style={[styles.text, dynamicStyles.text, textStyle]}>
             {text}
           </Text>
         </View>
@@ -97,7 +115,6 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     height: 50,
     borderRadius: 50,
-    backgroundColor: colors.black,
     alignItems: 'center',
     paddingHorizontal: 24,
     shadowOpacity: 0.2,
@@ -106,16 +123,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   text: {
-    color: colors.white,
     fontSize: 16,
     fontWeight: '700',
-  },
-  disabled: {
-    backgroundColor: colors.disabledGrey,
-    opacity: 0.3,
-  },
-  textDisabled: {
-    color: colors.grey,
   },
   textContainer: {
     flex: 1,

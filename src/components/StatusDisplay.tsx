@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 
 import Spinner from '@/components/Spinner';
-import { colors } from '@/styles';
+import { colors } from '@/styles/colors';
 
 export enum VerificationStatus {
   Pending = 'PENDING',

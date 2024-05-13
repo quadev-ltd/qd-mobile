@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { colors } from '@/styles';
+import { colors } from '@/styles/colors';
 
 interface DrawerCTAProps {
   onPress: () => void;

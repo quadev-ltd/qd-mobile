@@ -13,8 +13,9 @@ import {
   type NativeSyntheticEvent,
   type KeyboardTypeOptions,
 } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
-import { colors } from '@/styles';
+import { useInputTheme } from '@/styles/useInputTheme';
 
 interface FormTextInputProps {
   label: string;
@@ -43,14 +44,16 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
   value,
   error,
 }) => {
+  const { colors } = useTheme();
+  const dynamicStyles = useInputTheme();
   return (
     <View style={styles.fieldConatiner}>
       <TextInput
         testID={label}
-        style={styles.input}
+        style={[styles.input, dynamicStyles.input]}
         secureTextEntry={secureTextEntry}
         placeholder={label}
-        placeholderTextColor={colors.grey}
+        placeholderTextColor={colors.onTertiary}
         accessible
         accessibilityLabel={accessibilityLabel}
         onBlur={onBlur}
@@ -60,11 +63,17 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
         keyboardType={keyboardType}
         value={value}
       />
-      {error && <Text style={styles.error}>{error.message as string}</Text>}
+      {error && (
+        <Text style={[styles.error, dynamicStyles.error]}>
+          {error.message as string}
+        </Text>
+      )}
       {forgotPasswordLabel && (
         <View style={styles.inputLabelContainer}>
           <TouchableOpacity onPress={forgotPasswordCallback}>
-            <Text style={styles.forgotPassword}>{forgotPasswordLabel}</Text>
+            <Text style={[styles.forgotPassword, dynamicStyles.forgot]}>
+              {forgotPasswordLabel}
+            </Text>
           </TouchableOpacity>
         </View>
       )}
@@ -86,27 +95,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   input: {
-    backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: colors.grey,
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 25,
-    shadowColor: colors.black,
+    height: 44,
     shadowOpacity: 0.2,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 4,
     elevation: 4,
   },
   error: {
-    color: colors.red,
-    fontSize: 12,
     position: 'absolute',
-    top: 26,
+    bottom: 0,
     left: 16,
   },
   forgotPassword: {
     fontWeight: '700',
-    color: colors.black,
   },
 });

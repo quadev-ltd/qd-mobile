@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native';
+import { View, StyleSheet, Keyboard, Platform } from 'react-native';
+
+import { Terms } from './Terms';
 
 import CTA from '@/components/CTA';
 import { HookFormDateInput } from '@/components/SignIn/HookFormDateInput';
@@ -97,14 +99,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         keyboardType={Platform.OS === 'ios' ? 'visible-password' : 'default'}
         secureTextEntry={true}
       />
-      <View style={styles.tAndCContainer}>
-        <Text style={styles.tAndCText}>
-          {t('signUp.termsLabel')}
-          <Text style={styles.termsLink}>{t('signUp.termsOfService')}</Text>&
-          <Text style={styles.termsLink}>{t('signUp.privacyPolicy')}</Text>
-        </Text>
-      </View>
-
+      <Terms />
       <View style={styles.footerButton}>
         <CTA
           text={t(`signUp.submitButton`)}
@@ -116,21 +111,6 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
   );
 };
 const styles = StyleSheet.create({
-  tAndCContainer: {
-    flexDirection: 'row',
-    alignSelf: 'stretch',
-    alignItems: 'stretch',
-    marginBottom: 16,
-    paddingHorizontal: 16,
-  },
-  tAndCText: {
-    flex: 1,
-    fontSize: 14,
-    alignSelf: 'center',
-  },
-  termsLink: {
-    textDecorationLine: 'underline',
-  },
   footerButton: {
     marginBottom: 12,
     flex: 1,

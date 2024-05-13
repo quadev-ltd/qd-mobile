@@ -8,7 +8,7 @@ import CTA from '../CTA';
 import { SSOSwitch } from './SSOSwitch';
 import { type ScreenType } from './types';
 
-import { colors } from '@/styles';
+import { colors } from '@/styles/colors';
 
 type SSOAnimatedHeaderProps = {
   screen: ScreenType;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -10,9 +10,8 @@ import {
   GestureHandlerRootView,
   Swipeable,
 } from 'react-native-gesture-handler';
+import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import { colors } from '@/styles';
 
 type DividerProps = {
   label: string;
@@ -51,6 +50,20 @@ export const Divider: React.FC<DividerProps> = ({
   hide,
   onAnimationEnded,
 }) => {
+  const theme = useTheme();
+  const dynamicStyles = useMemo(
+    () => ({
+      divider: {
+        borderColor: theme.colors.secondary,
+      },
+      dividerText: {
+        color: theme.colors.secondary,
+        fontSize: theme.fonts.bodyLarge.fontSize,
+        fontFamily: theme.fonts.bodyLarge.fontFamily,
+      },
+    }),
+    [theme.fonts, theme.colors],
+  );
   const [scaleX] = useState(new Animated.Value(0));
   const [scaleY] = useState(new Animated.Value(0));
 
@@ -67,7 +80,7 @@ export const Divider: React.FC<DividerProps> = ({
           opacity: scaleY,
         },
       ]}>
-      <View style={styles.divider} />
+      <View style={[styles.divider, dynamicStyles.divider]} />
       <GestureHandlerRootView>
         <Swipeable onSwipeableOpenStartDrag={onPress}>
           <TouchableOpacity
@@ -75,15 +88,21 @@ export const Divider: React.FC<DividerProps> = ({
             style={styles.buttonContainer}
             onPress={onPress}>
             <View style={styles.dividerContentContainer}>
-              <Icon name="google" size={26} color={colors.black} />
-              <Text style={styles.dividerText}>{label}</Text>
-              <Icon name="facebook" size={28} color="#000000" />
+              <Icon name="google" size={26} color={theme.colors.secondary} />
+              <Text style={[styles.dividerText, dynamicStyles.dividerText]}>
+                {label}
+              </Text>
+              <Icon name="facebook" size={28} color={theme.colors.secondary} />
             </View>
-            <Icon name="chevron-down" size={32} color={colors.black} />
+            <Icon
+              name="chevron-down"
+              size={32}
+              color={theme.colors.secondary}
+            />
           </TouchableOpacity>
         </Swipeable>
       </GestureHandlerRootView>
-      <View style={styles.divider} />
+      <View style={[styles.divider, dynamicStyles.divider]} />
     </Animated.View>
   );
 };
@@ -97,7 +116,6 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   divider: {
-    borderColor: colors.black,
     borderWidth: 0.5,
     flexGrow: 1,
     height: 1,
@@ -118,7 +136,6 @@ const styles = StyleSheet.create({
   },
   dividerText: {
     fontWeight: '700',
-    fontSize: 16,
     marginTop: 8,
   },
 });
