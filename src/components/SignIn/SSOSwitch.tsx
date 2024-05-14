@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import CTA from '../CTA';
 
 import { Divider } from './Divider';
-import { useTheme } from 'react-native-paper';
 
 type SSOSwitchProps = {
   isSSOExpanded: boolean;

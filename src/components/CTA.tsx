@@ -73,10 +73,13 @@ export const CTA: React.FC<CTAProps> = ({
     }
   }, [hide, scale, onAnimationEnded, isAnimated]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: scale.value,
-  }), [scale]);
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ scale: scale.value }],
+      opacity: scale.value,
+    }),
+    [scale],
+  );
 
   const dynamicStyles = useMemo(
     () => ({

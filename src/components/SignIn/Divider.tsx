@@ -66,10 +66,13 @@ export const Divider: React.FC<DividerProps> = ({
   const scaleX = useSharedValue(0);
   const scaleY = useSharedValue(0);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scaleX: scaleX.value }, { scaleY: scaleY.value }],
-    opacity: scaleY.value,
-  }), [scaleX, scaleY]);
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ scaleX: scaleX.value }, { scaleY: scaleY.value }],
+      opacity: scaleY.value,
+    }),
+    [scaleX, scaleY],
+  );
 
   useEffect(() => {
     animateButton(scaleX, scaleY, hide, onAnimationEnded);
