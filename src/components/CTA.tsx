@@ -1,6 +1,5 @@
-import { type ReactNode, useEffect, useState, useMemo } from 'react';
+import { type ReactNode, useEffect, useMemo } from 'react';
 import {
-  Animated,
   type StyleProp,
   StyleSheet,
   Text,
@@ -10,6 +9,13 @@ import {
   type ViewStyle,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  runOnJS,
+  type SharedValue,
+} from 'react-native-reanimated';
 
 interface CTAProps {
   onPress?: () => void;
@@ -25,18 +31,23 @@ interface CTAProps {
   isAnimated?: boolean;
   disabled?: boolean;
 }
+
 export const BUTTON_ANIMATION_DURATION = 300;
 
 const animateButton = (
-  scale: Animated.Value,
+  scale: SharedValue<number>,
   hide?: boolean,
   onAnimationEnded?: () => void,
 ) => {
-  Animated.timing(scale, {
-    toValue: hide ? 0 : 1,
-    duration: BUTTON_ANIMATION_DURATION,
-    useNativeDriver: true,
-  }).start(onAnimationEnded);
+  scale.value = withTiming(
+    hide ? 0 : 1,
+    { duration: BUTTON_ANIMATION_DURATION },
+    isFinished => {
+      if (isFinished && onAnimationEnded) {
+        runOnJS(onAnimationEnded)();
+      }
+    },
+  );
 };
 
 export const CTA: React.FC<CTAProps> = ({
@@ -54,14 +65,21 @@ export const CTA: React.FC<CTAProps> = ({
   disabled,
 }) => {
   const { fonts, colors } = useTheme();
-  const [scale] = useState(new Animated.Value(disableAnimation ? 1 : 0));
+  const scale = useSharedValue(disableAnimation ? 1 : 0);
+
   useEffect(() => {
-    isAnimated && animateButton(scale, hide, onAnimationEnded);
+    if (isAnimated) {
+      animateButton(scale, hide, onAnimationEnded);
+    }
   }, [hide, scale, onAnimationEnded, isAnimated]);
 
-  const AnimatedView = isAnimated
-    ? Animated.createAnimatedComponent(View)
-    : View;
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ scale: scale.value }],
+      opacity: scale.value,
+    }),
+    [scale],
+  );
 
   const dynamicStyles = useMemo(
     () => ({
@@ -81,6 +99,10 @@ export const CTA: React.FC<CTAProps> = ({
     [fonts, colors],
   );
 
+  const AnimatedView = isAnimated
+    ? Animated.createAnimatedComponent(View)
+    : View;
+
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -93,10 +115,7 @@ export const CTA: React.FC<CTAProps> = ({
           dynamicStyles.ctaButton,
           style,
           disabled && dynamicStyles.disabled,
-          isAnimated && {
-            transform: [{ scale }],
-            opacity: scale,
-          },
+          isAnimated && animatedStyle,
         ]}>
         {Icon && Icon}
         <View style={styles.textContainer}>
