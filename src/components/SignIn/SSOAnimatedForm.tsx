@@ -43,7 +43,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   const { top, bottom } = useSafeAreaInsets();
   const safeAreaViewportHeight =
     VIEWPORT_HEIGHT - top - bottom - FooterPromptHeight - 12;
-  const [translateY] = useState(new Animated.Value(safeAreaViewportHeight));
+  const translateY = useRef(new Animated.Value(safeAreaViewportHeight));
   const [disableAnimation, setDisableAnimation] = useState(true);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -104,7 +104,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
     translateYTo: number,
     onAnimationEnded?: () => void,
   ) => {
-    Animated.timing(translateY, {
+    Animated.timing(translateY.current, {
       toValue: translateYTo,
       duration: 500,
       delay: 0,
@@ -141,10 +141,10 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
             {
               transform: [
                 {
-                  translateY: translateY,
+                  translateY: translateY.current,
                 },
               ],
-              opacity: translateY.interpolate({
+              opacity: translateY.current.interpolate({
                 inputRange: [0, safeAreaViewportHeight],
                 outputRange: [1, 0],
               }),

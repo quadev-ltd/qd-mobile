@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Animated, View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -38,10 +38,10 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
   const { t } = useTranslation();
   const [isExpandedSecondAnimation, setIsExpandedSecondAnimation] =
     useState(isSSOExpanded);
-  const [animatedHeight] = useState(new Animated.Value(safeAreaViewportHeight));
+  const animatedHeight = useRef(new Animated.Value(safeAreaViewportHeight));
   const animateHeight = useCallback(() => {
     !disableAnimation &&
-      Animated.timing(animatedHeight, {
+      Animated.timing(animatedHeight.current, {
         toValue: isSSOExpanded
           ? safeAreaViewportHeight
           : COLLAPSED_CONTAINER_HEIGHT,
@@ -62,7 +62,8 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
   const ssoCollapseStarted = isExpandedSecondAnimation && !isSSOExpanded;
   const shoulHideSSOButtons = !isExpandedSecondAnimation || ssoCollapseStarted;
   return (
-    <Animated.View style={[{ height: animatedHeight }, styles.headerContainer]}>
+    <Animated.View
+      style={[{ height: animatedHeight.current }, styles.headerContainer]}>
       <View style={styles.ssoButtonsContainer}>
         {isExpandedSecondAnimation && (
           <>

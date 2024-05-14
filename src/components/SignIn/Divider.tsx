@@ -1,16 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Animated,
-  TouchableOpacity,
-} from 'react-native';
+import { useEffect, useMemo } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import {
   GestureHandlerRootView,
   Swipeable,
 } from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-paper';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSequence,
+  type SharedValue,
+} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type DividerProps = {
@@ -19,29 +20,26 @@ type DividerProps = {
   hide?: boolean;
   onAnimationEnded?: () => void;
 };
+
 export const DIVIDER_ANIMATION_DURATION = 200;
 
 const animateButton = (
-  scaleX: Animated.Value,
-  scaleY: Animated.Value,
+  scaleX: SharedValue<number>,
+  scaleY: SharedValue<number>,
   hide?: boolean,
   onAnimationEnded?: () => void,
 ) => {
-  const animationSequence = [
-    Animated.timing(scaleX, {
-      toValue: hide ? 0 : 1,
-      duration: DIVIDER_ANIMATION_DURATION,
-      useNativeDriver: true,
-    }),
-    Animated.timing(scaleY, {
-      toValue: hide ? 0 : 1,
-      duration: DIVIDER_ANIMATION_DURATION,
-      useNativeDriver: true,
-    }),
-  ];
-  Animated.sequence(
-    hide ? animationSequence : animationSequence.reverse(),
-  ).start(onAnimationEnded);
+  const animationSequence = withSequence(
+    withTiming(hide ? 0 : 1, { duration: DIVIDER_ANIMATION_DURATION }),
+    withTiming(hide ? 0 : 1, { duration: DIVIDER_ANIMATION_DURATION }),
+  );
+
+  scaleX.value = animationSequence;
+  scaleY.value = animationSequence;
+
+  if (onAnimationEnded) {
+    setTimeout(onAnimationEnded, DIVIDER_ANIMATION_DURATION);
+  }
 };
 
 export const Divider: React.FC<DividerProps> = ({
@@ -64,22 +62,23 @@ export const Divider: React.FC<DividerProps> = ({
     }),
     [theme.fonts, theme.colors],
   );
-  const [scaleX] = useState(new Animated.Value(0));
-  const [scaleY] = useState(new Animated.Value(0));
+
+  const scaleX = useSharedValue(0);
+  const scaleY = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scaleX: scaleX.value }, { scaleY: scaleY.value }],
+    opacity: scaleY.value,
+  }), [scaleX, scaleY]);
 
   useEffect(() => {
     animateButton(scaleX, scaleY, hide, onAnimationEnded);
   }, [hide, scaleX, scaleY, onAnimationEnded]);
+
   return (
     <Animated.View
       testID="divider"
-      style={[
-        styles.dividerContainer,
-        {
-          transform: [{ scaleX }, { scaleY }],
-          opacity: scaleY,
-        },
-      ]}>
+      style={[styles.dividerContainer, animatedStyle]}>
       <View style={[styles.divider, dynamicStyles.divider]} />
       <GestureHandlerRootView>
         <Swipeable onSwipeableOpenStartDrag={onPress}>
