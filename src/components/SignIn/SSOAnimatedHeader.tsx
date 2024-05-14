@@ -1,6 +1,11 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import CTA from '../CTA';
@@ -22,7 +27,6 @@ type SSOAnimatedHeaderProps = {
 };
 
 const COLLAPSED_CONTAINER_HEIGHT = 50;
-
 export const SSO_COLLAPSE_FIRST_STAGE_DURATION = 700;
 
 export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
@@ -38,19 +42,19 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
   const { t } = useTranslation();
   const [isExpandedSecondAnimation, setIsExpandedSecondAnimation] =
     useState(isSSOExpanded);
-  const animatedHeight = useRef(new Animated.Value(safeAreaViewportHeight));
+  const animatedHeight = useSharedValue(safeAreaViewportHeight);
+
   const animateHeight = useCallback(() => {
-    !disableAnimation &&
-      Animated.timing(animatedHeight.current, {
-        toValue: isSSOExpanded
-          ? safeAreaViewportHeight
-          : COLLAPSED_CONTAINER_HEIGHT,
-        duration: SSO_COLLAPSE_FIRST_STAGE_DURATION,
-        useNativeDriver: false, // 'height' is not supported by the native driver
-      }).start(() => {
+    if (!disableAnimation) {
+      animatedHeight.value = withTiming(
+        isSSOExpanded ? safeAreaViewportHeight : COLLAPSED_CONTAINER_HEIGHT,
+        { duration: SSO_COLLAPSE_FIRST_STAGE_DURATION },
+      );
+      setTimeout(() => {
         setIsExpandedSecondAnimation(isSSOExpanded);
         onAnimationEnded && onAnimationEnded();
-      });
+      }, SSO_COLLAPSE_FIRST_STAGE_DURATION);
+    }
   }, [
     isSSOExpanded,
     disableAnimation,
@@ -59,11 +63,18 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
     safeAreaViewportHeight,
   ]);
 
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      height: animatedHeight.value,
+    }),
+    [animatedHeight],
+  );
+
   const ssoCollapseStarted = isExpandedSecondAnimation && !isSSOExpanded;
   const shoulHideSSOButtons = !isExpandedSecondAnimation || ssoCollapseStarted;
+
   return (
-    <Animated.View
-      style={[{ height: animatedHeight.current }, styles.headerContainer]}>
+    <Animated.View style={[animatedStyle, styles.headerContainer]}>
       <View style={styles.ssoButtonsContainer}>
         {isExpandedSecondAnimation && (
           <>
@@ -122,3 +133,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
+export default SSOAnimatedHeader;
