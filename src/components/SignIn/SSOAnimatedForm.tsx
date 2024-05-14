@@ -1,13 +1,18 @@
 import { type ReactNode, useState, useEffect, useRef } from 'react';
 import {
-  Animated,
   StyleSheet,
   Dimensions,
-  Easing,
   Keyboard,
   Platform,
   ScrollView,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+  runOnJS,
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -43,7 +48,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   const { top, bottom } = useSafeAreaInsets();
   const safeAreaViewportHeight =
     VIEWPORT_HEIGHT - top - bottom - FooterPromptHeight - 12;
-  const translateY = useRef(new Animated.Value(safeAreaViewportHeight));
+  const translateY = useSharedValue(safeAreaViewportHeight);
   const [disableAnimation, setDisableAnimation] = useState(true);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -94,26 +99,41 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         })
       : setIsSSO(!isSSO);
   };
+
   const animateFormHide = (onAnimationEnded?: () => void) => {
     !isSSO && animateTranslation(safeAreaViewportHeight, onAnimationEnded);
   };
+
   const animateFormShow = () => {
     !isSSO && animateTranslation(0);
   };
+
   const animateTranslation = (
     translateYTo: number,
     onAnimationEnded?: () => void,
   ) => {
-    Animated.timing(translateY.current, {
-      toValue: translateYTo,
-      duration: 500,
-      delay: 0,
-      easing: Easing.out(Easing.ease),
-      useNativeDriver: true,
-    }).start(onAnimationEnded);
+    translateY.value = withTiming(
+      translateYTo,
+      {
+        duration: 500,
+        easing: Easing.out(Easing.ease),
+      },
+      isFinished => {
+        if (isFinished && onAnimationEnded) {
+          runOnJS(onAnimationEnded)();
+        }
+      },
+    );
   };
 
   const marginBottom = moveUpOnKeyboard.current - 80;
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: translateY.value }],
+      opacity: translateY.value === safeAreaViewportHeight ? 0 : 1,
+    };
+  }, [translateY, safeAreaViewportHeight]);
 
   return (
     <Layout>
@@ -132,24 +152,9 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         style={Platform.OS === 'ios' && isKeyboardVisible && { marginBottom }}
         contentContainerStyle={[
           styles.formContainer,
-          !isKeyboardVisible && styles.srcollView,
+          !isKeyboardVisible && styles.scrollView,
         ]}>
-        <Animated.View
-          testID="form"
-          style={[
-            styles.form,
-            {
-              transform: [
-                {
-                  translateY: translateY.current,
-                },
-              ],
-              opacity: translateY.current.interpolate({
-                inputRange: [0, safeAreaViewportHeight],
-                outputRange: [1, 0],
-              }),
-            },
-          ]}>
+        <Animated.View testID="form" style={[styles.form, animatedStyle]}>
           {children}
         </Animated.View>
       </ScrollView>
@@ -159,7 +164,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  srcollView: {
+  scrollView: {
     flex: 1,
   },
   form: {
