@@ -96,7 +96,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         control={control}
         error={errors[SignUpFields.passwordConfirmation]}
         onSubmitEditing={handleOnSubmit}
-        keyboardType={Platform.OS === 'ios' ? 'visible-password' : 'default'}
+        keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'}
         secureTextEntry={true}
       />
       <Terms />

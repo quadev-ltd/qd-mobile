@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 
-import { AccountStatus } from '@/core/state/slices/authSlice';
+import { AccountStatus } from '@/core/state/slices/types';
 
 export const getMockStore = () => {
   const mockStore = configureMockStore();

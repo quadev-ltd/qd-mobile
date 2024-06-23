@@ -1,5 +1,5 @@
 import { type Timestamp } from '../../util/index';
-import { type User } from '../state/slices/userSlice';
+import { type UserState } from '../state/slices/types';
 
 export enum ParameterNames {
   UserID = ':userID',
@@ -9,6 +9,7 @@ export enum ParameterNames {
 export enum APIEndpoints {
   SignUp = '/user',
   SignIn = '/user/sessions',
+  SignInWithFirebase = '/user/firebase/sessions',
   ResendVerificationEmail = `/user/${ParameterNames.UserID}/email/verification`,
   VerifyEmail = `/user/${ParameterNames.UserID}/email/${ParameterNames.VerificationToken}`,
   RequestPasswordReset = '/user/password/reset',
@@ -26,6 +27,7 @@ export enum FieldErrors {
   MaxLength = 'max',
   NotFuture = 'not_future',
   InvalidEmailPassword = 'invalid_email_password',
+  FirebaseVerification = 'firebase_verification_failed',
 }
 
 export enum APIError {
@@ -77,7 +79,7 @@ export interface SignUpRequest {
 }
 
 export interface SignUpResponse extends BaseResponse {
-  user: User;
+  user: UserState;
 }
 
 // SignIn
@@ -86,11 +88,17 @@ export interface SignInRequest {
   password: string;
 }
 
+// SignInWithFirebse
+export interface SignInWithFirebseRequest {
+  email: string;
+  firstName: string;
+  lastName: string;
+  idToken: string;
+}
+
 export interface AuthenticationResponse {
   authToken: string;
-  authTokenExpiry: Timestamp;
   refreshToken: string;
-  refreshTokenExpiry: Timestamp;
 }
 
 // Resend Verification Email
@@ -113,7 +121,7 @@ export interface VerifyEmailResponse {
 
 // GetUserProfile
 export interface GetUserProfileResponse {
-  user: User;
+  user: UserState;
 }
 
 // Request Password Reset

@@ -3,33 +3,46 @@ import { useTranslation } from 'react-i18next';
 
 import { useSignInMutation } from '..';
 import {
-  AsynchErrorMessages,
+  asynchErrorMessages,
   type RTKQueryErrorType,
   processError,
 } from '../errors';
-import {
-  FieldErrors,
-  type ResponseError,
-  type AuthenticationResponse,
-} from '../types';
+import { FieldErrors, type ResponseError } from '../types';
 
 import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
+import logger from '@/core/logger';
+import { useAppDispatch } from '@/core/state/hooks';
+import { type TokensPayload, login } from '@/core/state/slices/authSlice';
 import { SignInFields, type SignInSchemaType } from '@/schemas/signInSchema';
 import { trimFormData } from '@/util';
 
 export const useSignIn = (
-  onSuccess: (userData: AuthenticationResponse) => void,
   setAsynchError: UseFormSetError<SignInSchemaType>,
 ) => {
   const { t } = useTranslation();
-  const [signInUser, { isLoading }] = useSignInMutation();
+  const dispatch = useAppDispatch();
+
+  const [signInUser, { isLoading, isSuccess }] = useSignInMutation();
+  const handleLoginSuccess = (authenticationTokens: TokensPayload) => {
+    try {
+      dispatch(
+        login({
+          authToken: authenticationTokens.authToken,
+          refreshToken: authenticationTokens.refreshToken,
+        }),
+      );
+    } catch (err) {
+      logger().logError(Error(`Failed to decode JWT: ${err}`));
+      showUnexpectedErrorToast(t);
+    }
+  };
 
   const signIn = async (formData: SignInSchemaType) => {
     try {
       const trimmedFormData = trimFormData(formData);
       trimmedFormData.email = trimmedFormData.email.toLowerCase();
       const userData = await signInUser(trimmedFormData).unwrap();
-      onSuccess(userData);
+      handleLoginSuccess(userData);
     } catch (err) {
       const typedError = err as ResponseError;
       if (
@@ -39,7 +52,7 @@ export const useSignIn = (
         ) &&
         typedError.status === 401
       ) {
-        const errorMessage = AsynchErrorMessages(
+        const errorMessage = asynchErrorMessages(
           t,
           FieldErrors.InvalidEmailPassword,
         );
@@ -64,5 +77,5 @@ export const useSignIn = (
       }
     }
   };
-  return { signIn, isLoading };
+  return { signIn, isLoading, isSuccess };
 };

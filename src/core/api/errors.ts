@@ -6,7 +6,7 @@ import { FieldErrors, APIError } from './types';
 
 import logger from '@/core/logger';
 
-export const AsynchErrorMessages = (
+export const asynchErrorMessages = (
   t: TFunction<'translate'>,
   error: string,
 ): string | undefined => {
@@ -16,10 +16,14 @@ export const AsynchErrorMessages = (
     case FieldErrors.InvalidEmailPassword:
       return t('fieldError.invalidEmailOrPasswordError');
     case FieldErrors.Complex:
+      return t('fieldError.passwordNotComplexError');
     case FieldErrors.Email:
+      return t('fieldError.emailFormatError');
     case FieldErrors.MaxLength:
-    case FieldErrors.NotFuture:
+      return t('fieldError.maxLengthError');
     case FieldErrors.Required:
+      return t('fieldError.requiredError');
+    case FieldErrors.NotFuture:
     default:
       return;
   }

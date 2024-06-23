@@ -1,22 +1,10 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { AccountStatus } from './authSlice';
-import { LOGOUT } from './types';
+import { AccountStatus, LOGOUT, type UserState } from './types';
 
 import logger from '@/core/logger';
-import { type Timestamp } from '@/util';
 
-export interface User {
-  email: string;
-  userID: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: Timestamp;
-  registrationDate: Timestamp;
-  accountStatus: string;
-}
-
-const initialState: User = {
+const initialState: UserState = {
   email: '',
   userID: '',
   firstName: '',
@@ -31,7 +19,7 @@ export const userSlice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    setProfileDetails: (state, action: PayloadAction<User>) => {
+    setProfileDetails: (state, action: PayloadAction<UserState>) => {
       return action.payload;
     },
     setUserVerified: state => {

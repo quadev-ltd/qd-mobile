@@ -28,6 +28,9 @@ jest.mock(
 jest.mock('@/core/state/slices/userSlice', () => ({
   isUserVerifiedSelector: jest.fn(),
 }));
+jest.mock('@/core/sso/googleSSO', () => ({
+  onGoogleSignIn: jest.fn(),
+}));
 
 const mockNavigation = {
   navigate: jest.fn(),
