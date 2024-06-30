@@ -16,9 +16,16 @@ import {
   storeAuthToken,
   storeRefreshToken,
 } from '../keychain';
+import { type RootState } from '../store';
 
-import { ClaimName, LOGOUT, type TokenPayload } from './types';
-import { jwtDecode } from './util';
+import { getTokenExpiry, jwtDecode } from './jwt';
+import {
+  ClaimName,
+  LOGOUT,
+  type AuthState,
+  AuthStateStatus,
+  AccountStatus,
+} from './types';
 
 import {
   type RTKQueryErrorType,
@@ -28,53 +35,10 @@ import { refreshAuthTokens } from '@/core/api/refreshAuthTokens';
 import logger from '@/core/logger';
 import { secondsToDate } from '@/util';
 
-export enum AuthStateStatus {
-  Pending = 'PENDING',
-  Authenticated = 'AUTHENTICATED',
-  Unauthenticated = 'UNAUTHENTICATED',
-}
-
-export enum AccountStatus {
-  Unverified = 'Unverified',
-  Verified = 'Verified',
-}
-
-interface AuthState {
-  status: AuthStateStatus;
-  authToken?: string;
-  tokenExpiry?: Date;
-}
-
 const initialState: AuthState = {
   status: AuthStateStatus.Pending,
   authToken: undefined,
   tokenExpiry: undefined,
-};
-
-// TODO: Remove mock data
-const decodeToken = (token: string): TokenPayload => {
-  if (token === 'auth_token') {
-    return {
-      [ClaimName.ExpiryClaim]: Date.now() / 1000 + 3600,
-      [ClaimName.EmailClaim]: 'test@test.com',
-      [ClaimName.IssuedAtClaim]: Date.now() / 1000,
-      [ClaimName.NonceClaim]: 'nonce',
-      [ClaimName.TypeClaim]: 'access',
-      [ClaimName.UserIDClaim]: '123',
-    };
-  }
-  return jwtDecode(token);
-};
-
-const getTokenExpiry = (token: string | null) => {
-  if (token === null) {
-    throw new Error('No refresh token found');
-  }
-  const decodedToken = decodeToken(token);
-  if (!decodedToken[ClaimName.ExpiryClaim]) {
-    throw new Error('Token does not contain expiry claim');
-  }
-  return secondsToDate(decodedToken[ClaimName.ExpiryClaim]);
 };
 
 export interface TokensPayload {
@@ -89,7 +53,7 @@ export const login = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      const decodedToken = decodeToken(newAuthToken);
+      const decodedToken = jwtDecode(newAuthToken);
       logger().logMessage(
         'Token successfully decoded. Storing tokens in keychain.',
       );
@@ -157,10 +121,23 @@ export const refreshTokens = createAsyncThunk(
 
 export const loadInitialToken = createAsyncThunk(
   'auth/loadInitialToken',
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue, getState }) => {
     try {
       const authToken = await retrieveAuthToken();
       if (authToken != null) {
+        const state = getState() as RootState;
+        if (
+          !state.user.accountStatus ||
+          state.user.accountStatus === AccountStatus.Unverified
+        ) {
+          logger().logError(
+            Error('Auth tokens provided but user is still unverified.'),
+          );
+          dispatch(logout());
+          return rejectWithValue(
+            'uth tokens provided but user is still unverified.',
+          );
+        }
         const tokenExpiry = getTokenExpiry(authToken);
         if (tokenExpiry.getTime() < Date.now()) {
           logger().logMessage(
@@ -219,13 +196,7 @@ const sliceName = 'auth';
 export const authSlice = createSlice({
   name: sliceName,
   initialState,
-  reducers: {
-    setAuthToken: (state, action: PayloadAction<AuthTokenPayload>) => {
-      state.status = AuthStateStatus.Authenticated;
-      state.authToken = action.payload.authToken;
-      state.tokenExpiry = action.payload.tokenExpiry;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(logout.fulfilled, () => {
@@ -246,5 +217,3 @@ export const authSlice = createSlice({
       );
   },
 });
-
-export const { setAuthToken } = authSlice.actions;

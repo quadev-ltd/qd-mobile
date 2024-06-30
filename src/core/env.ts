@@ -10,6 +10,8 @@ export const envSchema = z.object({
   APPLICATION_VERSION: z.string(),
   BASE_URL: z.string(),
   DEEP_LINKING_DOMAIN: z.string(),
+  CLIENT_ID: z.string(),
+  REVERSED_CLIENT_ID: z.string(),
 });
 
 // validate config variables

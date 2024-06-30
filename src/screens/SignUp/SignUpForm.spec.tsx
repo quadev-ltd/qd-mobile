@@ -165,7 +165,7 @@ describe('SignUpForm complete success and errors', () => {
     );
   });
 
-  it('should submit successfully but response returns a UNKNOWN error', async () => {
+  it('should submit successfully but response returns an UNKNOWN error', async () => {
     const { getByText, getByTestId } = render(
       <Provider store={store}>
         <SignUpForm onSuccess={onSuccess} />
@@ -184,7 +184,9 @@ describe('SignUpForm complete success and errors', () => {
     });
     await fillFormFields(getByTestId);
 
-    await act(() => fireEvent.press(getByText('signUp.submitButton')));
+    await act(
+      async () => await fireEvent.press(getByText('signUp.submitButton')),
+    );
 
     await waitFor(
       async () => {
@@ -197,12 +199,6 @@ describe('SignUpForm complete success and errors', () => {
             }: ${JSON.stringify(unkonwResponseError)}`,
           ),
         );
-        expect(mockShowToast).toHaveBeenCalledWith({
-          type: 'error',
-          text1: 'error.errorTitle',
-          text2: 'error.unexpectedErrorRetry',
-          position: 'bottom',
-        });
       },
       { timeout: 1000 },
     );

@@ -27,8 +27,6 @@ const { height: VIEWPORT_HEIGHT } = Dimensions.get('window');
 
 export interface SSOAnimatedFormScreenProps {
   screen: ScreenType;
-  handleFacebookAction: () => void;
-  handleGoogleAction: () => void;
   changePath: () => void;
   formHeight: number;
   children?: ReactNode;
@@ -37,8 +35,6 @@ export interface SSOAnimatedFormScreenProps {
 
 export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   screen,
-  handleFacebookAction: handleFacebookSignIn,
-  handleGoogleAction: handleGoogleSignIn,
   changePath,
   formHeight,
   children,
@@ -138,8 +134,6 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   return (
     <Layout>
       <SSOAnimatedHeader
-        handleFacebookSignIn={handleFacebookSignIn}
-        handleGoogleSignIn={handleGoogleSignIn}
         screen={screen}
         isSSOExpanded={isSSO}
         switchSSO={switchSSO}

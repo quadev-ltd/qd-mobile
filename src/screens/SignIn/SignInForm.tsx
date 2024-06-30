@@ -7,8 +7,9 @@ import CTA from '@/components/CTA';
 import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
 import Spinner from '@/components/Spinner';
+import { useLoadUserProfile } from '@/core/api/hooks/useLoadUserProfile';
 import { useSignIn } from '@/core/api/hooks/useSignIn';
-import { type TokensPayload } from '@/core/state/slices/authSlice';
+import { useAppSelector } from '@/core/state/hooks';
 import {
   SignInFields,
   type SignInSchemaType,
@@ -16,12 +17,10 @@ import {
 } from '@/schemas/signInSchema';
 
 interface SignInFormProps {
-  onSuccess: (userData: TokensPayload) => void;
   forgotPasswordCallback: (email?: string) => void;
 }
 
 export const SignInForm: React.FC<SignInFormProps> = ({
-  onSuccess,
   forgotPasswordCallback,
 }) => {
   const {
@@ -30,9 +29,12 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     setError,
     formState: { errors },
     watch,
+    reset,
   } = useForm<SignInSchemaType>({ resolver: zodResolver(signInSchema) });
   const { t } = useTranslation();
-  const { signIn, isLoading } = useSignIn(onSuccess, setError);
+  const { signIn, isLoading, isSuccess } = useSignIn(setError);
+  const authToken = useAppSelector(state => state.auth.authToken);
+  useLoadUserProfile(authToken, reset);
   const password = watch(SignInFields.password);
   const email = watch(SignInFields.email);
 
@@ -41,7 +43,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     handleSubmit(signIn)();
   };
 
-  if (isLoading) {
+  if (isLoading || isSuccess) {
     return <Spinner />;
   }
 

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useSignUpMutation } from '..';
 import {
-  AsynchErrorMessages,
+  asynchErrorMessages,
   type RTKQueryErrorType,
   processError,
 } from '../errors';
@@ -52,8 +52,8 @@ export const useSignUp = (
         typedError.data.field_errors.length > 0 &&
         typedError.status === 400
       ) {
-        (err as ResponseError).data?.field_errors?.forEach(fieldError => {
-          const errorMessage = AsynchErrorMessages(t, fieldError.error);
+        typedError.data?.field_errors?.forEach(fieldError => {
+          const errorMessage = asynchErrorMessages(t, fieldError.error);
           if (!errorMessage) {
             logger().logError(
               Error(
@@ -62,7 +62,6 @@ export const useSignUp = (
                 }: ${JSON.stringify(err)}`,
               ),
             );
-            showUnexpectedErrorToast(t);
             return;
           }
           setAsynchError(

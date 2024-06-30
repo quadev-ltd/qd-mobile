@@ -33,6 +33,10 @@ jest.mock(
   'react-native-vector-icons/MaterialCommunityIcons',
   () => 'MaterialCommunityIcons',
 );
+jest.mock('@/core/sso/googleSSO', () => ({
+  onGoogleSignIn: jest.fn(),
+}));
+jest.mock('@/core/api/hooks/useLoadUserProfile');
 
 const mockStore = configureMockStore();
 

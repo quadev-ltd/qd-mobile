@@ -13,8 +13,8 @@ export const useVerifyEmail = (userID: string, verificationToken?: string) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [apiErrorCode, setAPIErrorCode] = useState<APIError | undefined>();
-  const [verifyEmail, { isLoading, isError, isSuccess }] =
-    useVerifyEmailMutation();
+  const [verifyEmail, { isLoading, isError }] = useVerifyEmailMutation();
+  const [isVerificationSuccess, setIsVerificationSuccess] = useState(false);
   useEffect(() => {
     if (!userID || !verificationToken) return;
     verifyEmail({
@@ -29,6 +29,7 @@ export const useVerifyEmail = (userID: string, verificationToken?: string) => {
             refreshToken: data.refreshToken,
           }),
         );
+        setIsVerificationSuccess(true);
       })
       .catch(err => {
         const typedError = err as ResponseError;
@@ -47,5 +48,5 @@ export const useVerifyEmail = (userID: string, verificationToken?: string) => {
       });
   }, [userID, verificationToken, verifyEmail, t, dispatch]);
 
-  return { isLoading, isError, isSuccess, apiErrorCode };
+  return { isLoading, isError, isSuccess: isVerificationSuccess, apiErrorCode };
 };

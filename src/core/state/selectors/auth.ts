@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { AuthStateStatus } from '../slices/authSlice';
+import { AuthStateStatus } from '../slices/types';
 import { type RootState } from '../store';
 
 import { isUserVerifiedSelector } from './user';

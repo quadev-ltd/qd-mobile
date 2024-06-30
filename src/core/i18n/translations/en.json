@@ -84,7 +84,7 @@
     "emailSent": "We've sent you a verification email!",
     "successSubtitle": "Your email has been verified!",
     "emailVerificationInstructions": "Please check your inbox to complete the verification process.",
-    "resendCTA": "Resend email",
+    "resendCTA": "Resend verification link",
     "changePathDescription": "Or start again",
     "changePathButton": "go back"
   },
@@ -100,7 +100,7 @@
     "lastNameRequiredError": "Required",
     "lastNameLengthError": "Last name must be less than 30 characters",
     "dobRequiredError": "Required",
-    "dobFutureError": "Date of birth cannot be in the future",
+    "dobFutureError": "Date cannot be in the future",
     "dobFormatError": "Date of birth format is invalid",
     "passwordRequiredError": "Required",
     "passwordFormatError": "Password format is invalid",
@@ -112,7 +112,10 @@
     "passwordConfirmationRequiredError": "Required",
     "passwordConfirmationMatchError": "Passwords do not match",
     "termsRequiredError": "Please agree to the terms and conditions",
-    "invalidEmailOrPasswordError": "Invalid email or password"
+    "invalidEmailOrPasswordError": "Invalid email or password",
+    "passwordNotComplexError": "Password is not complex enough",
+    "maxLengthError": "too long",
+    "requiredError": "required"
   },
   "error": {
     "errorTitle": "Error",
@@ -128,6 +131,7 @@
     "networkOrServerError": "Network error or server error. Please try again later.",
     "emailAlreadyVerifiedError": "Your email has already been verified. Try to sign in with it.",
     "tooManyRequestsError": "Too many requests. Wait a minute and try again.",
-    "linkGeneralError": "There was a problem, the link appears to be obsolete or corrupted."
+    "linkGeneralError": "There was a problem, the link appears to be obsolete or corrupted.",
+    "googleSSODataError": "The Google profile data is not correct."
   }
 }

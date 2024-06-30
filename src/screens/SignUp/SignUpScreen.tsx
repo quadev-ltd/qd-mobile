@@ -16,8 +16,6 @@ const FORM_HEIGHT = 600;
 export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
   navigation,
 }) => {
-  const handleFacebookSignIn = () => {};
-  const handleGoogleSignIn = () => {};
   const goToSignIn = () => navigation.navigate(PublicScreen.SignIn, {});
   const handleSuccess = (userData: { userName: string; userID: string }) => {
     navigation.reset({
@@ -36,8 +34,6 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
   return (
     <SSOAnimatedForm
       screen={ScreenType.SignUp}
-      handleFacebookAction={handleFacebookSignIn}
-      handleGoogleAction={handleGoogleSignIn}
       formHeight={FORM_HEIGHT}
       changePath={goToSignIn}>
       <SignUpForm onSuccess={handleSuccess} />

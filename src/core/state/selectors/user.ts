@@ -1,4 +1,4 @@
-import { AccountStatus } from '../slices/authSlice';
+import { AccountStatus } from '../slices/types';
 import { type RootState } from '../store';
 
 export const isUserVerifiedSelector = (state: RootState) =>

@@ -14,6 +14,7 @@ import { refreshAuthTokensMutation } from './refreshAuthTokensMutation';
 import { resendVerificationEmailMutation } from './resendVerificationEmailMutation';
 import { resetPasswordMutation } from './resetPasswordMutation';
 import { signInMutation } from './signInMutation';
+import { signInWithFirebaseMutation } from './signInWithFirebaseMutation';
 import { signUpMutation } from './signUpMutation';
 import {
   type VerifyEmailRequest,
@@ -29,6 +30,7 @@ import {
   type VerifyResetPasswordTokenRequest,
   type ResetPasswordRequest,
   type RefreshAuthTokensRequest,
+  type SignInWithFirebseRequest,
 } from './types';
 import { verifyEmailMutation } from './verifyEmailMutation';
 import { verifyPasswordResetTokenQuery } from './verifyPasswordVerificationTokenQuery';
@@ -83,6 +85,12 @@ export const apiSlice = createApi({
     signIn: builder.mutation<AuthResponse, SignInRequest>({
       query: signInMutation,
     }),
+    signInWithFirebase: builder.mutation<
+      AuthResponse,
+      SignInWithFirebseRequest
+    >({
+      query: signInWithFirebaseMutation,
+    }),
     refreshAuthTokens: builder.mutation<AuthResponse, RefreshAuthTokensRequest>(
       {
         query: refreshAuthTokensMutation,
@@ -118,6 +126,7 @@ export const apiSlice = createApi({
 export const {
   useSignUpMutation,
   useSignInMutation,
+  useSignInWithFirebaseMutation,
   useRefreshAuthTokensMutation,
   useResendVerificationEmailMutation,
   useVerifyEmailMutation,
