@@ -94,6 +94,7 @@ jobs:
       - name: Build and distribute IPA
         run: |
           cd ios
+          bundle exec fastlane ios increment_build_version_number
           bundle exec fastlane ios build_and_distribute_release_app
 
       - name: Print Fastlane log file
