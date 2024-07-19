@@ -1837,6 +1837,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@invertase/react-native-apple-authentication@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@invertase/react-native-apple-authentication@npm:2.3.0"
+  checksum: fefbfb828b1e46694f5d35aadd7f562f4ed018e75798e59be85703205068163b109954a1e2710293426d656be4da7904faf830f13fea1f79771c7c9371cdee40
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -3484,6 +3491,7 @@ __metadata:
     "@formatjs/intl-locale": "npm:^3.4.3"
     "@formatjs/intl-pluralrules": "npm:^5.2.10"
     "@hookform/resolvers": "npm:^3.3.4"
+    "@invertase/react-native-apple-authentication": "npm:^2.3.0"
     "@react-native-firebase/analytics": "npm:^18.7.3"
     "@react-native-firebase/app": "npm:^18.7.3"
     "@react-native-firebase/auth": "npm:^18.7.3"

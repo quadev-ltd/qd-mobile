@@ -26,7 +26,7 @@
 		44F601BDA1FCBEF27037249B /* Pods_QDMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825F2359D242B4759EC242FC /* Pods_QDMobile.framework */; };
 		4D996747A95F67FBEA04B88C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D55680285B71AD8F374CC08A /* PrivacyInfo.xcprivacy */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		CB6FC2511A175831901812CA /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		CB6FC2511A175831901812CA /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		FD4CE8A8A97EAC1C0632241E /* Pods_QDMobileDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA6F80305B620965517ADD94 /* Pods_QDMobileDev.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +51,7 @@
 		00E356EE1AD99517003FC87E /* QDMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QDMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* QDMobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QDMobileTests.m; sourceTree = "<group>"; };
-		0FAD2291524A74F36E973DE2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = QDMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		0FAD2291524A74F36E973DE2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = QDMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* QDMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QDMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = QDMobile/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = QDMobile/AppDelegate.mm; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 		998747289CD0C0A61C7EBB11 /* Pods-QDMobileDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QDMobileDev.debug.xcconfig"; path = "Target Support Files/Pods-QDMobileDev/Pods-QDMobileDev.debug.xcconfig"; sourceTree = "<group>"; };
 		A011CB1BEE04FB510EECBBAA /* Pods-QDMobileDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QDMobileDev.release.xcconfig"; path = "Target Support Files/Pods-QDMobileDev/Pods-QDMobileDev.release.xcconfig"; sourceTree = "<group>"; };
 		BA6F80305B620965517ADD94 /* Pods_QDMobileDev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QDMobileDev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D55680285B71AD8F374CC08A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = QDMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		D55680285B71AD8F374CC08A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = QDMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FF03842047E394BD5D70C517 /* Pods_QDMobile_QDMobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QDMobile_QDMobileTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB6FC2511A175831901812CA /* BuildFile in Frameworks */,
+				CB6FC2511A175831901812CA /* (null) in Frameworks */,
 				44F601BDA1FCBEF27037249B /* Pods_QDMobile.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
