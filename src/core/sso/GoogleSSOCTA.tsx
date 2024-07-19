@@ -10,12 +10,13 @@ import logger from '../logger';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { login } from '../state/slices/authSlice';
 
-import { type GoogleProfileData, onGoogleSignIn } from './googleSSO';
+import { onGoogleSignIn } from './googleSSO';
 
 import CTA from '@/components/CTA';
 import { type ScreenType } from '@/components/SignIn/types';
 import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
 import { colors } from '@/styles/colors';
+import { ProfileData } from './types';
 
 interface GoogleSSOCTAProps {
   hide: boolean;
@@ -48,7 +49,7 @@ const GoogleSSOCTA: React.FC<GoogleSSOCTAProps> = ({
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
-    let googleSSOData: GoogleProfileData | undefined;
+    let googleSSOData: ProfileData | undefined;
     try {
       googleSSOData = await onGoogleSignIn();
     } catch (error) {

@@ -24,9 +24,9 @@ const AppleSSOCTA: React.FC<AppleSSOCTAProps> = ({
     <CTA
       isAnimated={true}
       testID="facebook-cta"
-      Icon={<Icon name="facebook" size={36} color={colors.white} />}
-      text={t(`${screen}.withFacebook`)}
-      accessibilityLabel={t(`${screen}.withFacebookAccessibilityLabel`)}
+      Icon={<Icon name="apple" size={36} color={colors.white} />}
+      text={t(`${screen}.withApple`)}
+      accessibilityLabel={t(`${screen}.withAppleAccessibilityLabel`)}
       style={styles.appleButton}
       onPress={handleAppleSignIn}
       hide={hide}
@@ -37,7 +37,7 @@ const AppleSSOCTA: React.FC<AppleSSOCTAProps> = ({
 
 const styles = StyleSheet.create({
   appleButton: {
-    backgroundColor: colors.facebookBlue,
+    backgroundColor: colors.black,
     marginBottom: 20,
   },
 });

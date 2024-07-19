@@ -117,7 +117,11 @@ export const CTA: React.FC<CTAProps> = ({
           disabled && dynamicStyles.disabled,
           isAnimated && animatedStyle,
         ]}>
-        {Icon && Icon}
+        {Icon && (
+          <View style={styles.icon} >
+            {Icon}
+          </View>
+          )}
         <View style={styles.textContainer}>
           <Text style={[styles.text, dynamicStyles.text, textStyle]}>
             {text}
@@ -140,6 +144,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 4,
     elevation: 4,
+  },
+  icon: {
+    position: 'absolute',
+    left: 24,
   },
   text: {
     fontSize: 16,

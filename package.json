@@ -13,6 +13,7 @@
     "@formatjs/intl-locale": "^3.4.3",
     "@formatjs/intl-pluralrules": "^5.2.10",
     "@hookform/resolvers": "^3.3.4",
+    "@invertase/react-native-apple-authentication": "^2.3.0",
     "@react-native-firebase/analytics": "^18.7.3",
     "@react-native-firebase/app": "^18.7.3",
     "@react-native-firebase/auth": "^18.7.3",
