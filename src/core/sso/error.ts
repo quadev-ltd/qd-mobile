@@ -1,5 +1,6 @@
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import logger from "../logger";
+import { type FirebaseAuthTypes } from '@react-native-firebase/auth';
+
+import logger from '../logger';
 
 export const handleFirebaseSignInError = (error: unknown) => {
   const firebaseAuthError = error as FirebaseAuthTypes.NativeFirebaseAuthError;

@@ -11,12 +11,12 @@ import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { login } from '../state/slices/authSlice';
 
 import { onGoogleSignIn } from './googleSSO';
+import { type ProfileData } from './types';
 
 import CTA from '@/components/CTA';
 import { type ScreenType } from '@/components/SignIn/types';
 import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
 import { colors } from '@/styles/colors';
-import { ProfileData } from './types';
 
 interface GoogleSSOCTAProps {
   hide: boolean;

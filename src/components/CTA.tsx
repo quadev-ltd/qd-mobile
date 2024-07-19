@@ -117,11 +117,7 @@ export const CTA: React.FC<CTAProps> = ({
           disabled && dynamicStyles.disabled,
           isAnimated && animatedStyle,
         ]}>
-        {Icon && (
-          <View style={styles.icon} >
-            {Icon}
-          </View>
-          )}
+        {Icon && <View style={styles.icon}>{Icon}</View>}
         <View style={styles.textContainer}>
           <Text style={[styles.text, dynamicStyles.text, textStyle]}>
             {text}
