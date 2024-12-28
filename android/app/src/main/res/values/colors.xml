@@ -2,4 +2,5 @@
 <resources>
     <color name="blue_purple">#5050C3</color>
     <color name="primary_dark">#5050C3</color>
+    <color name="bootsplash_background">#5050c3</color>
 </resources>
