@@ -4,8 +4,10 @@ source 'https://rubygems.org'
 ruby '>= 2.6.10'
 
 # TODO: This can be a breaking point for upgrade
-gem 'cocoapods', '>= 1.13', '< 1.15'
-gem 'activesupport', '>= 6.1.7.5', '< 7.1.0'
+# Exclude problematic versions of cocoapods and activesupport that causes build failures.
+gem 'cocoapods', '>= 1.13', '!= 1.15.0', '!= 1.15.1'
+gem 'activesupport', '>= 6.1.7.5', '!= 7.1.0'
+gem 'xcodeproj', '< 1.26.0'
 gem 'fastlane', '>= 2.219.0'
 gem 'fastlane-plugin-firebase_app_distribution'
 
