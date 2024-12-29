@@ -4381,7 +4381,7 @@ __metadata:
     react-native-screens: "npm:^3.35.0"
     react-native-securerandom: "npm:^1.0.1"
     react-native-toast-message: "npm:^2.2.0"
-    react-native-vector-icons: "npm:^10.0.3"
+    react-native-vector-icons: "npm:^10.2.0"
     react-redux: "npm:9.1.0"
     react-test-renderer: "npm:18.3.1"
     redux-mock-store: "npm:^1.5.4"
@@ -10673,7 +10673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-vector-icons@npm:^10.0.3":
+"react-native-vector-icons@npm:^10.2.0":
   version: 10.2.0
   resolution: "react-native-vector-icons@npm:10.2.0"
   dependencies:

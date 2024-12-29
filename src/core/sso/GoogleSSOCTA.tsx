@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useSignInWithFirebaseMutation } from '../api';
 import { asynchErrorMessages, processUnmanagedError } from '../api/errors';
@@ -16,6 +15,7 @@ import CTA from '@/components/CTA';
 import { type ScreenType } from '@/components/SignIn/types';
 import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
 import { colors } from '@/styles/colors';
+import { MaterialIcon } from '@/components/MaterialIcon';
 
 interface GoogleSSOCTAProps {
   hide: boolean;
@@ -99,7 +99,7 @@ const GoogleSSOCTA: React.FC<GoogleSSOCTAProps> = ({
     <CTA
       isAnimated={true}
       testID="google-cta"
-      Icon={<Icon name="google" size={28} color={colors.grey} />}
+      Icon={<MaterialIcon name="google" size={28} color={colors.grey} />}
       text={t(`${screen}.withGoogle`)}
       accessibilityLabel={t(`${screen}.withGoogleAccessibilityLabel`)}
       style={styles.googleButton}

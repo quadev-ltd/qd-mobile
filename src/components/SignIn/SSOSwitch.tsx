@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useTheme } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import CTA from '../CTA';
 
 import { Divider } from './Divider';
+import { MaterialIcon } from '../MaterialIcon';
+
 
 type SSOSwitchProps = {
   isSSOExpanded: boolean;
@@ -49,7 +50,7 @@ export const SSOSwitch: React.FC<SSOSwitchProps> = ({
       hide={!isSSOExpanded}
       onAnimationEnded={handleAnimationEnded}
       disableAnimation={disableAnimation}
-      Icon={<Icon name="email" size={28} color={theme.colors.onSecondary} />}
+      Icon={<MaterialIcon name="email" size={28} color={theme.colors.onSecondary} />}
     />
   );
 };
