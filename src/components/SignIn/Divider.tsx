@@ -12,7 +12,8 @@ import Animated, {
   withSequence,
   type SharedValue,
 } from 'react-native-reanimated';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import { MaterialIcon } from '../MaterialIcon';
 
 type DividerProps = {
   label: string;
@@ -90,13 +91,21 @@ export const Divider: React.FC<DividerProps> = ({
             style={styles.buttonContainer}
             onPress={onPress}>
             <View style={styles.dividerContentContainer}>
-              <Icon name="google" size={26} color={theme.colors.secondary} />
+              <MaterialIcon
+                name="google"
+                size={26}
+                color={theme.colors.secondary}
+              />
               <Text style={[styles.dividerText, dynamicStyles.dividerText]}>
                 {label}
               </Text>
-              <Icon name="facebook" size={28} color={theme.colors.secondary} />
+              <MaterialIcon
+                name="facebook"
+                size={28}
+                color={theme.colors.secondary}
+              />
             </View>
-            <Icon
+            <MaterialIcon
               name="chevron-down"
               size={32}
               color={theme.colors.secondary}

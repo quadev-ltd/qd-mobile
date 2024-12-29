@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import CTA from '@/components/CTA';
+import { MaterialIcon } from '@/components/MaterialIcon';
 import { type ScreenType } from '@/components/SignIn/types';
 import { colors } from '@/styles/colors';
 
@@ -24,7 +24,7 @@ const AppleSSOCTA: React.FC<AppleSSOCTAProps> = ({
     <CTA
       isAnimated={true}
       testID="facebook-cta"
-      Icon={<Icon name="facebook" size={36} color={colors.white} />}
+      Icon={<MaterialIcon name="facebook" size={36} color={colors.white} />}
       text={t(`${screen}.withFacebook`)}
       accessibilityLabel={t(`${screen}.withFacebookAccessibilityLabel`)}
       style={styles.appleButton}
