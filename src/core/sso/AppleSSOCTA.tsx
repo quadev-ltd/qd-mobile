@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 
 import CTA from '@/components/CTA';
+import { MaterialIcon } from '@/components/MaterialIcon';
 import { type ScreenType } from '@/components/SignIn/types';
 import { colors } from '@/styles/colors';
-import { MaterialIcon } from '@/components/MaterialIcon';
 
 interface AppleSSOCTAProps {
   hide: boolean;

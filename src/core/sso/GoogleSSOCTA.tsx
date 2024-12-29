@@ -12,10 +12,10 @@ import { login } from '../state/slices/authSlice';
 import { type GoogleProfileData, onGoogleSignIn } from './googleSSO';
 
 import CTA from '@/components/CTA';
+import { MaterialIcon } from '@/components/MaterialIcon';
 import { type ScreenType } from '@/components/SignIn/types';
 import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
 import { colors } from '@/styles/colors';
-import { MaterialIcon } from '@/components/MaterialIcon';
 
 interface GoogleSSOCTAProps {
   hide: boolean;

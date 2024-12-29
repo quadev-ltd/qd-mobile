@@ -5,7 +5,8 @@ import {
 import { type DrawerContentComponentProps } from '@react-navigation/drawer/lib/typescript/src/types';
 import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import { MaterialIcon } from '../MaterialIcon';
 
 import DrawerCTA from './DrawerCTA';
 
@@ -25,7 +26,7 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
       {...props}>
       <View style={styles.drawerHeader}>
         <View style={styles.avatarContainer}>
-          <Icon style={styles.avatar} name="account" size={40} />
+          <MaterialIcon style={styles.avatar} name="account" size={40} />
         </View>
         <View>
           <Text style={styles.drawerHeaderTitle}>
