@@ -1,11 +1,12 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 
 import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
-import Logo from '@/components/AnimatedLogo';
+import AndroidLogo from '@/components/AndroidAnimatedLogo';
 import CTA from '@/components/CTA';
+import IOSLogo from '@/components/IOSAnimatedLogo';
 import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
 import { Layout } from '@/components/SignIn/Layout';
 import { ScreenType } from '@/components/SignIn/types';
@@ -32,8 +33,8 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
           ? route.params.environment
           : ''
       }>
+      {Platform.OS === 'ios' ? <IOSLogo /> : <AndroidLogo />}
       <View style={styles.container}>
-        <Logo />
         <CTA
           style={styles.signUpButton}
           text={t('landing.signUpButton')}

@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		008FD0B5A316A93DFD39FE37 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0FAD2291524A74F36E973DE2 /* PrivacyInfo.xcprivacy */; };
+		0096D0242D15A168007F36AD /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E85AF4CC45F4195AD52B77C /* BootSplash.storyboard */; };
+		0096D0252D15A168007F36AD /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84C412E00A884586A854F689 /* Colors.xcassets */; };
 		009C3A282B3DF233009C1C3E /* QDMobileDev-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 009C3A272B3DF233009C1C3E /* QDMobileDev-Info.plist */; };
 		009F0CC52B568B34006C30C1 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		009F0CC62B568B34006C30C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		009F0CCA2B568B34006C30C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		009F0CCB2B568B34006C30C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		009F0CCC2B568B34006C30C1 /* QDMobileDev-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 009C3A272B3DF233009C1C3E /* QDMobileDev-Info.plist */; };
 		009F0CD82B569B9F006C30C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 009F0CD72B569B9F006C30C1 /* GoogleService-Info.plist */; };
@@ -25,7 +26,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		44F601BDA1FCBEF27037249B /* Pods_QDMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825F2359D242B4759EC242FC /* Pods_QDMobile.framework */; };
 		4D996747A95F67FBEA04B88C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D55680285B71AD8F374CC08A /* PrivacyInfo.xcprivacy */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		532CDC54F6434B2583503377 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84C412E00A884586A854F689 /* Colors.xcassets */; };
+		87F20BD37B8A4A7281DBEBE0 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E85AF4CC45F4195AD52B77C /* BootSplash.storyboard */; };
 		CB6FC2511A175831901812CA /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		FD4CE8A8A97EAC1C0632241E /* Pods_QDMobileDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA6F80305B620965517ADD94 /* Pods_QDMobileDev.framework */; };
 /* End PBXBuildFile section */
@@ -51,7 +53,8 @@
 		00E356EE1AD99517003FC87E /* QDMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QDMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* QDMobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QDMobileTests.m; sourceTree = "<group>"; };
-		0FAD2291524A74F36E973DE2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = QDMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		0E85AF4CC45F4195AD52B77C /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = QDMobile/BootSplash.storyboard; sourceTree = "<group>"; };
+		0FAD2291524A74F36E973DE2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = QDMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* QDMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QDMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = QDMobile/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = QDMobile/AppDelegate.mm; sourceTree = "<group>"; };
@@ -62,13 +65,13 @@
 		3B4392A12AC88292D35C810B /* Pods-QDMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QDMobile.debug.xcconfig"; path = "Target Support Files/Pods-QDMobile/Pods-QDMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-QDMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QDMobile.release.xcconfig"; path = "Target Support Files/Pods-QDMobile/Pods-QDMobile.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-QDMobile-QDMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QDMobile-QDMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-QDMobile-QDMobileTests/Pods-QDMobile-QDMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = QDMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		825F2359D242B4759EC242FC /* Pods_QDMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QDMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84C412E00A884586A854F689 /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = QDMobile/Colors.xcassets; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-QDMobile-QDMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QDMobile-QDMobileTests.release.xcconfig"; path = "Target Support Files/Pods-QDMobile-QDMobileTests/Pods-QDMobile-QDMobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		998747289CD0C0A61C7EBB11 /* Pods-QDMobileDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QDMobileDev.debug.xcconfig"; path = "Target Support Files/Pods-QDMobileDev/Pods-QDMobileDev.debug.xcconfig"; sourceTree = "<group>"; };
 		A011CB1BEE04FB510EECBBAA /* Pods-QDMobileDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QDMobileDev.release.xcconfig"; path = "Target Support Files/Pods-QDMobileDev/Pods-QDMobileDev.release.xcconfig"; sourceTree = "<group>"; };
 		BA6F80305B620965517ADD94 /* Pods_QDMobileDev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QDMobileDev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D55680285B71AD8F374CC08A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = QDMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		D55680285B71AD8F374CC08A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = QDMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FF03842047E394BD5D70C517 /* Pods_QDMobile_QDMobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QDMobile_QDMobileTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -136,10 +139,11 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				D55680285B71AD8F374CC08A /* PrivacyInfo.xcprivacy */,
+				0E85AF4CC45F4195AD52B77C /* BootSplash.storyboard */,
+				84C412E00A884586A854F689 /* Colors.xcassets */,
 			);
 			name = QDMobile;
 			sourceTree = "<group>";
@@ -317,7 +321,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				009F0CCA2B568B34006C30C1 /* LaunchScreen.storyboard in Resources */,
+				0096D0242D15A168007F36AD /* BootSplash.storyboard in Resources */,
+				0096D0252D15A168007F36AD /* Colors.xcassets in Resources */,
 				00DED07C2BC6BE2400C2DBD1 /* MaterialCommunityIcons.ttf in Resources */,
 				009F0CD92B569B9F006C30C1 /* GoogleService-Info.plist in Resources */,
 				009F0CCB2B568B34006C30C1 /* Images.xcassets in Resources */,
@@ -337,12 +342,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				00DED07B2BC6BE2400C2DBD1 /* MaterialCommunityIcons.ttf in Resources */,
 				009F0CD82B569B9F006C30C1 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				009C3A282B3DF233009C1C3E /* QDMobileDev-Info.plist in Resources */,
 				4D996747A95F67FBEA04B88C /* PrivacyInfo.xcprivacy in Resources */,
+				87F20BD37B8A4A7281DBEBE0 /* BootSplash.storyboard in Resources */,
+				532CDC54F6434B2583503377 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

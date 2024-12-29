@@ -3,7 +3,7 @@
 #import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
-#import <RNSplashScreen.h>
+#import "RNBootSplash.h"
 
 @implementation AppDelegate
 
@@ -15,9 +15,6 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   BOOL ret = [super application:application didFinishLaunchingWithOptions:launchOptions];
-  if (ret == YES) {
-    [RNSplashScreen show];
-  }
   return ret;
 }
 
@@ -49,6 +46,11 @@ continueUserActivity:(NSUserActivity *)userActivity
   return [RCTLinkingManager application:application
                    continueUserActivity:userActivity
                      restorationHandler:restorationHandler];
+}
+
+- (void)customizeRootView:(RCTRootView *)rootView {
+  [super customizeRootView:rootView];
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 }
 
 @end

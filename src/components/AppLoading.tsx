@@ -1,4 +1,4 @@
-import AnimatedLogo from './AnimatedLogo';
+import AnimatedLogo from './IOSAnimatedLogo';
 import Logo from './Logo';
 import { Layout } from './SignIn/Layout';
 import Spinner from './Spinner';
