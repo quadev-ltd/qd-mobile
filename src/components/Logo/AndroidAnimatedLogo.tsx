@@ -43,7 +43,7 @@ export const AndroidAnimatedLogo: React.FC = () => {
   return (
     <Animated.Image
       style={[styles.logo, animatedStyles]}
-      source={require('../assets/png/logo.png')}
+      source={require('../../assets/png/logo.png')}
       resizeMode="cover"
     />
   );
