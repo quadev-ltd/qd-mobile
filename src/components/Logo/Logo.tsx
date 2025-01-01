@@ -9,7 +9,7 @@ export const Logo: React.FC<LogoProps> = ({ style }) => {
     <View style={styles.logoContainer}>
       <Image
         style={[styles.logo, style]}
-        source={require('../assets/png/logo.png')}
+        source={require('../../assets/png/logo.png')}
         resizeMode="cover"
       />
     </View>

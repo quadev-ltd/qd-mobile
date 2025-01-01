@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet } from 'react-native';
 import Animated, {
@@ -7,12 +7,12 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import AnimatedLogo from '../Logo/FadingLogo';
 import Spinner from '../Spinner';
 
 import { SSOSwitch } from './SSOSwitch';
 import { type ScreenType } from './types';
 
-import AppleSSOCTA from '@/core/sso/AppleSSOCTA';
 import GoogleSSOCTA from '@/core/sso/GoogleSSOCTA';
 
 type SSOAnimatedHeaderProps = {
@@ -40,6 +40,13 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
   const [isExpandedSecondAnimation, setIsExpandedSecondAnimation] =
     useState(isSSOExpanded);
   const animatedHeight = useSharedValue(safeAreaViewportHeight);
+  const hasMountedRef = useRef(false);
+
+  useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+    }
+  }, [hasMountedRef]);
 
   const animateHeight = useCallback(() => {
     if (!disableAnimation) {
@@ -79,11 +86,10 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
           <View style={styles.ssoButtonsContainer}>
             {isExpandedSecondAnimation && (
               <>
-                <AppleSSOCTA
-                  setIsLoading={setIsLoading}
-                  hide={shoulHideSSOButtons}
-                  disableAnimation={Boolean(disableAnimation)}
-                  screen={screen}
+                <AnimatedLogo
+                  isAnimated={hasMountedRef.current}
+                  style={styles.logo}
+                  show={!shoulHideSSOButtons}
                 />
                 <GoogleSSOCTA
                   setIsLoading={setIsLoading}
@@ -115,6 +121,11 @@ const styles = StyleSheet.create({
   ssoButtonsContainer: {
     flexDirection: 'column',
     flex: 1,
+    justifyContent: 'flex-end',
+  },
+  logo: {
+    width: 113,
+    height: 140,
   },
 });
 

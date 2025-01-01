@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
+import { type FC, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Animated, {
   useSharedValue,
-  withSpring,
   useAnimatedStyle,
+  withSpring,
 } from 'react-native-reanimated';
 
-export const AnimatedLogo: React.FC = () => {
+export const IOSAnimatedLogo: FC = () => {
   const scale = useSharedValue(1);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export const AnimatedLogo: React.FC = () => {
     <View style={styles.logoContainer}>
       <Animated.Image
         style={[styles.logo, animatedStyles]}
-        source={require('../assets/png/logo.png')}
+        source={require('../../assets/png/logo.png')}
         resizeMode="cover"
       />
     </View>
@@ -37,7 +37,6 @@ export const AnimatedLogo: React.FC = () => {
 const styles = StyleSheet.create({
   logoContainer: {
     flex: 1,
-    flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 64,
@@ -50,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AnimatedLogo;
+export default IOSAnimatedLogo;
