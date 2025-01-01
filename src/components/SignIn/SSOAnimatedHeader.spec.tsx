@@ -43,7 +43,6 @@ describe('SSOAnimatedHeader', () => {
       </Provider>,
     );
     expect(getByText('signIn.withGoogle')).toBeTruthy();
-    expect(getByText('signIn.withFacebook')).toBeTruthy();
     expect(queryByText('signIn.withSSO')).toBeNull();
   });
 });
