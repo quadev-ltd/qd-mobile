@@ -14,8 +14,8 @@ export const linking = {
   ],
   config: {
     screens: {
-      [PublicScreen.VerifyEmail]: `/api/v1/user/:${RouteParams.userID}/email/:${RouteParams.verificationToken}`,
-      [PublicScreen.ResetPassword]: `/api/v1/user/:${RouteParams.userID}/password/reset/:${RouteParams.verificationToken}`,
+      [PublicScreen.VerifyEmail]: `/user/:${RouteParams.userID}/email/:${RouteParams.verificationToken}`,
+      [PublicScreen.ResetPassword]: `/user/:${RouteParams.userID}/password/reset/:${RouteParams.verificationToken}`,
     },
   },
 };

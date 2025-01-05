@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:dev.qd-api-gateway.net</string>
+		<string>applinks:dev.quadev.net</string>
 	</array>
 </dict>
 </plist>
