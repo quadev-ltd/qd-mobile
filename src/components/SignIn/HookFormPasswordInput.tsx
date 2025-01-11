@@ -6,7 +6,7 @@ import {
   type Merge,
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, Text, Platform } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import {
   usePasswordValidation,
@@ -17,6 +17,7 @@ import { FormTextInput } from '../FormTextInput';
 import { type FieldType } from './types';
 
 import { colors } from '@/styles/colors';
+import { useInputTheme } from '@/styles/useInputTheme';
 
 interface HookFormPasswordInputProps<
   TFormSchema extends Record<FieldType, string>,
@@ -45,6 +46,7 @@ export const HookFormPasswordInput = <
   forgotPasswordCallback,
   onSubmitEditing,
 }: HookFormPasswordInputProps<TFormSchema>) => {
+  const dynamicStyles = useInputTheme();
   const { t } = useTranslation();
   const validations: PasswordValidityAttributes =
     usePasswordValidation(password);
@@ -82,13 +84,16 @@ export const HookFormPasswordInput = <
               value={value}
               error={error}
               secureTextEntry={true}
-              forgotPasswordLabel={forgotPasswordLabel}
-              forgotPasswordCallback={forgotPasswordCallback}
               onSubmitEditing={onSubmitEditing}
-              keyboardType={
-                Platform.OS === 'ios' ? 'default' : 'visible-password'
-              }
+              keyboardType="default"
             />
+            <View style={styles.inputLabelContainer}>
+              <TouchableOpacity onPress={forgotPasswordCallback}>
+                <Text style={[styles.forgotPassword, dynamicStyles.forgot]}>
+                  {forgotPasswordLabel}
+                </Text>
+              </TouchableOpacity>
+            </View>
             {!isValid && (
               <View style={styles.passwordHintsContainer}>
                 {passwordHints.map(hint => (
@@ -116,5 +121,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginHorizontal: 24,
     marginBottom: 8,
+  },
+  inputLabelContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: -8,
+    marginBottom: 8,
+    paddingHorizontal: 5,
+    height: 24,
+  },
+  forgotPassword: {
+    fontWeight: '700',
   },
 });

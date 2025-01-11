@@ -41,6 +41,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   initiateManualSignIn,
 }) => {
   const [isSSO, setIsSSO] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const { top, bottom } = useSafeAreaInsets();
   const safeAreaViewportHeight =
     VIEWPORT_HEIGHT - top - bottom - FooterPromptHeight - 12;
@@ -140,6 +141,8 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         onAnimationEnded={animateFormShow}
         disableAnimation={disableAnimation}
         safeAreaViewportHeight={safeAreaViewportHeight}
+        setIsLoading={setIsLoading}
+        isLoading={isLoading}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -152,7 +155,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
           {children}
         </Animated.View>
       </ScrollView>
-      <FooterPrompt changePath={changePath} screen={screen} />
+      {!isLoading && <FooterPrompt changePath={changePath} screen={screen} />}
     </Layout>
   );
 };

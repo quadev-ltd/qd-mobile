@@ -39,6 +39,8 @@ describe('SSOAnimatedHeader', () => {
           disableAnimation={true}
           switchSSO={switchSSO}
           safeAreaViewportHeight={900}
+          setIsLoading={jest.fn()}
+          isLoading={false}
         />
       </Provider>,
     );

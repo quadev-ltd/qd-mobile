@@ -75,7 +75,9 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.formContainer}>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={styles.formContainer}>
       <Subtitle
         text={t('forgotPassword.subtitle')}
         accessibilityLabel={t('forgotPassword.subtitle')}

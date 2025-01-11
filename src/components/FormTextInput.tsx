@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
   type KeyboardTypeOptions,
@@ -19,8 +18,6 @@ import { useInputTheme } from '@/styles/useInputTheme';
 
 interface FormTextInputProps {
   label: string;
-  forgotPasswordLabel?: string;
-  forgotPasswordCallback?: () => void;
   accessibilityLabel: string;
   secureTextEntry?: boolean;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
@@ -33,8 +30,6 @@ interface FormTextInputProps {
 
 export const FormTextInput: React.FC<FormTextInputProps> = ({
   label,
-  forgotPasswordLabel,
-  forgotPasswordCallback,
   accessibilityLabel,
   secureTextEntry,
   onSubmitEditing,
@@ -68,15 +63,6 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
           {error.message as string}
         </Text>
       )}
-      {forgotPasswordLabel && (
-        <View style={styles.inputLabelContainer}>
-          <TouchableOpacity onPress={forgotPasswordCallback}>
-            <Text style={[styles.forgotPassword, dynamicStyles.forgot]}>
-              {forgotPasswordLabel}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
     </View>
   );
 };
@@ -86,13 +72,6 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 20,
     alignItems: 'stretch',
-  },
-  inputLabelContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginVertical: 8,
-    paddingHorizontal: 5,
   },
   input: {
     borderWidth: 1,
@@ -109,8 +88,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 16,
-  },
-  forgotPassword: {
-    fontWeight: '700',
   },
 });
