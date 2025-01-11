@@ -22,6 +22,8 @@ type SSOAnimatedHeaderProps = {
   onAnimationEnded?: () => void;
   disableAnimation?: boolean;
   safeAreaViewportHeight: number;
+  setIsLoading: (isLoading: boolean) => void;
+  isLoading?: boolean;
 };
 
 const COLLAPSED_CONTAINER_HEIGHT = 50;
@@ -34,9 +36,10 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
   onAnimationEnded,
   disableAnimation,
   safeAreaViewportHeight,
+  setIsLoading,
+  isLoading,
 }) => {
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
   const [isExpandedSecondAnimation, setIsExpandedSecondAnimation] =
     useState(isSSOExpanded);
   const animatedHeight = useSharedValue(safeAreaViewportHeight);
@@ -79,36 +82,37 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
 
   return (
     <Animated.View style={[animatedStyle, styles.headerContainer]}>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <>
-          <View style={styles.ssoButtonsContainer}>
-            {isExpandedSecondAnimation && (
-              <>
-                <AnimatedLogo
-                  isAnimated={hasMountedRef.current}
-                  style={styles.logo}
-                  show={!shoulHideSSOButtons}
-                />
-                <GoogleSSOCTA
-                  setIsLoading={setIsLoading}
-                  hide={shoulHideSSOButtons}
-                  disableAnimation={Boolean(disableAnimation)}
-                  screen={screen}
-                />
-              </>
-            )}
-          </View>
-          <SSOSwitch
-            isSSOExpanded={isSSOExpanded}
-            dividerLabel={t(`${screen}.withSSO`)}
-            emailButtonLabel={t(`${screen}.withEmail`)}
-            onPressSSO={switchSSO}
-            onAnimationEnded={animateHeight}
-            disableAnimation={disableAnimation}
-          />
-        </>
+      {isLoading && <Spinner />}
+      <View
+        style={[
+          styles.ssoButtonsContainer,
+          isLoading ? styles.hidden : styles.visible,
+        ]}>
+        {isExpandedSecondAnimation && (
+          <>
+            <AnimatedLogo
+              isAnimated={hasMountedRef.current}
+              style={styles.logo}
+              show={!shoulHideSSOButtons && !isLoading}
+            />
+            <GoogleSSOCTA
+              setIsLoading={setIsLoading}
+              hide={shoulHideSSOButtons || !!isLoading}
+              disableAnimation={Boolean(disableAnimation)}
+              screen={screen}
+            />
+          </>
+        )}
+      </View>
+      {!isLoading && (
+        <SSOSwitch
+          isSSOExpanded={isSSOExpanded}
+          dividerLabel={t(`${screen}.withSSO`)}
+          emailButtonLabel={t(`${screen}.withEmail`)}
+          onPressSSO={switchSSO}
+          onAnimationEnded={animateHeight}
+          disableAnimation={disableAnimation}
+        />
       )}
     </Animated.View>
   );
@@ -126,6 +130,12 @@ const styles = StyleSheet.create({
   logo: {
     width: 113,
     height: 140,
+  },
+  hidden: {
+    display: 'none',
+  },
+  visible: {
+    display: 'flex',
   },
 });
 

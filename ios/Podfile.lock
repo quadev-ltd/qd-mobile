@@ -1479,6 +1479,27 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-toast-message (3.0.0-beta.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - React-nativeconfig (0.76.1)
   - React-NativeModulesApple (0.76.1):
     - glog
@@ -2007,6 +2028,7 @@ DEPENDENCIES:
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-toast-message (from `../node_modules/react-native-toast-message`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -2152,6 +2174,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-mmkv"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-toast-message:
+    :path: "../node_modules/react-native-toast-message"
   React-nativeconfig:
     :path: "../node_modules/react-native/ReactCommon"
   React-NativeModulesApple:
@@ -2292,6 +2316,7 @@ SPEC CHECKSUMS:
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-mmkv: 35992c4170a4a46be095fd1b7fe17d2fd1d42124
   react-native-safe-area-context: d71edcee579673b370c053804f34c40c1f250976
+  react-native-toast-message: f488404823245394542d937085a1844989ce9a03
   React-nativeconfig: e0b63af9169593319fb5ca10d051c9a803549a5d
   React-NativeModulesApple: 3ebcbdacf58bd33274ca44873ceb2c3c33f73bc0
   React-perflogger: 1c55bcd3c392137cbaf0d21d8bb87ce9a0cebb15

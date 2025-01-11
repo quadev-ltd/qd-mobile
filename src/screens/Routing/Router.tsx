@@ -23,6 +23,7 @@ const Router: React.FC<RouterProps> = ({ environment, applicationName }) => {
   const isAuthenticated = useAppSelector(isAuthenticatedSelector);
   const isLoading = useAppSelector(isAuthPendingSelector);
   if (isLoading) {
+    // This is for when the app loads and authentication needs to bee verified
     return <AppLoading />;
   }
   return (

@@ -45,6 +45,7 @@ export const StoreProvider: FC<IProps> = ({ children }) => {
   }, [storeDetails]);
 
   if (!storeDetails) {
+    // This is shown when loading the store on app start
     return <AppLoading />;
   }
 
