@@ -6,10 +6,10 @@ export const defaultTheme = {
   ...DefaultTheme,
   myOwnProperty: true,
   colors: {
-    primary: colors.purpleBlue,
+    primary: colors.black,
     onPrimary: colors.white,
-    secondary: colors.black,
-    onSecondary: colors.white,
+    secondary: colors.white,
+    onSecondary: colors.grey,
     tertiary: colors.white,
     onTertiary: colors.grey,
     background: colors.purpleBlue,

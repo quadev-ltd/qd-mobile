@@ -10,6 +10,15 @@ export const showErrorToast = (title: string, message: string) => {
   });
 };
 
+export const showInfoToast = (title: string, message: string) => {
+  Toast.show({
+    type: 'info',
+    text1: title,
+    text2: message,
+    position: 'bottom',
+  });
+};
+
 export const showUnexpectedErrorToast = (t: TFunction<'translation'>) => {
   Toast.show({
     type: 'error',
