@@ -6,9 +6,10 @@ export const useInputTheme = () => {
   const dynamicStyles = useMemo(
     () => ({
       input: {
-        backgroundColor: colors.tertiary,
-        borderColor: colors.onTertiary,
+        backgroundColor: colors.secondary,
+        borderColor: colors.onSecondary,
         shadowColor: colors.shadow,
+        color: colors.primary,
       },
       error: {
         color: colors.error,
