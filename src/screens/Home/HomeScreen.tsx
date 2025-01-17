@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
+import Logo from '@/components/Logo/Logo';
 import {
   type DrawerParamList,
   type PrivateScreen,
@@ -20,12 +21,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const dynamicStyles = useMemo(
     () => ({
       title: {
-        color: colors.primary,
+        color: colors.onPrimary,
         fontFamily: fonts.titleLarge.fontFamily,
         fontSize: fonts.titleLarge.fontSize,
       },
       description: {
-        color: colors.primary,
+        color: colors.onPrimary,
         fontFamily: fonts.bodyLarge.fontFamily,
         fontSize: fonts.bodyLarge.fontSize,
       },
@@ -33,11 +34,16 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     [fonts, colors],
   );
   return (
-    <View style={styles.container}>
-      <Text style={[styles.title, dynamicStyles.title]}>{t('home.title')}</Text>
-      <Text style={[styles.description, dynamicStyles.description]}>
-        {t('home.description')}
-      </Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Logo style={styles.logo} containerStyle={styles.logoContainer} />
+      <View style={styles.textContainer}>
+        <Text style={[styles.title, dynamicStyles.title]}>
+          {t('home.title')}
+        </Text>
+        <Text style={[styles.description, dynamicStyles.description]}>
+          {t('home.description')}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -46,11 +52,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingVertical: 24,
   },
   title: {
     fontWeight: 'bold',
-    marginTop: 24,
     marginBottom: 24,
     textAlign: 'center',
   },
@@ -60,6 +64,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     textAlign: 'center',
+  },
+  logoContainer: {
+    justifyContent: 'center',
+  },
+  logo: {
+    position: 'static',
+  },
+  textContainer: {
+    flex: 2,
   },
 });
 

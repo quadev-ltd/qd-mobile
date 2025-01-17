@@ -89,7 +89,7 @@
     "changePathButton": "go back"
   },
   "home": {
-    "title": "Welcome to QuaDev!",
+    "title": "Welcome!",
     "description": "We’re excited to have you on board. Please note that this app is a work in progress, and we’re actively building new features to enhance your experience. Stay tuned as we evolve and bring innovative AI-powered functionalities to life. Your journey with us starts here!"
   },
   "deleteAccount": {

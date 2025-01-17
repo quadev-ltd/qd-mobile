@@ -5,6 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 import CTA from '@/components/CTA';
+import Logo from '@/components/Logo/Logo';
 import ErrorMessage from '@/components/SignIn/ErrorMessage';
 import Spinner from '@/components/Spinner';
 import { showInfoToast } from '@/components/Toast';
@@ -28,12 +29,12 @@ const ScreenTwoScreen: React.FC<ScreenTwoScreenProps> = () => {
   const dynamicStyles = useMemo(
     () => ({
       title: {
-        color: colors.primary,
+        color: colors.onPrimary,
         fontFamily: fonts.titleLarge.fontFamily,
         fontSize: fonts.titleLarge.fontSize,
       },
       description: {
-        color: colors.primary,
+        color: colors.onPrimary,
         fontFamily: fonts.bodyLarge.fontFamily,
         fontSize: fonts.bodyLarge.fontSize,
       },
@@ -53,7 +54,8 @@ const ScreenTwoScreen: React.FC<ScreenTwoScreenProps> = () => {
     }
   }, [t, dispatch, isSuccess]);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Logo style={styles.logo} containerStyle={styles.logoContainer} />
       {isLoading ? (
         <>
           <Spinner />
@@ -62,7 +64,7 @@ const ScreenTwoScreen: React.FC<ScreenTwoScreenProps> = () => {
           </Text>
         </>
       ) : (
-        <>
+        <View style={styles.textContainer}>
           <Text style={[styles.title, dynamicStyles.title]}>
             {t('deleteAccount.title')}
           </Text>
@@ -84,7 +86,7 @@ const ScreenTwoScreen: React.FC<ScreenTwoScreenProps> = () => {
               onPress={handleDeleteAccount}
             />
           </View>
-        </>
+        </View>
       )}
     </View>
   );
@@ -94,11 +96,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingVertical: 24,
+  },
+  logoContainer: {
+    justifyContent: 'center',
+  },
+  logo: {
+    position: 'static',
   },
   title: {
     fontWeight: 'bold',
-    marginTop: 24,
     marginBottom: 24,
     textAlign: 'center',
   },
@@ -114,6 +120,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-end',
     paddingBottom: 24,
+  },
+  textContainer: {
+    flex: 2,
   },
 });
 

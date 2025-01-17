@@ -22,6 +22,9 @@ export const useDeleteAccount = () => {
       onUnmanagedError: message => {
         setErrorMessage(message);
       },
+      onUnexpectedError: () => {
+        setErrorMessage(t('error.serverSideError'));
+      },
       logErrorMessage: `Unknown error while deleting user ${
         user.email
       }: ${JSON.stringify(error)}`,

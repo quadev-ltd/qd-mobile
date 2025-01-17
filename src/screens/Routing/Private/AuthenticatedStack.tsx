@@ -33,7 +33,7 @@ const AuthenticatedStack: React.FC<AuthenticatedStackProps> = ({
     <TouchableOpacity
       style={styles.burgerButton}
       onPress={() => navigation.toggleDrawer()}>
-      <MaterialIcon name="menu" size={24} color={colors.primary} />
+      <MaterialIcon name="menu" size={24} color={colors.onPrimary} />
     </TouchableOpacity>
   );
 
@@ -43,6 +43,9 @@ const AuthenticatedStack: React.FC<AuthenticatedStackProps> = ({
       initialRouteName={PrivateScreen.Home}
       screenOptions={({ navigation }) => ({
         headerLeft: () => renderHeaderLeft(navigation),
+        headerStyle: { backgroundColor: 'transparent' },
+        headerTransparent: true,
+        headerTitle: '',
       })}>
       <Drawer.Screen name={PrivateScreen.Home} component={HomeScreen} />
       <Drawer.Screen
