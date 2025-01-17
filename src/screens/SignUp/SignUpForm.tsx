@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, Keyboard, Platform } from 'react-native';
+import { View, StyleSheet, Keyboard } from 'react-native';
 
 import { Terms } from './Terms';
 
@@ -96,7 +96,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         control={control}
         error={errors[SignUpFields.passwordConfirmation]}
         onSubmitEditing={handleOnSubmit}
-        keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'}
+        keyboardType={'default'}
         secureTextEntry={true}
       />
       <Terms />

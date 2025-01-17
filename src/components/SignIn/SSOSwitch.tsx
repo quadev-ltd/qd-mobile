@@ -50,7 +50,7 @@ export const SSOSwitch: React.FC<SSOSwitchProps> = ({
       onAnimationEnded={handleAnimationEnded}
       disableAnimation={disableAnimation}
       Icon={
-        <MaterialIcon name="email" size={28} color={theme.colors.onSecondary} />
+        <MaterialIcon name="email" size={28} color={theme.colors.onPrimary} />
       }
     />
   );

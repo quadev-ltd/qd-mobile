@@ -87,13 +87,15 @@ export const HookFormPasswordInput = <
               onSubmitEditing={onSubmitEditing}
               keyboardType="default"
             />
-            <View style={styles.inputLabelContainer}>
-              <TouchableOpacity onPress={forgotPasswordCallback}>
-                <Text style={[styles.forgotPassword, dynamicStyles.forgot]}>
-                  {forgotPasswordLabel}
-                </Text>
-              </TouchableOpacity>
-            </View>
+            {forgotPasswordLabel && (
+              <View style={styles.inputLabelContainer}>
+                <TouchableOpacity onPress={forgotPasswordCallback}>
+                  <Text style={[styles.forgotPassword, dynamicStyles.forgot]}>
+                    {forgotPasswordLabel}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
             {!isValid && (
               <View style={styles.passwordHintsContainer}>
                 {passwordHints.map(hint => (

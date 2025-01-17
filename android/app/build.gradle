@@ -96,8 +96,8 @@ android {
         applicationId "com.qdmobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "0.0.0"
+        versionCode 3
+        versionName "1.0.0"
         resValue "string", "build_config_package", "com.qdmobile"
         resConfigs "en"
     }
