@@ -53,10 +53,10 @@ export const Divider: React.FC<DividerProps> = ({
   const dynamicStyles = useMemo(
     () => ({
       divider: {
-        borderColor: theme.colors.secondary,
+        borderColor: theme.colors.primary,
       },
       dividerText: {
-        color: theme.colors.secondary,
+        color: theme.colors.primary,
         fontSize: theme.fonts.bodyLarge.fontSize,
         fontFamily: theme.fonts.bodyLarge.fontFamily,
       },
@@ -94,7 +94,7 @@ export const Divider: React.FC<DividerProps> = ({
               <MaterialIcon
                 name="google"
                 size={26}
-                color={theme.colors.secondary}
+                color={theme.colors.primary}
               />
               <Text style={[styles.dividerText, dynamicStyles.dividerText]}>
                 {label}
@@ -102,13 +102,13 @@ export const Divider: React.FC<DividerProps> = ({
               <MaterialIcon
                 name="facebook"
                 size={28}
-                color={theme.colors.secondary}
+                color={theme.colors.primary}
               />
             </View>
             <MaterialIcon
               name="chevron-down"
               size={32}
-              color={theme.colors.secondary}
+              color={theme.colors.primary}
             />
           </TouchableOpacity>
         </Swipeable>

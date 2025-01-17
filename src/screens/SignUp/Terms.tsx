@@ -11,7 +11,7 @@ export const Terms: React.FC = () => {
   const dynamicStyles = useMemo(
     () => ({
       tAndCText: {
-        color: theme.colors.secondary,
+        color: theme.colors.primary,
         fontFamily: theme.fonts.bodyLarge.fontFamily,
         fontSize: theme.fonts.bodyLarge.fontSize,
       },

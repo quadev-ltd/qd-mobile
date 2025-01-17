@@ -84,10 +84,10 @@ export const CTA: React.FC<CTAProps> = ({
   const dynamicStyles = useMemo(
     () => ({
       ctaButton: {
-        backgroundColor: colors.secondary,
+        backgroundColor: colors.primary,
       },
       text: {
-        color: colors.onSecondary,
+        color: colors.onPrimary,
         fontFamily: fonts.bodyLarge.fontFamily,
         fontSize: fonts.bodyLarge.fontSize,
       },

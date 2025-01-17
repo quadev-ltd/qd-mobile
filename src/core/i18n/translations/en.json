@@ -88,6 +88,20 @@
     "changePathDescription": "Or start again",
     "changePathButton": "go back"
   },
+  "home": {
+    "title": "Welcome!",
+    "description": "We’re excited to have you on board. Please note that this app is a work in progress, and we’re actively building new features to enhance your experience. Stay tuned as we evolve and bring innovative AI-powered functionalities to life. Your journey with us starts here!"
+  },
+  "deleteAccount": {
+    "title": "Are you sure?",
+    "description": "We’re sorry to see you go. Deleting your account will permanently erase all your data, and you will lose access to the app. However, you’re always welcome to create a new account if you decide to return.",
+    "deleteButton": "Delete account",
+    "deleteButtonAccessibilityLabel": "Delete account action",
+    "deleting": "Deleting account...",
+    "deletingAccessibilityLabel": "Deleting account",
+    "successTitle": "Accunt successfully deleted",
+    "successMessage": "Your account has been successfully deleted."
+  },
   "drawerMenu": {
     "signOut": "Sign out"
   },
@@ -120,7 +134,7 @@
   "error": {
     "errorTitle": "Error",
     "unexpectedErrorRetry": "Something went wrong. Please try again later.",
-    "serverSideError": "If the problem persist please contact support.",
+    "serverSideError": "There was an error. If the problem persist please contact support.",
     "networkError": "Network error. Check your connection.",
     "linkCorruptedError": "The link appears to be corrupted. Try sending another link.",
     "tokenExpiredError": "The link has expired. Try sending another link.",

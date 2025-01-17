@@ -28,7 +28,7 @@ export const FlatTextCTA: React.FC<FlatTextCTAProps> = ({
   const dynamicStyles = useMemo(
     () => ({
       text: {
-        color: colors.secondary,
+        color: colors.primary,
         fontFamily: fonts.bodyLarge.fontFamily,
         fontSize: fonts.bodyLarge.fontSize,
       },

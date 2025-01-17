@@ -17,6 +17,8 @@ export enum APIEndpoints {
   GetUserProfile = '/user/profile',
   VerifyPasswordVerificationToken = `/user/${ParameterNames.UserID}/password/reset-verification/${ParameterNames.VerificationToken}`,
   ResetPassword = `/user/${ParameterNames.UserID}/password/reset/${ParameterNames.VerificationToken}`,
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
+  DeleteAccount = '/user',
 }
 
 export enum FieldErrors {

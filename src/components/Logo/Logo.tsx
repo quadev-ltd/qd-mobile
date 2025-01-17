@@ -1,12 +1,19 @@
-import { View, StyleSheet, type ImageStyle, Image } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  type ImageStyle,
+  Image,
+  type ViewStyle,
+} from 'react-native';
 
 interface LogoProps {
   style?: ImageStyle;
+  containerStyle?: ViewStyle;
 }
 
-export const Logo: React.FC<LogoProps> = ({ style }) => {
+export const Logo: React.FC<LogoProps> = ({ style, containerStyle }) => {
   return (
-    <View style={styles.logoContainer}>
+    <View style={[styles.logoContainer, containerStyle]}>
       <Image
         style={[styles.logo, style]}
         source={require('../../assets/png/logo.png')}

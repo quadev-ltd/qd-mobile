@@ -8,6 +8,7 @@ import {
 import { refreshTokens } from '../state/slices/authSlice';
 import { type RootState } from '../state/store';
 
+import { deleteAccountMutation } from './deleteAccountMutation';
 import { forgotPasswordMutation } from './forgotPasswordMutation';
 import { getUserProfileQuery } from './getUserProfileQuery';
 import { refreshAuthTokensMutation } from './refreshAuthTokensMutation';
@@ -120,6 +121,9 @@ export const apiSlice = createApi({
     resetPassword: builder.mutation<BaseResponse, ResetPasswordRequest>({
       query: resetPasswordMutation,
     }),
+    deleteAccount: builder.mutation<BaseResponse, undefined>({
+      query: deleteAccountMutation,
+    }),
   }),
 });
 
@@ -134,4 +138,5 @@ export const {
   useForgotPasswordMutation,
   useVerifyPasswordVerificationTokenQuery,
   useResetPasswordMutation,
+  useDeleteAccountMutation,
 } = apiSlice;

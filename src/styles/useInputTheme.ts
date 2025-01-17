@@ -18,7 +18,7 @@ export const useInputTheme = () => {
       forgot: {
         fontFamily: fonts.bodyLarge.fontFamily,
         fontSize: fonts.bodyLarge.fontSize,
-        color: colors.secondary,
+        color: colors.primary,
       },
     }),
     [fonts, colors],

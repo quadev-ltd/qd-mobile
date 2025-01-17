@@ -1,9 +1,9 @@
 export enum PrivateScreen {
   Home = 'Home',
-  ScreenTwo = 'ScreenTwo',
+  DeleteAccount = 'Delete account',
 }
 
 export type DrawerParamList = {
   [PrivateScreen.Home]: { environment?: string };
-  [PrivateScreen.ScreenTwo]: undefined;
+  [PrivateScreen.DeleteAccount]: undefined;
 };
