@@ -1,4 +1,4 @@
-import auth, { type FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import {
   GoogleSignin,
   statusCodes,
@@ -6,7 +6,9 @@ import {
 import { Alert } from 'react-native';
 
 import { env } from '../env';
-import logger from '../logger';
+
+import { getFirebaseIdToken } from './firebase';
+import { type FirebaseProfileData } from './types';
 
 GoogleSignin.configure({
   webClientId: env.CLIENT_ID,
@@ -17,84 +19,8 @@ const hasCodeProperty = (error: unknown): error is { code: unknown } => {
   return (error as { code: unknown }).code !== undefined;
 };
 
-const handleFirebaseSignInError = (error: unknown) => {
-  const firebaseAuthError = error as FirebaseAuthTypes.NativeFirebaseAuthError;
-  if (firebaseAuthError.code) {
-    // Handle Firebase Auth Errors
-    switch (firebaseAuthError.code) {
-      case 'auth/network-request-failed':
-        logger().logError(
-          new Error(
-            `Network request failed. Check your connection and try again. ${JSON.stringify(
-              error,
-            )}`,
-          ),
-        );
-        break;
-      case 'auth/user-disabled':
-        logger().logError(
-          new Error(`User account is disabled. ${JSON.stringify(error)}`),
-        );
-        break;
-      case 'auth/user-not-found':
-        logger().logError(
-          new Error(`User not found. ${JSON.stringify(error)}`),
-        );
-        break;
-      case 'auth/invalid-credential':
-        logger().logError(
-          new Error(
-            `Invalid credentials. Please try again. ${JSON.stringify(error)}`,
-          ),
-        );
-        break;
-      case 'auth/operation-not-allowed':
-        logger().logError(
-          new Error(
-            `Operation not allowed. Please enable Google sign-in in Firebase. ${JSON.stringify(
-              error,
-            )}`,
-          ),
-        );
-        break;
-      default:
-        logger().logError(error as Error);
-        break;
-    }
-  } else {
-    logger().logError(error as Error);
-  }
-};
-
-const getFirebaseIdToken = async (
-  googleIdToken: string,
-): Promise<string | undefined> => {
-  try {
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(googleIdToken);
-
-    // Sign-in the user with the credential
-    const userCredential = await auth().signInWithCredential(googleCredential);
-
-    // Get the Firebase ID token
-    const firebaseIdToken = await userCredential.user.getIdToken();
-
-    return firebaseIdToken;
-  } catch (error) {
-    handleFirebaseSignInError(error);
-    throw error;
-  }
-};
-
-export interface GoogleProfileData {
-  email: string;
-  firstName: string;
-  lastName: string;
-  idToken: string;
-}
-
 export const onGoogleSignIn = async (): Promise<
-  GoogleProfileData | undefined
+  FirebaseProfileData | undefined
 > => {
   try {
     const hasPlayServices = await GoogleSignin.hasPlayServices();
@@ -124,8 +50,11 @@ export const onGoogleSignIn = async (): Promise<
       throw Error(`Google idToken is null for email ${email}`);
     }
 
+    // Create a Firebase credential with the Google ID token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
     // Get the Firebase ID token
-    const firebaseIdToken = await getFirebaseIdToken(idToken);
+    const firebaseIdToken = await getFirebaseIdToken(googleCredential);
 
     // return user data
     return {

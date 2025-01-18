@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 import CTA from '../CTA';
@@ -50,8 +51,20 @@ export const SSOSwitch: React.FC<SSOSwitchProps> = ({
       onAnimationEnded={handleAnimationEnded}
       disableAnimation={disableAnimation}
       Icon={
-        <MaterialIcon name="email" size={28} color={theme.colors.onPrimary} />
+        <MaterialIcon
+          style={styles.emailIcon}
+          name="email"
+          size={28}
+          color={theme.colors.onPrimary}
+        />
       }
     />
   );
 };
+
+const styles = StyleSheet.create({
+  emailIcon: {
+    position: 'absolute',
+    left: 20,
+  },
+});

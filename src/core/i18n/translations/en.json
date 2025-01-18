@@ -8,8 +8,8 @@
   "signIn": {
     "withGoogle": "Sign in with Google",
     "withGoogleAccessibilityLabel": "Sign in with Google action",
-    "withFacebook": "Sign in with Facebook",
-    "withFacebookAccessibilityLabel": "Sign in with Facebook action",
+    "withApple": "Sign in with Apple",
+    "withAppleAccessibilityLabel": "Sign in with Apple action",
     "withEmail": "Sign in with Email",
     "withSSO": "or",
     "withSSOAccessibilityLabel": "Sign in with single sign on",
@@ -26,8 +26,8 @@
   "signUp": {
     "withGoogle": "Sign up with Google",
     "withGoogleAccessibilityLabel": "Sign up with Google action",
-    "withFacebook": "Sign up with Facebook",
-    "withFacebookAccessibilityLabel": "Sign up with Facebook action",
+    "withApple": "Sign up with Apple",
+    "withAppleAccessibilityLabel": "Sign up with Apple action",
     "withEmail": "Sign up with Email",
     "withSSO": "or",
     "withSSOAccessibilityLabel": "Sign up with single sign on",
@@ -146,6 +146,7 @@
     "emailAlreadyVerifiedError": "Your email has already been verified. Try to sign in with it.",
     "tooManyRequestsError": "Too many requests. Wait a minute and try again.",
     "linkGeneralError": "There was a problem, the link appears to be obsolete or corrupted.",
-    "googleSSODataError": "The Google profile data is not correct."
+    "googleSSODataError": "The Google profile data is not correct.",
+    "appleSSODataError": "The Apple profile data is not correct."
   }
 }

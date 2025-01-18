@@ -1,21 +1,26 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 import { useSignInWithFirebaseMutation } from '../api';
-import { asynchErrorMessages, processUnmanagedError } from '../api/errors';
+import {
+  asynchErrorMessages,
+  processError,
+  type RTKQueryErrorType,
+} from '../api/errors';
 import { useLoadUserProfile } from '../api/hooks/useLoadUserProfile';
 import { type ResponseError } from '../api/types';
 import logger from '../logger';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { login } from '../state/slices/authSlice';
 
-import { type GoogleProfileData, onGoogleSignIn } from './googleSSO';
+import { onGoogleSignIn } from './googleSSO';
+import { type FirebaseProfileData } from './types';
 
 import CTA from '@/components/CTA';
 import { MaterialIcon } from '@/components/MaterialIcon';
 import { type ScreenType } from '@/components/SignIn/types';
 import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
-import { colors } from '@/styles/colors';
 
 interface GoogleSSOCTAProps {
   hide: boolean;
@@ -33,22 +38,25 @@ const GoogleSSOCTA: React.FC<GoogleSSOCTAProps> = ({
   const [signInWithFirebase] = useSignInWithFirebaseMutation();
   const authToken = useAppSelector(state => state.auth.authToken);
   useLoadUserProfile(authToken);
+  const { colors } = useTheme();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const handleError = (error: Error) => {
-    const errorMessage = processUnmanagedError(error as Error, t);
-    if (errorMessage) {
-      showErrorToast(t('error.errorTitle'), errorMessage);
-    } else {
-      logger().logError(error as Error);
-      showUnexpectedErrorToast(t);
-    }
+    processError(error as RTKQueryErrorType, t, {
+      onUnmanagedError: message => {
+        showErrorToast(t('error.errorTitle'), message);
+      },
+      onUnexpectedError: () => showUnexpectedErrorToast(t),
+      logErrorMessage: `Unknown error while signing in with Google: ${JSON.stringify(
+        error,
+      )}`,
+    });
   };
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
-    let googleSSOData: GoogleProfileData | undefined;
+    let googleSSOData: FirebaseProfileData | undefined;
     try {
       googleSSOData = await onGoogleSignIn();
     } catch (error) {
@@ -99,11 +107,18 @@ const GoogleSSOCTA: React.FC<GoogleSSOCTAProps> = ({
     <CTA
       isAnimated={true}
       testID="google-cta"
-      Icon={<MaterialIcon name="google" size={28} color={colors.grey} />}
+      Icon={
+        <MaterialIcon
+          style={styles.googleIcon}
+          name="google"
+          size={28}
+          color={colors.onSecondary}
+        />
+      }
       text={t(`${screen}.withGoogle`)}
       accessibilityLabel={t(`${screen}.withGoogleAccessibilityLabel`)}
-      style={styles.googleButton}
-      textStyle={{ color: colors.grey }}
+      style={[styles.googleButton, { backgroundColor: colors.secondary }]}
+      textStyle={{ color: colors.onSecondary }}
       onPress={handleGoogleSignIn}
       hide={hide}
       disableAnimation={disableAnimation}
@@ -113,8 +128,11 @@ const GoogleSSOCTA: React.FC<GoogleSSOCTAProps> = ({
 
 const styles = StyleSheet.create({
   googleButton: {
-    backgroundColor: colors.white,
     marginBottom: 20,
+  },
+  googleIcon: {
+    position: 'absolute',
+    left: 16,
   },
 });
 
