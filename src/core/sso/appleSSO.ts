@@ -4,10 +4,10 @@ import auth from '@react-native-firebase/auth';
 import logger from '../logger';
 
 import { getFirebaseIdToken } from './firebase';
-import { type FirebaseProfileData } from './types';
+import { type AuthenticationProfileData } from './types';
 
 export const onAppleSignIn = async (): Promise<
-  FirebaseProfileData | undefined
+  AuthenticationProfileData | undefined
 > => {
   // Perform the sign-in request
   const appleAuthRequestResponse = await appleAuth.performRequest({

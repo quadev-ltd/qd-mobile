@@ -1,4 +1,4 @@
-export interface FirebaseProfileData {
+export interface AuthenticationProfileData {
   email: string;
   firstName: string;
   lastName: string;
