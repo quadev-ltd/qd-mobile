@@ -8,7 +8,7 @@ import { Alert } from 'react-native';
 import { env } from '../env';
 
 import { getFirebaseIdToken } from './firebase';
-import { type FirebaseProfileData } from './types';
+import { type AuthenticationProfileData } from './types';
 
 GoogleSignin.configure({
   webClientId: env.CLIENT_ID,
@@ -20,7 +20,7 @@ const hasCodeProperty = (error: unknown): error is { code: unknown } => {
 };
 
 export const onGoogleSignIn = async (): Promise<
-  FirebaseProfileData | undefined
+  AuthenticationProfileData | undefined
 > => {
   try {
     const hasPlayServices = await GoogleSignin.hasPlayServices();

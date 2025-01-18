@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { login } from '../state/slices/authSlice';
 
 import { onAppleSignIn } from './appleSSO';
-import { type FirebaseProfileData } from './types';
+import { type AuthenticationProfileData } from './types';
 
 import CTA from '@/components/CTA';
 import { MaterialIcon } from '@/components/MaterialIcon';
@@ -55,7 +55,7 @@ const AppleSSOCTA: React.FC<AppleSSOCTAProps> = ({
   };
   const handleAppleSignIn = async () => {
     setIsLoading(true);
-    let appleSSOData: FirebaseProfileData | undefined;
+    let appleSSOData: AuthenticationProfileData | undefined;
     try {
       appleSSOData = await onAppleSignIn();
     } catch (error) {

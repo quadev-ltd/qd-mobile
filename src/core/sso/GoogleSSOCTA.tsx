@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { login } from '../state/slices/authSlice';
 
 import { onGoogleSignIn } from './googleSSO';
-import { type FirebaseProfileData } from './types';
+import { type AuthenticationProfileData } from './types';
 
 import CTA from '@/components/CTA';
 import { MaterialIcon } from '@/components/MaterialIcon';
@@ -56,7 +56,7 @@ const GoogleSSOCTA: React.FC<GoogleSSOCTAProps> = ({
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
-    let googleSSOData: FirebaseProfileData | undefined;
+    let googleSSOData: AuthenticationProfileData | undefined;
     try {
       googleSSOData = await onGoogleSignIn();
     } catch (error) {
