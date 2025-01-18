@@ -16,6 +16,9 @@ jest.mock('@react-native-firebase/crashlytics', () => ({
 jest.mock('@/core/sso/googleSSO', () => ({
   onGoogleSignIn: jest.fn(),
 }));
+jest.mock('@/core/sso/appleSSO', () => ({
+  onAppleSignIn: jest.fn(),
+}));
 jest.mock('@/core/api/hooks/useLoadUserProfile');
 
 describe('SSOAnimatedHeader', () => {
@@ -45,6 +48,7 @@ describe('SSOAnimatedHeader', () => {
       </Provider>,
     );
     expect(getByText('signIn.withGoogle')).toBeTruthy();
+    expect(getByText('signIn.withApple')).toBeTruthy();
     expect(queryByText('signIn.withSSO')).toBeNull();
   });
 });

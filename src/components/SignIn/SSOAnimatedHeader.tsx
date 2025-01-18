@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -13,6 +13,7 @@ import Spinner from '../Spinner';
 import { SSOSwitch } from './SSOSwitch';
 import { type ScreenType } from './types';
 
+import AppleSSOCTA from '@/core/sso/AppleSSOCTA';
 import GoogleSSOCTA from '@/core/sso/GoogleSSOCTA';
 
 type SSOAnimatedHeaderProps = {
@@ -101,6 +102,14 @@ export const SSOAnimatedHeader: React.FC<SSOAnimatedHeaderProps> = ({
               disableAnimation={Boolean(disableAnimation)}
               screen={screen}
             />
+            {Platform.OS === 'ios' && (
+              <AppleSSOCTA
+                setIsLoading={setIsLoading}
+                hide={shoulHideSSOButtons || !!isLoading}
+                disableAnimation={Boolean(disableAnimation)}
+                screen={screen}
+              />
+            )}
           </>
         )}
       </View>

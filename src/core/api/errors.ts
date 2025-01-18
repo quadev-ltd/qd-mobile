@@ -61,7 +61,6 @@ export const processUnmanagedError = (
     logger().logError(Error(`Client side error: ${errorMessage}`));
     return;
   }
-  return t('error.unexpectedErrorRetry');
 };
 
 export const processVerificationError = (

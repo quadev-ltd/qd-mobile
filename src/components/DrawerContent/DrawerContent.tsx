@@ -28,7 +28,7 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
         <View style={styles.avatarContainer}>
           <MaterialIcon style={styles.avatar} name="account" size={40} />
         </View>
-        <View>
+        <View style={styles.textContainer}>
           <Text style={styles.drawerHeaderTitle}>
             {user?.firstName} {user?.lastName}
           </Text>
@@ -54,8 +54,7 @@ const styles = StyleSheet.create({
   },
   drawerHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
+    alignItems: 'flex-start',
     padding: 20,
   },
   avatarContainer: {
@@ -73,11 +72,16 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
   },
+  textContainer: {
+    flex: 1,
+  },
   drawerHeaderTitle: {
     fontSize: 18,
     paddingBottom: 4,
+    flexWrap: 'wrap',
   },
   drawerHeaderSubtitle: {
+    flexWrap: 'wrap',
     fontSize: 14,
   },
   drawerFooter: {

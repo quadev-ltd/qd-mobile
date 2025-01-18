@@ -36,6 +36,9 @@ jest.mock(
 jest.mock('@/core/sso/googleSSO', () => ({
   onGoogleSignIn: jest.fn(),
 }));
+jest.mock('@/core/sso/appleSSO', () => ({
+  onAppleSignIn: jest.fn(),
+}));
 jest.mock('@/core/api/hooks/useLoadUserProfile');
 
 const mockStore = configureMockStore();

@@ -31,6 +31,9 @@ jest.mock('@/core/state/slices/userSlice', () => ({
 jest.mock('@/core/sso/googleSSO', () => ({
   onGoogleSignIn: jest.fn(),
 }));
+jest.mock('@/core/sso/appleSSO', () => ({
+  onAppleSignIn: jest.fn(),
+}));
 
 const mockNavigation = {
   navigate: jest.fn(),
