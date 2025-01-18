@@ -28,7 +28,6 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
         <View style={styles.avatarContainer}>
           <MaterialIcon style={styles.avatar} name="account" size={40} />
         </View>
-
         <View style={styles.textContainer}>
           <Text style={styles.drawerHeaderTitle}>
             {user?.firstName} {user?.lastName}
