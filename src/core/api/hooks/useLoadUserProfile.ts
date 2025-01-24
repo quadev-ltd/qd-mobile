@@ -50,8 +50,11 @@ export const useLoadUserProfile = (
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { data, isSuccess, isError, isLoading, isFetching } =
-    useGetUserProfileQuery(!authToken ? skipToken : undefined);
-
+    useGetUserProfileQuery(!authToken ? skipToken : undefined, {
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    });
   useEffect(() => {
     if (isVerified && data) {
       dispatch(setUserVerified());

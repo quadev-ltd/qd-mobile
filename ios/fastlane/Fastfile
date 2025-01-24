@@ -135,6 +135,43 @@ platform :ios do
       api_key: api_key
     )
   end
+
+  desc "Update all provisioning profiles"
+  lane :update_all_profiles do
+    app_identifier = "com.qdmobile"
+    dev_app_identifier = "com.qdmobile.dev"
+  
+    # Update development profiles
+    match(
+      type: "development",
+      app_identifier: app_identifier,
+      readonly: false,
+      force: true
+    )
+  
+    match(
+      type: "development",
+      app_identifier: dev_app_identifier,
+      readonly: false,
+      force: true
+    )
+  
+    # Update App Store profiles
+    match(
+      type: "appstore",
+      app_identifier: app_identifier,
+      readonly: false,
+      force: true
+    )
+    
+    match(
+      type: "appstore",
+      app_identifier: dev_app_identifier,
+      readonly: false,
+      force: true
+    )
+  
+  end  
 end
 
 

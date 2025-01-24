@@ -146,5 +146,5 @@ export interface ResetPasswordRequest {
 
 // Refresh Auth Tokens
 export interface RefreshAuthTokensRequest {
-  refreshToken: string;
+  refreshToken: string | null;
 }

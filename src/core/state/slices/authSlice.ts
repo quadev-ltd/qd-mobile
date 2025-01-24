@@ -27,11 +27,11 @@ import {
   AccountStatus,
 } from './types';
 
+import { apiSlice } from '@/core/api';
 import {
   type RTKQueryErrorType,
   processUnmanagedError,
 } from '@/core/api/errors';
-import { refreshAuthTokens } from '@/core/api/refreshAuthTokens';
 import logger from '@/core/logger';
 import { secondsToDate } from '@/util';
 
@@ -79,7 +79,9 @@ export const refreshTokens = createAsyncThunk(
       if (tokenExpiry.getTime() < Date.now()) {
         throw new Error('Refresh token has expired');
       }
-      const response = await refreshAuthTokens(refreshToken as string);
+      const response = await dispatch(
+        apiSlice.endpoints.refreshAuthTokens.initiate({ refreshToken }),
+      ).unwrap();
       logger().logMessage(
         'Authentication token successfully refreshed and claims decoded.',
       );
@@ -93,7 +95,7 @@ export const refreshTokens = createAsyncThunk(
           const statusCode = (error as FetchBaseQueryError).status as number;
           if (statusCode >= 400 && statusCode < 500) {
             errorMessage = t('error.unauthorizedError');
-            dispatch(logout());
+            statusCode === 401 && dispatch(logout());
           }
           if (statusCode >= 500 && statusCode < 600) {
             errorMessage = t('error.serverSideError');
