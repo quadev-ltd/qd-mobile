@@ -62,7 +62,7 @@ const baseQueryWithReauth = async (
   const { authToken, tokenExpiry } = (api.getState() as RootState).auth;
   const isAuthenticated = authToken && tokenExpiry;
   if (isAuthenticated) {
-    if (tokenExpiry.getTime() <= Date.now()) {
+    if (tokenExpiry.getTime() + 29 * 60 * 1000 <= Date.now()) {
       await api.dispatch(refreshTokens());
     }
   }

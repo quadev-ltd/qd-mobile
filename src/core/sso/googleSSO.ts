@@ -6,6 +6,7 @@ import {
 import { Alert } from 'react-native';
 
 import { env } from '../env';
+import logger from '../logger';
 
 import { getFirebaseIdToken } from './firebase';
 import { type AuthenticationProfileData } from './types';
@@ -31,10 +32,14 @@ export const onGoogleSignIn = async (): Promise<
       );
       return;
     }
+    logger().logMessage('Initiating Google sign in...');
     const {
       idToken,
       user: { familyName, givenName, email },
     } = await GoogleSignin.signIn();
+    logger().logMessage(
+      `Successfully signed in to google with user ${familyName} ${givenName} ${email}`,
+    );
 
     if (familyName === null || givenName === null || email === null) {
       throw Error(
@@ -50,13 +55,14 @@ export const onGoogleSignIn = async (): Promise<
       throw Error(`Google idToken is null for email ${email}`);
     }
 
-    // Create a Firebase credential with the Google ID token
+    logger().logMessage(
+      `Create a Firebase credential with the Google ID token`,
+    );
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
-    // Get the Firebase ID token
+    logger().logMessage(`Get firebase ID token`);
     const firebaseIdToken = await getFirebaseIdToken(googleCredential);
 
-    // return user data
     return {
       email,
       firstName: givenName as string,
@@ -64,6 +70,11 @@ export const onGoogleSignIn = async (): Promise<
       idToken: firebaseIdToken as string,
     };
   } catch (error) {
+    logger().logError(
+      Error(
+        `Unknown error while signing in with Google: ${JSON.stringify(error)}`,
+      ),
+    );
     if (hasCodeProperty(error)) {
       switch (error.code) {
         case statusCodes.SIGN_IN_CANCELLED:

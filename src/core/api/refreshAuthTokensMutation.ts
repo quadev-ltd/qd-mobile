@@ -8,6 +8,7 @@ export const refreshAuthTokensMutation = (data: RefreshAuthTokensRequest) => {
       // The refresh token is sent in the Authorization header
       // This is not overwritten in prepareHeaders function
       Authorization: `Bearer ${data.refreshToken}`,
+      'Content-Type': 'application/json',
     },
   };
 };
