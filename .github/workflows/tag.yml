@@ -7,7 +7,6 @@ on:
 
 jobs:
   build-android-release:
-    if: github.event.ref_type == 'tag'
     runs-on: ubuntu-latest
     container:
       image: tavoargento/react-native-android-ci:0.0.1

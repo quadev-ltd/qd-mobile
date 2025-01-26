@@ -132,7 +132,8 @@ platform :ios do
 
     pilot(
       app_identifier: "com.qdmobile",
-      api_key: api_key
+      api_key: api_key,
+      skip_build: true
     )
   end
 
