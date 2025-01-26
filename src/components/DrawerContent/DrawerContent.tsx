@@ -10,6 +10,7 @@ import { MaterialIcon } from '../MaterialIcon';
 
 import DrawerCTA from './DrawerCTA';
 
+import { NO_SURNAME_PROVIDED } from '@/core/sso/constants';
 import { useAppDispatch, useAppSelector } from '@/core/state/hooks';
 import { getUserDetailsSelector } from '@/core/state/selectors/user';
 import { logout } from '@/core/state/slices/authSlice';
@@ -20,6 +21,7 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(getUserDetailsSelector);
   const handleLogout = () => dispatch(logout());
+  const lastName = user?.lastName === NO_SURNAME_PROVIDED ? '' : user?.lastName;
   return (
     <DrawerContentScrollView
       contentContainerStyle={styles.container}
@@ -30,7 +32,7 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.drawerHeaderTitle}>
-            {user?.firstName} {user?.lastName}
+            {user?.firstName} {lastName}
           </Text>
           <Text style={styles.drawerHeaderSubtitle}>{user?.email}</Text>
         </View>
