@@ -8,6 +8,7 @@ import { Alert } from 'react-native';
 import { env } from '../env';
 import logger from '../logger';
 
+import { NO_SURNAME_PROVIDED } from './constants';
 import { getFirebaseIdToken } from './firebase';
 import { type AuthenticationProfileData } from './types';
 
@@ -41,7 +42,7 @@ export const onGoogleSignIn = async (): Promise<
       `Successfully signed in to google with user ${familyName} ${givenName} ${email}`,
     );
 
-    if (familyName === null || givenName === null || email === null) {
+    if (givenName === null || email === null) {
       throw Error(
         `User details missing: ${JSON.stringify({
           familyName,
@@ -51,7 +52,7 @@ export const onGoogleSignIn = async (): Promise<
       );
     }
 
-    if (idToken === null) {
+    if (!idToken) {
       throw Error(`Google idToken is null for email ${email}`);
     }
 
@@ -63,10 +64,12 @@ export const onGoogleSignIn = async (): Promise<
     logger().logMessage(`Get firebase ID token`);
     const firebaseIdToken = await getFirebaseIdToken(googleCredential);
 
+    const lastName = familyName ?? NO_SURNAME_PROVIDED;
+
     return {
       email,
       firstName: givenName as string,
-      lastName: familyName as string,
+      lastName,
       idToken: firebaseIdToken as string,
     };
   } catch (error) {
