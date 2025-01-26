@@ -46,7 +46,7 @@ platform :android do
 
   lane :deploy_to_play_store do
     supply(
-      track: 'internal', # Can be: production, beta, alpha, or internal
+      track: 'alpha', # Can be: production, beta, alpha, or internal
       package_name: 'com.qdmobile',
       aab: 'app/build/outputs/bundle/productionRelease/app-production-release.aab', # Or use aab: for Android App Bundles
       json_key: 'google-play-key.json',
