@@ -79,6 +79,45 @@ jobs:
       - name: Build iOS App
         run: |
           npx react-native run-ios --no-packager
+  build-android-release:
+    runs-on: ubuntu-latest
+    container:
+      image: tavoargento/react-native-android-ci:0.0.1
+    env:
+      STORE_FILE: ${{ secrets.STORE_FILE }}
+      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+      STORE_ALIAS: ${{ secrets.STORE_ALIAS }}
+      STORE_KEY_PASSWORD: ${{ secrets.STORE_KEY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install Gems
+        run: bundle install
+
+      - name: Decode google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_PROD_JSON }}" | base64 -d > ./android/app/src/production/google-services.json
+
+      - name: Decode .env.prod file
+        run: echo "${{ secrets.ENV_PROD }}" | base64 -d > ./.env.prod
+
+      - name: Decode release key file
+        run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
+
+      - name: Decode Google Play key
+        run: echo "${{ secrets.GOOGLE_PLAY_KEY }}" | base64 -d > ./android/google-play-key.json
+
+      - name: Build Android Release App
+        run: cd android && ./gradlew bundleProductionRelease
+
+      - name: Distribute to Google Play
+        run: |
+          cd android
+          bundle exec fastlane android deploy_to_play_store
+
 
 #  build-and-push-android-docker-image:
 #    runs-on: ubuntu-latest
