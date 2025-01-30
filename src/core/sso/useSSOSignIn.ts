@@ -87,7 +87,6 @@ export function useSSOSignIn({
       } else {
         handleError(error as Error);
       }
-    } finally {
       setIsLoading(false);
     }
   };
