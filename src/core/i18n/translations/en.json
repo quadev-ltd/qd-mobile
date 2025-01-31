@@ -79,7 +79,7 @@
     "changePathButton": "Sign in"
   },
   "emailVerification": {
-    "title": "Welcome to ",
+    "title": "Welcome to",
     "verifyingSubtitle": "We are verifying your email...",
     "emailSent": "We've sent you a verification email!",
     "successSubtitle": "Your email has been verified!",

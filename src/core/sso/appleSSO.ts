@@ -26,7 +26,7 @@ export const onAppleSignIn = async (): Promise<
 
   const { givenName, familyName } = fullName ?? {};
 
-  if (givenName === null || email === null) {
+  if (email === null) {
     throw Error(
       `User details missing: ${JSON.stringify({
         familyName,
