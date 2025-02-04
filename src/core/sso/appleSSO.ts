@@ -26,16 +26,6 @@ export const onAppleSignIn = async (): Promise<
 
   const { givenName, familyName } = fullName ?? {};
 
-  if (givenName === null || email === null) {
-    throw Error(
-      `User details missing: ${JSON.stringify({
-        familyName,
-        givenName,
-        email,
-      })}`,
-    );
-  }
-
   if (!identityToken) {
     throw Error(`Apple identityToken is null for email ${email}`);
   }
