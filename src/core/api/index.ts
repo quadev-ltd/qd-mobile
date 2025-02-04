@@ -108,6 +108,7 @@ export const apiSlice = createApi({
     }),
     getUserProfile: builder.query<GetUserProfileResponse, undefined>({
       query: getUserProfileQuery,
+      forceRefetch: () => true,
     }),
     forgotPassword: builder.mutation<BaseResponse, ForgotPasswordRequest>({
       query: forgotPasswordMutation,
