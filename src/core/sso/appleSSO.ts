@@ -18,7 +18,6 @@ export const onAppleSignIn = async (): Promise<
 
   const { identityToken, nonce, fullName, email } = appleAuthRequestResponse;
 
-  console.log('appleAuthRequestResponse', appleAuthRequestResponse);
   logger().logMessage(
     `Successfully signed in to Apple with user ${JSON.stringify(
       fullName,
