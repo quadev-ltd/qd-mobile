@@ -21,6 +21,7 @@ jest.mock('../../core/api', () => ({
 }));
 jest.mock('react-native-toast-message', () => 'ToastMessage');
 jest.mock('@react-native-firebase/crashlytics', () => 'Crashlytics');
+jest.mock('@react-native-firebase/auth', () => 'Auth');
 jest.mock(
   'react-native-vector-icons/MaterialCommunityIcons',
   () => 'MaterialCommunityIcons',

@@ -13,6 +13,7 @@ jest.mock('@react-native-firebase/crashlytics', () => ({
   log: jest.fn(),
   recordError: jest.fn(),
 }));
+jest.mock('@react-native-firebase/auth', () => 'Crashlytics');
 jest.mock('@/core/sso/googleSSO', () => ({
   onGoogleSignIn: jest.fn(),
 }));
