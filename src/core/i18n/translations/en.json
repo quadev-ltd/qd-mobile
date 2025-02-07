@@ -148,5 +148,9 @@
     "linkGeneralError": "There was a problem, the link appears to be obsolete or corrupted.",
     "googleSSODataError": "The Google profile data is not correct.",
     "appleSSODataError": "The Apple profile data is not correct."
+  },
+  "password": {
+    "hideAccessibilityLabel": "Hide password",
+    "showAccessibilityLabel": "Show password"
   }
 }

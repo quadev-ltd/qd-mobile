@@ -11,6 +11,7 @@ import {
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
   type KeyboardTypeOptions,
+  type ViewStyle,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
@@ -26,9 +27,11 @@ interface FormTextInputProps {
   value?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   keyboardType?: KeyboardTypeOptions;
+  containerStyle?: ViewStyle;
 }
 
 export const FormTextInput: React.FC<FormTextInputProps> = ({
+  containerStyle,
   label,
   accessibilityLabel,
   secureTextEntry,
@@ -42,7 +45,7 @@ export const FormTextInput: React.FC<FormTextInputProps> = ({
   const { colors } = useTheme();
   const dynamicStyles = useInputTheme();
   return (
-    <View style={styles.fieldConatiner}>
+    <View style={[styles.fieldConatiner, containerStyle]}>
       <TextInput
         testID={label}
         style={[styles.input, dynamicStyles.input]}

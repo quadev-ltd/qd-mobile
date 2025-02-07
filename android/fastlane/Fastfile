@@ -36,11 +36,19 @@ platform :android do
 #     upload_to_play_store
 #   end
 
-  desc "Deploy to firebase app distribution"
+  desc "Deploy to firebase development app distribution"
   lane :distribute_dev_app do
     firebase_app_distribution(
         app: "1:476492543939:android:78fda527c441d302a66f76",
         android_artifact_path: "app/build/outputs/apk/development/release/app-development-release.apk"
+    )
+  end
+
+  desc "Deploy to firebase production app distribution"
+  lane :distribute_dev_app do
+    firebase_app_distribution(
+        app: "1:993625301555:android:768b283d3ddca74a787946",
+        android_artifact_path: "app/build/outputs/apk/production/release/app-production-release.apk"
     )
   end
 

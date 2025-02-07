@@ -145,13 +145,17 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         isLoading={isLoading}
       />
       <ScrollView
+        pointerEvents="box-none"
         keyboardShouldPersistTaps="handled"
         style={Platform.OS === 'ios' && isKeyboardVisible && { marginBottom }}
         contentContainerStyle={[
           styles.formContainer,
           !isKeyboardVisible && styles.scrollView,
         ]}>
-        <Animated.View testID="form" style={[styles.form, animatedStyle]}>
+        <Animated.View
+          testID="form"
+          style={[styles.form, animatedStyle]}
+          pointerEvents="box-none">
           {children}
         </Animated.View>
       </ScrollView>

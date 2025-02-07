@@ -87,17 +87,15 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
         password={password}
         control={control}
         error={errors[SignUpFields.password]}
+        passwordConfirmationField={{
+          label: t('signUp.passwordConfirmationLabel'),
+          accessibilityLabel: t(
+            'signUp.passwordConfirmationAccessibilityLabel',
+          ),
+          name: SignUpFields.passwordConfirmation,
+          error: errors[SignUpFields.passwordConfirmation],
+        }}
         onSubmitEditing={handleOnSubmit}
-      />
-      <HookFormTextInput
-        label={t('signUp.passwordConfirmationLabel')}
-        accessibilityLabel={t('signUp.passwordConfirmationAccessibilityLabel')}
-        name={SignUpFields.passwordConfirmation}
-        control={control}
-        error={errors[SignUpFields.passwordConfirmation]}
-        onSubmitEditing={handleOnSubmit}
-        keyboardType={'default'}
-        secureTextEntry={true}
       />
       <Terms />
       <View style={styles.footerButton}>
