@@ -13,7 +13,6 @@ import ResetPasswordStatus from './ResetPasswordStatus';
 
 import CTA from '@/components/CTA';
 import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
-import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
 import Subtitle from '@/components/SignIn/Subtitle';
 import { useResetPassword } from '@/core/api/hooks/useResetPassword';
 import { useRedirectToSignInOnSuccess } from '@/hooks/useRedirectToSignInOnSuccess';
@@ -75,7 +74,9 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.formContainer}>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={styles.formContainer}>
       <Subtitle
         text={t('resetPassword.subtitle')}
         accessibilityLabel={t('resetPasswrod.subtitle')}
@@ -88,16 +89,14 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
         control={control}
         error={errors[ResetPasswordFields.password]}
         onSubmitEditing={handleOnSubmit}
-      />
-      <HookFormTextInput
-        label={t('signUp.passwordConfirmationLabel')}
-        accessibilityLabel={t('signUp.passwordConfirmationAccessibilityLabel')}
-        name={ResetPasswordFields.passwordConfirmation}
-        control={control}
-        error={errors[ResetPasswordFields.passwordConfirmation]}
-        onSubmitEditing={handleOnSubmit}
-        keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'}
-        secureTextEntry={true}
+        passwordConfirmationField={{
+          label: t('signUp.passwordConfirmationLabel'),
+          accessibilityLabel: t(
+            'signUp.passwordConfirmationAccessibilityLabel',
+          ),
+          name: ResetPasswordFields.passwordConfirmation,
+          error: errors[ResetPasswordFields.passwordConfirmation],
+        }}
       />
       <KeyboardAvoidingView
         style={styles.keyboardAvoidingContainer}

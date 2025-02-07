@@ -30,7 +30,6 @@ export const isPasswordValid = (
     checkNumber &&
     checkSpecialChar &&
     checkLength;
-
   return {
     isValid,
     hasUpperCase: checkUpperCase,
