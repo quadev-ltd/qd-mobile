@@ -79,8 +79,7 @@ jobs:
       - name: Build iOS App
         run: |
           npx react-native run-ios --no-packager
-
-
+                  
 #  build-and-push-android-docker-image:
 #    runs-on: ubuntu-latest
 #
