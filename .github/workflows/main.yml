@@ -60,7 +60,6 @@ jobs:
         run: |
           grep -i -B 2 -A 4 "error:" /Users/runner/Library/Logs/gym/QDMobileDev-QDMobileDev.log || true
 
-
   build-android-development-test-release:
     runs-on: ubuntu-latest
     container:
@@ -92,7 +91,7 @@ jobs:
       - name: Build Android Release App
         run: cd android && ./gradlew assembleDevelopmentRelease
 
-      - name: Distribute to Firebase App Distribution
+      - name: Distribute to Firebase Dev App Distribution
         run: |
           cd android
           bundle exec fastlane android distribute_dev_app
@@ -117,19 +116,19 @@ jobs:
         run: bundle install
 
       - name: Decode google-services.json
-        run: echo "${{ secrets.GOOGLE_SERVICES_DEV_JSON }}" | base64 -d > ./android/app/src/development/google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_PROD_JSON }}" | base64 -d > ./android/app/src/production/google-services.json
 
-      - name: Decode .env.dev file
-        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.dev
+      - name: Decode .env.prod file
+        run: echo "${{ secrets.ENV_DEV }}" | base64 -d > ./.env.prod
 
       - name: Decode release key file
         run: echo "${{ secrets.STORE_FILE_CONTENT }}" | base64 -d > ./android/app/release-key.keystore
 
       - name: Build Android Release App
-        run: cd android && ./gradlew assembleDevelopmentRelease
+        run: cd android && ./gradlew assembleProductionRelease
 
-      - name: Distribute to Firebase App Distribution
+      - name: Distribute to Firebase Prod App Distribution
         run: |
           cd android
-          bundle exec fastlane android distribute_dev_app
+          bundle exec fastlane android distribute_prod_app
           
