@@ -31,6 +31,7 @@ export interface SSOAnimatedFormScreenProps {
   formHeight: number;
   children?: ReactNode;
   initiateManualSignIn?: boolean;
+  setFocusOnManualFormShow?: () => void;
 }
 
 export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
@@ -39,6 +40,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   formHeight,
   children,
   initiateManualSignIn,
+  setFocusOnManualFormShow,
 }) => {
   const [isSSO, setIsSSO] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,6 +49,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
     VIEWPORT_HEIGHT - top - bottom - FooterPromptHeight - 12;
   const translateY = useSharedValue(safeAreaViewportHeight);
   const [disableAnimation, setDisableAnimation] = useState(true);
+  const shouldSetInitialFocus = useRef(true);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const isKeyboardVisibleRef = useRef<boolean>(false);
@@ -89,20 +92,28 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
 
   const switchSSO = () => {
     disableAnimation && setDisableAnimation(false);
-    !isSSO
-      ? animateFormHide(() => {
-          setIsSSO(!isSSO);
-          Keyboard.dismiss();
-        })
-      : setIsSSO(!isSSO);
+    !isSSO ? animateFormHide() : setIsSSO(!isSSO);
+    shouldSetInitialFocus.current = isSSO;
   };
 
-  const animateFormHide = (onAnimationEnded?: () => void) => {
-    !isSSO && animateTranslation(safeAreaViewportHeight, onAnimationEnded);
+  const animateFormHide = () => {
+    !isSSO &&
+      animateTranslation(safeAreaViewportHeight, () => {
+        setIsSSO(!isSSO);
+        Keyboard.dismiss();
+      });
   };
 
   const animateFormShow = () => {
-    !isSSO && animateTranslation(0);
+    !isSSO &&
+      animateTranslation(0, () => {
+        const isAndroidAndShouldSetInitialFocus =
+          Platform.OS === 'android' &&
+          shouldSetInitialFocus.current &&
+          setFocusOnManualFormShow;
+        isAndroidAndShouldSetInitialFocus && setFocusOnManualFormShow();
+        shouldSetInitialFocus.current = false;
+      });
   };
 
   const animateTranslation = (
@@ -145,7 +156,6 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
         isLoading={isLoading}
       />
       <ScrollView
-        pointerEvents="box-none"
         keyboardShouldPersistTaps="handled"
         style={Platform.OS === 'ios' && isKeyboardVisible && { marginBottom }}
         contentContainerStyle={[

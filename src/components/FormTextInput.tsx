@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import {
   type FieldError,
   type FieldErrorsImpl,
@@ -30,45 +31,55 @@ interface FormTextInputProps {
   containerStyle?: ViewStyle;
 }
 
-export const FormTextInput: React.FC<FormTextInputProps> = ({
-  containerStyle,
-  label,
-  accessibilityLabel,
-  secureTextEntry,
-  onSubmitEditing,
-  onBlur,
-  onChangeText,
-  keyboardType,
-  value,
-  error,
-}) => {
-  const { colors } = useTheme();
-  const dynamicStyles = useInputTheme();
-  return (
-    <View style={[styles.fieldConatiner, containerStyle]}>
-      <TextInput
-        testID={label}
-        style={[styles.input, dynamicStyles.input]}
-        secureTextEntry={secureTextEntry}
-        placeholder={label}
-        placeholderTextColor={colors.onTertiary}
-        accessible
-        accessibilityLabel={accessibilityLabel}
-        onBlur={onBlur}
-        onChangeText={onChangeText}
-        onSubmitEditing={onSubmitEditing}
-        returnKeyType="go"
-        keyboardType={keyboardType}
-        value={value}
-      />
-      {error && (
-        <Text style={[styles.error, dynamicStyles.error]}>
-          {error.message as string}
-        </Text>
-      )}
-    </View>
-  );
-};
+export const FormTextInput = forwardRef<TextInput, FormTextInputProps>(
+  (
+    {
+      containerStyle,
+      label,
+      accessibilityLabel,
+      secureTextEntry,
+      onSubmitEditing,
+      onBlur,
+      onChangeText,
+      keyboardType,
+      value,
+      error,
+      ...textInputProps
+    },
+    ref,
+  ) => {
+    const { colors } = useTheme();
+    const dynamicStyles = useInputTheme();
+    return (
+      <View style={[styles.fieldConatiner, containerStyle]}>
+        <TextInput
+          testID={label}
+          style={[styles.input, dynamicStyles.input]}
+          secureTextEntry={secureTextEntry}
+          placeholder={label}
+          placeholderTextColor={colors.onTertiary}
+          accessible
+          accessibilityLabel={accessibilityLabel}
+          onBlur={onBlur}
+          onChangeText={onChangeText}
+          onSubmitEditing={onSubmitEditing}
+          returnKeyType="go"
+          keyboardType={keyboardType}
+          value={value}
+          ref={ref}
+          {...textInputProps}
+        />
+        {error && (
+          <Text style={[styles.error, dynamicStyles.error]}>
+            {error.message as string}
+          </Text>
+        )}
+      </View>
+    );
+  },
+);
+
+FormTextInput.displayName = 'FormTextInput';
 
 const styles = StyleSheet.create({
   fieldConatiner: {

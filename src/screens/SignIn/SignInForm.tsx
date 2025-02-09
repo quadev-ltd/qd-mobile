@@ -1,5 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, Keyboard } from 'react-native';
 
@@ -10,11 +9,7 @@ import Spinner from '@/components/Spinner';
 import { useLoadUserProfile } from '@/core/api/hooks/useLoadUserProfile';
 import { useSignIn } from '@/core/api/hooks/useSignIn';
 import { useAppSelector } from '@/core/state/hooks';
-import {
-  SignInFields,
-  type SignInSchemaType,
-  signInSchema,
-} from '@/schemas/signInSchema';
+import { SignInFields, type SignInSchemaType } from '@/schemas/signInSchema';
 
 interface SignInFormProps {
   forgotPasswordCallback: (email?: string) => void;
@@ -30,7 +25,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     formState: { errors },
     watch,
     reset,
-  } = useForm<SignInSchemaType>({ resolver: zodResolver(signInSchema) });
+  } = useFormContext<SignInSchemaType>();
   const { t } = useTranslation();
   const { signIn, isLoading, isSuccess } = useSignIn(setError);
   const authToken = useAppSelector(state => state.auth.authToken);
