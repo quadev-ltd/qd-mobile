@@ -35,12 +35,13 @@ export const HookFormTextInput = <
   error,
   onSubmitEditing,
   keyboardType,
+  ...rest
 }: HookFormTextInputProps<TFormSchema>) => {
   return (
     <Controller
       name={name as FieldType}
       control={control}
-      render={({ field: { onChange, onBlur, value } }) => {
+      render={({ field: { onChange, onBlur, value, ref } }) => {
         return (
           <>
             <FormTextInput
@@ -53,6 +54,8 @@ export const HookFormTextInput = <
               secureTextEntry={secureTextEntry}
               onSubmitEditing={onSubmitEditing}
               keyboardType={keyboardType}
+              ref={ref}
+              {...rest}
             />
           </>
         );

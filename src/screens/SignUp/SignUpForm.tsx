@@ -1,5 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, Keyboard } from 'react-native';
 
@@ -11,11 +10,7 @@ import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput
 import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
 import Spinner from '@/components/Spinner';
 import { useSignUp } from '@/core/api/hooks/useSignUp';
-import {
-  SignUpFields,
-  type SignUpSchemaType,
-  signUpSchema,
-} from '@/schemas/signUpSchema';
+import { SignUpFields, type SignUpSchemaType } from '@/schemas/signUpSchema';
 
 interface SignUpFormProps {
   onSuccess: (userData: { userName: string; userID: string }) => void;
@@ -28,7 +23,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
     setError,
     formState: { errors },
     watch,
-  } = useForm<SignUpSchemaType>({ resolver: zodResolver(signUpSchema) });
+  } = useFormContext<SignUpSchemaType>();
   const { t } = useTranslation();
   const { signUp, isLoading } = useSignUp(onSuccess, setError);
 
