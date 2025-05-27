@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ScrollView, SafeAreaView, StyleSheet, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import { useTheme } from 'react-native-paper';
@@ -11,12 +12,13 @@ interface AnalysisResultProps {
 }
 
 const AnalysisResult: React.FC<AnalysisResultProps> = ({ text, goBack }) => {
+  const { t } = useTranslation();
   const { fonts, colors } = useTheme();
   return (
     <SafeAreaView
       style={[styles.safeArea, { backgroundColor: colors.background }]}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Header title="Analysis result" />
+        <Header title={t('detectAnomaly.analysisResult')} />
         <Markdown
           style={{
             body: {
@@ -28,7 +30,11 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ text, goBack }) => {
           {text}
         </Markdown>
         <View style={styles.ctaContainer}>
-          <CTA text="Go back" accessibilityLabel="Go back" onPress={goBack} />
+          <CTA
+            text={t('detectAnomaly.goBack')}
+            accessibilityLabel="Go back"
+            onPress={goBack}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
