@@ -108,7 +108,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
     );
   };
 
-  const marginBottom = keyboardOffset.current - 80;
+  const marginBottom = keyboardOffset - 80;
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
