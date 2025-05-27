@@ -55,8 +55,10 @@ describe('CameraComponent', () => {
       expect(mockRequestPermission).toHaveBeenCalledTimes(1);
     });
 
-    expect(getByText('detectAnomaly.noCamera')).toBeTruthy();
-    expect(mockLoadPhotoURI).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(getByText('detectAnomaly.noCamera')).toBeTruthy();
+      expect(mockLoadPhotoURI).not.toHaveBeenCalled();
+    });
   });
 
   it('renders camera preview and CTAs when permission granted and device ready', () => {

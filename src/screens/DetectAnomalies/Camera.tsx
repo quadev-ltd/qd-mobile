@@ -15,6 +15,7 @@ import {
 import CTA from '@/components/CTA';
 import Header from '@/components/Header';
 import { MaterialIcon } from '@/components/MaterialIcon';
+import Spinner from '@/components/Spinner';
 import { colors } from '@/styles/colors';
 
 export interface CameraProps {
@@ -23,7 +24,8 @@ export interface CameraProps {
 
 const CameraComponent: React.FC<CameraProps> = ({ loadPhotoURI }) => {
   const { hasPermission, requestPermission } = useCameraPermission();
-  const [granted, setGranted] = useState<boolean>(hasPermission);
+  const [requestingPermissions, setRequestingPermissions] =
+    useState<boolean>(false);
   const { t } = useTranslation();
   const device = useCameraDevice('back');
   const camera = useRef<Camera>(null);
@@ -32,7 +34,9 @@ const CameraComponent: React.FC<CameraProps> = ({ loadPhotoURI }) => {
   useEffect(() => {
     (async () => {
       if (!hasPermission) {
-        setGranted(await requestPermission());
+        setRequestingPermissions(true);
+        await requestPermission();
+        setRequestingPermissions(false);
       }
     })();
   }, [hasPermission, requestPermission]);
@@ -60,7 +64,11 @@ const CameraComponent: React.FC<CameraProps> = ({ loadPhotoURI }) => {
     }
   };
 
-  if (device == null || !granted) {
+  if (requestingPermissions) {
+    return <Spinner color={themeColors.primary} />;
+  }
+
+  if (!hasPermission || !device) {
     return (
       <Header
         title={t('detectAnomaly.noCamera')}
