@@ -50,7 +50,7 @@ const AppleSSOCTA: React.FC<AppleSSOCTAProps> = ({
       }
       text={t(`${screen}.withApple`)}
       accessibilityLabel={t(`${screen}.withAppleAccessibilityLabel`)}
-      style={[styles.appleButton, { backgroundColor: colors.primary }]}
+      style={[styles.appleButton, { backgroundColor: colors.secondary }]}
       onPress={handleSignIn}
       hide={hide}
       disableAnimation={disableAnimation}

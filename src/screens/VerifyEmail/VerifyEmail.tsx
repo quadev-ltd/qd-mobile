@@ -9,10 +9,10 @@ import { type ResendRequestStatus, VerificationRequestStatus } from './types';
 import { useEmailVerification } from './useEmailVerification';
 
 import CTA from '@/components/CTA';
+import BrandedTitle from '@/components/SignIn/BrandedTitle';
 import ErrorMessage from '@/components/SignIn/ErrorMessage';
 import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
 import { Layout } from '@/components/SignIn/Layout';
-import Title from '@/components/SignIn/Title';
 import { ScreenType } from '@/components/SignIn/types';
 import { APIError } from '@/core/api/types';
 
@@ -68,7 +68,7 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({
   return (
     <Layout>
       <View style={styles.container}>
-        <Title text={title} accessibilityLabel={title} />
+        <BrandedTitle text={title} accessibilityLabel={title} />
         <StatusDisplay status={finalStatus} />
         <Subtitle
           status={finalStatus}

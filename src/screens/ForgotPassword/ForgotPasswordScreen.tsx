@@ -5,9 +5,9 @@ import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
 import ForgotPasswordForm from './ForgotPasswordForm';
 
+import BrandedTitle from '@/components/SignIn/BrandedTitle';
 import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
 import { Layout } from '@/components/SignIn/Layout';
-import Title from '@/components/SignIn/Title';
 import { ScreenType } from '@/components/SignIn/types';
 
 export type ForgotPasswordScreenProps = NativeStackScreenProps<
@@ -24,7 +24,7 @@ export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
 
   return (
     <Layout>
-      <Title
+      <BrandedTitle
         text={t('forgotPassword.title')}
         accessibilityLabel={t('forgotPassword.title')}
       />

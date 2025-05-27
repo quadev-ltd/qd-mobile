@@ -12,8 +12,8 @@ import {
 import ForgotPasswordStatus from './ForgotPasswordStatus';
 
 import CTA from '@/components/CTA';
-import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
-import Subtitle from '@/components/SignIn/Subtitle';
+import { HookFormTextInput } from '@/components/HookFormInputs/HookFormTextInput';
+import BrandedSubtitle from '@/components/SignIn/BrandedSubtitle';
 import { useForgotPassword } from '@/core/api/hooks/useForgotPassword';
 import {
   ForgotPasswordFields,
@@ -78,7 +78,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
     <ScrollView
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={styles.formContainer}>
-      <Subtitle
+      <BrandedSubtitle
         text={t('forgotPassword.subtitle')}
         accessibilityLabel={t('forgotPassword.subtitle')}
       />
