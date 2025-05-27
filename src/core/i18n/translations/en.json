@@ -115,7 +115,9 @@
     "descriptionInputAccessibilityLabel": "Add description input", 
     "noCamera": "No camera device available",
     "analysing": "Analysing...",
-    "analysingAccessibilityLabel": "Analysing photo"
+    "analysingAccessibilityLabel": "Analysing photo",
+    "analysisResult": "Analysis result",
+    "goBack": "Go back"
   },
   "drawerMenu": {
     "home": "Home",
