@@ -14,6 +14,7 @@ import { NO_SURNAME_PROVIDED } from '@/core/sso/constants';
 import { useAppDispatch, useAppSelector } from '@/core/state/hooks';
 import { getUserDetailsSelector } from '@/core/state/selectors/user';
 import { logout } from '@/core/state/slices/authSlice';
+import { PrivateScreen } from '@/screens/Routing/Private/types';
 import { colors } from '@/styles/colors';
 
 const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
@@ -21,6 +22,9 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(getUserDetailsSelector);
   const handleLogout = () => dispatch(logout());
+  const handleDeleteAccount = () => {
+    props.navigation.navigate(PrivateScreen.DeleteAccount);
+  };
   const lastName = user?.lastName === NO_SURNAME_PROVIDED ? '' : user?.lastName;
   return (
     <DrawerContentScrollView
@@ -39,6 +43,11 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
       </View>
       <DrawerItemList {...props} />
       <View style={styles.drawerFooter}>
+        <DrawerCTA
+          accessibilityLabel={t('drawerMenu.deleteAccount')}
+          text={t('drawerMenu.deleteAccount')}
+          onPress={handleDeleteAccount}
+        />
         <DrawerCTA
           accessibilityLabel={t('drawerMenu.signOut')}
           text={t('drawerMenu.signOut')}
@@ -90,7 +99,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    marginBottom: 48,
+    gap: 16,
+    marginBottom: 24,
     alignSelf: 'stretch',
   },
 });

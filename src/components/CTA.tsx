@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useMemo } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import {
   type StyleProp,
   StyleSheet,
@@ -8,7 +8,6 @@ import {
   View,
   type ViewStyle,
 } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -17,13 +16,16 @@ import Animated, {
   type SharedValue,
 } from 'react-native-reanimated';
 
+import { useDynamicStyles } from '@/styles/useDynamicStyles';
+
 interface CTAProps {
   onPress?: () => void;
   testID?: string;
   Icon?: ReactNode;
-  text: string;
+  text?: string;
   accessibilityLabel: string;
   style?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   hide?: boolean;
   onAnimationEnded?: () => void;
@@ -56,6 +58,7 @@ export const CTA: React.FC<CTAProps> = ({
   Icon,
   text,
   accessibilityLabel,
+  containerStyle,
   style,
   textStyle,
   hide,
@@ -64,7 +67,6 @@ export const CTA: React.FC<CTAProps> = ({
   isAnimated,
   disabled,
 }) => {
-  const { fonts, colors } = useTheme();
   const scale = useSharedValue(disableAnimation ? 1 : 0);
 
   useEffect(() => {
@@ -81,23 +83,7 @@ export const CTA: React.FC<CTAProps> = ({
     [scale],
   );
 
-  const dynamicStyles = useMemo(
-    () => ({
-      ctaButton: {
-        backgroundColor: colors.primary,
-      },
-      text: {
-        color: colors.onPrimary,
-        fontFamily: fonts.bodyLarge.fontFamily,
-        fontSize: fonts.bodyLarge.fontSize,
-      },
-      disabled: {
-        backgroundColor: colors.surfaceDisabled,
-        opacity: 0.3,
-      },
-    }),
-    [fonts, colors],
-  );
+  const dynamicStyles = useDynamicStyles();
 
   const AnimatedView = isAnimated
     ? Animated.createAnimatedComponent(View)
@@ -105,6 +91,7 @@ export const CTA: React.FC<CTAProps> = ({
 
   return (
     <TouchableOpacity
+      style={containerStyle}
       disabled={disabled}
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}>
@@ -118,11 +105,13 @@ export const CTA: React.FC<CTAProps> = ({
           isAnimated && animatedStyle,
         ]}>
         {Icon && Icon}
-        <View style={styles.textContainer}>
-          <Text style={[styles.text, dynamicStyles.text, textStyle]}>
-            {text}
-          </Text>
-        </View>
+        {text && (
+          <View style={styles.textContainer}>
+            <Text style={[styles.text, dynamicStyles.ctaText, textStyle]}>
+              {text}
+            </Text>
+          </View>
+        )}
       </AnimatedView>
     </TouchableOpacity>
   );

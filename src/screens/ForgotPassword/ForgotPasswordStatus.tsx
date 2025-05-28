@@ -6,8 +6,8 @@ import StatusDisplay, {
 } from '../../components/StatusDisplay';
 
 import CTA from '@/components/CTA';
+import BrandedSubtitle from '@/components/SignIn/BrandedSubtitle';
 import ErrorMessage from '@/components/SignIn/ErrorMessage';
-import Subtitle from '@/components/SignIn/Subtitle';
 
 export interface ForgotPasswordStatusProps {
   isLoading: boolean;
@@ -29,7 +29,7 @@ export const ForgotPasswordStatus: React.FC<ForgotPasswordStatusProps> = ({
       {isLoading && (
         <>
           <StatusDisplay status={VerificationStatus.Sending} />
-          <Subtitle
+          <BrandedSubtitle
             text={t('forgotPassword.sending')}
             accessibilityLabel={t('forgotPassword.sendingAccessibilityLabel')}
           />
@@ -38,7 +38,7 @@ export const ForgotPasswordStatus: React.FC<ForgotPasswordStatusProps> = ({
       {isSuccess && (
         <>
           <StatusDisplay status={VerificationStatus.Success} />
-          <Subtitle
+          <BrandedSubtitle
             text={t('forgotPassword.success')}
             accessibilityLabel={t('forgotPassword.success')}
           />

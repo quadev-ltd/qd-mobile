@@ -1,23 +1,13 @@
-import { useMemo } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { useTheme } from 'react-native-paper';
+
+import { useDynamicStyles } from '@/styles/useDynamicStyles';
 
 interface SubtitleProps {
   text: string;
   accessibilityLabel: string;
 }
 const Subtitle: React.FC<SubtitleProps> = ({ accessibilityLabel, text }) => {
-  const { fonts, colors } = useTheme();
-  const dynamicStyles = useMemo(
-    () => ({
-      subtitle: {
-        color: colors.onPrimary,
-        fontFamily: fonts.titleMedium.fontFamily,
-        fontSize: fonts.titleMedium.fontSize,
-      },
-    }),
-    [fonts, colors],
-  );
+  const dynamicStyles = useDynamicStyles();
   return (
     <Text
       accessibilityLabel={accessibilityLabel}
@@ -31,7 +21,7 @@ const styles = StyleSheet.create({
   subtitle: {
     paddingHorizontal: 0,
     paddingBottom: 32,
-    fontWeight: '500',
+    fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 24,
   },

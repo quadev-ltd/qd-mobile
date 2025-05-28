@@ -11,43 +11,39 @@ import {
   TextInput,
   type TextInputFocusEventData,
   type NativeSyntheticEvent,
-  type KeyboardTypeOptions,
   type ViewStyle,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 import { useInputDynamicStyles } from '@/styles/useInputDynamicStyles';
 
-interface FormTextInputProps {
+interface FormTextAreaInputProps {
   label: string;
   accessibilityLabel: string;
-  secureTextEntry?: boolean;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onChangeText?: (text: string) => void;
   onSubmitEditing?: () => void;
   value?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
-  keyboardType?: KeyboardTypeOptions;
   containerStyle?: ViewStyle;
-  style?: ViewStyle;
   numberOfLines?: number;
-  multiline?: boolean;
+  height?: number;
+  style?: ViewStyle;
 }
 
-export const FormTextInput = forwardRef<TextInput, FormTextInputProps>(
+export const FormTextAreaInput = forwardRef<TextInput, FormTextAreaInputProps>(
   (
     {
-      style,
       containerStyle,
+      style,
       label,
       accessibilityLabel,
-      secureTextEntry,
       onSubmitEditing,
       onBlur,
       onChangeText,
-      keyboardType,
       value,
       error,
+      numberOfLines = 5,
       ...textInputProps
     },
     ref,
@@ -55,11 +51,10 @@ export const FormTextInput = forwardRef<TextInput, FormTextInputProps>(
     const { colors } = useTheme();
     const dynamicStyles = useInputDynamicStyles();
     return (
-      <View style={[styles.fieldConatiner, containerStyle]}>
+      <View style={[styles.fieldContainer, containerStyle]}>
         <TextInput
           testID={label}
-          style={[styles.input, dynamicStyles.input, style]}
-          secureTextEntry={secureTextEntry}
+          style={[styles.input, dynamicStyles.input, styles.textArea, style]}
           placeholder={label}
           placeholderTextColor={colors.onTertiary}
           accessible
@@ -67,10 +62,12 @@ export const FormTextInput = forwardRef<TextInput, FormTextInputProps>(
           onBlur={onBlur}
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
-          returnKeyType="go"
-          keyboardType={keyboardType}
+          returnKeyType="default"
+          multiline
+          numberOfLines={numberOfLines}
           value={value}
           ref={ref}
+          textAlignVertical="top"
           {...textInputProps}
         />
         {error && (
@@ -83,24 +80,28 @@ export const FormTextInput = forwardRef<TextInput, FormTextInputProps>(
   },
 );
 
-FormTextInput.displayName = 'FormTextInput';
+FormTextAreaInput.displayName = 'FormTextAreaInput';
 
 const styles = StyleSheet.create({
-  fieldConatiner: {
+  fieldContainer: {
     width: '100%',
-    marginBottom: 20,
+    marginBottom: 32,
     alignItems: 'stretch',
+    flex: 1,
   },
   input: {
     borderWidth: 1,
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 25,
-    height: 44,
     shadowOpacity: 0.2,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 4,
     elevation: 4,
+  },
+  textArea: {
+    borderRadius: 20,
+    height: '100%',
   },
   error: {
     position: 'absolute',

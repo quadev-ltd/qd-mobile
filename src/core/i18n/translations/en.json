@@ -102,7 +102,27 @@
     "successTitle": "Accunt successfully deleted",
     "successMessage": "Your account has been successfully deleted."
   },
+  "detectAnomaly": {
+    "title": "Smart inspection",
+    "description": "Use your camera to detect faults in industrial parts with machine learning.",
+    "takePhoto": "Take photo",
+    "takePhotoAccessibilityLabel": "Take photo",
+    "submitPhoto": "Submit photo",
+    "submitPhotoAccessibilityLabel": "Submit photo",
+    "addDescription": "Add any description or comment you think that could help improve the analysis.",
+    "addDescriptionAccessibilityLabel": "Add description",
+    "descriptionInputLabel": "Add description",
+    "descriptionInputAccessibilityLabel": "Add description input", 
+    "noCamera": "No camera device available",
+    "analysing": "Analysing...",
+    "analysingAccessibilityLabel": "Analysing photo",
+    "analysisResult": "Analysis result",
+    "goBack": "Go back"
+  },
   "drawerMenu": {
+    "home": "Home",
+    "smartInspection": "Smart inspection",
+    "deleteAccount": "Delete account",
     "signOut": "Sign out"
   },
   "fieldError": {
@@ -129,7 +149,9 @@
     "invalidEmailOrPasswordError": "Invalid email or password",
     "passwordNotComplexError": "Password is not complex enough",
     "maxLengthError": "too long",
-    "requiredError": "required"
+    "requiredError": "required",
+    "photoRequiredError": "Photo is required",
+    "descriptionRequiredError": "Description is required"
   },
   "error": {
     "errorTitle": "Error",

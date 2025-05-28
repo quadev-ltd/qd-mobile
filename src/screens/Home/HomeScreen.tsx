@@ -1,10 +1,10 @@
 import { type DrawerScreenProps } from '@react-navigation/drawer';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 import Logo from '@/components/Logo/Logo';
+import Header from '@/components/SignIn/BrandedHeader';
 import { useLoadUserProfile } from '@/core/api/hooks/useLoadUserProfile';
 import { useAppSelector } from '@/core/state/hooks';
 import {
@@ -21,32 +21,17 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const authToken = useAppSelector(state => state.auth.authToken);
   useLoadUserProfile(authToken);
   const { t } = useTranslation();
-  const { fonts, colors } = useTheme();
-  const dynamicStyles = useMemo(
-    () => ({
-      title: {
-        color: colors.onPrimary,
-        fontFamily: fonts.titleLarge.fontFamily,
-        fontSize: fonts.titleLarge.fontSize,
-      },
-      description: {
-        color: colors.onPrimary,
-        fontFamily: fonts.bodyLarge.fontFamily,
-        fontSize: fonts.bodyLarge.fontSize,
-      },
-    }),
-    [fonts, colors],
-  );
+  const { colors } = useTheme();
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.primary }]}>
       <Logo style={styles.logo} containerStyle={styles.logoContainer} />
       <View style={styles.textContainer}>
-        <Text style={[styles.title, dynamicStyles.title]}>
-          {t('home.title')}
-        </Text>
-        <Text style={[styles.description, dynamicStyles.description]}>
-          {t('home.description')}
-        </Text>
+        <Header
+          title={t('home.title')}
+          titleAccessibilityLabel={t('home.title')}
+          subtitle={t('home.description')}
+          subtitleAccessibilityLabel={t('home.description')}
+        />
       </View>
     </View>
   );
@@ -56,18 +41,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-  },
-  title: {
-    fontWeight: 'bold',
-    marginBottom: 24,
-    textAlign: 'center',
-  },
-  description: {
-    marginTop: 8,
-    marginBottom: 24,
-    fontWeight: 'bold',
-    fontSize: 14,
-    textAlign: 'center',
   },
   logoContainer: {
     justifyContent: 'center',

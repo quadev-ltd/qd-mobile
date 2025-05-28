@@ -5,9 +5,9 @@ import { View, StyleSheet, Keyboard } from 'react-native';
 import { Terms } from './Terms';
 
 import CTA from '@/components/CTA';
-import { HookFormDateInput } from '@/components/SignIn/HookFormDateInput';
-import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
-import { HookFormTextInput } from '@/components/SignIn/HookFormTextInput';
+import { HookFormDateInput } from '@/components/HookFormInputs/HookFormDateInput';
+import { HookFormPasswordInput } from '@/components/HookFormInputs/HookFormPasswordInput';
+import { HookFormTextInput } from '@/components/HookFormInputs/HookFormTextInput';
 import Spinner from '@/components/Spinner';
 import { useSignUp } from '@/core/api/hooks/useSignUp';
 import { SignUpFields, type SignUpSchemaType } from '@/schemas/signUpSchema';

@@ -5,9 +5,9 @@ import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
 import ResetPasswordForm from './ResetPasswordForm';
 
+import BrandedTitle from '@/components/SignIn/BrandedTitle';
 import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
 import { Layout } from '@/components/SignIn/Layout';
-import Title from '@/components/SignIn/Title';
 import { ScreenType } from '@/components/SignIn/types';
 
 export type ResetPasswordScreenProps = NativeStackScreenProps<
@@ -38,7 +38,7 @@ export const ResetPasswordScreen: React.FC<ResetPasswordScreenProps> = ({
     navigation.replace(PublicScreen.ForgotPassword, {});
   return (
     <Layout>
-      <Title
+      <BrandedTitle
         text={t('resetPassword.title')}
         accessibilityLabel={t('resetPassword.title')}
       />

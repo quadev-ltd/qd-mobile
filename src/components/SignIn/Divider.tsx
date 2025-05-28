@@ -1,5 +1,11 @@
-import { useEffect, useMemo } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useEffect } from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import {
   GestureHandlerRootView,
   Swipeable,
@@ -14,6 +20,8 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { MaterialIcon } from '../MaterialIcon';
+
+import { useDividerDynamicStyles } from '@/styles/useDividerDynamicStyles';
 
 type DividerProps = {
   label: string;
@@ -50,19 +58,7 @@ export const Divider: React.FC<DividerProps> = ({
   onAnimationEnded,
 }) => {
   const theme = useTheme();
-  const dynamicStyles = useMemo(
-    () => ({
-      divider: {
-        borderColor: theme.colors.primary,
-      },
-      dividerText: {
-        color: theme.colors.primary,
-        fontSize: theme.fonts.bodyLarge.fontSize,
-        fontFamily: theme.fonts.bodyLarge.fontFamily,
-      },
-    }),
-    [theme.fonts, theme.colors],
-  );
+  const dynamicStyles = useDividerDynamicStyles();
 
   const scaleX = useSharedValue(0);
   const scaleY = useSharedValue(0);
@@ -92,23 +88,28 @@ export const Divider: React.FC<DividerProps> = ({
             onPress={onPress}>
             <View style={styles.dividerContentContainer}>
               <MaterialIcon
+                style={styles.googleSSO}
                 name="google"
                 size={26}
-                color={theme.colors.primary}
+                color={theme.colors.secondary}
               />
-              <Text style={[styles.dividerText, dynamicStyles.dividerText]}>
-                {label}
-              </Text>
-              <MaterialIcon
-                name="facebook"
-                size={28}
-                color={theme.colors.primary}
-              />
+              {Platform.OS === 'ios' && (
+                <>
+                  <Text style={[styles.dividerText, dynamicStyles.dividerText]}>
+                    {label}
+                  </Text>
+                  <MaterialIcon
+                    name="apple"
+                    size={32}
+                    color={theme.colors.secondary}
+                  />
+                </>
+              )}
             </View>
             <MaterialIcon
               name="chevron-down"
               size={32}
-              color={theme.colors.primary}
+              color={theme.colors.secondary}
             />
           </TouchableOpacity>
         </Swipeable>
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
   },
   dividerContentContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     width: 80,
     marginTop: 24,
   },
@@ -148,5 +149,9 @@ const styles = StyleSheet.create({
   dividerText: {
     fontWeight: '700',
     marginTop: 8,
+    marginHorizontal: 8,
+  },
+  googleSSO: {
+    marginTop: 4,
   },
 });

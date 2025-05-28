@@ -1,11 +1,12 @@
-import { useMemo, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import {
   StyleSheet,
   Text,
   type TextStyle,
   TouchableOpacity,
 } from 'react-native';
-import { useTheme } from 'react-native-paper';
+
+import { useDynamicStyles } from '@/styles/useDynamicStyles';
 
 interface FlatTextCTAProps {
   onPress: () => void;
@@ -24,21 +25,7 @@ export const FlatTextCTA: React.FC<FlatTextCTAProps> = ({
   Icon,
   disabled,
 }) => {
-  const { fonts, colors } = useTheme();
-  const dynamicStyles = useMemo(
-    () => ({
-      text: {
-        color: colors.primary,
-        fontFamily: fonts.bodyLarge.fontFamily,
-        fontSize: fonts.bodyLarge.fontSize,
-      },
-      disabled: {
-        color: colors.surfaceDisabled,
-        opacity: 0.3,
-      },
-    }),
-    [fonts, colors],
-  );
+  const dynamicStyles = useDynamicStyles();
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -48,7 +35,7 @@ export const FlatTextCTA: React.FC<FlatTextCTAProps> = ({
       <Text
         style={[
           styles.text,
-          dynamicStyles.text,
+          dynamicStyles.textCTAText,
           style,
           disabled && dynamicStyles.disabled,
         ]}>

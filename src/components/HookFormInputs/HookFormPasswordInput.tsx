@@ -15,12 +15,12 @@ import {
 } from '../../hooks/usePasswordValidation';
 import { FormTextInput } from '../FormTextInput';
 import { MaterialIcon } from '../MaterialIcon';
+import { type FieldType } from '../SignIn/types';
 
 import { HookFormTextInput } from './HookFormTextInput';
-import { type FieldType } from './types';
 
 import { colors } from '@/styles/colors';
-import { useInputTheme } from '@/styles/useInputTheme';
+import { useInputDynamicStyles } from '@/styles/useInputDynamicStyles';
 
 interface PasswordConfirmationProps<
   TFormSchema extends Record<FieldType, string>,
@@ -61,7 +61,7 @@ export const HookFormPasswordInput = <
   passwordConfirmationField,
 }: HookFormPasswordInputProps<TFormSchema>) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const dynamicStyles = useInputTheme();
+  const dynamicStyles = useInputDynamicStyles();
   const { t } = useTranslation();
   const validations: PasswordValidityAttributes =
     usePasswordValidation(password);
