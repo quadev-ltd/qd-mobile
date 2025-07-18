@@ -19,10 +19,7 @@ export enum APIEndpoints {
   ResetPassword = `/user/${ParameterNames.UserID}/password/reset/${ParameterNames.VerificationToken}`,
   // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   DeleteAccount = '/user',
-}
-
-export enum AIEndpoints {
-  DetectAnomaly = '/detect',
+  ImageAnalysis = '/image-analysis',
 }
 
 export enum FieldErrors {
@@ -154,11 +151,8 @@ export interface RefreshAuthTokensRequest {
 }
 
 // Anomaly Detection
-export type AnomalyDetectionRequest = {
-  photo: string;
-  description: string;
-};
+export type AnomalyDetectionRequest = FormData;
 
 export type AnomalyDetectionResponse = {
-  text: string;
+  responseToPrompt: string;
 };

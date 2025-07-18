@@ -6,13 +6,14 @@ import { colors } from '@/styles/colors';
 interface SpinnerProps {
   style?: ViewStyle;
   color?: string;
+  size?: number | 'small' | 'large' | undefined;
 }
 
-const Spinner: React.FC<SpinnerProps> = ({ style, color }) => {
+const Spinner: React.FC<SpinnerProps> = ({ style, color, size }) => {
   return (
     <View style={[styles.container, style]}>
       <ActivityIndicator
-        size="large"
+        size={size || 'large'}
         animating={true}
         color={color || colors.blackSpinner}
       />

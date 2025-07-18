@@ -123,15 +123,17 @@ docker build --platform=linux/amd64 --tag tavoargento/react-native-android:0.0.1
 
 # TODO
 - firebase
-  - app distribution
-  - authentication
   - terraform
 - Functional tests 
-- react-navigation
-- paper
-- react-native-camera-vision
 - Add reactotron after issues are fixed:
   Branch: rn-upgrade (reversed commits)
   https://github.com/infinitered/reactotron/issues/1430
   https://github.com/infinitered/reactotron/pull/1466
-
+- Unit tests for:
+  - CTA loading
+  - useDetectAnomaly
+  - compress logic
+- Input shadow and delete button shadow in android
+- Error message
+- Analysis result scroll
+- Allow selecting picture if no camera

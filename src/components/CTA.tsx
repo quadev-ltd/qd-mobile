@@ -8,6 +8,7 @@ import {
   View,
   type ViewStyle,
 } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -15,6 +16,8 @@ import Animated, {
   runOnJS,
   type SharedValue,
 } from 'react-native-reanimated';
+
+import Spinner from './Spinner';
 
 import { useDynamicStyles } from '@/styles/useDynamicStyles';
 
@@ -32,6 +35,7 @@ interface CTAProps {
   disableAnimation?: boolean;
   isAnimated?: boolean;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 export const BUTTON_ANIMATION_DURATION = 300;
@@ -66,6 +70,7 @@ export const CTA: React.FC<CTAProps> = ({
   disableAnimation,
   isAnimated,
   disabled,
+  isLoading,
 }) => {
   const scale = useSharedValue(disableAnimation ? 1 : 0);
 
@@ -85,6 +90,8 @@ export const CTA: React.FC<CTAProps> = ({
 
   const dynamicStyles = useDynamicStyles();
 
+  const { colors } = useTheme();
+
   const AnimatedView = isAnimated
     ? Animated.createAnimatedComponent(View)
     : View;
@@ -92,7 +99,7 @@ export const CTA: React.FC<CTAProps> = ({
   return (
     <TouchableOpacity
       style={containerStyle}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}>
       <AnimatedView
@@ -104,13 +111,19 @@ export const CTA: React.FC<CTAProps> = ({
           disabled && dynamicStyles.disabled,
           isAnimated && animatedStyle,
         ]}>
-        {Icon && Icon}
-        {text && (
-          <View style={styles.textContainer}>
-            <Text style={[styles.text, dynamicStyles.ctaText, textStyle]}>
-              {text}
-            </Text>
-          </View>
+        {isLoading ? (
+          <Spinner size={28} color={colors.onPrimary} />
+        ) : (
+          <>
+            {Icon && Icon}
+            {text && (
+              <View style={styles.textContainer}>
+                <Text style={[styles.text, dynamicStyles.ctaText, textStyle]}>
+                  {text}
+                </Text>
+              </View>
+            )}
+          </>
         )}
       </AnimatedView>
     </TouchableOpacity>
@@ -129,6 +142,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 4,
     elevation: 4,
+    marginBottom: 12,
   },
   text: {
     fontSize: 16,

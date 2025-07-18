@@ -1413,6 +1413,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-image-resizer (1.4.5):
+    - React-Core
   - react-native-keyboard-controller (1.17.0):
     - DoubleConversion
     - glog
@@ -1871,6 +1873,8 @@ PODS:
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.25.0):
     - DoubleConversion
     - glog
@@ -2132,6 +2136,7 @@ DEPENDENCIES:
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-keyboard-controller (from `../node_modules/react-native-keyboard-controller`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -2169,6 +2174,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNKeychain (from `../node_modules/react-native-keychain`)
@@ -2281,6 +2287,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-config"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-image-resizer:
+    :path: "../node_modules/react-native-image-resizer"
   react-native-keyboard-controller:
     :path: "../node_modules/react-native-keyboard-controller"
   react-native-mmkv:
@@ -2355,6 +2363,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNFBCrashlytics:
     :path: "../node_modules/@react-native-firebase/crashlytics"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
@@ -2432,6 +2442,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: 069ef12656a93e0344851e18de6cfb7bdfd9a59e
   react-native-config: 3367df9c1f25bb96197007ec531c7087ed4554c3
   react-native-image-picker: 400323ff69c77bd7c4e25c4d33e41940d3a99216
+  react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-keyboard-controller: e3a5963364563f7f4606b4ecb33daf4cfd26f240
   react-native-mmkv: 35992c4170a4a46be095fd1b7fe17d2fd1d42124
   react-native-safe-area-context: d71edcee579673b370c053804f34c40c1f250976
@@ -2470,6 +2481,7 @@ SPEC CHECKSUMS:
   RNFBApp: 57aef1ee0e7195a8728f8923bfbc2916298ccb3d
   RNFBAuth: fb72a5c5ba815a286ab78297d868815d6a2079f0
   RNFBCrashlytics: 9722485efd48ea258406224fac2863b3b598b6e6
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 11c5dd2f721813fe21291182e636e3b84eb90ded
   RNGoogleSignin: 3a944098c392472ec02e3a32f0a779b7e079dd46
   RNKeychain: bfe3d12bf4620fe488771c414530bf16e88f3678

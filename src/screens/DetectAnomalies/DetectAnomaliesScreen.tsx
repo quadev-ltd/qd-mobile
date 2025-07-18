@@ -9,6 +9,7 @@ import {
   Image,
   TouchableOpacity,
   Keyboard,
+  Text,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
@@ -19,6 +20,7 @@ import ScreenLayout from './ScreenLayout';
 import CTA from '@/components/CTA';
 import { HookFormTextInput } from '@/components/HookFormInputs/HookFormTextInput';
 import { MaterialIcon } from '@/components/MaterialIcon';
+import Spinner from '@/components/Spinner';
 import Subtitle from '@/components/Subtitle';
 import { useDetectAnomaly } from '@/core/api/hooks/useDetectAnomaly';
 import { useKeyboardVisibility } from '@/hooks/useKeyboardVisibility';
@@ -31,6 +33,7 @@ import {
   type DrawerParamList,
   type PrivateScreen,
 } from '@/screens/Routing/Private/types';
+import { useDynamicStyles } from '@/styles/useDynamicStyles';
 
 export type DetecObjectScreenProps = DrawerScreenProps<
   DrawerParamList,
@@ -38,20 +41,28 @@ export type DetecObjectScreenProps = DrawerScreenProps<
 >;
 
 const DetectAnomaliesScreen: React.FC<DetecObjectScreenProps> = () => {
+  const dynamicStyles = useDynamicStyles();
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isLoading: isFormLoading },
     watch,
   } = useForm<DetectAnomalySchemaType>({
     resolver: zodResolver(detectAnomalySchema),
   });
-  const photoURI = watch(DetectAnomalyFields.photo);
+  const imageURI = watch(DetectAnomalyFields.image);
   const [retakePhoto, setRetakePhoto] = useState<boolean>(false);
   const { t } = useTranslation();
   const { colors: themeColors } = useTheme();
-  const { submitDetectAnomaly, isLoading, isSuccess, reset, data } =
-    useDetectAnomaly();
+  const {
+    submitDetectAnomaly,
+    isLoading: isRequestLoading,
+    isSuccess,
+    reset,
+    data,
+    errorMessageCode,
+  } = useDetectAnomaly();
+  const isLoading = isFormLoading || isRequestLoading;
 
   const { keyboardOffset } = useKeyboardVisibility([]);
 
@@ -74,7 +85,7 @@ const DetectAnomaliesScreen: React.FC<DetecObjectScreenProps> = () => {
   };
 
   const renderCamera = () => (
-    <ScreenLayout isSubmitting={false}>
+    <ScreenLayout>
       {retakePhoto && (
         <TouchableOpacity style={styles.closeCamera} onPress={closeCamera}>
           <MaterialIcon
@@ -91,7 +102,7 @@ const DetectAnomaliesScreen: React.FC<DetecObjectScreenProps> = () => {
         ]}>
         <Controller
           control={control}
-          name={DetectAnomalyFields.photo}
+          name={DetectAnomalyFields.image}
           render={({ field: { onChange } }) => (
             <Camera
               loadPhotoURI={photo => {
@@ -105,18 +116,12 @@ const DetectAnomaliesScreen: React.FC<DetecObjectScreenProps> = () => {
     </ScreenLayout>
   );
 
-  const renderLoading = () => <ScreenLayout isSubmitting={true} />;
-
   const renderResult = () => (
-    <AnalysisResult text={data?.text as string} goBack={goBack} />
+    <AnalysisResult text={data?.responseToPrompt as string} goBack={goBack} />
   );
 
-  if (!photoURI || retakePhoto) {
+  if (!imageURI || retakePhoto) {
     return renderCamera();
-  }
-
-  if (isLoading) {
-    return renderLoading();
   }
 
   if (isSuccess && data) {
@@ -124,7 +129,7 @@ const DetectAnomaliesScreen: React.FC<DetecObjectScreenProps> = () => {
   }
 
   return (
-    <ScreenLayout isSubmitting={false} keyboardOffset={keyboardOffset}>
+    <ScreenLayout keyboardOffset={keyboardOffset}>
       <View
         style={[
           styles.takenPhoto,
@@ -134,12 +139,14 @@ const DetectAnomaliesScreen: React.FC<DetecObjectScreenProps> = () => {
           },
         ]}>
         <TouchableOpacity
+          disabled={isLoading}
           onPress={takeAnotherPhoto}
           style={styles.takeAnotherPhotoCTA}>
           <Image
-            source={{ uri: `file://${photoURI}` }}
+            source={{ uri: `file://${imageURI}` }}
             style={[StyleSheet.absoluteFill, styles.photoImage]}
           />
+          {isLoading && <Spinner />}
           <MaterialIcon
             style={styles.takeAnotherPhotoIcon}
             name="camera-retake"
@@ -154,13 +161,13 @@ const DetectAnomaliesScreen: React.FC<DetecObjectScreenProps> = () => {
       />
       <View style={styles.footer}>
         <HookFormTextInput
-          error={errors[DetectAnomalyFields.description]}
+          error={errors[DetectAnomalyFields.prompt]}
           control={control}
           label={t('detectAnomaly.descriptionInputLabel')}
           accessibilityLabel={t(
             'detectAnomaly.descriptionInputAccessibilityLabel',
           )}
-          name={DetectAnomalyFields.description}
+          name={DetectAnomalyFields.prompt}
           containerStyle={styles.textAreaContainer}
           style={styles.textArea}
           numberOfLines={5}
@@ -171,8 +178,14 @@ const DetectAnomaliesScreen: React.FC<DetecObjectScreenProps> = () => {
           text={t('detectAnomaly.submitPhoto')}
           accessibilityLabel={t('detectAnomaly.submitPhotoAccessibilityLabel')}
           onPress={handleDetectAnomaly}
+          isLoading={isLoading}
         />
       </View>
+      {errorMessageCode && (
+        <Text style={[styles.errorText, dynamicStyles.errorText]}>
+          {t(errorMessageCode)}
+        </Text>
+      )}
     </ScreenLayout>
   );
 };
@@ -204,7 +217,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   photoImage: {
-    borderRadius: 8,
+    borderRadius: 5,
   },
   takeAnotherPhotoIcon: {
     bottom: 8,
@@ -223,6 +236,11 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     flexDirection: 'column',
+  },
+  errorText: {
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 12,
   },
 });
 

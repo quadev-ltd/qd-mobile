@@ -17,26 +17,26 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ text, goBack }) => {
   return (
     <SafeAreaView
       style={[styles.safeArea, { backgroundColor: colors.background }]}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Header title={t('detectAnomaly.analysisResult')} />
-        <Markdown
-          style={{
-            body: {
-              color: colors.onBackground,
-              fontFamily: fonts.bodyLarge.fontFamily,
-              fontSize: fonts.bodyLarge.fontSize,
-            },
-          }}>
-          {text}
-        </Markdown>
-        <View style={styles.ctaContainer}>
-          <CTA
-            text={t('detectAnomaly.goBack')}
-            accessibilityLabel="Go back"
-            onPress={goBack}
-          />
-        </View>
-      </ScrollView>
+      <View style={styles.textContainer}>
+        <ScrollView scrollEnabled={true}>
+          <Header title={t('detectAnomaly.analysisResult')} />
+          <Markdown
+            style={{
+              body: {
+                color: colors.onBackground,
+                fontFamily: fonts.bodyLarge.fontFamily,
+                fontSize: fonts.bodyLarge.fontSize,
+              },
+            }}>
+            {text}
+          </Markdown>
+        </ScrollView>
+      </View>
+      <CTA
+        text={t('detectAnomaly.goBack')}
+        accessibilityLabel="Go back"
+        onPress={goBack}
+      />
     </SafeAreaView>
   );
 };
@@ -45,14 +45,10 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     alignSelf: 'stretch',
-  },
-  container: {
-    flex: 1,
     padding: 24,
   },
-  ctaContainer: {
+  textContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
   },
 });
 

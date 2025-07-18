@@ -4556,8 +4556,10 @@ __metadata:
     react-native: "npm:0.76.6"
     react-native-bootsplash: "npm:^6.3.2"
     react-native-config: "npm:^1.5.1"
+    react-native-fs: "npm:^2.20.0"
     react-native-gesture-handler: "npm:^2.16.0"
     react-native-image-picker: "npm:^8.2.0"
+    react-native-image-resizer: "npm:^1.4.5"
     react-native-keyboard-controller: "npm:^1.17.0"
     react-native-keychain: "npm:^8.1.2"
     react-native-markdown-display: "npm:^7.0.2"
@@ -5169,6 +5171,13 @@ __metadata:
     bare-events:
       optional: true
   checksum: 10c0/1242286f8f3147e9fd353cdaa9cf53226a807ac0dde8177c13f1463aa4cd1f88e07407c883a1b322b901e9af2d1cd30aacd873529031132c384622972e0419df
+  languageName: node
+  linkType: hard
+
+"base-64@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "base-64@npm:0.1.0"
+  checksum: 10c0/fe0dcf076e823f04db7ee9b02495be08a91c445fbc6db03cb9913be9680e2fcc0af8b74459041fe08ad16800b1f65a549501d8f08696a8a6d32880789b7de69d
   languageName: node
   linkType: hard
 
@@ -10803,6 +10812,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-fs@npm:^2.20.0":
+  version: 2.20.0
+  resolution: "react-native-fs@npm:2.20.0"
+  dependencies:
+    base-64: "npm:^0.1.0"
+    utf8: "npm:^3.0.0"
+  peerDependencies:
+    react-native: "*"
+    react-native-windows: "*"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 10c0/3722b5568610cd72f319c90f60ba8b019a005d015f27e49017ddd0ea314d1ea6991f79288c28549fdc2964dc81c0fa24f8a5f87a4a6283c97c6ea88d4caa6851
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:^2.16.0":
   version: 2.25.0
   resolution: "react-native-gesture-handler@npm:2.25.0"
@@ -10824,6 +10849,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/2e475e930e41de3071899bf2fa2548c1b657b6f5a978843219fe1e0dc1b9678ceb58b5c3410c56c5ca85bd927b1de96ddc958b31f065418b200fc651e039bdf0
+  languageName: node
+  linkType: hard
+
+"react-native-image-resizer@npm:^1.4.5":
+  version: 1.4.5
+  resolution: "react-native-image-resizer@npm:1.4.5"
+  peerDependencies:
+    react-native: ">=v0.40.0"
+  checksum: 10c0/13e7418d6ecacc0bf80b5be3ef8b9ca2991363579b48c8c8e7301a68de5120adfb7ea44c7ff1a37331a312ce09955e061ac73b583b092ec4436f46b63e46779b
   languageName: node
   linkType: hard
 
@@ -12968,6 +13002,13 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
   checksum: 10c0/1b8663515c0be34fa653feb724fdcce3984037c78dd4a18f68b2c8be55cc1a1084c578d5b75f158d41b5ddffc2bf5600766d1af3c19c8e329bb20af2ec6f52f4
+  languageName: node
+  linkType: hard
+
+"utf8@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "utf8@npm:3.0.0"
+  checksum: 10c0/675d008bab65fc463ce718d5cae8fd4c063540f269e4f25afebce643098439d53e7164bb1f193e0c3852825c7e3e32fbd8641163d19a618dbb53f1f09acb0d5a
   languageName: node
   linkType: hard
 

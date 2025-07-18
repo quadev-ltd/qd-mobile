@@ -18,6 +18,8 @@ import { MaterialIcon } from '@/components/MaterialIcon';
 import Spinner from '@/components/Spinner';
 import { colors } from '@/styles/colors';
 
+const SUPPORTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
+
 export interface CameraProps {
   loadPhotoURI: (photoURI: string) => void;
 }
@@ -52,6 +54,7 @@ const CameraComponent: React.FC<CameraProps> = ({ loadPhotoURI }) => {
     const options: ImageLibraryOptions = {
       mediaType: 'photo',
       selectionLimit: 1,
+      restrictMimeTypes: SUPPORTED_IMAGE_TYPES,
     };
 
     const result = await launchImageLibrary(options);

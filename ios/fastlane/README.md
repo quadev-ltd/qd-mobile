@@ -15,13 +15,45 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios build_dev_app_for_release
+### ios increment_build_version_number
 
 ```sh
-[bundle exec] fastlane ios build_dev_app_for_release
+[bundle exec] fastlane ios increment_build_version_number
 ```
 
-Description of what the lane does
+Increment build number
+
+### ios build_and_distribute_dev_app
+
+```sh
+[bundle exec] fastlane ios build_and_distribute_dev_app
+```
+
+Distribute dev environment to Firebase App Distribution
+
+### ios build_and_distribute_prod_app
+
+```sh
+[bundle exec] fastlane ios build_and_distribute_prod_app
+```
+
+Distribute prod environment to Firebase App Distribution
+
+### ios build_and_distribute_release_app
+
+```sh
+[bundle exec] fastlane ios build_and_distribute_release_app
+```
+
+Distribute latest version to TestFlight
+
+### ios update_all_profiles
+
+```sh
+[bundle exec] fastlane ios update_all_profiles
+```
+
+Update all provisioning profiles
 
 ----
 

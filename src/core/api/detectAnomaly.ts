@@ -1,7 +1,9 @@
-import { AIEndpoints, type AnomalyDetectionRequest, Methods } from './types';
+import { type AnomalyDetectionRequest, APIEndpoints, Methods } from './types';
 
-export const detectAnomaly = (body: AnomalyDetectionRequest) => ({
-  url: AIEndpoints.DetectAnomaly,
-  method: Methods.POST,
-  body,
-});
+export const detectAnomaly = (body: AnomalyDetectionRequest) => {
+  return {
+    url: APIEndpoints.ImageAnalysis,
+    method: Methods.POST,
+    body,
+  };
+};

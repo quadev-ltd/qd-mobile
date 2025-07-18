@@ -42,6 +42,11 @@ export const useDynamicStyles = () => {
         backgroundColor: colors.surfaceDisabled,
         opacity: 0.3,
       },
+      errorText: {
+        color: colors.error,
+        fontFamily: fonts.bodySmall.fontFamily,
+        fontSize: fonts.bodySmall.fontSize,
+      },
     }),
     [fonts, colors],
   );
