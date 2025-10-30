@@ -53,6 +53,32 @@ jobs:
           ls -lh app/build/outputs/bundle/productionRelease/app-production-release.aab
           (sha256sum app/build/outputs/bundle/productionRelease/app-production-release.aab || shasum -a 256 app/build/outputs/bundle/productionRelease/app-production-release.aab) || true
 
+      - name: Scan native libs for 16KB-page compatibility
+        run: |
+          cd android
+          AAB=app/build/outputs/bundle/productionRelease/app-production-release.aab
+          TMPDIR=$(mktemp -d)
+          unzip -q "$AAB" -d "$TMPDIR/aab"
+          # Extract base module native libs
+          unzip -q "$TMPDIR/aab/base/master.apk" -d "$TMPDIR/base"
+          echo "Checking PT_LOAD p_align for native libs (expect <= 0x4000)"
+          FOUND_ISSUE=0
+          if command -v llvm-readelf >/dev/null 2>&1; then READELF=llvm-readelf; else READELF=readelf; fi
+          find "$TMPDIR/base/lib" -type f -name '*.so' | while read -r so; do
+            echo "-- $so"
+            $READELF -l "$so" | awk '/Program Headers:/{p=1} p && /LOAD/{print} /Section to Segment mapping/{p=0}'
+            # Heuristic: flag if any LOAD segment p_align > 0x4000
+            if $READELF -l "$so" | awk '/LOAD/ {print $0}' | grep -Eqi 'Align[^0-9a-fA-F]*0x([4-9][0-9a-fA-F]{3}|[1-9][0-9a-fA-F]{4,})'; then
+              echo "Potential issue: alignment appears > 0x4000"
+              FOUND_ISSUE=1
+            fi
+          done
+          if [ "$FOUND_ISSUE" = "1" ]; then
+            echo "One or more native libraries may be incompatible with 16KB page size."
+          else
+            echo "No obvious alignment issues detected."
+          fi
+
       - name: Distribute to Google Play
         run: |
           cd android

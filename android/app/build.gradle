@@ -140,6 +140,11 @@ android {
             applicationId "com.qdmobile"
         }
     }
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
 }
 
 dependencies {
