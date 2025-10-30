@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import {
+  type Asset,
   type ImageLibraryOptions,
   launchImageLibrary,
 } from 'react-native-image-picker';
@@ -19,6 +20,24 @@ import Spinner from '@/components/Spinner';
 import { colors } from '@/styles/colors';
 
 const SUPPORTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
+
+export const pickSingleImageFromLibrary = async (
+  overrides?: Partial<ImageLibraryOptions>,
+): Promise<{ uri: string } | null> => {
+  const options: ImageLibraryOptions = {
+    mediaType: 'photo',
+    selectionLimit: 1,
+    includeBase64: false,
+    includeExtra: false,
+    restrictMimeTypes: SUPPORTED_IMAGE_TYPES,
+    ...overrides,
+  };
+
+  const result = await launchImageLibrary(options);
+  const asset: Asset | undefined = result.assets?.[0];
+  const uri = asset?.uri;
+  return uri ? { uri } : null;
+};
 
 export interface CameraProps {
   loadPhotoURI: (photoURI: string) => void;
@@ -51,20 +70,8 @@ const CameraComponent: React.FC<CameraProps> = ({ loadPhotoURI }) => {
   };
 
   const openPhotoLibrary = async () => {
-    const options: ImageLibraryOptions = {
-      mediaType: 'photo',
-      selectionLimit: 1,
-      restrictMimeTypes: SUPPORTED_IMAGE_TYPES,
-    };
-
-    const result = await launchImageLibrary(options);
-
-    if (result.assets && result.assets.length > 0) {
-      const selectedImage = result.assets[0];
-      if (selectedImage.uri) {
-        loadPhotoURI(selectedImage.uri);
-      }
-    }
+    const result = await pickSingleImageFromLibrary();
+    result && loadPhotoURI(result.uri);
   };
 
   if (requestingPermissions) {
@@ -128,7 +135,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor: colors.white,
     borderWidth: 3,
-    marginTop: 20,
+    marginTop: 60,
+    marginHorizontal: 20,
     marginBottom: 44,
     borderStyle: 'dashed',
   },

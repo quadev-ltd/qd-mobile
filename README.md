@@ -137,3 +137,4 @@ docker build --platform=linux/amd64 --tag tavoargento/react-native-android:0.0.1
 - Error message
 - Analysis result scroll
 - Allow selecting picture if no camera
+- Authentication token not working

@@ -11,7 +11,8 @@ import { type DrawerParamList, PrivateScreen } from './types';
 import CustomDrawerContent from '@/components/DrawerContent/DrawerContent';
 import { MaterialIcon } from '@/components/MaterialIcon';
 import DeleteAccountScreen from '@/screens/DeleteAccount/DeleteAccountScreen';
-import DetectAnomaliesScreen from '@/screens/DetectAnomalies/DetectAnomaliesScreen';
+// import DetectAnomaliesScreen from '@/screens/DetectAnomalies/DetectAnomaliesScreen';
+import SmartInspectionChat from '@/screens/DetectAnomalies/SmartInspectionChat.tsx';
 import HomeScreen from '@/screens/Home/HomeScreen';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -60,7 +61,7 @@ const AuthenticatedStack: React.FC<AuthenticatedStackProps> = ({
       <Drawer.Screen name={PrivateScreen.Home} component={HomeScreen} />
       <Drawer.Screen
         name={PrivateScreen.DetectObject}
-        component={DetectAnomaliesScreen}
+        component={SmartInspectionChat}
       />
       <Drawer.Screen
         name={PrivateScreen.DeleteAccount}
