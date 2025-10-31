@@ -13,7 +13,7 @@ import {
 import MaskInput, { Masks } from 'react-native-mask-input';
 import { useTheme } from 'react-native-paper';
 
-import { useInputDynamicStyles } from '@/styles/useInputDynamicStyles';
+import { useInputTheme } from '@/styles/useInputTheme';
 
 interface FormDateInputProps {
   label: string;
@@ -37,7 +37,7 @@ export const FormDateInput: React.FC<FormDateInputProps> = ({
   onSubmitEditing,
 }) => {
   const { colors } = useTheme();
-  const dynamicStyles = useInputDynamicStyles();
+  const dynamicStyles = useInputTheme();
   return (
     <View style={styles.fieldConatiner}>
       <MaskInput

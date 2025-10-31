@@ -45,13 +45,13 @@ const GoogleSSOCTA: React.FC<GoogleSSOCTAProps> = ({
           style={styles.googleIcon}
           name="google"
           size={28}
-          color={colors.onTertiary}
+          color={colors.onSecondary}
         />
       }
       text={t(`${screen}.withGoogle`)}
       accessibilityLabel={t(`${screen}.withGoogleAccessibilityLabel`)}
-      style={[styles.googleButton, { backgroundColor: colors.tertiary }]}
-      textStyle={{ color: colors.onTertiary }}
+      style={[styles.googleButton, { backgroundColor: colors.secondary }]}
+      textStyle={{ color: colors.onSecondary }}
       onPress={handleSignIn}
       hide={hide}
       disableAnimation={disableAnimation}

@@ -1,15 +1,26 @@
-import { configureStore, type Middleware } from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  configureStore,
+  type Middleware,
+} from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 
-import { apiSlice, anomalyDetectionApiSlice } from '../api';
+import { apiSlice } from '../api';
 
 import { generateMMKVStorage } from './mmkv';
-import { rootReducer } from './store/rootReducer';
+import { authSlice } from './slices/authSlice';
+import { userSlice } from './slices/userSlice';
 
 const middlewares: Middleware[] = [];
 
+const rootReducer = combineReducers({
+  [authSlice.reducerPath]: authSlice.reducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
+  [userSlice.reducerPath]: userSlice.reducer,
+});
+
 middlewares.push(apiSlice.middleware);
-middlewares.push(anomalyDetectionApiSlice.middleware);
+
 export const generateStore = (encriptionKey: string) => {
   const reduxMMKVStorage = generateMMKVStorage(
     'persist.qdmobile.com',

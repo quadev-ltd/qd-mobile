@@ -1,8 +1,8 @@
 import { APIEndpoints, type ForgotPasswordRequest, Methods } from './types';
 
-export const forgotPasswordMutation = (body: ForgotPasswordRequest) => {
+export const forgotPasswordMutation = (data: ForgotPasswordRequest) => {
   return {
-    body,
+    body: data,
     url: APIEndpoints.RequestPasswordReset,
     method: Methods.POST,
   };

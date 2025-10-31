@@ -12,8 +12,8 @@ import {
 import ResetPasswordStatus from './ResetPasswordStatus';
 
 import CTA from '@/components/CTA';
-import { HookFormPasswordInput } from '@/components/HookFormInputs/HookFormPasswordInput';
-import BrandedSubtitle from '@/components/SignIn/BrandedSubtitle';
+import { HookFormPasswordInput } from '@/components/SignIn/HookFormPasswordInput';
+import Subtitle from '@/components/SignIn/Subtitle';
 import { useResetPassword } from '@/core/api/hooks/useResetPassword';
 import { useRedirectToSignInOnSuccess } from '@/hooks/useRedirectToSignInOnSuccess';
 import {
@@ -77,7 +77,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
     <ScrollView
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={styles.formContainer}>
-      <BrandedSubtitle
+      <Subtitle
         text={t('resetPassword.subtitle')}
         accessibilityLabel={t('resetPasswrod.subtitle')}
       />

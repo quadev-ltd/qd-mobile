@@ -75,7 +75,6 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
-    '@typescript-eslint/no-explicit-any': 'error',
     'no-restricted-imports': [
       'error',
       { name: 'react', importNames: ['default'] },

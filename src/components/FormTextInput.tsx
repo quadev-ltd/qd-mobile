@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-import { useInputDynamicStyles } from '@/styles/useInputDynamicStyles';
+import { useInputTheme } from '@/styles/useInputTheme';
 
 interface FormTextInputProps {
   label: string;
@@ -29,15 +29,11 @@ interface FormTextInputProps {
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   keyboardType?: KeyboardTypeOptions;
   containerStyle?: ViewStyle;
-  style?: ViewStyle;
-  numberOfLines?: number;
-  multiline?: boolean;
 }
 
 export const FormTextInput = forwardRef<TextInput, FormTextInputProps>(
   (
     {
-      style,
       containerStyle,
       label,
       accessibilityLabel,
@@ -53,12 +49,12 @@ export const FormTextInput = forwardRef<TextInput, FormTextInputProps>(
     ref,
   ) => {
     const { colors } = useTheme();
-    const dynamicStyles = useInputDynamicStyles();
+    const dynamicStyles = useInputTheme();
     return (
       <View style={[styles.fieldConatiner, containerStyle]}>
         <TextInput
           testID={label}
-          style={[styles.input, dynamicStyles.input, style]}
+          style={[styles.input, dynamicStyles.input]}
           secureTextEntry={secureTextEntry}
           placeholder={label}
           placeholderTextColor={colors.onTertiary}

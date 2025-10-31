@@ -5,10 +5,11 @@ import {
   type FieldErrorsImpl,
   type Merge,
 } from 'react-hook-form';
-import { type ViewStyle, type KeyboardTypeOptions } from 'react-native';
+import { type KeyboardTypeOptions } from 'react-native';
 
 import { FormTextInput } from '../FormTextInput';
-import { type FieldType } from '../SignIn/types';
+
+import { type FieldType } from './types';
 
 interface HookFormTextInputProps<
   TFormSchema extends Record<FieldType, string>,
@@ -21,11 +22,6 @@ interface HookFormTextInputProps<
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   onSubmitEditing?: () => void;
   keyboardType?: KeyboardTypeOptions;
-  style?: ViewStyle;
-  numberOfLines?: number;
-  multiline?: boolean;
-  containerStyle?: ViewStyle;
-  textAlignVertical?: 'top' | 'center' | 'bottom';
 }
 
 export const HookFormTextInput = <

@@ -21,10 +21,6 @@ export enum APIEndpoints {
   DeleteAccount = '/user',
 }
 
-export enum AIEndpoints {
-  DetectAnomaly = '/detect',
-}
-
 export enum FieldErrors {
   Email = 'email',
   Required = 'required',
@@ -152,13 +148,3 @@ export interface ResetPasswordRequest {
 export interface RefreshAuthTokensRequest {
   refreshToken: string | null;
 }
-
-// Anomaly Detection
-export type AnomalyDetectionRequest = {
-  photo: string;
-  description: string;
-};
-
-export type AnomalyDetectionResponse = {
-  text: string;
-};
