@@ -22,7 +22,6 @@ import {
 import { Layout } from '@/components/SignIn/Layout';
 import { SSOAnimatedHeader } from '@/components/SignIn/SSOAnimatedHeader';
 import { type ScreenType } from '@/components/SignIn/types';
-import { useKeyboardVisibility } from '@/hooks/useKeyboardVisibility';
 
 const { height: VIEWPORT_HEIGHT } = Dimensions.get('window');
 
@@ -52,10 +51,37 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
   const [disableAnimation, setDisableAnimation] = useState(true);
   const shouldSetInitialFocus = useRef(true);
 
-  const { isKeyboardVisible, keyboardOffset } = useKeyboardVisibility([
-    formHeight,
-    safeAreaViewportHeight,
-  ]);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const isKeyboardVisibleRef = useRef<boolean>(false);
+  const moveUpOnKeyboard = useRef<number>(0);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      event => {
+        if (!isKeyboardVisibleRef.current) isKeyboardVisibleRef.current = true;
+        moveUpOnKeyboard.current = event.endCoordinates.height;
+        setKeyboardVisibility();
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        moveUpOnKeyboard.current = 0;
+        if (isKeyboardVisibleRef.current) isKeyboardVisibleRef.current = false;
+        setKeyboardVisibility();
+      },
+    );
+
+    const setKeyboardVisibility = () => {
+      setKeyboardVisible(isKeyboardVisibleRef.current);
+    };
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, [formHeight, safeAreaViewportHeight]);
 
   useEffect(() => {
     if (initiateManualSignIn) {
@@ -108,7 +134,7 @@ export const SSOAnimatedForm: React.FC<SSOAnimatedFormScreenProps> = ({
     );
   };
 
-  const marginBottom = keyboardOffset - 80;
+  const marginBottom = moveUpOnKeyboard.current - 80;
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

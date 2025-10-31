@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import BrandedSubtitle from '@/components/SignIn/BrandedSubtitle';
+import Subtitle from '@/components/SignIn/Subtitle';
 import { VerificationStatus } from '@/components/StatusDisplay';
 
 interface VerificationSubtitleProps {
@@ -30,12 +30,7 @@ const VerificationSubtitle: React.FC<VerificationSubtitleProps> = ({
 
   const accessibilityLabel = subtitle;
   if (subtitle && accessibilityLabel) {
-    return (
-      <BrandedSubtitle
-        text={subtitle}
-        accessibilityLabel={accessibilityLabel}
-      />
-    );
+    return <Subtitle text={subtitle} accessibilityLabel={accessibilityLabel} />;
   }
 
   return null;

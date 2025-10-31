@@ -69,7 +69,5 @@
 	<array>
 		<string>applinks:$(DEEP_LINKING_DOMAIN)</string>
 	</array>
-	<key>NSCameraUsageDescription</key>
-  <string>$(PRODUCT_NAME) needs access to your Camera.</string>
 </dict>
 </plist>

@@ -1,7 +1,8 @@
 import { type ReactNode } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { colors } from '@/styles/colors';
 
 type LayoutProps = {
   environment?: string;
@@ -9,16 +10,11 @@ type LayoutProps = {
 };
 
 export const Layout: React.FC<LayoutProps> = ({ environment, children }) => {
-  const { colors } = useTheme();
   return (
-    <SafeAreaView
-      style={[styles.LayoutContainer, { backgroundColor: colors.primary }]}>
+    <SafeAreaView style={styles.LayoutContainer}>
       {children}
       <View style={styles.environmentPrompt}>
-        <Text
-          style={[styles.environmentPromptText, { color: colors.onPrimary }]}>
-          {environment}
-        </Text>
+        <Text style={styles.environmentPromptText}>{environment}</Text>
       </View>
     </SafeAreaView>
   );
@@ -32,6 +28,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     alignContent: 'stretch',
     paddingHorizontal: 24,
+    backgroundColor: colors.purpleBlue,
   },
   environmentPrompt: {
     position: 'absolute',
@@ -41,6 +38,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   environmentPromptText: {
+    color: colors.white,
     fontSize: 16,
   },
 });

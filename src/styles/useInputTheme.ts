@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 import { useTheme } from 'react-native-paper';
 
-export const useInputDynamicStyles = () => {
+export const useInputTheme = () => {
   const { fonts, colors } = useTheme();
-  return useMemo(
+  const dynamicStyles = useMemo(
     () => ({
       input: {
-        backgroundColor: colors.tertiary,
-        borderColor: colors.onTertiary,
+        backgroundColor: colors.secondary,
+        borderColor: colors.onSecondary,
         shadowColor: colors.shadow,
-        color: colors.secondary,
+        color: colors.primary,
       },
       error: {
         color: colors.error,
@@ -19,9 +19,11 @@ export const useInputDynamicStyles = () => {
       forgot: {
         fontFamily: fonts.bodyLarge.fontFamily,
         fontSize: fonts.bodyLarge.fontSize,
-        color: colors.secondary,
+        color: colors.primary,
       },
     }),
     [fonts, colors],
   );
+
+  return dynamicStyles;
 };

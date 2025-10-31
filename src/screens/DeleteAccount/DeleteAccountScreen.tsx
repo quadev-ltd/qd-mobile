@@ -1,11 +1,11 @@
 import { type DrawerScreenProps } from '@react-navigation/drawer';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 import CTA from '@/components/CTA';
-import Header from '@/components/Header';
+import Logo from '@/components/Logo/Logo';
 import ErrorMessage from '@/components/SignIn/ErrorMessage';
 import Spinner from '@/components/Spinner';
 import { showInfoToast } from '@/components/Toast';
@@ -17,15 +17,30 @@ import {
   type PrivateScreen,
 } from '@/screens/Routing/Private/types';
 
-export type DeleteAccountScreenProps = DrawerScreenProps<
+export type ScreenTwoScreenProps = DrawerScreenProps<
   DrawerParamList,
   PrivateScreen.DeleteAccount
 >;
 
-const DeleteAccountScreen: React.FC<DeleteAccountScreenProps> = () => {
+const ScreenTwoScreen: React.FC<ScreenTwoScreenProps> = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { colors } = useTheme();
+  const { fonts, colors } = useTheme();
+  const dynamicStyles = useMemo(
+    () => ({
+      title: {
+        color: colors.onPrimary,
+        fontFamily: fonts.titleLarge.fontFamily,
+        fontSize: fonts.titleLarge.fontSize,
+      },
+      description: {
+        color: colors.onPrimary,
+        fontFamily: fonts.bodyLarge.fontFamily,
+        fontSize: fonts.bodyLarge.fontSize,
+      },
+    }),
+    [fonts, colors],
+  );
   const { isLoading, handleDeleteAccount, errorMessage, isSuccess } =
     useDeleteAccount();
   useEffect(() => {
@@ -39,63 +54,76 @@ const DeleteAccountScreen: React.FC<DeleteAccountScreenProps> = () => {
     }
   }, [t, dispatch, isSuccess]);
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
-        {isLoading ? (
-          <>
-            <Spinner />
-            <Header
-              subtitle={t('deleteAccount.deleting')}
-              subtitleAccessibilityLabel={t('deleteAccount.deleting')}
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Logo style={styles.logo} containerStyle={styles.logoContainer} />
+      {isLoading ? (
+        <>
+          <Spinner />
+          <Text style={[styles.description, dynamicStyles.description]}>
+            {t('deleteAccount.deleting')}
+          </Text>
+        </>
+      ) : (
+        <View style={styles.textContainer}>
+          <Text style={[styles.title, dynamicStyles.title]}>
+            {t('deleteAccount.title')}
+          </Text>
+          <Text style={[styles.description, dynamicStyles.description]}>
+            {t('deleteAccount.description')}
+          </Text>
+          {errorMessage && (
+            <ErrorMessage
+              text={errorMessage}
+              accessibilityLabel={errorMessage}
             />
-          </>
-        ) : (
-          <View style={styles.textContainer}>
-            <Header
-              title={t('deleteAccount.title')}
-              titleAccessibilityLabel={t('deleteAccount.title')}
-              subtitle={t('deleteAccount.description')}
-              subtitleAccessibilityLabel={t('deleteAccount.description')}
+          )}
+          <View style={styles.buttonContainer}>
+            <CTA
+              text={t('deleteAccount.deleteButton')}
+              accessibilityLabel={t(
+                'deleteAccount.deleteButtonAccessibilityLabel',
+              )}
+              onPress={handleDeleteAccount}
             />
-            {errorMessage && (
-              <ErrorMessage
-                text={errorMessage}
-                accessibilityLabel={errorMessage}
-              />
-            )}
-            <View style={styles.buttonContainer}>
-              <CTA
-                text={t('deleteAccount.deleteButton')}
-                accessibilityLabel={t(
-                  'deleteAccount.deleteButtonAccessibilityLabel',
-                )}
-                onPress={handleDeleteAccount}
-              />
-            </View>
           </View>
-        )}
-      </View>
-    </SafeAreaView>
+        </View>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    alignSelf: 'stretch',
-  },
   container: {
     flex: 1,
-    padding: 24,
+    paddingHorizontal: 24,
+  },
+  logoContainer: {
+    justifyContent: 'center',
+  },
+  logo: {
+    position: 'static',
+  },
+  title: {
+    fontWeight: 'bold',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  description: {
+    marginTop: 8,
+    marginBottom: 24,
+    fontWeight: 'bold',
+    fontSize: 14,
+    textAlign: 'center',
   },
   buttonContainer: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
+    paddingBottom: 24,
   },
   textContainer: {
     flex: 2,
   },
 });
 
-export default DeleteAccountScreen;
+export default ScreenTwoScreen;
