@@ -1,0 +1,10 @@
+# gitleaks configuration: default rules plus project-specific allowlist.
+# Run locally: gitleaks git --redact   (full history)
+#              gitleaks git --pre-commit --staged --redact   (what the pre-commit hook runs)
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "CocoaPods SPEC CHECKSUMS are content hashes, not secrets"
+paths = ['''ios/Podfile\.lock''']
