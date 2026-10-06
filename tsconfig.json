@@ -1,5 +1,5 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json",     /* Recommended React Native TSConfig base */
+  "extends": "@react-native/typescript-config",
   "compilerOptions": {
     "jsx": "react-jsx",
     "skipLibCheck": true,
@@ -12,5 +12,6 @@
     },
     "types": ["react-native", "jest", "@testing-library/react-native/extend-expect", "node"],
   },
-  "include": ["src", "jest.config.ts", "jest.setup.ts", "scripts", "./functional/**/*.ts"]
+  "include": ["src", "jest.config.ts", "jest.setup.ts", "scripts", "./functional/**/*.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["**/node_modules", "**/Pods"]
 }
