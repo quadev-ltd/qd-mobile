@@ -14,7 +14,9 @@ An [Expo](https://docs.expo.dev) (SDK 57, React Native 0.86) app. The native `io
   - `firebase-config/development/google-services.json` and `GoogleService-Info.plist` (project `quadevapp-dev`)
   - `firebase-config/production/google-services.json` and `GoogleService-Info.plist` (project `quadevapp`)
 - Environment files with the keys from `.env.example`:
-  - `.env.development` and `.env.production`
+  - `.env.dev` and `.env.prod` (deliberately not `.env.development` / `.env.production`: Expo CLI
+    loads those automatically by build mode, which would mix the variants, e.g. a production-variant
+    debug build would pick up the development file)
 
 All variables use the `EXPO_PUBLIC_` prefix: Expo inlines them into the JavaScript bundle at build
 time, so they must not hold secrets. They are validated in `src/core/env.ts`, the only file allowed
