@@ -1,4 +1,4 @@
-import auth from '@react-native-firebase/auth';
+import { getAuth, signOut } from '@react-native-firebase/auth';
 import {
   createAsyncThunk,
   createSlice,
@@ -178,11 +178,11 @@ export const logout = createAsyncThunk(
       await deleteRefreshToken();
       logger().logMessage('Keychain logout successful.');
       dispatch({ type: LOGOUT });
-      if (auth().currentUser) {
-        const displayName = auth().currentUser?.displayName;
-        const email = auth().currentUser?.email;
-        auth()
-          .signOut()
+      const firebaseAuth = getAuth();
+      if (firebaseAuth.currentUser) {
+        const displayName = firebaseAuth.currentUser?.displayName;
+        const email = firebaseAuth.currentUser?.email;
+        signOut(firebaseAuth)
           .then(() => {
             logger().logMessage(
               `Firebase logout successful for user ${displayName}: ${email}`,

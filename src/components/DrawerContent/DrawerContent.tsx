@@ -1,8 +1,8 @@
 import {
+  type DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import { type DrawerContentComponentProps } from '@react-navigation/drawer/lib/typescript/src/types';
 import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet } from 'react-native';
 
@@ -17,7 +17,7 @@ import { logout } from '@/core/state/slices/authSlice';
 import { PrivateScreen } from '@/screens/Routing/Private/types';
 import { colors } from '@/styles/colors';
 
-const CustomDrawerContent: React.FC<DrawerContentComponentProps> = props => {
+const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const user = useAppSelector(getUserDetailsSelector);

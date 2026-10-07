@@ -30,7 +30,8 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
   const setFocusOnHide = () => {
     methods.setFocus(SignUpFields.email);
   };
-  const goToSignIn = () => navigation.navigate(PublicScreen.SignIn, {});
+  const goToSignIn = () =>
+    navigation.navigate(PublicScreen.SignIn, {}, { pop: true });
   const handleSuccess = (userData: { userName: string; userID: string }) => {
     navigation.reset({
       index: 0,

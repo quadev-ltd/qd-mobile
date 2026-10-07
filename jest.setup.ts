@@ -1,15 +1,12 @@
-import '@testing-library/react-native/extend-expect';
 import '@testing-library/jest-native/extend-expect';
-import { config } from 'dotenv';
 import { type ReactNode } from 'react';
 
-// set up env
-config({
-  path: '.env.test',
-});
-jest.mock('react-native-config', () => ({
-  Config: process.env,
-}));
+// Environment variables (.env.test) are loaded in jest.config.ts.
+
+// Reanimated 4 runs on react-native-worklets, which needs its JS mock under Jest.
+jest.mock('react-native-worklets', () =>
+  jest.requireActual('react-native-worklets/src/mock'),
+);
 
 // mock i18next - all text in tests will be returned as the translation key
 // e.g. <Text>{t('page.title')}</Text> -> <Text>page.title</Text>

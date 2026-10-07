@@ -30,9 +30,10 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({
     methods.setFocus(SignInFields.email);
   };
   const handleForgotPassword = (email?: string) =>
-    navigation.navigate(PublicScreen.ForgotPassword, { email });
+    navigation.navigate(PublicScreen.ForgotPassword, { email }, { pop: true });
 
-  const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
+  const goToSignUp = () =>
+    navigation.navigate(PublicScreen.SignUp, undefined, { pop: true });
 
   return (
     <FormProvider {...methods}>

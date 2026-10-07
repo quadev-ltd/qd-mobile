@@ -1,4 +1,5 @@
-import { type IconProps } from 'react-native-vector-icons/Icon';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 
-export const MaterialIcon = Icon as unknown as React.FC<IconProps>;
+// Material Design Icons is the same icon set react-native-vector-icons called
+// MaterialCommunityIcons; the glyph names are unchanged.
+export const MaterialIcon = MaterialDesignIcons;

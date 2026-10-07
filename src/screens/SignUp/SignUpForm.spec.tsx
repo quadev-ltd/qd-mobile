@@ -34,10 +34,7 @@ jest.mock('react-native-toast-message', () => ({
 jest.mock('../../core/api', () => ({
   useSignUpMutation: jest.fn(() => [mockRegisterUser, { iLoading: false }]),
 }));
-jest.mock('@react-native-firebase/crashlytics', () => ({
-  log: jest.fn(),
-  recordError: jest.fn(),
-}));
+jest.mock('@react-native-firebase/crashlytics');
 
 jest.mock('@/core/logger', () =>
   jest.fn().mockImplementation(() => mockLogger),

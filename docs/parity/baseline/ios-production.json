@@ -1,0 +1,69 @@
+{
+  "buildSettings": {
+    "bundleId": "com.qdmobile",
+    "deploymentTarget": "15.1",
+    "deviceFamily": "1"
+  },
+  "displayName": "QDMobile",
+  "bundleIdentifier": "com.qdmobile",
+  "shortVersion": "1.0",
+  "bundleVersion": "26",
+  "urlSchemes": {
+    "$(DEEP_LINKING_DOMAIN)": true,
+    "$(REVERSED_CLIENT_ID)": true
+  },
+  "queriesSchemes": {
+    "$(DEEP_LINKING_DOMAIN)": true
+  },
+  "ats": {
+    "NSAllowsArbitraryLoads": false,
+    "NSAllowsLocalNetworking": true
+  },
+  "usage": {
+    "NSCameraUsageDescription": "QDMobile needs access to your Camera.",
+    "NSPhotoLibraryUsageDescription": "QDMobile needs access to your photo library.",
+    "NSLocationWhenInUseUsageDescription": ""
+  },
+  "fonts": {
+    "MaterialCommunityIcons.ttf": true
+  },
+  "orientations": {
+    "UIInterfaceOrientationPortrait": true,
+    "UIInterfaceOrientationLandscapeLeft": true,
+    "UIInterfaceOrientationLandscapeRight": true
+  },
+  "requiredCapabilities": {
+    "arm64": true
+  },
+  "userInterfaceStyle": "Automatic",
+  "viewControllerBasedStatusBar": false,
+  "infoPlistAssociatedDomains": {
+    "applinks:$(DEEP_LINKING_DOMAIN)": true
+  },
+  "entitlements": {
+    "com.apple.developer.associated-domains": {
+      "applinks:$(DEEP_LINKING_DOMAIN)": true
+    },
+    "com.apple.developer.applesignin": {
+      "Default": true
+    }
+  },
+  "privacy": {
+    "tracking": false,
+    "collectedDataTypes": 0,
+    "accessedAPIs": {
+      "NSPrivacyAccessedAPICategoryUserDefaults": {
+        "CA92.1": true,
+        "1C8F.1": true,
+        "C56D.1": true
+      },
+      "NSPrivacyAccessedAPICategoryFileTimestamp": {
+        "C617.1": true,
+        "3B52.1": true
+      },
+      "NSPrivacyAccessedAPICategorySystemBootTime": {
+        "35F9.1": true
+      }
+    }
+  }
+}

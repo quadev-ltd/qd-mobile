@@ -1,0 +1,13 @@
+# Launch: the app starts, the splash screen hides and the Landing screen renders.
+appId: ${APP_ID || 'com.qdmobile.dev'}
+name: Launch and Landing
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Already have an account?"
+    timeout: 60000
+- assertVisible:
+    text: "Sign up"
+- assertVisible:
+    text: "Sign in"

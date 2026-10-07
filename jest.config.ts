@@ -1,32 +1,22 @@
-import type { JestConfigWithTsJest } from 'ts-jest';
-import { default as tsjPreset } from 'ts-jest/presets';
+import { config as loadEnv } from 'dotenv';
+import type { Config } from 'jest';
 
-const jestConfig: JestConfigWithTsJest = {
-  ...tsjPreset.defaults,
-  preset: 'react-native',
+// Test configuration (EXPO_PUBLIC_* keys), loaded before any test file is transformed or run.
+loadEnv({ path: '.env.test' });
+
+const jestConfig: Config = {
+  preset: 'jest-expo',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  transform: {
-    '^.+\\.jsx$': 'babel-jest',
-    '^.+\\.tsx?$': [
-      'ts-jest',
-      {
-        tsconfig: '<rootDir>/tsconfig.test.json',
-      },
-    ],
-  },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'node'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|react-native-paper|@react-native-firebase|@react-native-vector-icons|react-redux)',
+  ],
   coverageProvider: 'v8',
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
   collectCoverageFrom: ['<rootDir>/src/**/*.tsx'],
-  transformIgnorePatterns: [
-    // "/node_modules/(?!(@react-native-firebase/crashlytics)/)",
-    // "/node_modules/(?!(@react-navigation/native)/)",
-    // "/node_modules/(?!(@react-navigation/native-stack)/)"
-  ],
 };
 
 export default jestConfig;

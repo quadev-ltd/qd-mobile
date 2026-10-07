@@ -1,6 +1,5 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { act } from 'react';
-import { TouchableOpacity } from 'react-native';
 
 import { type CameraProps } from './Camera';
 import DetectAnomaliesScreen, {
@@ -11,6 +10,7 @@ import { useDetectAnomaly } from '@/core/api/hooks/useDetectAnomaly';
 import { useKeyboardVisibility } from '@/hooks/useKeyboardVisibility';
 
 jest.mock('./Camera', () => {
+  const { TouchableOpacity } = jest.requireActual('react-native');
   const MockCamera = ({ loadPhotoURI }: CameraProps) => {
     return (
       <TouchableOpacity
@@ -22,11 +22,8 @@ jest.mock('./Camera', () => {
   MockCamera.displayName = 'MockCamera';
   return MockCamera;
 });
-jest.mock('@react-native-firebase/crashlytics', () => ({
-  log: jest.fn(),
-  recordError: jest.fn(),
-}));
-jest.mock('@react-native-firebase/auth', () => 'Auth');
+jest.mock('@react-native-firebase/crashlytics');
+jest.mock('@react-native-firebase/auth');
 jest.mock('@/core/api/hooks/useDetectAnomaly');
 jest.mock('@/hooks/useKeyboardVisibility');
 jest.mock('@/components/Spinner');

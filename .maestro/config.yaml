@@ -1,0 +1,6 @@
+# Maestro smoke tests for the Expo scaffold (phase 2).
+# Run against an installed build (debug builds also need Metro: `yarn start:dev`):
+#   maestro test .maestro                       # development app (com.qdmobile.dev)
+#   maestro test -e APP_ID=com.qdmobile .maestro # production app
+flows:
+  - "smoke-*.yaml"

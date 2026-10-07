@@ -1,14 +1,18 @@
-import auth from '@react-native-firebase/auth';
-import { type FirebaseAuthTypes } from '@react-native-firebase/auth';
+import {
+  type AuthCredential,
+  getAuth,
+  type NativeFirebaseAuthError,
+  signInWithCredential,
+} from '@react-native-firebase/auth';
 
 import logger from '../logger';
 
 export const getFirebaseIdToken = async (
-  credentials: FirebaseAuthTypes.AuthCredential,
+  credentials: AuthCredential,
 ): Promise<string | undefined> => {
   try {
     // Sign-in the user with the credential
-    const userCredential = await auth().signInWithCredential(credentials);
+    const userCredential = await signInWithCredential(getAuth(), credentials);
 
     // Get the Firebase ID token
     const firebaseIdToken = await userCredential.user.getIdToken();
@@ -21,7 +25,7 @@ export const getFirebaseIdToken = async (
 };
 
 const handleFirebaseSignInError = (error: unknown) => {
-  const firebaseAuthError = error as FirebaseAuthTypes.NativeFirebaseAuthError;
+  const firebaseAuthError = error as NativeFirebaseAuthError;
   if (firebaseAuthError.code) {
     // Handle Firebase Auth Errors
     switch (firebaseAuthError.code) {

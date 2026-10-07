@@ -1,5 +1,5 @@
 import { type UnknownAction, type Store } from '@reduxjs/toolkit';
-import { type FC, useEffect, useState } from 'react';
+import { type FC, type JSX, useEffect, useState } from 'react';
 import { type Persistor } from 'redux-persist';
 
 import { getMMKVEncryptionKey } from '../keychain';

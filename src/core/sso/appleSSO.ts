@@ -1,5 +1,5 @@
 import { appleAuth } from '@invertase/react-native-apple-authentication';
-import auth from '@react-native-firebase/auth';
+import { AppleAuthProvider } from '@react-native-firebase/auth';
 
 import logger from '../logger';
 
@@ -33,10 +33,7 @@ export const onAppleSignIn = async (): Promise<
   logger().logMessage(
     `Create a Firebase credential with the Apple identity token`,
   );
-  const appleCredential = auth.AppleAuthProvider.credential(
-    identityToken,
-    nonce,
-  );
+  const appleCredential = AppleAuthProvider.credential(identityToken, nonce);
 
   logger().logMessage(`Get firebase ID token`);
   const firebaseIdToken = await getFirebaseIdToken(appleCredential);
