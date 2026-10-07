@@ -25,15 +25,11 @@ const mockRoute = {
 } as unknown as RouteProp<StackParamList, PublicScreen.SignIn>;
 
 jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
-jest.mock('@react-native-firebase/crashlytics', () => ({
-  log: jest.fn(),
-  recordError: jest.fn(),
+jest.mock('@react-native-firebase/crashlytics');
+jest.mock('@react-native-firebase/auth');
+jest.mock('@react-native-vector-icons/material-design-icons/static', () => ({
+  MaterialDesignIcons: 'MaterialDesignIcons',
 }));
-jest.mock('@react-native-firebase/auth', () => 'Auth');
-jest.mock(
-  'react-native-vector-icons/MaterialCommunityIcons',
-  () => 'MaterialCommunityIcons',
-);
 jest.mock('@/core/sso/googleSSO', () => ({
   onGoogleSignIn: jest.fn(),
 }));
@@ -77,6 +73,10 @@ describe('SignInScreen', () => {
       fireEvent.press(getByText('signIn.changePathButton'));
     });
 
-    expect(mockNavigation.navigate).toHaveBeenCalledWith(PublicScreen.SignUp);
+    expect(mockNavigation.navigate).toHaveBeenCalledWith(
+      PublicScreen.SignUp,
+      undefined,
+      { pop: true },
+    );
   });
 });

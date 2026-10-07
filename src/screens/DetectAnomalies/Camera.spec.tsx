@@ -1,11 +1,8 @@
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import { forwardRef, useImperativeHandle, Fragment } from 'react';
-import { launchImageLibrary } from 'react-native-image-picker';
-import {
-  useCameraPermission,
-  useCameraDevice,
-  type CameraProps,
-} from 'react-native-vision-camera';
+import { useCameraPermissions, type CameraViewProps } from 'expo-camera';
+import { launchImageLibraryAsync } from 'expo-image-picker';
+// eslint-disable-next-line no-restricted-imports -- type-only, to type jest.requireActual('react')
+import type * as ReactModule from 'react';
 
 import CameraComponent from './Camera';
 
@@ -13,22 +10,25 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 
-jest.mock('react-native-image-picker', () => ({
-  launchImageLibrary: jest.fn(),
+jest.mock('expo-image-picker', () => ({
+  launchImageLibraryAsync: jest.fn(),
 }));
 
-jest.mock('react-native-vision-camera', () => {
-  const Camera = forwardRef<unknown, CameraProps>((props, ref) => {
+jest.mock('expo-camera', () => {
+  const { forwardRef, useImperativeHandle, Fragment } =
+    jest.requireActual<typeof ReactModule>('react');
+  const CameraView = forwardRef<unknown, CameraViewProps>((props, ref) => {
     useImperativeHandle(ref, () => ({
-      takePhoto: jest.fn().mockResolvedValue({ path: 'mock-photo-path' }),
+      takePictureAsync: jest
+        .fn()
+        .mockResolvedValue({ uri: 'file://mock-photo-path' }),
     }));
     return <Fragment>{props.children}</Fragment>;
   });
-  Camera.displayName = 'MockCamera';
+  CameraView.displayName = 'MockCameraView';
   return {
-    Camera,
-    useCameraPermission: jest.fn(),
-    useCameraDevice: jest.fn(),
+    CameraView,
+    useCameraPermissions: jest.fn(),
   };
 });
 
@@ -41,11 +41,10 @@ describe('CameraComponent', () => {
   });
 
   it('renders the no‐camera header and requests permission when none granted', async () => {
-    (useCameraPermission as jest.Mock).mockReturnValue({
-      hasPermission: false,
-      requestPermission: mockRequestPermission.mockResolvedValue(false),
-    });
-    (useCameraDevice as jest.Mock).mockReturnValue(null);
+    (useCameraPermissions as jest.Mock).mockReturnValue([
+      { granted: false },
+      mockRequestPermission.mockResolvedValue({ granted: false }),
+    ]);
 
     const { getByText } = render(
       <CameraComponent loadPhotoURI={mockLoadPhotoURI} />,
@@ -62,11 +61,10 @@ describe('CameraComponent', () => {
   });
 
   it('renders camera preview and CTAs when permission granted and device ready', () => {
-    (useCameraPermission as jest.Mock).mockReturnValue({
-      hasPermission: true,
-      requestPermission: mockRequestPermission,
-    });
-    (useCameraDevice as jest.Mock).mockReturnValue({ id: 'back' });
+    (useCameraPermissions as jest.Mock).mockReturnValue([
+      { granted: true },
+      mockRequestPermission,
+    ]);
 
     const { getByTestId } = render(
       <CameraComponent loadPhotoURI={mockLoadPhotoURI} />,
@@ -79,11 +77,10 @@ describe('CameraComponent', () => {
   });
 
   it('calls loadPhotoURI with the camera path on take‐photo', async () => {
-    (useCameraPermission as jest.Mock).mockReturnValue({
-      hasPermission: true,
-      requestPermission: mockRequestPermission,
-    });
-    (useCameraDevice as jest.Mock).mockReturnValue({ id: 'back' });
+    (useCameraPermissions as jest.Mock).mockReturnValue([
+      { granted: true },
+      mockRequestPermission,
+    ]);
 
     const { getByTestId } = render(
       <CameraComponent loadPhotoURI={mockLoadPhotoURI} />,
@@ -98,13 +95,12 @@ describe('CameraComponent', () => {
   });
 
   it('opens library and calls loadPhotoURI with selected image URI', async () => {
-    (useCameraPermission as jest.Mock).mockReturnValue({
-      hasPermission: true,
-      requestPermission: mockRequestPermission,
-    });
-    (useCameraDevice as jest.Mock).mockReturnValue({ id: 'back' });
+    (useCameraPermissions as jest.Mock).mockReturnValue([
+      { granted: true },
+      mockRequestPermission,
+    ]);
 
-    (launchImageLibrary as jest.Mock).mockResolvedValue({
+    (launchImageLibraryAsync as jest.Mock).mockResolvedValue({
       assets: [{ uri: 'library-image-uri' }],
     });
 
@@ -117,8 +113,8 @@ describe('CameraComponent', () => {
     fireEvent.press(libraryButton);
 
     await waitFor(() => {
-      expect(launchImageLibrary).toHaveBeenCalledWith({
-        mediaType: 'photo',
+      expect(launchImageLibraryAsync).toHaveBeenCalledWith({
+        mediaTypes: ['images'],
         selectionLimit: 1,
       });
       expect(mockLoadPhotoURI).toHaveBeenCalledWith('library-image-uri');
@@ -126,13 +122,12 @@ describe('CameraComponent', () => {
   });
 
   it('does not call loadPhotoURI if library returns no assets', async () => {
-    (useCameraPermission as jest.Mock).mockReturnValue({
-      hasPermission: true,
-      requestPermission: mockRequestPermission,
-    });
-    (useCameraDevice as jest.Mock).mockReturnValue({ id: 'back' });
+    (useCameraPermissions as jest.Mock).mockReturnValue([
+      { granted: true },
+      mockRequestPermission,
+    ]);
 
-    (launchImageLibrary as jest.Mock).mockResolvedValue({ assets: [] });
+    (launchImageLibraryAsync as jest.Mock).mockResolvedValue({ assets: [] });
 
     const { getByTestId } = render(
       <CameraComponent loadPhotoURI={mockLoadPhotoURI} />,

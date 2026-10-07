@@ -11,21 +11,20 @@ import { SignUpScreen } from './SignUpScreen';
 import { ApplicationEnvironentEnum } from '@/core/env';
 import { getMockStore } from '@/util/mockStore';
 
-const registerUser = jest.fn();
+const mockRegisterUser = jest.fn();
 jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
 jest.mock('../../core/api', () => ({
   useSignUpMutation: jest.fn(() => [
-    registerUser,
+    mockRegisterUser,
     { iLoading: false, error: null, data: null },
   ]),
 }));
 jest.mock('react-native-toast-message', () => 'ToastMessage');
-jest.mock('@react-native-firebase/crashlytics', () => 'Crashlytics');
-jest.mock('@react-native-firebase/auth', () => 'Auth');
-jest.mock(
-  'react-native-vector-icons/MaterialCommunityIcons',
-  () => 'MaterialCommunityIcons',
-);
+jest.mock('@react-native-firebase/crashlytics');
+jest.mock('@react-native-firebase/auth');
+jest.mock('@react-native-vector-icons/material-design-icons/static', () => ({
+  MaterialDesignIcons: 'MaterialDesignIcons',
+}));
 jest.mock('@/core/state/slices/userSlice', () => ({
   isUserVerifiedSelector: jest.fn(),
 }));
@@ -80,6 +79,7 @@ describe('SignUpScreen', () => {
     expect(mockNavigation.navigate).toHaveBeenCalledWith(
       PublicScreen.SignIn,
       {},
+      { pop: true },
     );
   });
 });

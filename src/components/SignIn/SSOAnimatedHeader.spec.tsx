@@ -5,15 +5,11 @@ import configureMockStore, { type MockStoreEnhanced } from 'redux-mock-store';
 import { SSOAnimatedHeader } from './SSOAnimatedHeader';
 import { ScreenType } from './types';
 
-jest.mock(
-  'react-native-vector-icons/MaterialCommunityIcons',
-  () => 'MaterialCommunityIcons',
-);
-jest.mock('@react-native-firebase/crashlytics', () => ({
-  log: jest.fn(),
-  recordError: jest.fn(),
+jest.mock('@react-native-vector-icons/material-design-icons/static', () => ({
+  MaterialDesignIcons: 'MaterialDesignIcons',
 }));
-jest.mock('@react-native-firebase/auth', () => 'Auth');
+jest.mock('@react-native-firebase/crashlytics');
+jest.mock('@react-native-firebase/auth');
 jest.mock('@/core/sso/googleSSO', () => ({
   onGoogleSignIn: jest.fn(),
 }));

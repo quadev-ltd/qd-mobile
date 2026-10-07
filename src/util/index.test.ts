@@ -1,4 +1,4 @@
-import { stringToDate, stringToGrpcTimestamp, trimFormData } from '.';
+import { stringToDate, stringToGrpcTimestamp, trimFormData } from './index';
 
 describe('stringToGrpcTimestamp', () => {
   it('converts a valid date string to a gRPC Timestamp', () => {
