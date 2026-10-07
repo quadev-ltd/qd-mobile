@@ -11203,6 +11203,7 @@ __metadata:
     eslint: "npm:^8.19.0"
     eslint-config-prettier: "npm:^9.0.0"
     eslint-import-resolver-typescript: "npm:^3.6.1"
+    eslint-plugin-ft-flow: "npm:^2.0.1"
     eslint-plugin-i18next: "npm:^6.0.3"
     eslint-plugin-import: "npm:^2.29.0"
     eslint-plugin-jest: "npm:^27.6.0"
