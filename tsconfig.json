@@ -1,16 +1,22 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json",     /* Recommended React Native TSConfig base */
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
     "strict": true,
     "strictFunctionTypes": true,
-    "baseUrl": ".",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-    "types": ["react-native", "jest", "@testing-library/react-native/extend-expect", "node"],
+    "types": ["jest", "node"]
   },
-  "include": ["src", "jest.config.ts", "jest.setup.ts", "scripts", "./functional/**/*.ts"]
+  "include": [
+    "src",
+    "__mocks__",
+    "index.ts",
+    "app.config.ts",
+    "jest.config.ts",
+    "jest.setup.ts",
+    "expo-env.d.ts"
+  ]
 }

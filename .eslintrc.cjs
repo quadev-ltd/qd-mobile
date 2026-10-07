@@ -80,7 +80,6 @@ module.exports = {
       'error',
       { name: 'react', importNames: ['default'] },
       { name: 'react-redux', importNames: ['useDispatch', 'useSelector'] },
-      { name: 'react-native-config', importNames: ['Config'] },
     ],
     'i18next/no-literal-string': [
       'error',
@@ -94,6 +93,21 @@ module.exports = {
     ],
   },
   overrides: [
+    {
+      // Configuration is read once, in src/core/env.ts (validated with zod).
+      files: ['src/**/*.ts', 'src/**/*.tsx'],
+      excludedFiles: ['src/core/env.ts'],
+      rules: {
+        'no-restricted-properties': [
+          'error',
+          {
+            object: 'process',
+            property: 'env',
+            message: 'Read configuration through src/core/env.ts.',
+          },
+        ],
+      },
+    },
     {
       files: ['src/**/*.spec.ts', 'src/**/*.spec.tsx'],
       plugins: ['jest'],
