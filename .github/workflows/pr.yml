@@ -1,0 +1,45 @@
+name: PR checks
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Keeps the job name the main-branch ruleset requires.
+  run-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Enable Corepack (Yarn 4 from packageManager)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: TypeScript
+        run: yarn typecheck
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Tests
+        run: yarn test --ci
+
+      - name: Expo Doctor
+        run: npx --yes expo-doctor
+
+      - name: SDK dependency versions
+        run: npx expo install --check
