@@ -9,8 +9,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  type TextInputFocusEventData,
-  type NativeSyntheticEvent,
+  type BlurEvent,
   type KeyboardTypeOptions,
   type ViewStyle,
 } from 'react-native';
@@ -22,7 +21,7 @@ interface FormTextInputProps {
   label: string;
   accessibilityLabel: string;
   secureTextEntry?: boolean;
-  onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+  onBlur?: (e: BlurEvent) => void;
   onChangeText?: (text: string) => void;
   onSubmitEditing?: () => void;
   value?: string;

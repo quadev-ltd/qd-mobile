@@ -1,4 +1,8 @@
-import crashlytics from '@react-native-firebase/crashlytics';
+import {
+  getCrashlytics,
+  log,
+  recordError,
+} from '@react-native-firebase/crashlytics';
 
 import { ApplicationEnvironentEnum } from './env';
 
@@ -9,11 +13,11 @@ interface Loggerer {
 
 class CrashlyticsLogger implements Loggerer {
   logError(error: Error) {
-    crashlytics().recordError(error);
+    recordError(getCrashlytics(), error);
   }
 
   logMessage(message: string) {
-    crashlytics().log(message);
+    log(getCrashlytics(), message);
   }
 }
 

@@ -23,8 +23,10 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
-  const goToSignIn = () => navigation.navigate(PublicScreen.SignIn, {});
+  const goToSignUp = () =>
+    navigation.navigate(PublicScreen.SignUp, undefined, { pop: true });
+  const goToSignIn = () =>
+    navigation.navigate(PublicScreen.SignIn, {}, { pop: true });
 
   return (
     <Layout

@@ -9,8 +9,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  type TextInputFocusEventData,
-  type NativeSyntheticEvent,
+  type BlurEvent,
   type ViewStyle,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
@@ -20,7 +19,7 @@ import { useInputDynamicStyles } from '@/styles/useInputDynamicStyles';
 interface FormTextAreaInputProps {
   label: string;
   accessibilityLabel: string;
-  onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+  onBlur?: (e: BlurEvent) => void;
   onChangeText?: (text: string) => void;
   onSubmitEditing?: () => void;
   value?: string;

@@ -3,13 +3,7 @@ import {
   type FieldErrorsImpl,
   type Merge,
 } from 'react-hook-form';
-import {
-  View,
-  StyleSheet,
-  Text,
-  type TextInputFocusEventData,
-  type NativeSyntheticEvent,
-} from 'react-native';
+import { View, StyleSheet, Text, type BlurEvent } from 'react-native';
 import MaskInput, { Masks } from 'react-native-mask-input';
 import { useTheme } from 'react-native-paper';
 
@@ -20,7 +14,7 @@ interface FormDateInputProps {
   forgotPasswordLabel?: string;
   forgotPasswordCallback?: () => void;
   accessibilityLabel: string;
-  onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+  onBlur?: (e: BlurEvent) => void;
   onChangeText?: (text: string) => void;
   value?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;

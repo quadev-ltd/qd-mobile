@@ -1,6 +1,7 @@
-import auth from '@react-native-firebase/auth';
+import { GoogleAuthProvider } from '@react-native-firebase/auth';
 import {
   GoogleSignin,
+  isCancelledResponse,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { Alert } from 'react-native';
@@ -34,10 +35,16 @@ export const onGoogleSignIn = async (): Promise<
       return;
     }
     logger().logMessage('Initiating Google sign in...');
+    const response = await GoogleSignin.signIn();
+    if (isCancelledResponse(response)) {
+      // user cancelled the login flow (google-signin v13+ resolves instead of throwing SIGN_IN_CANCELLED)
+      logger().logMessage('Google sign in cancelled by the user.');
+      return;
+    }
     const {
       idToken,
       user: { familyName, givenName, email },
-    } = await GoogleSignin.signIn();
+    } = response.data;
     logger().logMessage(
       `Successfully signed in to google with user ${familyName} ${givenName} ${email}`,
     );
@@ -59,7 +66,7 @@ export const onGoogleSignIn = async (): Promise<
     logger().logMessage(
       `Create a Firebase credential with the Google ID token`,
     );
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    const googleCredential = GoogleAuthProvider.credential(idToken);
 
     logger().logMessage(`Get firebase ID token`);
     const firebaseIdToken = await getFirebaseIdToken(googleCredential);

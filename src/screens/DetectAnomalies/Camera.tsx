@@ -1,16 +1,9 @@
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import { launchImageLibraryAsync } from 'expo-image-picker';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
-import {
-  type ImageLibraryOptions,
-  launchImageLibrary,
-} from 'react-native-image-picker';
 import { useTheme } from 'react-native-paper';
-import {
-  Camera,
-  useCameraDevice,
-  useCameraPermission,
-} from 'react-native-vision-camera';
 
 import CTA from '@/components/CTA';
 import Header from '@/components/Header';
@@ -23,38 +16,40 @@ export interface CameraProps {
 }
 
 const CameraComponent: React.FC<CameraProps> = ({ loadPhotoURI }) => {
-  const { hasPermission, requestPermission } = useCameraPermission();
+  const [permission, requestPermission] = useCameraPermissions();
+  const permissionLoaded = permission != null;
+  const hasPermission = permission?.granted ?? false;
   const [requestingPermissions, setRequestingPermissions] =
     useState<boolean>(false);
   const { t } = useTranslation();
-  const device = useCameraDevice('back');
-  const camera = useRef<Camera>(null);
+  const camera = useRef<CameraView>(null);
   const { colors: themeColors } = useTheme();
 
   useEffect(() => {
     (async () => {
-      if (!hasPermission) {
+      if (permissionLoaded && !hasPermission) {
         setRequestingPermissions(true);
         await requestPermission();
         setRequestingPermissions(false);
       }
     })();
-  }, [hasPermission, requestPermission]);
+  }, [permissionLoaded, hasPermission, requestPermission]);
 
   const capturePhoto = async () => {
     if (camera.current) {
-      const newPhoto = await camera.current.takePhoto();
-      loadPhotoURI(newPhoto.path);
+      const newPhoto = await camera.current.takePictureAsync();
+      // Same value as before: a plain file path (the screen adds the file:// prefix).
+      if (newPhoto) {
+        loadPhotoURI(newPhoto.uri.replace(/^file:\/\//, ''));
+      }
     }
   };
 
   const openPhotoLibrary = async () => {
-    const options: ImageLibraryOptions = {
-      mediaType: 'photo',
+    const result = await launchImageLibraryAsync({
+      mediaTypes: ['images'],
       selectionLimit: 1,
-    };
-
-    const result = await launchImageLibrary(options);
+    });
 
     if (result.assets && result.assets.length > 0) {
       const selectedImage = result.assets[0];
@@ -68,7 +63,7 @@ const CameraComponent: React.FC<CameraProps> = ({ loadPhotoURI }) => {
     return <Spinner color={themeColors.primary} />;
   }
 
-  if (!hasPermission || !device) {
+  if (!hasPermission) {
     return (
       <Header
         title={t('detectAnomaly.noCamera')}
@@ -79,12 +74,11 @@ const CameraComponent: React.FC<CameraProps> = ({ loadPhotoURI }) => {
 
   return (
     <>
-      <Camera
+      <CameraView
         ref={camera}
         style={StyleSheet.absoluteFill}
-        device={device}
-        isActive={true}
-        photo={true}
+        facing="back"
+        active={true}
       />
       <View style={styles.takePhotoCTAContainer}>
         <View style={styles.photoFrame} />

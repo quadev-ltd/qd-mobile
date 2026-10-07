@@ -20,7 +20,8 @@ export const ResetPasswordScreen: React.FC<ResetPasswordScreenProps> = ({
   route,
 }) => {
   const { t } = useTranslation();
-  const goToSignIn = () => navigation.navigate(PublicScreen.SignIn, {});
+  const goToSignIn = () =>
+    navigation.navigate(PublicScreen.SignIn, {}, { pop: true });
   const onSuccessGoToSignIn = () => {
     navigation.reset({
       index: 0,

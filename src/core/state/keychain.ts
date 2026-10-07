@@ -1,6 +1,6 @@
 import { encode } from 'base-64';
+import { getRandomBytes } from 'expo-crypto';
 import * as Keychain from 'react-native-keychain';
-import { generateSecureRandom } from 'react-native-securerandom';
 
 import logger from '../logger';
 
@@ -21,7 +21,8 @@ export const getMMKVEncryptionKey: () => Promise<
   if (existingCredentials) {
     return existingCredentials.password;
   }
-  const randomBytes = (await generateSecureRandom(32)).toString();
+  // Same format as before (comma-separated byte values, then base64); only the random source changed.
+  const randomBytes = getRandomBytes(32).toString();
   const randomBytesStringToBase64 = encode(randomBytes);
   const hasSetCredentials = await Keychain.setInternetCredentials(
     MMKV_ENCRYPTION_KEY,

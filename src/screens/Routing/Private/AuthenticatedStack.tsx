@@ -56,6 +56,8 @@ const AuthenticatedStack: React.FC<AuthenticatedStackProps> = ({
         headerStyle: { backgroundColor: 'transparent' },
         headerTransparent: true,
         headerTitle: '',
+        // React Navigation 7 changed the default to 'slide' on iOS; keep v6 behaviour.
+        drawerType: 'front',
       })}>
       <Drawer.Screen name={PrivateScreen.Home} component={HomeScreen} />
       <Drawer.Screen

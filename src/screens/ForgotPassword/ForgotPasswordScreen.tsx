@@ -20,7 +20,8 @@ export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
   route,
 }) => {
   const { t } = useTranslation();
-  const goToSignUp = () => navigation.navigate(PublicScreen.SignUp);
+  const goToSignUp = () =>
+    navigation.navigate(PublicScreen.SignUp, undefined, { pop: true });
 
   return (
     <Layout>
