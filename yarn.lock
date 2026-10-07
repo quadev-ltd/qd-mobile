@@ -7245,6 +7245,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-system-ui@npm:~57.0.4":
+  version: 57.0.4
+  resolution: "expo-system-ui@npm:57.0.4"
+  dependencies:
+    "@react-native/normalize-colors": "npm:0.86.3"
+    debug: "npm:^4.3.2"
+  peerDependencies:
+    expo: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native-web:
+      optional: true
+  checksum: 10c0/33e6826c915cc656722451f3c5c98af6bdc09241aaf3ea9e5b61fdd8fc30bf523b046b0775ed2c27505d37134edad078282bafe4cd8eb93a8330c004c3e5b563
+  languageName: node
+  linkType: hard
+
 "expo@npm:~57.0.27":
   version: 57.0.27
   resolution: "expo@npm:57.0.27"
@@ -11198,6 +11215,7 @@ __metadata:
     expo-camera: "npm:~57.0.6"
     expo-crypto: "npm:~57.0.3"
     expo-image-picker: "npm:~57.0.20"
+    expo-system-ui: "npm:~57.0.4"
     i18next: "npm:^23.7.6"
     jest: "npm:~29.7.0"
     jest-expo: "npm:~57.0.5"

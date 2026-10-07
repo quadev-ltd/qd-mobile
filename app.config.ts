@@ -46,7 +46,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   platforms: ['ios', 'android'],
   orientation: 'default',
   icon: './assets/icon.png',
-  userInterfaceStyle: 'light',
+  // Follows the system setting, as before (iOS had no UIUserInterfaceStyle; Android used DayNight).
+  userInterfaceStyle: 'automatic',
   extra: {
     appVariant: variant,
   },
@@ -69,6 +70,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         NSAllowsLocalNetworking: true,
       },
       LSApplicationQueriesSchemes: [deepLinkingDomain],
+      // Same orientations as before (no upside-down portrait).
+      UISupportedInterfaceOrientations: [
+        'UIInterfaceOrientationPortrait',
+        'UIInterfaceOrientationLandscapeLeft',
+        'UIInterfaceOrientationLandscapeRight',
+      ],
       // Kept as today (iOS ignores this key in Info.plist; the entitlement is what counts).
       'com.apple.developer.associated-domains': [
         `applinks:${deepLinkingDomain}`,
@@ -112,6 +119,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'android.permission.WRITE_EXTERNAL_STORAGE',
       'android.permission.RECORD_AUDIO',
       'android.permission.VIBRATE',
+      // The Expo template declares it in the main manifest; the old app only had it in debug builds.
+      'android.permission.SYSTEM_ALERT_WINDOW',
       // Firebase Analytics is removed (D4).
       'com.google.android.gms.permission.AD_ID',
       'android.permission.ACCESS_ADSERVICES_ATTRIBUTION',

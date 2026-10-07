@@ -6,9 +6,14 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
-    "types": ["jest", "node"]
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "src",
@@ -16,7 +21,6 @@
     "index.ts",
     "app.config.ts",
     "jest.config.ts",
-    "jest.setup.ts",
-    "expo-env.d.ts"
+    "jest.setup.ts"
   ]
 }
