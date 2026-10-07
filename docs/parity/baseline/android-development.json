@@ -1,0 +1,43 @@
+{
+  "package": "com.qdmobile.dev",
+  "versionCode": "16",
+  "versionName": "1.0.0",
+  "compileSdk": "35",
+  "minSdk": "24",
+  "targetSdk": "34",
+  "label": "(D) QuaDev",
+  "nativeCode": "arm64-v8a armeabi-v7a x86 x86_64",
+  "permissions": {
+    "android.permission.INTERNET": true,
+    "android.permission.CAMERA": true,
+    "android.permission.READ_MEDIA_IMAGES": true,
+    "android.permission.ACCESS_NETWORK_STATE": true,
+    "android.permission.WAKE_LOCK": true,
+    "android.permission.USE_BIOMETRIC": true,
+    "android.permission.USE_FINGERPRINT": true,
+    "android.permission.SYSTEM_ALERT_WINDOW": true,
+    "com.google.android.gms.permission.AD_ID": true,
+    "android.permission.ACCESS_ADSERVICES_ATTRIBUTION": true,
+    "android.permission.ACCESS_ADSERVICES_AD_ID": true,
+    "com.google.android.providers.gsf.permission.READ_GSERVICES": true,
+    "com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE": true,
+    "com.qdmobile.dev.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION": true
+  },
+  "application": {
+    "allowBackup": "false",
+    "supportsRtl": "true",
+    "usesCleartextTraffic": "true",
+    "debuggable": "true"
+  },
+  "mainActivity": {
+    "launchMode": "2",
+    "windowSoftInputMode": "0x00000010",
+    "exported": "true",
+    "screenOrientation": "-1"
+  },
+  "intentFilters": {
+    "{\"autoVerify\":\"false\",\"actions\":[\"android.intent.action.MAIN\"],\"categories\":[\"android.intent.category.LAUNCHER\"],\"data\":[]}": true,
+    "{\"autoVerify\":\"true\",\"actions\":[\"android.intent.action.VIEW\"],\"categories\":[\"android.intent.category.BROWSABLE\",\"android.intent.category.DEFAULT\"],\"data\":[{\"scheme\":\"https\",\"host\":\"$(DEEP_LINKING_DOMAIN)\"}]}": true,
+    "{\"autoVerify\":\"false\",\"actions\":[\"android.intent.action.VIEW\"],\"categories\":[\"android.intent.category.BROWSABLE\",\"android.intent.category.DEFAULT\"],\"data\":[{\"scheme\":\"$(DEEP_LINKING_DOMAIN)\",\"host\":\"api\"}]}": true
+  }
+}
