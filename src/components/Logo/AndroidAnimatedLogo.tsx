@@ -17,16 +17,17 @@ export const AndroidAnimatedLogo: React.FC = () => {
   const left = (width - IMAGE_WIDTH) / 2;
 
   useEffect(() => {
+    // Whole intro stays under 2 s: the spring's duration is perceptual (Reanimated 4 runs it
+    // 1.5x longer, so about 1.2 s), then the logo slides up in 400 ms.
     scale.value = withSpring(
       0.75,
       {
-        damping: 2,
-        stiffness: 50,
-        mass: 3,
+        duration: 800,
+        dampingRatio: 0.35,
       },
       () => {
         top.value = withTiming(96, {
-          duration: 500,
+          duration: 400,
         });
       },
     );

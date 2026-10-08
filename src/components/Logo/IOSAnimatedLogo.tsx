@@ -10,10 +10,11 @@ export const IOSAnimatedLogo: FC = () => {
   const scale = useSharedValue(1);
 
   useEffect(() => {
+    // Bounce settles in under 2 s: the duration is perceptual (Reanimated 4 runs it 1.5x
+    // longer, so about 1.8 s).
     scale.value = withSpring(0.75, {
-      damping: 2,
-      stiffness: 100,
-      mass: 1,
+      duration: 1200,
+      dampingRatio: 0.35,
     });
   }, [scale]);
 
