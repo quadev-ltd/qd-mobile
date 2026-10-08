@@ -1,34 +1,24 @@
-import { configureStore, type Middleware } from '@reduxjs/toolkit';
-import { persistReducer, persistStore } from 'redux-persist';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { apiSlice, anomalyDetectionApiSlice } from '../api';
+import { anomalyDetectionApiSlice } from '../api';
 
-import { generateMMKVStorage } from './mmkv';
-import { rootReducer } from './store/rootReducer';
+import { sessionSlice } from './slices/sessionSlice';
 
-const middlewares: Middleware[] = [];
-
-middlewares.push(apiSlice.middleware);
-middlewares.push(anomalyDetectionApiSlice.middleware);
-export const generateStore = (encriptionKey: string) => {
-  const reduxMMKVStorage = generateMMKVStorage(
-    'persist.qdmobile.com',
-    encriptionKey,
-  );
-  const persistConfig = {
-    key: 'root',
-    storage: reduxMMKVStorage,
-    blacklist: ['auth'],
-  };
-  const persistedReducer = persistReducer(persistConfig, rootReducer);
-  const store = configureStore({
-    reducer: persistedReducer,
-    middleware: getDefaultMiddleware =>
-      getDefaultMiddleware({ serializableCheck: false }).concat(middlewares),
-  });
-  const persistor = persistStore(store);
-  return { store, persistor };
-};
+// No persistence: Firebase keeps the session and Firestore caches the profile offline.
+export const rootReducer = combineReducers({
+  [sessionSlice.reducerPath]: sessionSlice.reducer,
+  [anomalyDetectionApiSlice.reducerPath]: anomalyDetectionApiSlice.reducer,
+});
 
 export type RootState = ReturnType<typeof rootReducer>;
-export type AppDispatch = ReturnType<typeof generateStore>['store']['dispatch'];
+
+export const createStore = (preloadedState?: Partial<RootState>) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(anomalyDetectionApiSlice.middleware),
+  });
+
+export type AppStore = ReturnType<typeof createStore>;
+export type AppDispatch = AppStore['dispatch'];
