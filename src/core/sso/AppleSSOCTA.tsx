@@ -2,10 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-import { useLoadUserProfile } from '../api/hooks/useLoadUserProfile';
-import { useAppSelector } from '../state/hooks';
+import { signInWithApple } from '../firebase/auth';
 
-import { onAppleSignIn } from './appleSSO';
 import { useSSOSignIn } from './useSSOSignIn';
 
 import CTA from '@/components/CTA';
@@ -25,15 +23,13 @@ const AppleSSOCTA: React.FC<AppleSSOCTAProps> = ({
   screen,
   setIsLoading,
 }) => {
-  const authToken = useAppSelector(state => state.auth.authToken);
-  useLoadUserProfile(authToken);
   const { colors } = useTheme();
   const { t } = useTranslation();
 
   const { handleSignIn } = useSSOSignIn({
-    dataErrorKey: 'error.appleSSODataError',
+    provider: 'apple',
     setIsLoading,
-    ssoFunction: onAppleSignIn,
+    signIn: signInWithApple,
   });
 
   return (

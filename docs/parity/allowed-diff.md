@@ -30,6 +30,9 @@ difference that is not listed here.
 | Extra iOS URL schemes: the bundle id, and the encoded Firebase app id | Added by Expo prebuild (bundle id scheme) and the RNFB Auth config plugin (phone-auth reCAPTCHA redirect). Nothing in the app handles them. |
 | Production debug APK deep-link host: dev domain → production domain | The old `productionDebug` build picked up `.env.dev` (react-native-config only mapped the flavor names), so it embedded the dev domain. The Expo production variant uses the production domain, like the old release build. |
 | `RECORD_AUDIO`, `READ/WRITE_EXTERNAL_STORAGE`, `VIBRATE` | Blocked in `app.config.ts`, so they must not appear. |
+| Phase 3: Android https app-link intent filter (`autoVerify`, host = deep-linking domain) removed; iOS `associated-domains` entitlement and the Info.plist copy of it removed | Email verification and password reset now use Firebase's hosted pages, so no universal/app links are needed. Terms and Privacy on the website now open in the browser instead of the app. The custom URL scheme stays. |
+| Phase 3: `USE_BIOMETRIC` and `USE_FINGERPRINT` removed | They came from `react-native-keychain`, removed with the custom token storage (Firebase keeps its own session). |
+| Phase 3: `com.google.android.c2dm.permission.RECEIVE` (no difference expected) | `firebase-iid`, pulled in by the Functions SDK, declares it for Cloud Messaging, which the app does not use; it is blocked in `app.config.ts`. |
 
 The machine-readable list (`<platform>/<variant> <path glob>`; globs use zsh patterns):
 
@@ -56,4 +59,9 @@ ios/* fonts.MaterialDesignIcons.ttf
 ios/development urlSchemes.com.qdmobile.dev
 ios/production urlSchemes.com.qdmobile
 ios/* urlSchemes.*ENCODED_FIREBASE_APP_ID*
+android/* intentFilters.*https*
+android/* permissions.android.permission.USE_BIOMETRIC
+android/* permissions.android.permission.USE_FINGERPRINT
+ios/* entitlements.com.apple.developer.associated-domains.*
+ios/* infoPlistAssociatedDomains.*
 ```

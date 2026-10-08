@@ -1,30 +1,20 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useEffect } from 'react';
 
 import { PublicScreen, type StackParamList } from './types';
 
 import ForgotPasswordScreen from '@/screens/ForgotPassword/ForgotPasswordScreen';
 import LandingScreen from '@/screens/Landing/LandingScreen';
-import ResetPasswordScreen from '@/screens/ResetPassword/ResetPasswordScreen';
 import SignInScreen from '@/screens/SignIn/SignInScreen';
 import SignUpScreen from '@/screens/SignUp/SignUpScreen';
-import VerifyEmailScreen from '@/screens/VerifyEmail/VerifyEmailScreen';
 
 type UnauthenticatedStackProps = {
   environment?: string;
-  applicationName: string;
-  hideSplashScreen: () => void;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
 export const UnauthenticatedStack: React.FC<UnauthenticatedStackProps> = ({
   environment,
-  applicationName,
-  hideSplashScreen,
 }) => {
-  useEffect(() => {
-    hideSplashScreen();
-  }, [hideSplashScreen]);
   return (
     <Stack.Navigator
       initialRouteName={PublicScreen.Landing}
@@ -41,15 +31,6 @@ export const UnauthenticatedStack: React.FC<UnauthenticatedStackProps> = ({
       <Stack.Screen
         name={PublicScreen.ForgotPassword}
         component={ForgotPasswordScreen}
-      />
-      <Stack.Screen
-        name={PublicScreen.ResetPassword}
-        component={ResetPasswordScreen}
-      />
-      <Stack.Screen
-        name={PublicScreen.VerifyEmail}
-        component={VerifyEmailScreen}
-        initialParams={{ applicationName }}
       />
     </Stack.Navigator>
   );

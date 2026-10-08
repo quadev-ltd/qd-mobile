@@ -59,21 +59,45 @@ describe('signUpSchema', () => {
     const result = signUpSchema.safeParse(incompleteData);
     expect(result.success).toBe(false);
 
+    const messages = (result as SafeParseError<SignUpFields>).error.errors.map(
+      error => error.message,
+    );
+    expect(messages).toEqual([
+      'fieldError.firstNameRequiredError',
+      'fieldError.lastNameRequiredError',
+      'fieldError.passwordFormatError',
+    ]);
+  });
+
+  it.each([
+    ['missing', undefined],
+    ['empty', ''],
+    ['blank', '   '],
+  ])('accepts a %s date of birth (optional, D16)', async (_label, dob) => {
+    const result = signUpSchema.safeParse({
+      ...validData,
+      [SignUpFields.dob]: dob,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('rejects a partially typed date of birth', async () => {
+    const result = signUpSchema.safeParse({
+      ...validData,
+      [SignUpFields.dob]: '12/0',
+    });
+    expect(result.success).toBe(false);
     expect(
       (result as SafeParseError<SignUpFields>).error.errors[0].message,
-    ).toBe('fieldError.firstNameRequiredError');
-    expect(
-      (result as SafeParseError<SignUpFields>).error.errors[1].message,
-    ).toBe('fieldError.lastNameRequiredError');
-    expect(
-      (result as SafeParseError<SignUpFields>).error.errors[2].message,
-    ).toBe('fieldError.dobRequiredError');
-    expect(
-      (result as SafeParseError<SignUpFields>).error.errors[3].message,
     ).toBe('fieldError.dobFormatError');
-    expect(
-      (result as SafeParseError<SignUpFields>).error.errors[4].message,
-    ).toBe('fieldError.passwordFormatError');
+  });
+
+  it('trims names', async () => {
+    const result = signUpSchema.safeParse({
+      ...validData,
+      [SignUpFields.firstName]: '  John  ',
+    });
+    expect(result.success && result.data[SignUpFields.firstName]).toBe('John');
   });
 
   it('should fail with non-matching passwords', async () => {

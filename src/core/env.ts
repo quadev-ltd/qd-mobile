@@ -5,11 +5,13 @@ export const ApplicationEnvironentEnum = z.enum(['test', 'dev', 'prod']);
 export const envSchema = z.object({
   APPLICATION_NAME: z.string(),
   APPLICATION_ENVIRONMENT: ApplicationEnvironentEnum,
-  APPLICATION_VERSION: z.string(),
-  BASE_URL: z.string(),
   DEEP_LINKING_DOMAIN: z.string(),
   CLIENT_ID: z.string(),
-  REVERSED_CLIENT_ID: z.string(),
+  // "true" connects Auth, Firestore and Functions to the local Firebase emulators (dev/E2E only).
+  USE_FIREBASE_EMULATORS: z
+    .enum(['true', 'false', ''])
+    .optional()
+    .transform(value => value === 'true'),
 });
 
 // Expo inlines EXPO_PUBLIC_* variables at build time, which only works with
@@ -17,11 +19,9 @@ export const envSchema = z.object({
 const config = {
   APPLICATION_NAME: process.env.EXPO_PUBLIC_APPLICATION_NAME,
   APPLICATION_ENVIRONMENT: process.env.EXPO_PUBLIC_APPLICATION_ENVIRONMENT,
-  APPLICATION_VERSION: process.env.EXPO_PUBLIC_APPLICATION_VERSION,
-  BASE_URL: process.env.EXPO_PUBLIC_BASE_URL,
   DEEP_LINKING_DOMAIN: process.env.EXPO_PUBLIC_DEEP_LINKING_DOMAIN,
   CLIENT_ID: process.env.EXPO_PUBLIC_CLIENT_ID,
-  REVERSED_CLIENT_ID: process.env.EXPO_PUBLIC_REVERSED_CLIENT_ID,
+  USE_FIREBASE_EMULATORS: process.env.EXPO_PUBLIC_USE_FIREBASE_EMULATORS,
 };
 
 // validate config variables

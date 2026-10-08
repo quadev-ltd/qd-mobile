@@ -1,18 +1,3 @@
-export interface Timestamp {
-  seconds: number;
-  nanos: number;
-}
-
-export const stringToGrpcTimestamp = (date: string): Timestamp => {
-  if (validateDatePattern(date) === false)
-    throw new Error('Invalid date format');
-  const parsedDate = stringToDate(date);
-  const seconds = Math.floor(parsedDate.getTime() / 1000);
-  const nanos = (parsedDate.getTime() % 1000) * 1e6;
-
-  return { seconds, nanos };
-};
-
 export const stringToDate = (dateString: string): Date => {
   const dobArray = dateString.split('/');
   const year = parseInt(dobArray[2], 10);
@@ -28,19 +13,6 @@ export const validateDatePattern = (dateString: string): boolean => {
   return datePattern.test(dateString);
 };
 
-export const trimFormData = <
-  T extends Record<string, string | number | Timestamp>,
->(
-  formData: T,
-): T => {
-  const trimmedData = Object.fromEntries(
-    Object.entries(formData).map(([key, value]) => [
-      key,
-      typeof value === 'string' ? value.trim() : value,
-    ]),
-  );
-  return trimmedData as T;
-};
-
-export const secondsToDate = (seconds: number): Date =>
-  new Date(seconds * 1000);
+/** A real calendar date written exactly as DD/MM/YYYY (the date input's mask). */
+export const isValidDisplayDate = (dateString: string): boolean =>
+  /^\d{2}\/\d{2}\/\d{4}$/.test(dateString) && validateDatePattern(dateString);

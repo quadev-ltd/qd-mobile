@@ -1,92 +1,67 @@
 import { useTranslation } from 'react-i18next';
 
-import { useSignInWithFirebaseMutation } from '../api';
+import { isAppleCancellation } from './appleSSO';
+import { isGoogleCancellation } from './googleSSO';
+
+import { showErrorToast } from '@/components/Toast';
+import { type SSOSignInResult } from '@/core/firebase/auth';
+import { getErrorMessageKey, logFirebaseError } from '@/core/firebase/errors';
+import { createProfileIfMissing } from '@/core/firebase/profile';
+import { useAppDispatch } from '@/core/state/hooks';
 import {
-  asynchErrorMessages,
-  processError,
-  type RTKQueryErrorType,
-} from '../api/errors';
-import { type ResponseError } from '../api/types';
-import logger from '../logger';
-import { useAppDispatch } from '../state/hooks';
-import { login } from '../state/slices/authSlice';
-
-import { type AuthenticationProfileData } from './types';
-
-import { showErrorToast, showUnexpectedErrorToast } from '@/components/Toast';
+  profileSetupFinished,
+  profileSetupStarted,
+  providerNamesReceived,
+} from '@/core/state/slices/sessionSlice';
 
 interface UseSSOSignInOptions {
-  dataErrorKey: string;
+  provider: 'google' | 'apple';
   setIsLoading: (isLoading: boolean) => void;
-  ssoFunction: () => Promise<AuthenticationProfileData | undefined>;
+  /** Resolves `null` when the user cancels. */
+  signIn: () => Promise<SSOSignInResult | null>;
 }
 
+const isCancellation = (error: unknown) =>
+  isGoogleCancellation(error) || isAppleCancellation(error);
+
+/**
+ * Google / Apple sign-in. A new user gets a profile from the provider's names (no date of
+ * birth). When the names are missing (Apple shares them only once), the session shows
+ * CompleteProfile, prefilled with whatever the provider sent.
+ */
 export function useSSOSignIn({
-  dataErrorKey,
+  provider,
   setIsLoading,
-  ssoFunction,
+  signIn,
 }: UseSSOSignInOptions) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const [signInWithFirebase] = useSignInWithFirebaseMutation();
-
-  const handleError = (error: Error) => {
-    processError(error as RTKQueryErrorType, t, {
-      onUnmanagedError: message => {
-        showErrorToast(t('error.errorTitle'), message);
-      },
-      onUnexpectedError: () => showUnexpectedErrorToast(t),
-    });
-  };
 
   const handleSignIn = async () => {
     setIsLoading(true);
-
-    let ssoData: AuthenticationProfileData | undefined;
+    // Holds the session on the loading screen until the profile exists, so CompleteProfile
+    // does not flash for a new user.
+    dispatch(profileSetupStarted());
+    let uid: string | undefined;
     try {
-      ssoData = await ssoFunction();
-    } catch (error) {
-      handleError(error as Error);
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      if (ssoData) {
-        const response = await signInWithFirebase(ssoData).unwrap();
-        dispatch(login(response));
-      } else {
-        setIsLoading(false);
-        logger().logError(
-          Error(`Single sign on data was not provided for ${dataErrorKey}`),
-        );
+      const result = await signIn();
+      if (!result) {
+        return;
       }
+      uid = result.user.uid;
+      dispatch(providerNamesReceived(result.names));
+      await createProfileIfMissing(uid, result.names);
     } catch (error) {
-      logger().logError(
-        Error(`Firebase sign in error: ${JSON.stringify(error)}`),
-      );
-
-      const typedError = error as ResponseError;
-      if (
-        typedError.data?.field_errors &&
-        typedError.data.field_errors.length > 0 &&
-        typedError.status === 400
-      ) {
-        const errors: string[] = [];
-        typedError.data?.field_errors?.forEach(fieldError => {
-          const errorMessage = asynchErrorMessages(t, fieldError.error);
-          if (!errorMessage) return;
-          errors.push(`${fieldError.field}: ${errorMessage}`);
-        });
-        showErrorToast(t('error.errorTitle'), t(dataErrorKey));
-        logger().logError(
-          new Error(
-            `Validation errors for ${ssoData?.email}:\n ${errors.join('\n')}`,
-          ),
-        );
-      } else {
-        handleError(error as Error);
+      if (isCancellation(error)) {
+        return;
       }
+      logFirebaseError(`${provider}SignIn`, error, uid);
+      // Signed in but the profile write failed: CompleteProfile takes over, no toast needed.
+      if (!uid) {
+        showErrorToast(t('error.errorTitle'), t(getErrorMessageKey(error)));
+      }
+    } finally {
+      dispatch(profileSetupFinished());
       setIsLoading(false);
     }
   };

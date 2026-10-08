@@ -1,106 +1,59 @@
-import { GoogleAuthProvider } from '@react-native-firebase/auth';
 import {
   GoogleSignin,
   isCancelledResponse,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import { Alert } from 'react-native';
 
 import { env } from '../env';
-import logger from '../logger';
 
-import { NO_SURNAME_PROVIDED } from './constants';
-import { getFirebaseIdToken } from './firebase';
-import { type AuthenticationProfileData } from './types';
+import { type ProviderNames } from '@/core/firebase/types';
 
 GoogleSignin.configure({
   webClientId: env.CLIENT_ID,
   offlineAccess: true,
 });
 
-const hasCodeProperty = (error: unknown): error is { code: unknown } => {
-  return (error as { code: unknown }).code !== undefined;
-};
+export interface GoogleIdentity {
+  idToken: string | null;
+  names: ProviderNames;
+}
 
-export const onGoogleSignIn = async (): Promise<
-  AuthenticationProfileData | undefined
-> => {
-  try {
-    const hasPlayServices = await GoogleSignin.hasPlayServices();
-    if (!hasPlayServices) {
-      Alert.alert(
-        'Google Play Services Not Available',
-        'Google Play Services is required for Google Sign-In. Please install/update Google Play Services and try again.',
-      );
-      return;
-    }
-    logger().logMessage('Initiating Google sign in...');
+/**
+ * Shows the Google account picker. Resolves `null` when the user cancels.
+ * Throws when Play Services are missing or the sign-in fails (errors carry a `code`).
+ */
+export const requestGoogleIdentity =
+  async (): Promise<GoogleIdentity | null> => {
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     const response = await GoogleSignin.signIn();
     if (isCancelledResponse(response)) {
-      // user cancelled the login flow (google-signin v13+ resolves instead of throwing SIGN_IN_CANCELLED)
-      logger().logMessage('Google sign in cancelled by the user.');
-      return;
+      return null;
     }
-    const {
-      idToken,
-      user: { familyName, givenName, email },
-    } = response.data;
-    logger().logMessage(
-      `Successfully signed in to google with user ${familyName} ${givenName} ${email}`,
-    );
-
-    if (givenName === null || email === null) {
-      throw Error(
-        `User details missing: ${JSON.stringify({
-          familyName,
-          givenName,
-          email,
-        })}`,
-      );
-    }
-
-    if (!idToken) {
-      throw Error(`Google idToken is null for email ${email}`);
-    }
-
-    logger().logMessage(
-      `Create a Firebase credential with the Google ID token`,
-    );
-    const googleCredential = GoogleAuthProvider.credential(idToken);
-
-    logger().logMessage(`Get firebase ID token`);
-    const firebaseIdToken = await getFirebaseIdToken(googleCredential);
-
-    const lastName = familyName ?? NO_SURNAME_PROVIDED;
-
+    const { idToken, user } = response.data;
     return {
-      email,
-      firstName: givenName as string,
-      lastName,
-      idToken: firebaseIdToken as string,
+      idToken,
+      names: {
+        firstName: user.givenName ?? undefined,
+        lastName: user.familyName ?? undefined,
+      },
     };
-  } catch (error) {
-    logger().logError(
-      Error(
-        `Unknown error while signing in with Google: ${JSON.stringify(error)}`,
-      ),
-    );
-    if (hasCodeProperty(error)) {
-      switch (error.code) {
-        case statusCodes.SIGN_IN_CANCELLED:
-          // user cancelled the login flow
-          break;
-        case statusCodes.IN_PROGRESS:
-          // operation (eg. sign in) already in progress
-          break;
-        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-          // play services not available or outdated
-          break;
-        default:
-          throw error;
-      }
-    } else {
-      throw error;
+  };
+
+/** Forgets the Google account so the picker shows again next time. Never throws. */
+export const signOutFromGoogle = async () => {
+  try {
+    if (GoogleSignin.hasPreviousSignIn()) {
+      await GoogleSignin.signOut();
     }
+  } catch {
+    // Nothing to do: the Firebase session is what matters, and it is signed out separately.
   }
+};
+
+/** The user closed the picker, or a sign-in is already running: nothing to report. */
+export const isGoogleCancellation = (error: unknown) => {
+  const code = (error as { code?: unknown })?.code;
+  return (
+    code === statusCodes.SIGN_IN_CANCELLED || code === statusCodes.IN_PROGRESS
+  );
 };

@@ -11,28 +11,21 @@ import { SignUpScreen } from './SignUpScreen';
 import { ApplicationEnvironentEnum } from '@/core/env';
 import { getMockStore } from '@/util/mockStore';
 
-const mockRegisterUser = jest.fn();
 jest.mock('../../components/SignIn/SSOAnimatedHeader.tsx');
-jest.mock('../../core/api', () => ({
-  useSignUpMutation: jest.fn(() => [
-    mockRegisterUser,
-    { iLoading: false, error: null, data: null },
-  ]),
-}));
 jest.mock('react-native-toast-message', () => 'ToastMessage');
 jest.mock('@react-native-firebase/crashlytics');
 jest.mock('@react-native-firebase/auth');
 jest.mock('@react-native-vector-icons/material-design-icons/static', () => ({
   MaterialDesignIcons: 'MaterialDesignIcons',
 }));
-jest.mock('@/core/state/slices/userSlice', () => ({
-  isUserVerifiedSelector: jest.fn(),
-}));
 jest.mock('@/core/sso/googleSSO', () => ({
-  onGoogleSignIn: jest.fn(),
+  requestGoogleIdentity: jest.fn(),
+  signOutFromGoogle: jest.fn(),
+  isGoogleCancellation: jest.fn(() => false),
 }));
 jest.mock('@/core/sso/appleSSO', () => ({
-  onAppleSignIn: jest.fn(),
+  requestAppleIdentity: jest.fn(),
+  isAppleCancellation: jest.fn(() => false),
 }));
 
 const mockNavigation = {

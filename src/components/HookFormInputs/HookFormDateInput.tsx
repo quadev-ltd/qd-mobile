@@ -3,30 +3,30 @@ import {
   Controller,
   type FieldError,
   type FieldErrorsImpl,
+  type FieldValues,
   type Merge,
+  type Path,
 } from 'react-hook-form';
 
 import { FormDateInput } from './FormDateInput';
 
-import { type SignUpSchemaType } from '@/schemas/signUpSchema';
-
-interface HookFormDateInputProps {
-  name: keyof SignUpSchemaType;
+interface HookFormDateInputProps<TFormSchema extends FieldValues> {
+  name: Path<TFormSchema>;
   label: string;
   accessibilityLabel: string;
-  control?: Control<SignUpSchemaType>;
+  control?: Control<TFormSchema>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   onSubmitEditing?: () => void;
 }
 
-export const HookFormDateInput: React.FC<HookFormDateInputProps> = ({
+export const HookFormDateInput = <TFormSchema extends FieldValues>({
   name,
   label,
   accessibilityLabel,
   control,
   error,
   onSubmitEditing,
-}) => {
+}: HookFormDateInputProps<TFormSchema>) => {
   return (
     <Controller
       name={name}

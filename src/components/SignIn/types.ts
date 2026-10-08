@@ -7,7 +7,7 @@ export enum ScreenType {
   ForgotPassword = 'forgotPassword',
   Landing = 'landing',
   EmailVerification = 'emailVerification',
-  ResetPassword = 'resetPassword',
+  CompleteProfile = 'completeProfile',
 }
 
 export type FormSchema = SignUpSchemaType | SignInSchemaType;

@@ -2,13 +2,12 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, Keyboard } from 'react-native';
 
+import { useSignIn } from './useSignIn';
+
 import CTA from '@/components/CTA';
 import { HookFormPasswordInput } from '@/components/HookFormInputs/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/HookFormInputs/HookFormTextInput';
 import Spinner from '@/components/Spinner';
-import { useLoadUserProfile } from '@/core/api/hooks/useLoadUserProfile';
-import { useSignIn } from '@/core/api/hooks/useSignIn';
-import { useAppSelector } from '@/core/state/hooks';
 import { SignInFields, type SignInSchemaType } from '@/schemas/signInSchema';
 
 interface SignInFormProps {
@@ -24,12 +23,9 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     setError,
     formState: { errors },
     watch,
-    reset,
   } = useFormContext<SignInSchemaType>();
   const { t } = useTranslation();
-  const { signIn, isLoading, isSuccess } = useSignIn(setError);
-  const authToken = useAppSelector(state => state.auth.authToken);
-  useLoadUserProfile(authToken, reset);
+  const { signIn, isLoading } = useSignIn(setError);
   const password = watch(SignInFields.password);
   const email = watch(SignInFields.email);
 
@@ -38,7 +34,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     handleSubmit(signIn)();
   };
 
-  if (isLoading || isSuccess) {
+  if (isLoading) {
     return <Spinner />;
   }
 
@@ -72,6 +68,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
       />
       <View style={styles.footerButton}>
         <CTA
+          testID="sign-in-cta"
           text={t(`signIn.submitButton`)}
           accessibilityLabel={t(`signIn.submitButtonAccessibilityLabel`)}
           onPress={handleOnSubmit}

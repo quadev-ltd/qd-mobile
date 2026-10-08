@@ -5,8 +5,6 @@ import { useTheme } from 'react-native-paper';
 
 import Logo from '@/components/Logo/Logo';
 import Header from '@/components/SignIn/BrandedHeader';
-import { useLoadUserProfile } from '@/core/api/hooks/useLoadUserProfile';
-import { useAppSelector } from '@/core/state/hooks';
 import {
   type DrawerParamList,
   type PrivateScreen,
@@ -18,8 +16,6 @@ export type HomeScreenProps = DrawerScreenProps<
 >;
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
-  const authToken = useAppSelector(state => state.auth.authToken);
-  useLoadUserProfile(authToken);
   const { t } = useTranslation();
   const { colors } = useTheme();
   return (

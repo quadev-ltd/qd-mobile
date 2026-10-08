@@ -1,21 +1,12 @@
+import { type LinkingOptions } from '@react-navigation/native';
+
 import { env } from '../env';
 
-import { PublicScreen } from '@/screens/Routing/Public/types';
-
-export enum RouteParams {
-  userID = 'userID',
-  verificationToken = 'verificationToken',
-}
-
-export const linking = {
+// Email verification and password reset open Firebase's hosted pages, so no screen is linked any
+// more. The prefixes are kept for future deep links (the custom scheme is still registered).
+export const linking: LinkingOptions<object> = {
   prefixes: [
     `${env.DEEP_LINKING_DOMAIN}://`,
     `https://${env.DEEP_LINKING_DOMAIN}/`,
   ],
-  config: {
-    screens: {
-      [PublicScreen.VerifyEmail]: `/user/:${RouteParams.userID}/email/:${RouteParams.verificationToken}`,
-      [PublicScreen.ResetPassword]: `/user/:${RouteParams.userID}/password/reset/:${RouteParams.verificationToken}`,
-    },
-  },
 };

@@ -3,20 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, Keyboard } from 'react-native';
 
 import { Terms } from './Terms';
+import { useSignUp } from './useSignUp';
 
 import CTA from '@/components/CTA';
 import { HookFormDateInput } from '@/components/HookFormInputs/HookFormDateInput';
 import { HookFormPasswordInput } from '@/components/HookFormInputs/HookFormPasswordInput';
 import { HookFormTextInput } from '@/components/HookFormInputs/HookFormTextInput';
 import Spinner from '@/components/Spinner';
-import { useSignUp } from '@/core/api/hooks/useSignUp';
 import { SignUpFields, type SignUpSchemaType } from '@/schemas/signUpSchema';
 
-interface SignUpFormProps {
-  onSuccess: (userData: { userName: string; userID: string }) => void;
-}
-
-export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
+export const SignUpForm: React.FC = () => {
   const {
     control,
     handleSubmit,
@@ -25,7 +21,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
     watch,
   } = useFormContext<SignUpSchemaType>();
   const { t } = useTranslation();
-  const { signUp, isLoading } = useSignUp(onSuccess, setError);
+  const { signUp, isLoading } = useSignUp(setError);
 
   const password = watch('password');
 
@@ -95,6 +91,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
       <Terms />
       <View style={styles.footerButton}>
         <CTA
+          testID="sign-up-cta"
           text={t(`signUp.submitButton`)}
           accessibilityLabel={t(`signUp.submitButtonAccessibilityLabel`)}
           onPress={handleOnSubmit}

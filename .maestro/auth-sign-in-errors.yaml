@@ -1,0 +1,71 @@
+# Sign-in errors and forgot password against the Firebase emulators:
+# wrong password -> "Invalid email or password"; forgot password -> neutral message and a reset
+# email queued in the Auth emulator; an unknown email gets the same neutral message.
+# Needs the emulators and an emulator build; see README "End-to-end tests (Maestro)".
+appId: ${APP_ID || 'com.qdmobile.dev'}
+name: Auth - sign-in errors and forgot password
+tags:
+  - auth
+  - emulators
+env:
+  PASSWORD: Passw0rd!e2e
+---
+- runScript: scripts/new-email.js
+- runScript:
+    file: scripts/create-account.js
+    env:
+      EMAIL: ${output.email}
+      PASSWORD: ${PASSWORD}
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Already have an account?"
+    timeout: 60000
+- tapOn: "Sign in"
+- tapOn: "Sign in with Email"
+- tapOn:
+    id: "Email"
+- inputText: ${output.email}
+- tapOn:
+    id: "Password"
+- inputText: "Wr0ngPassword!"
+- hideKeyboard
+- tapOn:
+    id: "sign-in-cta"
+- extendedWaitUntil:
+    visible: "Invalid email or password"
+    timeout: 15000
+
+# Forgot password with the email from the form
+- tapOn: "Forgot password?"
+- extendedWaitUntil:
+    visible: "Reset password"
+    timeout: 10000
+- tapOn:
+    id: "Email"
+- eraseText
+- inputText: ${output.email}
+- hideKeyboard
+- tapOn:
+    id: "forgot-password-cta"
+- extendedWaitUntil:
+    visible: "If an account exists for that email.*"
+    timeout: 15000
+- runScript:
+    file: scripts/assert-reset-email.js
+    env:
+      EMAIL: ${output.email}
+
+# Unknown email: same message, nothing revealed
+- tapOn: "Send another link"
+- tapOn:
+    id: "Email"
+- eraseText
+- inputText: "nobody+${output.email}"
+- hideKeyboard
+- tapOn:
+    id: "forgot-password-cta"
+- extendedWaitUntil:
+    visible: "If an account exists for that email.*"
+    timeout: 15000
+

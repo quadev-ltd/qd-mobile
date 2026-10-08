@@ -3,16 +3,15 @@ import {
   Controller,
   type FieldError,
   type FieldErrorsImpl,
+  type FieldValues,
   type Merge,
+  type Path,
 } from 'react-hook-form';
 import { type ViewStyle, type KeyboardTypeOptions } from 'react-native';
 
 import { FormTextInput } from '../FormTextInput';
-import { type FieldType } from '../SignIn/types';
 
-interface HookFormTextInputProps<
-  TFormSchema extends Record<FieldType, string>,
-> {
+interface HookFormTextInputProps<TFormSchema extends FieldValues> {
   name: keyof TFormSchema;
   label: string;
   accessibilityLabel: string;
@@ -28,9 +27,7 @@ interface HookFormTextInputProps<
   textAlignVertical?: 'top' | 'center' | 'bottom';
 }
 
-export const HookFormTextInput = <
-  TFormSchema extends Record<FieldType, string>,
->({
+export const HookFormTextInput = <TFormSchema extends FieldValues>({
   name,
   label,
   accessibilityLabel,
@@ -43,7 +40,7 @@ export const HookFormTextInput = <
 }: HookFormTextInputProps<TFormSchema>) => {
   return (
     <Controller
-      name={name as FieldType}
+      name={name as Path<TFormSchema>}
       control={control}
       render={({ field: { onChange, onBlur, value, ref } }) => {
         return (

@@ -13,6 +13,7 @@ export const forgotPasswordSchema = z.object({
     .string({
       required_error: t('fieldError.emailRequiredError'),
     })
+    .trim()
     .email({ message: t('fieldError.emailFormatError') }),
 });
 

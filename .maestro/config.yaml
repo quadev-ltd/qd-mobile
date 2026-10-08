@@ -1,6 +1,10 @@
-# Maestro smoke tests for the Expo scaffold (phase 2).
-# Run against an installed build (debug builds also need Metro: `yarn start:dev`):
+# Maestro flows.
+# Smoke tests (phase 2) run against any installed build (debug builds also need Metro: `yarn start:dev`):
 #   maestro test .maestro                       # development app (com.qdmobile.dev)
 #   maestro test -e APP_ID=com.qdmobile .maestro # production app
+# Auth flows (phase 3) need the Firebase emulators and an emulator build, so they are run by name
+# (see README "End-to-end tests (Maestro)"):
+#   maestro test .maestro/auth-email-lifecycle.yaml
+#   maestro test .maestro/auth-sign-in-errors.yaml
 flows:
   - "smoke-*.yaml"

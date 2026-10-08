@@ -1,80 +1,129 @@
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { PublicScreen, type StackParamList } from '../Routing/Public/types';
+import { type ResendStatus, useVerifyEmail } from './useVerifyEmail';
 
-import { ResendRequestStatus, VerificationRequestStatus } from './types';
-import EmailVerificationComponent from './VerifyEmail';
-
-import { useLoadUserProfile } from '@/core/api/hooks/useLoadUserProfile';
-import { useResendEmail } from '@/core/api/hooks/useResendVerificationEmail';
-import { useVerifyEmail } from '@/core/api/hooks/useVerifyEmail';
-import { useAppDispatch, useAppSelector } from '@/core/state/hooks';
-import { logout } from '@/core/state/slices/authSlice';
+import CTA from '@/components/CTA';
+import BrandedSubtitle from '@/components/SignIn/BrandedSubtitle';
+import BrandedTitle from '@/components/SignIn/BrandedTitle';
+import ErrorMessage from '@/components/SignIn/ErrorMessage';
+import { FooterPrompt } from '@/components/SignIn/FooterPrompt';
+import { Layout } from '@/components/SignIn/Layout';
+import { ScreenType } from '@/components/SignIn/types';
+import StatusDisplay, { VerificationStatus } from '@/components/StatusDisplay';
+import { useSessionUser } from '@/core/session/hooks';
+import { useAppSelector } from '@/core/state/hooks';
+import { selectProfile } from '@/core/state/selectors/session';
+import {
+  type OnboardingParamList,
+  type OnboardingScreen,
+} from '@/screens/Routing/Onboarding/types';
 
 export type VerifyEmailScreenProps = NativeStackScreenProps<
-  StackParamList,
-  PublicScreen.VerifyEmail
+  OnboardingParamList,
+  OnboardingScreen.VerifyEmail
 >;
 
+const statusFor = (
+  isChecking: boolean,
+  resendStatus: ResendStatus,
+): VerificationStatus => {
+  if (isChecking) return VerificationStatus.Verifying;
+  if (resendStatus === 'sending') return VerificationStatus.Sending;
+  if (resendStatus === 'sent') return VerificationStatus.Success;
+  if (resendStatus === 'error') return VerificationStatus.Failure;
+  return VerificationStatus.Pending;
+};
+
 export const VerifyEmailScreen: React.FC<VerifyEmailScreenProps> = ({
-  route: { params },
-  navigation,
+  route,
 }) => {
-  const authToken = useAppSelector(state => state.auth.authToken);
+  const { t } = useTranslation();
+  const user = useSessionUser();
+  const profile = useAppSelector(selectProfile);
   const {
+    isChecking,
+    notVerifiedYet,
+    resendStatus,
+    errorKey,
+    cooldown,
+    checkVerification,
     resendEmail,
-    isSending,
-    isSendSuccess,
-    isSendError,
-    apiSendErrorCode,
-  } = useResendEmail(params.userID);
-  const dispatch = useAppDispatch();
-  const {
-    isLoading: isVerifying,
-    isError: isVerifyError,
-    isSuccess: isVerifySuccess,
-    apiErrorCode: apiVerifyErrorCode,
-  } = useVerifyEmail(params.userID, params.verificationToken);
-  const isProfileLoading = useLoadUserProfile(
-    authToken,
-    undefined,
-    isVerifySuccess,
-  );
+    switchAccount,
+  } = useVerifyEmail();
 
-  const goToSignIn = () => {
-    dispatch(logout());
-    navigation.navigate(PublicScreen.Landing, {}, { pop: true });
-  };
-
-  const resendStatus = useMemo(() => {
-    if (isSending) return ResendRequestStatus.Sending;
-    if (isSendSuccess) return ResendRequestStatus.Sent;
-    if (isSendError) return ResendRequestStatus.Failure;
-    return ResendRequestStatus.Idle;
-  }, [isSending, isSendSuccess, isSendError]);
-
-  const verificationStatus = useMemo(() => {
-    if (isVerifying) return VerificationRequestStatus.Verifying;
-    if (isVerifySuccess && !isProfileLoading)
-      return VerificationRequestStatus.Verified;
-    if (isVerifyError || isProfileLoading)
-      return VerificationRequestStatus.Failure;
-    return VerificationRequestStatus.Idle;
-  }, [isVerifying, isVerifySuccess, isVerifyError, isProfileLoading]);
+  const firstName = profile?.firstName ? ` ${profile.firstName}` : '';
+  const title = `${t('emailVerification.title')} ${
+    route.params?.applicationName ?? ''
+  }${firstName}!`;
+  const subtitle = `${t('emailVerification.emailSent', {
+    email: user?.email ?? '',
+  })}\n\n${t('emailVerification.emailVerificationInstructions')}`;
+  const isBusy = isChecking || resendStatus === 'sending';
+  const resendLabel =
+    cooldown > 0
+      ? t('emailVerification.resendCooldown', { seconds: cooldown })
+      : t('emailVerification.resendCTA');
+  const error = notVerifiedYet
+    ? t('emailVerification.notVerifiedYet')
+    : errorKey && t(errorKey);
 
   return (
-    <EmailVerificationComponent
-      resendStatus={resendStatus}
-      verificationStatus={verificationStatus}
-      userName={params.firstName ? ` ${params.firstName}` : ''}
-      applicationName={params.applicationName}
-      resendEmail={resendEmail}
-      goToSignIn={goToSignIn}
-      apiResendError={apiSendErrorCode}
-      apiVerificationError={apiVerifyErrorCode}
-    />
+    <Layout>
+      <View style={styles.container}>
+        <ScrollView style={styles.scroll}>
+          <BrandedTitle text={title} accessibilityLabel={title} />
+          <StatusDisplay status={statusFor(isChecking, resendStatus)} />
+          <BrandedSubtitle text={subtitle} accessibilityLabel={subtitle} />
+          {error ? (
+            <ErrorMessage text={error} accessibilityLabel={error} />
+          ) : null}
+        </ScrollView>
+        <View style={styles.actions}>
+          <CTA
+            testID="verified-cta"
+            style={styles.cta}
+            disabled={isBusy}
+            text={t('emailVerification.verifiedCTA')}
+            accessibilityLabel={t('emailVerification.verifiedCTA')}
+            onPress={checkVerification}
+          />
+          <CTA
+            testID="resend-cta"
+            style={styles.cta}
+            disabled={isBusy || cooldown > 0}
+            text={resendLabel}
+            accessibilityLabel={resendLabel}
+            onPress={resendEmail}
+          />
+          <FooterPrompt
+            changePath={switchAccount}
+            screen={ScreenType.EmailVerification}
+          />
+        </View>
+      </View>
+    </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    alignContent: 'stretch',
+    paddingHorizontal: 16,
+  },
+  scroll: {
+    flex: 1,
+  },
+  actions: {
+    paddingTop: 12,
+  },
+  cta: {
+    marginBottom: 12,
+  },
+});
 
 export default VerifyEmailScreen;

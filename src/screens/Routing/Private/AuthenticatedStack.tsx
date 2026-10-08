@@ -2,7 +2,7 @@ import {
   createDrawerNavigator,
   type DrawerNavigationProp,
 } from '@react-navigation/drawer';
-import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
@@ -16,23 +16,17 @@ import HomeScreen from '@/screens/Home/HomeScreen';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
-type AuthenticatedStackProps = {
-  hideSplashScreen: () => void;
-};
-
-const AuthenticatedStack: React.FC<AuthenticatedStackProps> = ({
-  hideSplashScreen,
-}) => {
+const AuthenticatedStack: React.FC = () => {
   const { colors } = useTheme();
-  useEffect(() => {
-    hideSplashScreen();
-  }, [hideSplashScreen]);
+  const { t } = useTranslation();
 
   const renderHeaderLeft = (
     navigation: DrawerNavigationProp<DrawerParamList>,
     route: { name: string },
   ) => (
     <TouchableOpacity
+      testID="drawer-menu-button"
+      accessibilityLabel={t('drawerMenu.openMenu')}
       style={styles.burgerButton}
       onPress={() => navigation.toggleDrawer()}>
       <MaterialIcon

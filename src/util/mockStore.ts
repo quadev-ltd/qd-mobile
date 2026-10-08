@@ -1,16 +1,14 @@
 import configureMockStore from 'redux-mock-store';
 
-import { AccountStatus } from '@/core/state/slices/types';
+import {
+  initialSessionState,
+  type SessionState,
+} from '@/core/state/slices/sessionSlice';
 
-export const getMockStore = () => {
+/** A redux-mock-store with the session slice; it records dispatched actions for assertions. */
+export const getMockStore = (session: Partial<SessionState> = {}) => {
   const mockStore = configureMockStore();
-  const store = mockStore({
-    auth: {
-      authToken: '',
-    },
-    user: {
-      accountStatus: AccountStatus.Unverified,
-    },
+  return mockStore({
+    session: { ...initialSessionState, ...session },
   });
-  return store;
 };
