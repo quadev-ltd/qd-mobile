@@ -32,13 +32,28 @@ env:
 - tapOn:
     id: "Last name"
 - inputText: "Lovelace"
+# Small screens: the keyboard covers the lower fields, so hide it and scroll before each tap
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "Password"
+    direction: DOWN
 - tapOn:
     id: "Password"
 - inputText: ${PASSWORD}
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "Confirm password"
+    direction: DOWN
 - tapOn:
     id: "Confirm password"
 - inputText: ${PASSWORD}
 - hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "sign-up-cta"
+    direction: DOWN
 - tapOn:
     id: "sign-up-cta"
 
