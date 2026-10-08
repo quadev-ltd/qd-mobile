@@ -32,20 +32,6 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
   };
   const goToSignIn = () =>
     navigation.navigate(PublicScreen.SignIn, {}, { pop: true });
-  const handleSuccess = (userData: { userName: string; userID: string }) => {
-    navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: PublicScreen.VerifyEmail,
-          params: {
-            firstName: userData.userName,
-            userID: userData.userID,
-          },
-        },
-      ],
-    });
-  };
   return (
     <FormProvider {...methods}>
       <SSOAnimatedForm
@@ -55,7 +41,7 @@ export const SignUpScreen: React.FC<SignUpScreenScreenProps> = ({
         setFocusOnManualFormShow={
           Platform.OS === 'android' ? setFocusOnHide : undefined
         }>
-        <SignUpForm onSuccess={handleSuccess} />
+        <SignUpForm />
       </SSOAnimatedForm>
     </FormProvider>
   );

@@ -2,10 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-import { useLoadUserProfile } from '../api/hooks/useLoadUserProfile';
-import { useAppSelector } from '../state/hooks';
+import { signInWithGoogle } from '../firebase/auth';
 
-import { onGoogleSignIn } from './googleSSO';
 import { useSSOSignIn } from './useSSOSignIn';
 
 import CTA from '@/components/CTA';
@@ -25,15 +23,13 @@ const GoogleSSOCTA: React.FC<GoogleSSOCTAProps> = ({
   screen,
   setIsLoading,
 }) => {
-  const authToken = useAppSelector(state => state.auth.authToken);
-  useLoadUserProfile(authToken);
   const { colors } = useTheme();
   const { t } = useTranslation();
 
   const { handleSignIn } = useSSOSignIn({
-    dataErrorKey: 'error.googleSSODataError',
+    provider: 'google',
     setIsLoading,
-    ssoFunction: onGoogleSignIn,
+    signIn: signInWithGoogle,
   });
 
   return (
