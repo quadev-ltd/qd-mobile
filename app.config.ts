@@ -53,12 +53,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   ios: {
     bundleIdentifier: current.id,
-    // Android gets the scheme through intentFilters below (host "api"), as today.
+    // Android gets the scheme through intentFilters below (host "api"), as today. Custom scheme only:
+    // email verification and password reset use Firebase's hosted pages, so no universal links.
     scheme: deepLinkingDomain,
     buildNumber: '27',
     supportsTablet: false,
     googleServicesFile: `${current.firebaseDir}/GoogleService-Info.plist`,
-    associatedDomains: [`applinks:${current.domain}`],
     entitlements: {
       'com.apple.developer.applesignin': ['Default'],
     },
@@ -75,10 +75,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         'UIInterfaceOrientationPortrait',
         'UIInterfaceOrientationLandscapeLeft',
         'UIInterfaceOrientationLandscapeRight',
-      ],
-      // Kept as today (iOS ignores this key in Info.plist; the entitlement is what counts).
-      'com.apple.developer.associated-domains': [
-        `applinks:${deepLinkingDomain}`,
       ],
     },
     privacyManifests: {
@@ -125,14 +121,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'com.google.android.gms.permission.AD_ID',
       'android.permission.ACCESS_ADSERVICES_ATTRIBUTION',
       'android.permission.ACCESS_ADSERVICES_AD_ID',
+      // Added by firebase-iid (a dependency of the Functions SDK) for Cloud Messaging, which the
+      // app does not use; callable functions work without it.
+      'com.google.android.c2dm.permission.RECEIVE',
     ],
+    // Custom scheme only. The https app link is gone (phase 3): Firebase's hosted pages handle the
+    // email links, and Terms / Privacy on the website now open in the browser instead of the app.
     intentFilters: [
-      {
-        action: 'VIEW',
-        autoVerify: true,
-        category: ['BROWSABLE', 'DEFAULT'],
-        data: [{ scheme: 'https', host: deepLinkingDomain }],
-      },
       {
         action: 'VIEW',
         category: ['BROWSABLE', 'DEFAULT'],
@@ -150,7 +145,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         ios: {
           useFrameworks: 'static',
-          forceStaticLinking: ['RNFBApp', 'RNFBAuth', 'RNFBCrashlytics'],
+          // Firestore and Functions have no Expo config plugin, so they are only listed here.
+          forceStaticLinking: [
+            'RNFBApp',
+            'RNFBAuth',
+            'RNFBCrashlytics',
+            'RNFBFirestore',
+            'RNFBFunctions',
+          ],
         },
         android: {
           compileSdkVersion: 36,

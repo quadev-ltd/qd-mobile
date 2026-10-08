@@ -3580,6 +3580,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-firebase/firestore@npm:^26.4.0":
+  version: 26.4.0
+  resolution: "@react-native-firebase/firestore@npm:26.4.0"
+  dependencies:
+    react-native-url-polyfill: "npm:4.0.0"
+  peerDependencies:
+    "@react-native-firebase/app": 26.4.0
+  checksum: 10c0/873ebb6201af3655820a9897cbe39904a8d76b942d8a4b02ececaab0e04cd967d7d010d55571bf3e06623ca3fd2f04246bbab3ffbb7e6a4a865d64a0ebba21f3
+  languageName: node
+  linkType: hard
+
+"@react-native-firebase/functions@npm:^26.4.0":
+  version: 26.4.0
+  resolution: "@react-native-firebase/functions@npm:26.4.0"
+  peerDependencies:
+    "@react-native-firebase/app": 26.4.0
+  checksum: 10c0/66c271a53ca38566ba57ab79b0dcbcf02a6f2cc57287e61c1a8bb584681fa89426a8e2ee52a455965b190a48cad2a58aeaa3886d20caa0730aa66cd959f04142
+  languageName: node
+  linkType: hard
+
 "@react-native-google-signin/google-signin@npm:^16.1.5":
   version: 16.1.5
   resolution: "@react-native-google-signin/google-signin@npm:16.1.5"
@@ -4092,13 +4112,6 @@ __metadata:
   dependencies:
     "@babel/types": "npm:^7.28.2"
   checksum: 10c0/b52d7d4e8fc6a9018fe7361c4062c1c190f5778cf2466817cb9ed19d69fbbb54f9a85ffedeb748ed8062d2cf7d4cc088ee739848f47c57740de1c48cbf0d0994
-  languageName: node
-  linkType: hard
-
-"@types/base-64@npm:^1":
-  version: 1.0.2
-  resolution: "@types/base-64@npm:1.0.2"
-  checksum: 10c0/3ad69002bd9ca4e79c010f6d9a4c9d09967687153fa6bb98e9459c731219609a4ac76920451565784e9d98cbe3567429eb60bd1561918c3a6ea2436d894346af
   languageName: node
   linkType: hard
 
@@ -5383,13 +5396,6 @@ __metadata:
   dependencies:
     zxing-wasm: "npm:3.1.3"
   checksum: 10c0/921afdf0b557cd1afc174fd8119b5fdb5573e4f8cb6a4beca769d1080b2834341f033d0c8ad9017416073c850cf7601f9fd26d0f5ffa6b2f46762253205f4bf5
-  languageName: node
-  linkType: hard
-
-"base-64@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "base-64@npm:1.0.0"
-  checksum: 10c0/d886cb3236cee0bed9f7075675748b59b32fad623ddb8ce1793c790306aa0f76a03238cad4b3fb398abda6527ce08a5588388533a4ccade0b97e82b9da660e28
   languageName: node
   linkType: hard
 
@@ -7132,15 +7138,6 @@ __metadata:
     expo: "*"
     react-native: "*"
   checksum: 10c0/4e1ea31f17e953e27dfe4bfbe672190914eab4027a8d1717c30e1b62679f6b4e760bc7f74aff165c453f77f52791245631eb3322343d335e6b90716266923830
-  languageName: node
-  linkType: hard
-
-"expo-crypto@npm:~57.0.3":
-  version: 57.0.3
-  resolution: "expo-crypto@npm:57.0.3"
-  peerDependencies:
-    expo: "*"
-  checksum: 10c0/33fd9eb978ef3a5032f2cbcecbff6fff03b2e34b615b9b218fe9e7c85161c15a2eaa497f54659bbbc2cae6c036567212d95beeee6f74c9c604621d29cacd8749
   languageName: node
   linkType: hard
 
@@ -11175,6 +11172,8 @@ __metadata:
     "@react-native-firebase/app": "npm:^26.4.0"
     "@react-native-firebase/auth": "npm:^26.4.0"
     "@react-native-firebase/crashlytics": "npm:^26.4.0"
+    "@react-native-firebase/firestore": "npm:^26.4.0"
+    "@react-native-firebase/functions": "npm:^26.4.0"
     "@react-native-google-signin/google-signin": "npm:^16.1.5"
     "@react-native-vector-icons/material-design-icons": "npm:^13.1.4"
     "@react-native/eslint-config": "npm:0.76.6"
@@ -11185,7 +11184,6 @@ __metadata:
     "@reduxjs/toolkit": "npm:2.0.1"
     "@testing-library/jest-native": "npm:^5.4.3"
     "@testing-library/react-native": "npm:^13.3.3"
-    "@types/base-64": "npm:^1"
     "@types/intl": "npm:^1"
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:^24.0.0"
@@ -11197,7 +11195,6 @@ __metadata:
     "@typescript-eslint/parser": "npm:^6.19.0"
     babel-plugin-module-resolver: "npm:^5.0.0"
     babel-preset-expo: "npm:~57.0.0"
-    base-64: "npm:^1.0.0"
     dotenv: "npm:^16.3.1"
     dotenv-cli: "npm:^11.0.0"
     eslint: "npm:^8.19.0"
@@ -11214,7 +11211,6 @@ __metadata:
     expo: "npm:~57.0.27"
     expo-build-properties: "npm:~57.0.22"
     expo-camera: "npm:~57.0.6"
-    expo-crypto: "npm:~57.0.3"
     expo-image-picker: "npm:~57.0.20"
     expo-system-ui: "npm:~57.0.4"
     i18next: "npm:^23.7.6"
@@ -11227,10 +11223,8 @@ __metadata:
     react-native: "npm:0.86.3"
     react-native-bootsplash: "npm:^7.3.4"
     react-native-gesture-handler: "npm:~2.32.0"
-    react-native-keychain: "npm:^10.0.0"
     react-native-markdown-display: "npm:^7.0.2"
     react-native-mask-input: "npm:^1.2.3"
-    react-native-mmkv: "npm:3.3.3"
     react-native-paper: "npm:^5.15.3"
     react-native-reanimated: "npm:4.5.1"
     react-native-safe-area-context: "npm:~5.7.0"
@@ -11240,7 +11234,6 @@ __metadata:
     react-redux: "npm:9.1.0"
     react-test-renderer: "npm:19.2.3"
     redux-mock-store: "npm:^1.5.4"
-    redux-persist: "npm:6.0.0"
     ts-node: "npm:^10.9.2"
     typescript: "npm:~6.0.3"
     zod: "npm:^3.22.4"
@@ -11401,13 +11394,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-keychain@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "react-native-keychain@npm:10.0.0"
-  checksum: 10c0/a632ad27e58264506d2b373d329a867f042fb014e8a78db3a63031e953d61b5c98066eed1be238ee6c186d3f213d0efaa2a26526fb3a1d36a624c4460e982230
-  languageName: node
-  linkType: hard
-
 "react-native-markdown-display@npm:^7.0.2":
   version: 7.0.2
   resolution: "react-native-markdown-display@npm:7.0.2"
@@ -11430,16 +11416,6 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/e52f640082c7743eabe68c193ccd4904e5500944bb11cd356ed71fade0cc801c828685ce47f7dae8c48f95a2761768ccfd4264572b1ca0a19e046e0ba1a55aa7
-  languageName: node
-  linkType: hard
-
-"react-native-mmkv@npm:3.3.3":
-  version: 3.3.3
-  resolution: "react-native-mmkv@npm:3.3.3"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 10c0/efd7f725674d686ea126a213bd8c4270e8e4e8f306917a1b846a9f7ddf652ad057c7d509a9292d7bbf6a58603d4ab5a18e0c3b0d1b00447df45eeac81cbbd1e1
   languageName: node
   linkType: hard
 
@@ -11502,6 +11478,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/777c799cc27d02099c703767613747fc3349caa52d00276ebb58b5b1c6e9af8a6ea619ca7b4cdec0b06d111e2739350bf80792339ec67ba5f8216ce5d1f02fcb
+  languageName: node
+  linkType: hard
+
+"react-native-url-polyfill@npm:4.0.0":
+  version: 4.0.0
+  resolution: "react-native-url-polyfill@npm:4.0.0"
+  peerDependencies:
+    react-native: "*"
+  checksum: 10c0/77985560495f71bdb1e78fe3d030f249608ae65fb48d55d8ae34f91119409ac493193d2c4e16456c5068e421df74fa2d1d430c54740a074e2d3aabc4f3cbed21
   languageName: node
   linkType: hard
 
@@ -11647,15 +11632,6 @@ __metadata:
   peerDependencies:
     redux: "*"
   checksum: 10c0/99cdb89b4b8db9046c2fe1eae82072bb77fba079606cbde87c47c7a2dcc8c3c51c4c553fcce80b935a61bbc2eeb10c6f5e32077c997a35715a4c8bf867499856
-  languageName: node
-  linkType: hard
-
-"redux-persist@npm:6.0.0":
-  version: 6.0.0
-  resolution: "redux-persist@npm:6.0.0"
-  peerDependencies:
-    redux: ">4.0.0"
-  checksum: 10c0/8242d265ab8d28bbc95cf2dc2a05b869eb67aa309b1ed08163c926f3af56dd8eb1ea62118286083461b8ef2024d3b349fd264e5a62a70eb2e74d068c832d5bf2
   languageName: node
   linkType: hard
 
