@@ -36,16 +36,12 @@ env:
     visible: "Invalid email or password"
     timeout: 15000
 
-# Forgot password with the email from the form
+# Forgot password: the app pre-fills the email from the sign-in form (no retyping: Android's
+# eraseText deletes backwards from the tap position and can leave characters behind)
 - tapOn: "Forgot password?"
 - extendedWaitUntil:
     visible: "Reset password"
     timeout: 10000
-- tapOn:
-    id: "Email"
-- eraseText
-- inputText: ${output.email}
-- hideKeyboard
 - tapOn:
     id: "forgot-password-cta"
 - extendedWaitUntil:
@@ -56,12 +52,21 @@ env:
     env:
       EMAIL: ${output.email}
 
-# Unknown email: same message, nothing revealed
-- tapOn: "Send another link"
+# Unknown email: same message, nothing revealed. Start from a fresh, empty sign-in form.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Already have an account?"
+    timeout: 60000
+- tapOn: "Sign in"
+- tapOn: "Sign in with Email"
+- tapOn: "Forgot password?"
+- extendedWaitUntil:
+    visible: "Reset password"
+    timeout: 10000
 - tapOn:
     id: "Email"
-- eraseText
-- inputText: "nobody+${output.email}"
+- inputText: "nobody-${output.email}"
 - hideKeyboard
 - tapOn:
     id: "forgot-password-cta"
