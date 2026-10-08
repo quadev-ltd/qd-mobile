@@ -1,11 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
-import {
-  type TextMatch,
-  type TextMatchOptions,
-} from '@testing-library/react-native/build/matches';
-import { type GetByQuery } from '@testing-library/react-native/build/queries/make-queries';
-import { type CommonQueryOptions } from '@testing-library/react-native/build/queries/options';
 import { FormProvider, useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
 import { Provider } from 'react-redux';
@@ -13,16 +7,14 @@ import { type MockStoreEnhanced } from 'redux-mock-store';
 
 import { SignUpForm } from './SignUpForm';
 
-import { FieldErrors, type ResponseError } from '@/core/api/types';
+import { signUpWithEmail } from '@/core/firebase/auth';
 import {
   SignUpFields,
   signUpSchema,
   type SignUpSchemaType,
 } from '@/schemas/signUpSchema';
-import TestFormProvider from '@/testUtil/TestFormProvider';
 import { getMockStore } from '@/util/mockStore';
 
-const mockRegisterUser = jest.fn();
 const mockLogger = {
   logError: jest.fn(),
   logMessage: jest.fn(),
@@ -31,17 +23,18 @@ const mockLogger = {
 jest.mock('react-native-toast-message', () => ({
   show: jest.fn(),
 }));
-jest.mock('../../core/api', () => ({
-  useSignUpMutation: jest.fn(() => [mockRegisterUser, { iLoading: false }]),
-}));
 jest.mock('@react-native-firebase/crashlytics');
-
+jest.mock('@/core/firebase/auth', () => ({
+  signUpWithEmail: jest.fn(),
+}));
 jest.mock('@/core/logger', () =>
   jest.fn().mockImplementation(() => mockLogger),
 );
 
+const mockSignUpWithEmail = signUpWithEmail as jest.Mock;
+
 const validData: Record<string, string> = {
-  [SignUpFields.email]: 'test@test.com',
+  [SignUpFields.email]: ' Test@Test.com ',
   [SignUpFields.firstName]: 'John',
   [SignUpFields.lastName]: 'Doe',
   [SignUpFields.dob]: '29/02/2024',
@@ -58,60 +51,44 @@ const inputTestIDs: Record<string, string> = {
   [SignUpFields.passwordConfirmation]: 'signUp.passwordConfirmationLabel',
 };
 
-const onSuccess = jest.fn();
+const firebaseError = (code: string) =>
+  Object.assign(new Error(`[${code}] message`), { code });
 
-const successResponseData = {
-  success: true,
-  message: 'success',
-  user: {
-    userID: '123d768a98df',
-    firstName: 'John',
-  },
-};
-
-const knownResponseEmailInUse: ResponseError = {
-  status: 400,
-  data: {
-    error: 'error',
-    field_errors: [
-      {
-        field: SignUpFields.email,
-        error: FieldErrors.AlreadyUsed,
-      },
-    ],
-  },
-};
-
-async function fillFormFields(
-  getByTestId: GetByQuery<TextMatch, CommonQueryOptions & TextMatchOptions>,
-): Promise<void> {
-  for (const key of Object.values(SignUpFields)) {
-    const fieldTestId = inputTestIDs[key];
-    const fieldValue = validData[key];
-    if (!fieldTestId) {
-      throw new Error(`Test ID not found for field: ${key}`);
-    }
-    const fieldElement = getByTestId(fieldTestId);
-    await act(async () => {
-      fireEvent.changeText(fieldElement, fieldValue);
-    });
-  }
-}
 const { show: mockShowToast } = Toast;
-describe('SignUpForm complete success and errors', () => {
+
+describe('SignUpForm with Firebase', () => {
   let store: MockStoreEnhanced<unknown>;
   const renderComponent = () => {
-    return render(
-      <Provider store={store}>
-        <TestFormProvider>
-          <SignUpForm onSuccess={onSuccess} />
-        </TestFormProvider>
-      </Provider>,
-    );
+    const HookedSignUpForm = () => {
+      const methods = useForm<SignUpSchemaType>({
+        resolver: zodResolver(signUpSchema),
+      });
+      return (
+        <Provider store={store}>
+          <FormProvider {...methods}>
+            <SignUpForm />
+          </FormProvider>
+        </Provider>
+      );
+    };
+    return render(<HookedSignUpForm />);
   };
+
+  const fillAndSubmit = async (
+    utils: ReturnType<typeof renderComponent>,
+    overrides: Record<string, string> = {},
+  ) => {
+    const data = { ...validData, ...overrides };
+    for (const key of Object.values(SignUpFields)) {
+      await act(async () => {
+        fireEvent.changeText(utils.getByTestId(inputTestIDs[key]), data[key]);
+      });
+    }
+    await act(() => fireEvent.press(utils.getByText('signUp.submitButton')));
+  };
+
   beforeEach(() => {
-    onSuccess.mockReset();
-    mockRegisterUser.mockReset();
+    mockSignUpWithEmail.mockReset();
     (mockShowToast as jest.Mock).mockReset();
     mockLogger.logError.mockReset();
     mockLogger.logMessage.mockReset();
@@ -122,120 +99,89 @@ describe('SignUpForm complete success and errors', () => {
     const { getByText } = renderComponent();
     expect(getByText('signUp.submitButton')).toBeDefined();
   });
-  it('should submit full success', async () => {
-    const { getByText, getByTestId } = renderComponent();
-    mockRegisterUser.mockReturnValue({
-      unwrap: () => Promise.resolve(successResponseData),
-    });
-    await fillFormFields(getByTestId);
 
-    await act(() => fireEvent.press(getByText('signUp.submitButton')));
+  it('creates the account with a normalised email and an ISO date of birth', async () => {
+    mockSignUpWithEmail.mockResolvedValue({ uid: 'uid-1' });
+    const utils = renderComponent();
+    await fillAndSubmit(utils);
 
-    await waitFor(
-      () => {
-        expect(mockRegisterUser).toHaveBeenCalledTimes(1);
-      },
-      { timeout: 1000 },
-    );
-    await waitFor(
-      () => {
-        expect(onSuccess).toHaveBeenCalledTimes(1);
-      },
-      { timeout: 2000 },
+    await waitFor(() => expect(mockSignUpWithEmail).toHaveBeenCalledTimes(1));
+    expect(mockSignUpWithEmail).toHaveBeenCalledWith(
+      'test@test.com',
+      'Password123!',
+      { firstName: 'John', lastName: 'Doe', dateOfBirth: '2024-02-29' },
     );
   });
 
-  it('should submit successfully but response returns a known error', async () => {
-    const { getByText, getByTestId, findByText } = renderComponent();
-    mockRegisterUser.mockReturnValue({
-      unwrap: () => Promise.reject(knownResponseEmailInUse),
+  it('creates the account without a date of birth when it is left empty (D16)', async () => {
+    mockSignUpWithEmail.mockResolvedValue({ uid: 'uid-1' });
+    const utils = renderComponent();
+    await fillAndSubmit(utils, { [SignUpFields.dob]: '' });
+
+    await waitFor(() => expect(mockSignUpWithEmail).toHaveBeenCalledTimes(1));
+    expect(mockSignUpWithEmail.mock.calls[0][2]).toEqual({
+      firstName: 'John',
+      lastName: 'Doe',
     });
-
-    await fillFormFields(getByTestId);
-
-    await act(() => fireEvent.press(getByText('signUp.submitButton')));
-
-    await waitFor(
-      async () => {
-        expect(mockRegisterUser).toHaveBeenCalledTimes(1);
-        expect(
-          await findByText(`fieldError.emailAlreadyUsedError`),
-        ).toBeDefined();
-      },
-      { timeout: 1000 },
-    );
   });
 
-  it('should submit successfully but response returns an UNKNOWN error', async () => {
-    const { getByText, getByTestId } = renderComponent();
-    const unkonwResponseError: ResponseError = Object.assign(
-      {},
-      knownResponseEmailInUse,
+  it('shows "email already in use" on the email field', async () => {
+    mockSignUpWithEmail.mockRejectedValue(
+      firebaseError('auth/email-already-in-use'),
     );
-    if (unkonwResponseError.data?.field_errors) {
-      unkonwResponseError.data.field_errors[0].error = 'unknown_error';
-    }
+    const utils = renderComponent();
+    await fillAndSubmit(utils);
 
-    mockRegisterUser.mockReturnValue({
-      unwrap: () => Promise.reject(unkonwResponseError),
-    });
-    await fillFormFields(getByTestId);
-
-    await act(
-      async () => await fireEvent.press(getByText('signUp.submitButton')),
-    );
-
-    await waitFor(
-      async () => {
-        expect(mockRegisterUser).toHaveBeenCalledTimes(1);
-        expect(mockLogger.logError).toHaveBeenCalledTimes(1);
-        expect(mockLogger.logError).toHaveBeenCalledWith(
-          Error(
-            `Unknown registration error for email ${
-              validData[SignUpFields.email]
-            }: ${JSON.stringify(unkonwResponseError)}`,
-          ),
-        );
-      },
-      { timeout: 1000 },
-    );
+    expect(
+      await utils.findByText('fieldError.emailAlreadyUsedError'),
+    ).toBeDefined();
+    expect(mockShowToast).not.toHaveBeenCalled();
   });
 
-  it('should submit successfully but response returns a 500 error', async () => {
-    const { getByText, getByTestId } = renderComponent();
-
-    const internalServerResponseError: ResponseError = Object.assign(
-      {},
-      knownResponseEmailInUse,
+  it('shows the password policy error on the password field', async () => {
+    mockSignUpWithEmail.mockRejectedValue(
+      firebaseError('auth/password-does-not-meet-requirements'),
     );
-    internalServerResponseError.status = 500;
+    const utils = renderComponent();
+    await fillAndSubmit(utils);
 
-    mockRegisterUser.mockReturnValue({
-      unwrap: () => Promise.reject(internalServerResponseError),
-    });
-    await fillFormFields(getByTestId);
+    expect(
+      await utils.findByText('fieldError.passwordNotComplexError'),
+    ).toBeDefined();
+  });
 
-    await act(() => fireEvent.press(getByText('signUp.submitButton')));
+  it('shows a toast and logs only the error code for unknown errors', async () => {
+    mockSignUpWithEmail.mockRejectedValue(firebaseError('auth/internal-error'));
+    const utils = renderComponent();
+    await fillAndSubmit(utils);
 
-    await waitFor(
-      async () => {
-        expect(mockRegisterUser).toHaveBeenCalledTimes(1);
-        expect(mockLogger.logError).toHaveBeenCalledTimes(1);
-        expect(mockLogger.logError).toHaveBeenCalledWith(
-          Error(
-            `Unknown registration error for email ${
-              validData[SignUpFields.email]
-            }: ${JSON.stringify(internalServerResponseError)}`,
-          ),
-        );
-        expect(mockShowToast).toHaveBeenCalledWith({
-          type: 'error',
-          text1: 'error.errorTitle',
-          text2: 'error.unexpectedErrorRetry',
-          position: 'bottom',
-        });
-      },
-      { timeout: 1000 },
+    await waitFor(() =>
+      expect(mockShowToast).toHaveBeenCalledWith({
+        type: 'error',
+        text1: 'error.errorTitle',
+        text2: 'error.unexpectedErrorRetry',
+        position: 'bottom',
+      }),
+    );
+    expect(mockLogger.logError).toHaveBeenCalledWith(
+      new Error('signUp failed: code=auth/internal-error'),
+    );
+    const logged = JSON.stringify(mockLogger.logError.mock.calls);
+    expect(logged).not.toContain('test@test.com');
+    expect(logged).not.toContain('John');
+  });
+
+  it('shows a network error toast', async () => {
+    mockSignUpWithEmail.mockRejectedValue(
+      firebaseError('auth/network-request-failed'),
+    );
+    const utils = renderComponent();
+    await fillAndSubmit(utils);
+
+    await waitFor(() =>
+      expect(mockShowToast).toHaveBeenCalledWith(
+        expect.objectContaining({ text2: 'error.networkError' }),
+      ),
     );
   });
 });
@@ -250,7 +196,7 @@ describe('SignUpForm individual errors', () => {
       return (
         <Provider store={store}>
           <FormProvider {...methods}>
-            <SignUpForm onSuccess={onSuccess} />
+            <SignUpForm />
           </FormProvider>
         </Provider>
       );
@@ -300,11 +246,6 @@ describe('SignUpForm individual errors', () => {
       testFieldValue:
         'This is a very long last name to trigger the length in the name field',
       expectedError: 'lastNameLengthError',
-    },
-    {
-      testFieldKey: SignUpFields.dob,
-      testFieldValue: undefined,
-      expectedError: 'dobRequiredError',
     },
     {
       testFieldKey: SignUpFields.dob,
@@ -378,13 +319,6 @@ describe('SignUpForm individual errors', () => {
     await waitFor(
       async () => {
         const element = await findByText('fieldError.lastNameRequiredError');
-        expect(element).toBeDefined();
-      },
-      { timeout: 1000 },
-    );
-    await waitFor(
-      async () => {
-        const element = await findByText('fieldError.dobRequiredError');
         expect(element).toBeDefined();
       },
       { timeout: 1000 },

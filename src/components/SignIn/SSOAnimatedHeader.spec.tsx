@@ -1,9 +1,11 @@
 import { render } from '@testing-library/react-native';
 import { Provider } from 'react-redux';
-import configureMockStore, { type MockStoreEnhanced } from 'redux-mock-store';
+import { type MockStoreEnhanced } from 'redux-mock-store';
 
 import { SSOAnimatedHeader } from './SSOAnimatedHeader';
 import { ScreenType } from './types';
+
+import { getMockStore } from '@/util/mockStore';
 
 jest.mock('@react-native-vector-icons/material-design-icons/static', () => ({
   MaterialDesignIcons: 'MaterialDesignIcons',
@@ -11,23 +13,20 @@ jest.mock('@react-native-vector-icons/material-design-icons/static', () => ({
 jest.mock('@react-native-firebase/crashlytics');
 jest.mock('@react-native-firebase/auth');
 jest.mock('@/core/sso/googleSSO', () => ({
-  onGoogleSignIn: jest.fn(),
+  requestGoogleIdentity: jest.fn(),
+  signOutFromGoogle: jest.fn(),
+  isGoogleCancellation: jest.fn(() => false),
 }));
 jest.mock('@/core/sso/appleSSO', () => ({
-  onAppleSignIn: jest.fn(),
+  requestAppleIdentity: jest.fn(),
+  isAppleCancellation: jest.fn(() => false),
 }));
-jest.mock('@/core/api/hooks/useLoadUserProfile');
 
 describe('SSOAnimatedHeader', () => {
   let store: MockStoreEnhanced<unknown>;
-  const mockStore = configureMockStore();
 
   beforeEach(() => {
-    store = mockStore({
-      auth: {
-        authToken: '',
-      },
-    });
+    store = getMockStore();
   });
   const switchSSO = jest.fn();
   it('renders initial state correctly', () => {

@@ -2,13 +2,14 @@ import { type RouteProp } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { act, fireEvent, render } from '@testing-library/react-native';
 import { Provider } from 'react-redux';
-import configureMockStore, { type MockStoreEnhanced } from 'redux-mock-store';
+import { type MockStoreEnhanced } from 'redux-mock-store';
 
 import { PublicScreen, type StackParamList } from '../Routing/Public/types';
 
 import { SignInScreen } from './SignInScreen';
 
 import { ApplicationEnvironentEnum } from '@/core/env';
+import { getMockStore } from '@/util/mockStore';
 
 const mockNavigation = {
   navigate: jest.fn(),
@@ -31,25 +32,21 @@ jest.mock('@react-native-vector-icons/material-design-icons/static', () => ({
   MaterialDesignIcons: 'MaterialDesignIcons',
 }));
 jest.mock('@/core/sso/googleSSO', () => ({
-  onGoogleSignIn: jest.fn(),
+  requestGoogleIdentity: jest.fn(),
+  signOutFromGoogle: jest.fn(),
+  isGoogleCancellation: jest.fn(() => false),
 }));
 jest.mock('@/core/sso/appleSSO', () => ({
-  onAppleSignIn: jest.fn(),
+  requestAppleIdentity: jest.fn(),
+  isAppleCancellation: jest.fn(() => false),
 }));
-jest.mock('@/core/api/hooks/useLoadUserProfile');
-
-const mockStore = configureMockStore();
 
 describe('SignInScreen', () => {
   let store: MockStoreEnhanced<unknown>;
 
   beforeEach(() => {
     (mockNavigation.navigate as jest.Mock).mockReset();
-    store = mockStore({
-      auth: {
-        authToken: '',
-      },
-    });
+    store = getMockStore();
   });
 
   it('renders correctly', () => {
