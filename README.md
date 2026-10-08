@@ -98,16 +98,17 @@ edit `ios/` or `android/` by hand.
 yarn typecheck && yarn lint && yarn test
 npx expo-doctor && npx expo install --check
 yarn parity:dev        # native parity with the pre-Expo app (see docs/parity/allowed-diff.md)
-maestro test .maestro  # smoke tests against an installed development build
+maestro test .maestro  # end-to-end flows (needs the Firebase emulators, see below)
 ```
 
 ## End-to-end tests (Maestro)
-`maestro test .maestro` runs the smoke flows. The auth flows (`.maestro/auth-*.yaml`) need the
-Firebase emulators and a build bundled with `EXPO_PUBLIC_USE_FIREBASE_EMULATORS=true` (see above);
-their helper scripts (`.maestro/scripts/`) call the emulators' REST APIs on `localhost` to apply the
+Two flows cover the critical paths; everything more detailed is a Jest test. Both need the Firebase
+emulators and a development build bundled with `EXPO_PUBLIC_USE_FIREBASE_EMULATORS=true` (see above).
+Their helper scripts (`.maestro/scripts/`) call the emulators' REST APIs on `localhost` to apply the
 verification link and check that the account and profile were deleted.
 
 ```bash
+maestro test .maestro                             # both flows (about 3 minutes)
 maestro test .maestro/auth-email-lifecycle.yaml   # sign up → verify → home → sign out → sign in → delete
 maestro test .maestro/auth-sign-in-errors.yaml    # wrong password, forgot password (neutral message)
 ```

@@ -1,6 +1,6 @@
 # Sign-in errors and forgot password against the Firebase emulators:
 # wrong password -> "Invalid email or password"; forgot password -> neutral message and a reset
-# email queued in the Auth emulator; an unknown email gets the same neutral message.
+# email queued in the Auth emulator. (The unknown-email case is covered by ForgotPasswordForm.spec.tsx.)
 # Needs the emulators and an emulator build; see README "End-to-end tests (Maestro)".
 appId: ${APP_ID || 'com.qdmobile.dev'}
 name: Auth - sign-in errors and forgot password
@@ -51,26 +51,3 @@ env:
     file: scripts/assert-reset-email.js
     env:
       EMAIL: ${output.email}
-
-# Unknown email: same message, nothing revealed. Start from a fresh, empty sign-in form.
-- launchApp:
-    clearState: true
-- extendedWaitUntil:
-    visible: "Already have an account?"
-    timeout: 60000
-- tapOn: "Sign in"
-- tapOn: "Sign in with Email"
-- tapOn: "Forgot password?"
-- extendedWaitUntil:
-    visible: "Reset password"
-    timeout: 10000
-- tapOn:
-    id: "Email"
-- inputText: "nobody-${output.email}"
-- hideKeyboard
-- tapOn:
-    id: "forgot-password-cta"
-- extendedWaitUntil:
-    visible: "If an account exists for that email.*"
-    timeout: 15000
-

@@ -1,10 +1,8 @@
-# Maestro flows.
-# Smoke tests (phase 2) run against any installed build (debug builds also need Metro: `yarn start:dev`):
-#   maestro test .maestro                       # development app (com.qdmobile.dev)
-#   maestro test -e APP_ID=com.qdmobile .maestro # production app
-# Auth flows (phase 3) need the Firebase emulators and an emulator build, so they are run by name
-# (see README "End-to-end tests (Maestro)"):
-#   maestro test .maestro/auth-email-lifecycle.yaml
-#   maestro test .maestro/auth-sign-in-errors.yaml
+# Maestro end-to-end flows: the two critical paths only (the detailed cases are Jest tests).
+# They need the Firebase emulators and a development build bundled with
+# EXPO_PUBLIC_USE_FIREBASE_EMULATORS=true (see README "End-to-end tests (Maestro)"):
+#   maestro test .maestro
+#     auth-email-lifecycle.yaml  sign up -> verify -> home -> sign out -> sign in -> delete
+#     auth-sign-in-errors.yaml   wrong password, forgot password (neutral message, reset email queued)
 flows:
-  - "smoke-*.yaml"
+  - "auth-*.yaml"
