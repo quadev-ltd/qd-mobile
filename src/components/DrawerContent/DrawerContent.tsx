@@ -10,22 +10,22 @@ import { MaterialIcon } from '../MaterialIcon';
 
 import DrawerCTA from './DrawerCTA';
 
-import { NO_SURNAME_PROVIDED } from '@/core/sso/constants';
-import { useAppDispatch, useAppSelector } from '@/core/state/hooks';
-import { getUserDetailsSelector } from '@/core/state/selectors/user';
-import { logout } from '@/core/state/slices/authSlice';
+import { signOut } from '@/core/firebase/auth';
+import { logFirebaseError } from '@/core/firebase/errors';
+import { useAppSelector } from '@/core/state/hooks';
+import { selectSession } from '@/core/state/selectors/session';
 import { PrivateScreen } from '@/screens/Routing/Private/types';
 import { colors } from '@/styles/colors';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(getUserDetailsSelector);
-  const handleLogout = () => dispatch(logout());
+  const { user, profile } = useAppSelector(selectSession);
+  const handleLogout = () => {
+    signOut().catch(error => logFirebaseError('signOut', error, user?.uid));
+  };
   const handleDeleteAccount = () => {
     props.navigation.navigate(PrivateScreen.DeleteAccount);
   };
-  const lastName = user?.lastName === NO_SURNAME_PROVIDED ? '' : user?.lastName;
   return (
     <DrawerContentScrollView
       contentContainerStyle={styles.container}
@@ -36,7 +36,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.drawerHeaderTitle}>
-            {user?.firstName} {lastName}
+            {profile?.firstName} {profile?.lastName}
           </Text>
           <Text style={styles.drawerHeaderSubtitle}>{user?.email}</Text>
         </View>

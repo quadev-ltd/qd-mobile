@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 
 import ForgotPasswordStatus from './ForgotPasswordStatus';
+import { useForgotPassword } from './useForgotPassword';
 
 import CTA from '@/components/CTA';
 import { HookFormTextInput } from '@/components/HookFormInputs/HookFormTextInput';
 import BrandedSubtitle from '@/components/SignIn/BrandedSubtitle';
-import { useForgotPassword } from '@/core/api/hooks/useForgotPassword';
 import {
   ForgotPasswordFields,
   type ForgotPasswordSchemaType,
@@ -97,6 +97,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         keyboardVerticalOffset={Platform.OS === 'ios' ? 200 : 0}>
         <View style={styles.footerButton}>
           <CTA
+            testID="forgot-password-cta"
             text={submitLabel}
             accessibilityLabel={submitAccessibilityLabel}
             onPress={handleOnSubmit}

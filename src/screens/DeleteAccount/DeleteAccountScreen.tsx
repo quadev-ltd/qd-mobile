@@ -1,17 +1,17 @@
 import { type DrawerScreenProps } from '@react-navigation/drawer';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { useDeleteAccount } from './useDeleteAccount';
 
 import CTA from '@/components/CTA';
+import { FormTextInput } from '@/components/FormTextInput';
 import Header from '@/components/Header';
 import ErrorMessage from '@/components/SignIn/ErrorMessage';
 import Spinner from '@/components/Spinner';
-import { showInfoToast } from '@/components/Toast';
-import { useDeleteAccount } from '@/core/api/hooks/useDeleteAccount';
-import { useAppDispatch } from '@/core/state/hooks';
-import { logout } from '@/core/state/slices/authSlice';
 import {
   type DrawerParamList,
   type PrivateScreen,
@@ -23,25 +23,19 @@ export type DeleteAccountScreenProps = DrawerScreenProps<
 >;
 
 const DeleteAccountScreen: React.FC<DeleteAccountScreenProps> = () => {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const { isLoading, handleDeleteAccount, errorMessage, isSuccess } =
+  const [password, setPassword] = useState('');
+  const { isDeleting, handleDeleteAccount, errorMessage, needsPassword } =
     useDeleteAccount();
-  useEffect(() => {
-    const handleLogout = () => dispatch(logout());
-    if (isSuccess) {
-      handleLogout();
-      showInfoToast(
-        t('deleteAccount.successTitle'),
-        t('deleteAccount.successMessage'),
-      );
-    }
-  }, [t, dispatch, isSuccess]);
+
+  const onConfirm = () =>
+    needsPassword ? handleDeleteAccount(password) : handleDeleteAccount();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        {isLoading ? (
+        {isDeleting ? (
           <>
             <Spinner />
             <Header
@@ -54,9 +48,27 @@ const DeleteAccountScreen: React.FC<DeleteAccountScreenProps> = () => {
             <Header
               title={t('deleteAccount.title')}
               titleAccessibilityLabel={t('deleteAccount.title')}
-              subtitle={t('deleteAccount.description')}
-              subtitleAccessibilityLabel={t('deleteAccount.description')}
+              subtitle={t(
+                needsPassword
+                  ? 'deleteAccount.reauthDescription'
+                  : 'deleteAccount.description',
+              )}
+              subtitleAccessibilityLabel={t(
+                needsPassword
+                  ? 'deleteAccount.reauthDescription'
+                  : 'deleteAccount.description',
+              )}
             />
+            {needsPassword && (
+              <FormTextInput
+                label={t('deleteAccount.passwordLabel')}
+                accessibilityLabel={t('deleteAccount.passwordLabel')}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                onSubmitEditing={onConfirm}
+              />
+            )}
             {errorMessage && (
               <ErrorMessage
                 text={errorMessage}
@@ -65,11 +77,13 @@ const DeleteAccountScreen: React.FC<DeleteAccountScreenProps> = () => {
             )}
             <View style={styles.buttonContainer}>
               <CTA
+                testID="delete-account-cta"
+                disabled={needsPassword && password.length === 0}
                 text={t('deleteAccount.deleteButton')}
                 accessibilityLabel={t(
                   'deleteAccount.deleteButtonAccessibilityLabel',
                 )}
-                onPress={handleDeleteAccount}
+                onPress={onConfirm}
               />
             </View>
           </View>
