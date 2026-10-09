@@ -76,6 +76,9 @@ yarn-error.log
 # firebase
 google-services.json
 GoogleService-Info.plist
+# CI-only placeholders (fake project, no keys): see ci/firebase/README.md
+!ci/firebase/google-services.json
+!ci/firebase/GoogleService-Info.plist
 
 # Config
 .env

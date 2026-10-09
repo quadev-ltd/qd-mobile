@@ -1,0 +1,91 @@
+name: Native builds
+
+# Proves every PR still produces a working native build (config plugins, native modules, Gradle,
+# CocoaPods, Xcode). The job names are the checks the main-branch ruleset requires.
+# No path filters on purpose: a required check that is skipped never reports and blocks the merge.
+# The builds use placeholder Firebase config (ci/firebase), so no secrets are needed.
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Enable Corepack (Yarn 4 from packageManager)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Placeholder Firebase config
+        run: |
+          mkdir -p firebase-config/development
+          cp ci/firebase/google-services.json ci/firebase/GoogleService-Info.plist firebase-config/development/
+
+      - name: Generate the Android project (dev variant)
+        run: APP_VARIANT=development npx expo prebuild --platform android --no-install --clean
+
+      - name: Build a debug APK
+        working-directory: android
+        # One ABI keeps the check fast; it still compiles every native module.
+        run: ./gradlew assembleDebug -PreactNativeArchitectures=x86_64 --no-daemon --stacktrace
+
+  build-ios:
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Enable Corepack (Yarn 4 from packageManager)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Select Xcode (SDK 57 needs 26.4 or newer)
+        run: sudo xcode-select -s /Applications/Xcode_26.5.app && xcodebuild -version
+
+      - name: Placeholder Firebase config
+        run: |
+          mkdir -p firebase-config/development
+          cp ci/firebase/google-services.json ci/firebase/GoogleService-Info.plist firebase-config/development/
+
+      - name: Generate the iOS project and install pods (dev variant)
+        run: APP_VARIANT=development npx expo prebuild --platform ios --clean
+
+      - name: Build for the iOS simulator (no signing)
+        run: |
+          set -o pipefail
+          workspace=$(ls -d ios/*.xcworkspace | head -1)
+          scheme=$(basename "$workspace" .xcworkspace)
+          echo "Building $workspace, scheme $scheme"
+          xcodebuild -workspace "$workspace" -scheme "$scheme" -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO -quiet build

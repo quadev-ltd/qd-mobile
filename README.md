@@ -101,6 +101,19 @@ yarn parity:dev        # native parity with the pre-Expo app (see docs/parity/al
 maestro test .maestro  # end-to-end flows (needs the Firebase emulators, see below)
 ```
 
+## Pull request checks (CI)
+Every pull request into `main` runs:
+
+| Check | Workflow | What it proves |
+| --- | --- | --- |
+| `run-checks` | `pr.yml` | TypeScript, lint, Jest, `expo-doctor`, SDK dependency versions |
+| `build-android` | `native-build.yml` | `expo prebuild` + a Gradle debug build compile every native module and config plugin |
+| `build-ios` | `native-build.yml` | `expo prebuild` + CocoaPods + an Xcode 26.5 simulator build (no signing) |
+| `gitleaks` | `secret-scan.yml` | No secrets in the new commits |
+
+The native builds use the placeholder Firebase config in `ci/firebase/` (no secrets needed). They take
+roughly 10-15 minutes (Android) and 20-30 minutes (iOS).
+
 ## End-to-end tests (Maestro)
 Two flows cover the critical paths; everything more detailed is a Jest test. Both need the Firebase
 emulators and a development build bundled with `EXPO_PUBLIC_USE_FIREBASE_EMULATORS=true` (see above).
