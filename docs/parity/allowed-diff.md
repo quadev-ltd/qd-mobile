@@ -33,6 +33,8 @@ difference that is not listed here.
 | Phase 3: Android https app-link intent filter (`autoVerify`, host = deep-linking domain) removed; iOS `associated-domains` entitlement and the Info.plist copy of it removed | Email verification and password reset now use Firebase's hosted pages, so no universal/app links are needed. Terms and Privacy on the website now open in the browser instead of the app. The custom URL scheme stays. |
 | Phase 3: `USE_BIOMETRIC` and `USE_FINGERPRINT` removed | They came from `react-native-keychain`, removed with the custom token storage (Firebase keeps its own session). |
 | Phase 3: `com.google.android.c2dm.permission.RECEIVE` (no difference expected) | `firebase-iid`, pulled in by the Functions SDK, declares it for Cloud Messaging, which the app does not use; it is blocked in `app.config.ts`. |
+| Phase 5: Android package `com.qdmobile.dev` / `com.qdmobile` → `net.quadev.app.dev` / `net.quadev.app`, and the `<package>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` permission that is named after it | Decision D19: the first Play developer account was closed, and a package name can never be reused on another account. iOS keeps `com.qdmobile` / `com.qdmobile.dev`. |
+| Phase 5: version 2.0.0 (Android `versionName` 1.0.0 → 2.0.0, iOS short version "1.0" → "2.0.0") | First public store release (decision D19). iOS `ITSAppUsesNonExemptEncryption = false` is added too (not tracked by the parity JSON). |
 
 The machine-readable list (`<platform>/<variant> <path glob>`; globs use zsh patterns):
 
@@ -64,4 +66,7 @@ android/* permissions.android.permission.USE_BIOMETRIC
 android/* permissions.android.permission.USE_FINGERPRINT
 ios/* entitlements.com.apple.developer.associated-domains.*
 ios/* infoPlistAssociatedDomains.*
+android/* package
+android/* versionName
+android/* permissions.*.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ```

@@ -79,12 +79,14 @@ applies it. The emulator UI is at `http://localhost:4000`.
 
 ```bash
 yarn install
-yarn android:dev     # build, install and run the development variant (com.qdmobile.dev)
-yarn ios:dev         # same on iOS
+yarn android:dev     # build, install and run the development variant (Android net.quadev.app.dev)
+yarn ios:dev         # same on iOS (com.qdmobile.dev)
 yarn start:dev       # Metro only, for an already installed development build
 ```
 
-`android:prod`, `ios:prod` and `start:prod` do the same for the production variant (`com.qdmobile`).
+`android:prod`, `ios:prod` and `start:prod` do the same for the production variant (Android
+`net.quadev.app`, iOS `com.qdmobile`). Android moved to `net.quadev.app` in 2.0.0 (decision D19: the
+first Play developer account was closed and its package names cannot be reused); iOS keeps its ids.
 Both variants come from one `app.config.ts`, selected with `APP_VARIANT=development|production`; the
 scripts set it and load the matching `.env` file with `dotenv-cli`.
 
@@ -124,8 +126,28 @@ verification link and check that the account and profile were deleted.
 maestro test .maestro                             # both flows (about 3 minutes)
 maestro test .maestro/auth-email-lifecycle.yaml   # sign up → verify → home → sign out → sign in → delete
 maestro test .maestro/auth-sign-in-errors.yaml    # wrong password, forgot password (neutral message)
+maestro test -e APP_ID=com.qdmobile.dev .maestro  # on the iOS simulator (the default is the Android id)
 ```
 
 # Releases
-Store builds move to EAS Build/Submit in a later phase. Until then, the old fastlane lanes and CI
-workflows are kept, unused, under `legacy/` for reference.
+Store builds are made with **EAS Build** and uploaded with **EAS Submit**; the full runbook (one-time
+setup, tagging, version numbers, rollback) is in [`docs/release.md`](docs/release.md).
+
+- **Config:** `eas.json` (profiles `preview-dev`, `preview`, `production`; submit `production`),
+  `store.config.json` (App Store listing for `eas metadata:push`), and the drafts in `docs/store/`
+  (Play listing, Data safety, App Privacy, ratings, review notes).
+- **Release:** bump `version` in `package.json` and `app.config.ts` (they must match), merge, then
+  `git tag vX.Y.Z && git push origin vX.Y.Z`. The `release.yml` workflow checks the tag, starts the
+  EAS production builds for both platforms and auto-submits them: Android to the Play internal track
+  as a draft, iOS to TestFlight. Promotion to production is done by hand in the store consoles.
+- **Testers:** the `preview-build.yml` workflow (Actions → Preview build → Run workflow) makes an
+  internal build of the dev or prod variant.
+- **Build numbers** (`versionCode`, `buildNumber`) are managed by EAS (`appVersionSource: remote`,
+  `eas build:version:set`); the values in `app.config.ts` only seeded them.
+- **EAS config values:** EAS does not read `.env.*` or `firebase-config/`. The `EXPO_PUBLIC_*` values
+  and the Firebase files (`GOOGLE_SERVICES_JSON`, `GOOGLE_SERVICE_INFO_PLIST`, file variables) are EAS
+  environment variables per environment (`development`, `preview`, `production`).
+- **Off until set up:** both workflows only run when the repository variable `EAS_RELEASE_ENABLED`
+  is `true` and the `EXPO_TOKEN` secret exists (see the runbook).
+
+The old fastlane lanes and CI workflows are kept, unused, under `legacy/` for reference.

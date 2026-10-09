@@ -2,7 +2,8 @@
 # sign up -> verify (emulator link) -> Home -> drawer shows the name -> sign out -> sign in
 # -> delete account -> back at Landing, account and profile gone.
 # Needs the emulators and an emulator build; see README "End-to-end tests (Maestro)".
-appId: ${APP_ID || 'com.qdmobile.dev'}
+# Android dev package by default; on the iOS simulator run with -e APP_ID=com.qdmobile.dev.
+appId: ${APP_ID || 'net.quadev.app.dev'}
 name: Auth - email sign-up to account deletion
 tags:
   - auth
