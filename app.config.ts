@@ -153,12 +153,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
             'RNFBFirestore',
             'RNFBFunctions',
           ],
-          // DELIBERATELY BROKEN (CI demo, reverted in the next commit): a pod that does not exist
-          extraPods: [{ name: 'QuaDevDoesNotExistCiCheck' }],
         },
         android: {
-          // DELIBERATELY BROKEN (CI demo, reverted in the next commit): an SDK that does not exist
-          compileSdkVersion: 999,
+          compileSdkVersion: 36,
           targetSdkVersion: 36,
           minSdkVersion: 24,
         },
