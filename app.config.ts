@@ -7,19 +7,29 @@ import bootsplash from 'react-native-bootsplash/expo';
  */
 type Variant = 'development' | 'production';
 
+// iOS keeps the original bundle ids. Android moved to net.quadev.app (decision D19): the first
+// Play developer account was closed, and a package name can never be reused on a new account.
 const VARIANTS: Record<
   Variant,
-  { name: string; id: string; domain: string; firebaseDir: string }
+  {
+    name: string;
+    iosId: string;
+    androidId: string;
+    domain: string;
+    firebaseDir: string;
+  }
 > = {
   development: {
     name: 'QuaDev (dev)',
-    id: 'com.qdmobile.dev',
+    iosId: 'com.qdmobile.dev',
+    androidId: 'net.quadev.app.dev',
     domain: 'dev.quadev.net',
     firebaseDir: './firebase-config/development',
   },
   production: {
     name: 'QuaDev',
-    id: 'com.qdmobile',
+    iosId: 'com.qdmobile',
+    androidId: 'net.quadev.app',
     domain: 'quadev.net',
     firebaseDir: './firebase-config/production',
   },
@@ -34,6 +44,15 @@ const current = VARIANTS[variant];
 const deepLinkingDomain =
   process.env.EXPO_PUBLIC_DEEP_LINKING_DOMAIN || current.domain;
 
+// Firebase config files. EAS Build has no access to the gitignored firebase-config/ folder, so store
+// builds get them from EAS file environment variables, which expose the file's path (docs/release.md).
+const googleServicesJson =
+  process.env.GOOGLE_SERVICES_JSON ??
+  `${current.firebaseDir}/google-services.json`;
+const googleServiceInfoPlist =
+  process.env.GOOGLE_SERVICE_INFO_PLIST ??
+  `${current.firebaseDir}/GoogleService-Info.plist`;
+
 const BRAND_COLOR = '#5050C3';
 const CAMERA_USAGE = 'QuaDev needs access to your Camera.';
 const PHOTOS_USAGE = 'QuaDev needs access to your photo library.';
@@ -42,7 +61,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: current.name,
   slug: 'qd-mobile',
-  version: '1.0.0',
+  // Marketing version. Must match package.json "version" (the release workflow checks the tag
+  // against it). versionCode / buildNumber below only seed EAS's remote counters (docs/release.md).
+  version: '2.0.0',
   platforms: ['ios', 'android'],
   orientation: 'default',
   icon: './assets/icon.png',
@@ -52,13 +73,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     appVariant: variant,
   },
   ios: {
-    bundleIdentifier: current.id,
+    bundleIdentifier: current.iosId,
     // Android gets the scheme through intentFilters below (host "api"), as today. Custom scheme only:
     // email verification and password reset use Firebase's hosted pages, so no universal links.
     scheme: deepLinkingDomain,
     buildNumber: '27',
     supportsTablet: false,
-    googleServicesFile: `${current.firebaseDir}/GoogleService-Info.plist`,
+    googleServicesFile: googleServiceInfoPlist,
+    config: {
+      // Only standard HTTPS/TLS (exempt), so App Store Connect asks no export compliance questions.
+      usesNonExemptEncryption: false,
+    },
     entitlements: {
       'com.apple.developer.applesignin': ['Default'],
     },
@@ -98,9 +123,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
   },
   android: {
-    package: current.id,
+    package: current.androidId,
     versionCode: 17,
-    googleServicesFile: `${current.firebaseDir}/google-services.json`,
+    googleServicesFile: googleServicesJson,
     allowBackup: false,
     softwareKeyboardLayoutMode: 'resize',
     adaptiveIcon: {

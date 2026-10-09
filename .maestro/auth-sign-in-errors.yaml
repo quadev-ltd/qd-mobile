@@ -2,7 +2,8 @@
 # wrong password -> "Invalid email or password"; forgot password -> neutral message and a reset
 # email queued in the Auth emulator. (The unknown-email case is covered by ForgotPasswordForm.spec.tsx.)
 # Needs the emulators and an emulator build; see README "End-to-end tests (Maestro)".
-appId: ${APP_ID || 'com.qdmobile.dev'}
+# Android dev package by default; on the iOS simulator run with -e APP_ID=com.qdmobile.dev.
+appId: ${APP_ID || 'net.quadev.app.dev'}
 name: Auth - sign-in errors and forgot password
 tags:
   - auth

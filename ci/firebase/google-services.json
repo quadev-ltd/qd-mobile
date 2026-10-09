@@ -8,7 +8,7 @@
     {
       "client_info": {
         "mobilesdk_app_id": "1:000000000000:android:0000000000000000",
-        "android_client_info": { "package_name": "com.qdmobile.dev" }
+        "android_client_info": { "package_name": "net.quadev.app.dev" }
       },
       "oauth_client": [],
       "api_key": [{ "current_key": "ci-placeholder-not-a-real-key" }],
@@ -17,7 +17,7 @@
     {
       "client_info": {
         "mobilesdk_app_id": "1:000000000000:android:1111111111111111",
-        "android_client_info": { "package_name": "com.qdmobile" }
+        "android_client_info": { "package_name": "net.quadev.app" }
       },
       "oauth_client": [],
       "api_key": [{ "current_key": "ci-placeholder-not-a-real-key" }],
