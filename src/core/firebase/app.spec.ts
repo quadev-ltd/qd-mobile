@@ -4,8 +4,15 @@ import {
   connectFunctionsEmulator,
   getFunctions,
 } from '@react-native-firebase/functions';
+import { getRemoteConfig } from '@react-native-firebase/remote-config';
 
-import { auth, db, functions, resetEmulatorConnectionForTests } from './app';
+import {
+  auth,
+  db,
+  functions,
+  remoteConfig,
+  resetEmulatorConnectionForTests,
+} from './app';
 
 const mockEnv = { USE_FIREBASE_EMULATORS: false };
 // A getter: jest.mock is hoisted above `mockEnv`, and app.ts reads `env` at call time.
@@ -55,5 +62,12 @@ describe('Firebase instances', () => {
       'localhost',
       5001,
     );
+  });
+
+  it('returns Remote Config, except with the emulators (it has none)', () => {
+    mockEnv.USE_FIREBASE_EMULATORS = false;
+    expect(remoteConfig()).toBe(getRemoteConfig());
+    mockEnv.USE_FIREBASE_EMULATORS = true;
+    expect(remoteConfig()).toBeNull();
   });
 });

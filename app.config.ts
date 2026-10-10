@@ -170,13 +170,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         ios: {
           useFrameworks: 'static',
-          // Firestore and Functions have no Expo config plugin, so they are only listed here.
+          // Firestore, Functions and Remote Config have no Expo config plugin, so they are only listed here.
           forceStaticLinking: [
             'RNFBApp',
             'RNFBAuth',
             'RNFBCrashlytics',
             'RNFBFirestore',
             'RNFBFunctions',
+            'RNFBRemoteConfig',
           ],
         },
         android: {

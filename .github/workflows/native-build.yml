@@ -55,7 +55,8 @@ jobs:
 
   build-ios:
     runs-on: macos-26
-    timeout-minutes: 60
+    # A cold build took 55m30s against the old 60-minute limit (PR #80).
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v7
 
@@ -76,6 +77,20 @@ jobs:
         run: |
           mkdir -p firebase-config/development
           cp ci/firebase/google-services.json ci/firebase/GoogleService-Info.plist firebase-config/development/
+
+      # Download caches only: CocoaPods' (pod sources and specs, stored per pod version) and React
+      # Native's (prebuilt Hermes / core tarballs, checked against Maven's SHA-1 before use). pod install
+      # still resolves everything from the freshly generated Podfile, so a stale entry is never used for
+      # a different version. Derived data is not cached: prebuild --clean regenerates ios/, so Xcode
+      # would rebuild nearly everything anyway.
+      - name: Cache CocoaPods and React Native downloads
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/Library/Caches/CocoaPods
+            ~/Library/Caches/ReactNative
+          key: ios-downloads-${{ runner.os }}-${{ hashFiles('yarn.lock', 'app.config.ts') }}
+          restore-keys: ios-downloads-${{ runner.os }}-
 
       - name: Generate the iOS project and install pods (dev variant)
         run: APP_VARIANT=development npx expo prebuild --platform ios --clean
