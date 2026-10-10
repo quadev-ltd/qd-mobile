@@ -1,5 +1,5 @@
 # Email account lifecycle against the Firebase emulators:
-# sign up -> verify (emulator link) -> Home -> drawer shows the name -> sign out -> sign in
+# sign up -> verify (emulator link) -> Home -> drawer shows the name (no Smart inspection) -> sign out -> sign in
 # -> delete account -> back at Landing, account and profile gone.
 # Needs the emulators and an emulator build; see README "End-to-end tests (Maestro)".
 # Android dev package by default; on the iOS simulator run with -e APP_ID=com.qdmobile.dev.
@@ -83,6 +83,8 @@ env:
     id: "drawer-menu-button"
 - assertVisible: "Ada Lovelace"
 - assertVisible: ${output.email}
+# Feature flag smartInspection is off by default (no override, no Remote Config on the emulators)
+- assertNotVisible: "Smart inspection"
 - tapOn: "Sign out"
 - extendedWaitUntil:
     visible: "Already have an account?"

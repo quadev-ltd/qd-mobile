@@ -30,6 +30,7 @@
     "@react-native-firebase/crashlytics": "^26.4.0",
     "@react-native-firebase/firestore": "^26.4.0",
     "@react-native-firebase/functions": "^26.4.0",
+    "@react-native-firebase/remote-config": "^26.4.0",
     "@react-native-google-signin/google-signin": "^16.1.5",
     "@react-native-vector-icons/material-design-icons": "^13.1.4",
     "@react-navigation/drawer": "^7.14.3",

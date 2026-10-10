@@ -10,6 +10,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { Provider } from 'react-redux';
 
+import { FlagsProvider } from './core/flags/FlagsProvider';
 import { i18n } from './core/i18n/i18n';
 import { setUpLogger } from './core/logger';
 import { SessionProvider } from './core/session/SessionProvider';
@@ -28,13 +29,15 @@ export const App = () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <SessionProvider>
-            <SafeAreaProvider style={styles.container}>
-              <Router
-                environment={env.APPLICATION_ENVIRONMENT}
-                applicationName={env.APPLICATION_NAME}
-              />
-              <Toast />
-            </SafeAreaProvider>
+            <FlagsProvider>
+              <SafeAreaProvider style={styles.container}>
+                <Router
+                  environment={env.APPLICATION_ENVIRONMENT}
+                  applicationName={env.APPLICATION_NAME}
+                />
+                <Toast />
+              </SafeAreaProvider>
+            </FlagsProvider>
           </SessionProvider>
         </Provider>
       </I18nextProvider>
