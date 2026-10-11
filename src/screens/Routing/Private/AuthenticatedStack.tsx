@@ -10,6 +10,7 @@ import { type DrawerParamList, PrivateScreen } from './types';
 
 import CustomDrawerContent from '@/components/DrawerContent/DrawerContent';
 import { MaterialIcon } from '@/components/MaterialIcon';
+import { useFlag } from '@/core/flags/FlagsProvider';
 import DeleteAccountScreen from '@/screens/DeleteAccount/DeleteAccountScreen';
 import DetectAnomaliesScreen from '@/screens/DetectAnomalies/DetectAnomaliesScreen';
 import HomeScreen from '@/screens/Home/HomeScreen';
@@ -19,6 +20,8 @@ const Drawer = createDrawerNavigator<DrawerParamList>();
 const AuthenticatedStack: React.FC = () => {
   const { colors } = useTheme();
   const { t } = useTranslation();
+  // Smart inspection is still a mock: hidden (no route, no drawer item) unless the flag is on.
+  const smartInspection = useFlag('smartInspection');
 
   const renderHeaderLeft = (
     navigation: DrawerNavigationProp<DrawerParamList>,
@@ -54,10 +57,12 @@ const AuthenticatedStack: React.FC = () => {
         drawerType: 'front',
       })}>
       <Drawer.Screen name={PrivateScreen.Home} component={HomeScreen} />
-      <Drawer.Screen
-        name={PrivateScreen.DetectObject}
-        component={DetectAnomaliesScreen}
-      />
+      {smartInspection && (
+        <Drawer.Screen
+          name={PrivateScreen.DetectObject}
+          component={DetectAnomaliesScreen}
+        />
+      )}
       <Drawer.Screen
         name={PrivateScreen.DeleteAccount}
         component={DeleteAccountScreen}
