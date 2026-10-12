@@ -8,6 +8,10 @@ import {
   connectFunctionsEmulator,
   getFunctions,
 } from '@react-native-firebase/functions';
+import {
+  getRemoteConfig,
+  type RemoteConfig,
+} from '@react-native-firebase/remote-config';
 
 import { env } from '@/core/env';
 import logger from '@/core/logger';
@@ -60,6 +64,13 @@ export const functions = () => {
   connectEmulatorsOnce();
   return getFunctions(getApp(), FUNCTIONS_REGION);
 };
+
+/**
+ * Remote Config, or null with the emulators: Remote Config has no emulator, and end-to-end runs must
+ * not depend on the real project's values (flags then come from Firestore overrides and defaults).
+ */
+export const remoteConfig = (): RemoteConfig | null =>
+  env.USE_FIREBASE_EMULATORS ? null : getRemoteConfig();
 
 /** Test helper: lets a test reconnect after changing the environment. */
 export const resetEmulatorConnectionForTests = () => {

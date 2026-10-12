@@ -30,7 +30,8 @@ production); the backend code, Firestore rules and API contract live in `quadev-
 - `src/core/firebase/` is the only code that imports `@react-native-firebase/*` (besides the
   Crashlytics logger): `auth.ts` (sign-up, sign-in, Google/Apple, verification, password reset,
   sign-out, delete), `profile.ts` (`users/{uid}`), `claims.ts` (`paid` / `admin` custom claims),
-  `errors.ts` (Firebase codes → i18n keys; logs only the uid and the error code).
+  `errors.ts` (Firebase codes → i18n keys; logs only the uid and the error code), `featureFlags.ts`
+  (`featureFlags/{uid}`) and `remoteConfig.ts` (feature flags, see below).
 - `src/core/session/SessionProvider.tsx` follows `onAuthStateChanged` and the profile document and
   keeps the `session` Redux slice up to date. Its status picks what the router shows:
 
@@ -75,6 +76,49 @@ host's IP instead). Verification and reset emails are not sent: the Auth emulato
 `http://localhost:9099/emulator/v1/projects/quadevapp-dev/oobCodes`, and opening an `oobLink`
 applies it. The emulator UI is at `http://localhost:4000`.
 
+## Feature flags
+Features can be turned on per user or for everyone without a release (decision D18, quadev-backend
+ADR 0013). A flag is evaluated in this order:
+
+1. **Per-user override:** the document `featureFlags/{uid}` (one boolean field per flag). The app
+   listens to it live while the user is signed in; only the backend writes it (clients can only read
+   their own).
+2. **Remote Config:** the parameter with the flag's name (template in quadev-backend
+   `remoteconfig.template.json`). Fetched at app start (at most once an hour in production, always
+   in development) and updated in real time.
+3. **Code default** in `src/core/flags/registry.ts`, which mirrors quadev-backend
+   `packages/flags/src/index.ts`. Every flag defaults to off, and the code defaults are also the
+   Remote Config in-app defaults.
+
+Any failure (offline, permission denied, missing document) falls back to the next layer, so the app
+never waits for flags. With `EXPO_PUBLIC_USE_FIREBASE_EMULATORS=true` Remote Config is skipped (it has
+no emulator): overrides in the Firestore emulator and the code defaults decide.
+
+| Flag | What it gates in the app |
+|---|---|
+| `smartInspection` | The Smart inspection screen and its drawer item (off: hidden, still a mock) |
+| `interviewAssistant` | Nothing yet |
+| `aiDiagnostics` | Nothing (backend only) |
+
+In code: `useFlag('smartInspection')` (from `src/core/flags/FlagsProvider.tsx`; `FlagsProvider` is
+mounted in `App.tsx` inside `SessionProvider`).
+
+**Turning a flag on for one user** (from quadev-backend; an offline dry run unless `--apply`, which
+needs `gcloud auth application-default login` and the owner's access):
+
+```bash
+npm run set-flag -- --project quadevapp-dev --email you@example.com --flag smartInspection --on
+npm run set-flag -- --apply --project quadevapp-dev --uid <uid> --flag smartInspection --on
+npm run set-flag -- --apply --project quadevapp-dev --uid <uid> --flag smartInspection --clear
+npm run list-flags -- --project quadevapp-dev
+```
+
+The app picks the change up within seconds, without a restart (`--clear` hands the decision back to
+Remote Config). **For everyone:** change the parameter in the Remote Config console (or the template
+in quadev-backend and deploy it); open apps update in real time. **Adding a flag:** add it to
+quadev-backend `packages/flags` and `remoteconfig.template.json` first, then mirror it in
+`src/core/flags/registry.ts`.
+
 # Quickstart
 
 ```bash
@@ -85,6 +129,8 @@ yarn start:dev       # Metro only, for an already installed development build
 ```
 
 `android:prod`, `ios:prod` and `start:prod` do the same for the production variant (`com.qdmobile`).
+The Android id may have to change before the first Play upload (decision D19, open; see
+`docs/release.md`).
 Both variants come from one `app.config.ts`, selected with `APP_VARIANT=development|production`; the
 scripts set it and load the matching `.env` file with `dotenv-cli`.
 
@@ -127,5 +173,24 @@ maestro test .maestro/auth-sign-in-errors.yaml    # wrong password, forgot passw
 ```
 
 # Releases
-Store builds move to EAS Build/Submit in a later phase. Until then, the old fastlane lanes and CI
-workflows are kept, unused, under `legacy/` for reference.
+Store builds are made with **EAS Build** and uploaded with **EAS Submit**; the full runbook (one-time
+setup, tagging, version numbers, rollback) is in [`docs/release.md`](docs/release.md).
+
+- **Config:** `eas.json` (profiles `preview-dev`, `preview`, `production`; submit `production`),
+  `store.config.json` (App Store listing for `eas metadata:push`), and the drafts in `docs/store/`
+  (Play listing, Data safety, App Privacy, ratings, review notes).
+- **Release:** bump `version` in `package.json` and `app.config.ts` (they must match), merge, then
+  `git tag vX.Y.Z && git push origin vX.Y.Z`. The `release.yml` workflow checks the tag, starts the
+  EAS production builds for both platforms and auto-submits them: Android to the Play internal track
+  as a draft, iOS to TestFlight. Promotion to production is done by hand in the store consoles.
+- **Testers:** the `preview-build.yml` workflow (Actions → Preview build → Run workflow) makes an
+  internal build of the dev or prod variant.
+- **Build numbers** (`versionCode`, `buildNumber`) are managed by EAS (`appVersionSource: remote`,
+  `eas build:version:set`); the values in `app.config.ts` only seeded them.
+- **EAS config values:** EAS does not read `.env.*` or `firebase-config/`. The `EXPO_PUBLIC_*` values
+  and the Firebase files (`GOOGLE_SERVICES_JSON`, `GOOGLE_SERVICE_INFO_PLIST`, file variables) are EAS
+  environment variables per environment (`development`, `preview`, `production`).
+- **Off until set up:** both workflows only run when the repository variable `EAS_RELEASE_ENABLED`
+  is `true` and the `EXPO_TOKEN` secret exists (see the runbook).
+
+The old fastlane lanes and CI workflows are kept, unused, under `legacy/` for reference.

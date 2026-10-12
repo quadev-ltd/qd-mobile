@@ -1,0 +1,57 @@
+name: Preview build
+
+# Manual internal-distribution build for testers (Actions -> Preview build -> Run workflow).
+# dev = development variant (profile preview-dev, Firebase quadevapp-dev);
+# prod = production variant (profile preview, Firebase quadevapp).
+# The build runs on EAS (--no-wait); the install links appear on expo.dev.
+#
+# Off until the one-time setup in docs/release.md is done: the job only runs when the repository
+# variable EAS_RELEASE_ENABLED is "true" (and needs the EXPO_TOKEN secret).
+
+on:
+  workflow_dispatch:
+    inputs:
+      variant:
+        description: App variant
+        type: choice
+        options: [dev, prod]
+        default: dev
+      platform:
+        description: Platform
+        type: choice
+        options: [android, ios, all]
+        default: android
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    if: vars.EAS_RELEASE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Enable Corepack (Yarn 4 from packageManager)
+        run: corepack enable
+
+      - uses: expo/expo-github-action@v9
+        with:
+          eas-version: latest
+          # The CLI is installed outside the project; npm avoids Yarn 4 refusing to run there.
+          packager: npm
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Start the EAS preview build
+        env:
+          PROFILE: ${{ inputs.variant == 'prod' && 'preview' || 'preview-dev' }}
+          PLATFORM: ${{ inputs.platform }}
+        run: eas build --platform "$PLATFORM" --profile "$PROFILE" --non-interactive --no-wait

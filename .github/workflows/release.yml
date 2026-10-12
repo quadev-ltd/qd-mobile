@@ -1,0 +1,59 @@
+name: Release
+
+# Store release: pushing a tag vX.Y.Z (matching package.json "version") starts EAS production builds
+# for Android and iOS and submits them when they finish (Android: Play internal track as a draft;
+# iOS: App Store Connect / TestFlight). The builds run on EAS, so this job only queues them
+# (--no-wait) and finishes in a couple of minutes; follow them on expo.dev.
+#
+# Off until the one-time setup in docs/release.md is done: the job only runs when the repository
+# variable EAS_RELEASE_ENABLED is "true" (and needs the EXPO_TOKEN secret).
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: vars.EAS_RELEASE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Enable Corepack (Yarn 4 from packageManager)
+        run: corepack enable
+
+      - name: Check the tag matches package.json version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Tag $TAG does not match package.json version $version (expected v$version)."
+            exit 1
+          fi
+          echo "Releasing $version"
+
+      - uses: expo/expo-github-action@v9
+        with:
+          eas-version: latest
+          # The CLI is installed outside the project; npm avoids Yarn 4 refusing to run there.
+          packager: npm
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Start EAS production builds (auto-submit)
+        run: eas build --platform all --profile production --auto-submit --non-interactive --no-wait
