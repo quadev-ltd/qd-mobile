@@ -7,8 +7,9 @@ import bootsplash from 'react-native-bootsplash/expo';
  */
 type Variant = 'development' | 'production';
 
-// iOS keeps the original bundle ids. Android moved to net.quadev.app (decision D19): the first
-// Play developer account was closed, and a package name can never be reused on a new account.
+// Both platforms use the original ids. They are separate fields because Android may have to move to
+// net.quadev.app (decision D19, open): the first Play developer account was closed, and a package
+// name that was uploaded there can never be used on another account. See docs/release.md.
 const VARIANTS: Record<
   Variant,
   {
@@ -22,14 +23,14 @@ const VARIANTS: Record<
   development: {
     name: 'QuaDev (dev)',
     iosId: 'com.qdmobile.dev',
-    androidId: 'net.quadev.app.dev',
+    androidId: 'com.qdmobile.dev',
     domain: 'dev.quadev.net',
     firebaseDir: './firebase-config/development',
   },
   production: {
     name: 'QuaDev',
     iosId: 'com.qdmobile',
-    androidId: 'net.quadev.app',
+    androidId: 'com.qdmobile',
     domain: 'quadev.net',
     firebaseDir: './firebase-config/production',
   },

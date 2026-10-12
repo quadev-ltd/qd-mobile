@@ -7,8 +7,15 @@ GitHub Actions (`.github/workflows/release.yml`); testers get internal builds fr
 
 | Platform | Store id (production / development) | Firebase project |
 |---|---|---|
-| Android | `net.quadev.app` / `net.quadev.app.dev` (decision D19) | `quadevapp` / `quadevapp-dev` |
-| iOS | `com.qdmobile` / `com.qdmobile.dev` (unchanged) | `quadevapp` / `quadevapp-dev` |
+| Android | `com.qdmobile` / `com.qdmobile.dev` (may change, see below) | `quadevapp` / `quadevapp-dev` |
+| iOS | `com.qdmobile` / `com.qdmobile.dev` | `quadevapp` / `quadevapp-dev` |
+
+**Android id: decide before the first Play upload (decision D19, open).** The first Play developer account
+was closed on 7 Jul 2026. Play ties a package name for good to the first account that uploads a build with
+it, so `com.qdmobile` can be used only if that account is reinstated or no build was ever uploaded there.
+Play Console answers this at upload time: it rejects the build if the name is taken. If it is, switch to
+`net.quadev.app` / `net.quadev.app.dev` (the branch `android-id-net-quadev-app` holds the change; both
+Firebase projects already have Android apps for both ids). Nothing is permanent until that first upload.
 
 ## How it fits together
 
@@ -82,11 +89,11 @@ keys, passwords, `.env` values) are never pasted into the chat, printed, or comm
      capabilities (Sign in with Apple), and create the distribution certificate and provisioning
      profile for `com.qdmobile`.
    - `! eas build -p android --profile production`: let EAS generate the **upload keystore** for
-     `net.quadev.app`.
+     the Android id (settle the id first, see the top of this page).
    - Do not submit these yet (or submit iOS only after step 4). They count toward the monthly quota.
 4. **Store accounts and submit credentials**
-   - Owner (Play Console, the new organisation account): create the app (name "QuaDev", package
-     `net.quadev.app`, free, app), fill in the store listing, Data safety, content rating, target
+   - Owner (Play Console): create the app (name "QuaDev", package
+     `com.qdmobile`, free, app), fill in the store listing, Data safety, content rating, target
      audience and app access from `docs/store/`. Google requires the first AAB of a new app to be
      **uploaded by hand** once: download the AAB from step 3 (expo.dev) and upload it to the
      internal testing track. After that EAS Submit can upload.
@@ -105,10 +112,10 @@ keys, passwords, `.env` values) are never pasted into the chat, printed, or comm
    - Read the SHA-1 and SHA-256 of the **EAS upload key** (`eas credentials -p android`, production
      keystore) and of the **Play app-signing key** (Play Console → Test and release → App
      integrity → App signing; the owner can read them out, they are public fingerprints).
-   - Add all four to the Firebase Android app `net.quadev.app` (project `quadevapp`):
+   - Add all four to the Firebase Android app `com.qdmobile` (project `quadevapp`):
      `firebase apps:android:sha:create <appId> <sha> --project quadevapp`. Google sign-in on store
      and `preview` builds needs them. For `preview-dev` builds, add the SHA-1/SHA-256 of the EAS
-     keystore for `net.quadev.app.dev` to the dev app in `quadevapp-dev`.
+     keystore for `com.qdmobile.dev` to the dev app in `quadevapp-dev`.
    - Download the updated `google-services.json` (`firebase apps:sdkconfig ANDROID <appId>`) into
      `firebase-config/<variant>/` without printing it, and update the `GOOGLE_SERVICES_JSON` file
      variable (step 2), since the new OAuth clients are listed in it.
