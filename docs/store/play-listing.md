@@ -7,7 +7,7 @@
 | Field | Value |
 |---|---|
 | App name (30) | QuaDev |
-| Package | `com.qdmobile` (may change before the first upload, see `docs/release.md`) |
+| Package | `net.quadev.app` |
 | Category | Productivity (app) |
 | Tags | Productivity, Business tools (pick the closest offered) |
 | Contact email | _owner to fill in (a support address on quadev.net)_ |

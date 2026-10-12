@@ -123,14 +123,14 @@ quadev-backend `packages/flags` and `remoteconfig.template.json` first, then mir
 
 ```bash
 yarn install
-yarn android:dev     # build, install and run the development variant (com.qdmobile.dev)
-yarn ios:dev         # same on iOS
+yarn android:dev     # build, install and run the development variant (Android net.quadev.app.dev)
+yarn ios:dev         # same on iOS (com.qdmobile.dev)
 yarn start:dev       # Metro only, for an already installed development build
 ```
 
-`android:prod`, `ios:prod` and `start:prod` do the same for the production variant (`com.qdmobile`).
-The Android id may have to change before the first Play upload (decision D19, open; see
-`docs/release.md`).
+`android:prod`, `ios:prod` and `start:prod` do the same for the production variant (Android
+`net.quadev.app`, iOS `com.qdmobile`). Android moved to `net.quadev.app` in 2.0.0 (decision D19: the
+first Play developer account was closed and its package names cannot be reused); iOS keeps its ids.
 Both variants come from one `app.config.ts`, selected with `APP_VARIANT=development|production`; the
 scripts set it and load the matching `.env` file with `dotenv-cli`.
 
@@ -170,6 +170,7 @@ verification link and check that the account and profile were deleted.
 maestro test .maestro                             # both flows (about 3 minutes)
 maestro test .maestro/auth-email-lifecycle.yaml   # sign up → verify → home → sign out → sign in → delete
 maestro test .maestro/auth-sign-in-errors.yaml    # wrong password, forgot password (neutral message)
+maestro test -e APP_ID=com.qdmobile.dev .maestro  # on the iOS simulator (the default is the Android id)
 ```
 
 # Releases
